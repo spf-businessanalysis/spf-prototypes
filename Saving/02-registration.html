@@ -32,28 +32,21 @@
         <div id="categorySelection" class="fade-in">
             <h5 class="fw-800 mb-4 text-center">فضلاً اختر الفئة المناسبة للتسجيل</h5>
             <div class="row g-4">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="category-card" onclick="showForm('omani-insured')">
                         <div class="cat-icon"><i class="fas fa-user-shield"></i></div>
                         <div class="cat-title">عماني مؤمن عليه</div>
                         <div class="cat-desc">العمانيين المؤمن عليهم في فروع التأمين الاجتماعي</div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                    <div class="category-card" onclick="showForm('employer')">
-                        <div class="cat-icon"><i class="fas fa-building"></i></div>
-                        <div class="cat-title">جهة عمل</div>
-                        <div class="cat-desc">جهة العمل التي ترغب في سداد مبالغ ادخار عن العاملين لديها</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="category-card" onclick="showForm('non-omani')">
                         <div class="cat-icon"><i class="fas fa-globe"></i></div>
                         <div class="cat-title">عامل غير عماني</div>
                         <div class="cat-desc">العمال غير العمانيين للمدخرات التي تتجاوز الحد الإلزامي</div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="category-card" onclick="showForm('omani-non-insured')">
                         <div class="cat-icon"><i class="fas fa-user-tag"></i></div>
                         <div class="cat-title">عماني غير مؤمن عليه</div>
@@ -149,16 +142,6 @@
                                 <div class="payment-method-icon"><i class="fas fa-wallet"></i></div>
                                 <span class="payment-method-label">المحفظة الرقمية</span>
                             </label>
-                            <label class="payment-method-card">
-                                <input type="radio" name="paymentMethod" value="transfer">
-                                <div class="payment-method-icon"><i class="fas fa-university"></i></div>
-                                <span class="payment-method-label">تحويل بنكي</span>
-                            </label>
-                            <label class="payment-method-card">
-                                <input type="radio" name="paymentMethod" value="cheque">
-                                <div class="payment-method-icon"><i class="fas fa-money-check"></i></div>
-                                <span class="payment-method-label">شيك بنكي</span>
-                            </label>
                         </div>
 
                         <div id="cardDetails" class="mb-4 p-3 bg-light rounded">
@@ -178,29 +161,23 @@
                             </div>
                         </div>
 
-                        <div class="cheque-details-fields mb-4">
+                        <div id="walletDetails" class="mb-4 p-3 bg-light rounded" style="display:none">
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label small">اسم البنك</label>
-                                    <input type="text" class="form-control" placeholder="أدخل اسم البنك">
+                                    <label class="form-label small">مزود المحفظة الرقمية</label>
+                                    <select class="form-select">
+                                        <option>ثواني (Thawani)</option>
+                                        <option>المحفظة الرقمية العمانية</option>
+                                        <option>أخرى</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label small">رقم الشيك</label>
-                                    <input type="text" class="form-control" placeholder="00012345">
-                                </div>
-                                <div class="col-md-12">
-                                    <label class="form-label small">تاريخ الشيك</label>
-                                    <input type="date" class="form-control">
+                                    <label class="form-label small">رقم الهاتف المرتبط بالمحفظة</label>
+                                    <input type="text" class="form-control" placeholder="+968 XXXXXXXX">
                                 </div>
                             </div>
                         </div>
 
-                        <div id="chequeNote" class="cheque-note mb-4">
-                            <i class="fas fa-exclamation-triangle mt-1"></i>
-                            <div>
-                                <strong>ملاحظة هامة:</strong> عند الدفع بالشيك، لا يتأثر حساب المدخر ولا تظهر المبالغ في الرصيد إلا بعد إتمام عملية التسوية المالية للشيك بنجاح، وليس بشكل لحظي كما في طرق الدفع اللحظية الأخرى.
-                            </div>
-                        </div>
                         </div>
 
                         <div class="text-center">
@@ -216,7 +193,6 @@
             <div class="spf-card">
                 <div class="card-header-custom">
                     <span>تسجيل العمال (جهة العمل)</span>
-                    <button class="btn btn-sm btn-spf-outline" onclick="goBack()"><i class="fas fa-arrow-right"></i> رجوع</button>
                 </div>
                 <div class="card-body">
                     <div class="step-wizard mb-5">
@@ -441,16 +417,6 @@
                                         <div class="payment-method-icon"><i class="fas fa-wallet"></i></div>
                                         <span class="payment-method-label">المحفظة الرقمية</span>
                                     </label>
-                                    <label class="payment-method-card">
-                                        <input type="radio" name="paymentMethod" value="transfer">
-                                        <div class="payment-method-icon"><i class="fas fa-university"></i></div>
-                                        <span class="payment-method-label">تحويل بنكي</span>
-                                    </label>
-                                    <label class="payment-method-card">
-                                        <input type="radio" name="paymentMethod" value="cheque">
-                                        <div class="payment-method-icon"><i class="fas fa-money-check"></i></div>
-                                        <span class="payment-method-label">شيك بنكي</span>
-                                    </label>
                                 </div>
 
                                 <div id="cardDetailsStep3" class="mb-4 p-3 bg-light rounded">
@@ -470,23 +436,20 @@
                                     </div>
                                 </div>
 
-                                <div class="cheque-details-fields mb-4">
+                                <div id="walletDetailsStep3" class="mb-4 p-3 bg-light rounded d-none">
                                     <div class="row g-3">
                                         <div class="col-md-6">
-                                            <label class="form-label small">اسم البنك</label>
-                                            <input type="text" class="form-control" placeholder="أدخل اسم البنك">
+                                            <label class="form-label small">مزود المحفظة الرقمية</label>
+                                            <select class="form-select">
+                                                <option>ثواني (Thawani)</option>
+                                                <option>المحفظة الرقمية العمانية</option>
+                                                <option>أخرى</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label small">رقم الشيك</label>
-                                            <input type="text" class="form-control" placeholder="00012345">
+                                            <label class="form-label small">رقم الهاتف المرتبط بالمحفظة</label>
+                                            <input type="text" class="form-control" placeholder="+968 XXXXXXXX">
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div id="chequeNoteStep3" class="cheque-note mb-4">
-                                    <i class="fas fa-exclamation-triangle mt-1"></i>
-                                    <div>
-                                        <strong>ملاحظة هامة:</strong> عند الدفع بالشيك، لا تكتمل عملية تسجيل العمال إلا بعد إتمام عملية التسوية المالية للشيك بنجاح.
                                     </div>
                                 </div>
 
@@ -512,41 +475,56 @@
             }
 
             document.getElementById('categorySelection').classList.add('d-none');
-            
-            if (category === 'employer') {
-                document.getElementById('employerSelection').classList.remove('d-none');
-            } else {
-                document.getElementById('saverForm').classList.remove('d-none');
-                
-                // Reset visibility
-                document.querySelectorAll('.field-insured').forEach(el => el.classList.add('d-none'));
-                document.querySelectorAll('.field-non-insured').forEach(el => el.classList.add('d-none'));
+            document.getElementById('saverForm').classList.remove('d-none');
 
-                if (category === 'omani-insured') {
-                    document.getElementById('categoryLabel').innerText = 'عماني مؤمن عليه';
-                    document.querySelectorAll('.field-insured').forEach(el => el.classList.remove('d-none'));
-                    document.getElementById('fullName').value = 'أحمد بن سالم البوسعيدي';
-                    document.getElementById('nationality').value = 'عماني';
-                } else if (category === 'non-omani') {
-                    document.getElementById('categoryLabel').innerText = 'عامل غير عماني';
-                    document.querySelectorAll('.field-insured').forEach(el => el.classList.remove('d-none'));
-                    document.getElementById('fullName').value = 'مايكل جوردان';
-                    document.getElementById('nationality').value = 'أمريكي';
-                } else {
-                    document.getElementById('categoryLabel').innerText = 'عماني غير مؤمن عليه';
-                    document.querySelectorAll('.field-non-insured').forEach(el => el.classList.remove('d-none'));
-                    document.getElementById('fullName').value = 'خالد بن محمد الراسبي';
-                    document.getElementById('nationality').value = 'عماني';
-                    document.getElementById('civilId').value = '88776655';
-                }
+            // Reset visibility
+            document.querySelectorAll('.field-insured').forEach(el => el.classList.add('d-none'));
+            document.querySelectorAll('.field-non-insured').forEach(el => el.classList.add('d-none'));
+
+            if (category === 'omani-insured') {
+                document.getElementById('categoryLabel').innerText = 'عماني مؤمن عليه';
+                document.querySelectorAll('.field-insured').forEach(el => el.classList.remove('d-none'));
+                document.getElementById('fullName').value = 'أحمد بن سالم البوسعيدي';
+                document.getElementById('nationality').value = 'عماني';
+            } else if (category === 'non-omani') {
+                document.getElementById('categoryLabel').innerText = 'عامل غير عماني';
+                document.querySelectorAll('.field-insured').forEach(el => el.classList.remove('d-none'));
+                document.getElementById('fullName').value = 'مايكل جوردان';
+                document.getElementById('nationality').value = 'أمريكي';
+            } else {
+                document.getElementById('categoryLabel').innerText = 'عماني غير مؤمن عليه';
+                document.querySelectorAll('.field-non-insured').forEach(el => el.classList.remove('d-none'));
+                document.getElementById('fullName').value = 'خالد بن محمد الراسبي';
+                document.getElementById('nationality').value = 'عماني';
+                document.getElementById('civilId').value = '88776655';
             }
         }
 
         function goBack() {
             document.getElementById('saverForm').classList.add('d-none');
-            document.getElementById('employerSelection').classList.add('d-none');
             document.getElementById('categorySelection').classList.remove('d-none');
         }
+
+        function updateRegistrationRoleView(role) {
+            const categorySelection = document.getElementById('categorySelection');
+            const saverForm = document.getElementById('saverForm');
+            const employerSelection = document.getElementById('employerSelection');
+
+            if (role === 'employer') {
+                categorySelection.classList.add('d-none');
+                saverForm.classList.add('d-none');
+                employerSelection.classList.remove('d-none');
+                nextStep(1);
+            } else {
+                employerSelection.classList.add('d-none');
+                saverForm.classList.add('d-none');
+                categorySelection.classList.remove('d-none');
+            }
+        }
+
+        document.addEventListener('spfRoleChanged', function (e) {
+            updateRegistrationRoleView(e.detail.role);
+        });
 
         function processPayment() {
             const currentView = document.getElementById('employerSelection').classList.contains('d-none') ? 'saver' : 'employer';
@@ -714,38 +692,18 @@
         // Initializing the first mode
         document.addEventListener('DOMContentLoaded', function() {
             selectMode('fixed');
-            
+
+            updateRegistrationRoleView(localStorage.getItem('spf-user-role') || 'saver');
+
             // Payment method toggling
             document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
                 radio.addEventListener('change', function() {
-                    const chequeFields = document.querySelector('.cheque-details-fields');
-                    const chequeNote = document.getElementById('chequeNoteStep3');
                     const cardDetails = document.getElementById('cardDetailsStep3');
-                    
-                    if (this.value === 'cheque') {
-                        chequeFields.classList.add('active');
-                        chequeNote.style.display = 'flex';
-                        cardDetails.classList.add('d-none');
-                    } else if (this.value === 'card') {
-                        chequeFields.classList.remove('active');
-                        chequeNote.style.display = 'none';
-                        cardDetails.classList.remove('d-none');
-                    } else {
-                        chequeFields.classList.remove('active');
-                        chequeNote.style.display = 'none';
-                        cardDetails.classList.add('d-none');
-                    }
+                    const walletDetails = document.getElementById('walletDetailsStep3');
+                    cardDetails.classList.toggle('d-none', this.value !== 'card');
+                    walletDetails.classList.toggle('d-none', this.value !== 'wallet');
                 });
             });
-
-            spf.renderInquiries([
-                "هل يحق لغير العماني ممن اودع فائض اشتراكاته أن يقوم هو بالادخار لنفسه أيضا أم يقتصر الإيداع في حسابه على جهة العمل وإن كان يسمح له بالادخار لنفسه فهل هناك ضوابط لذلك حيث إنه تم تحديد هذا الاشتراط \"العمال غير العمانيين للمدخرات التي تتجاوز الحد الإلزامي\"؟",
-                "هل يوجد فائض اشتراكات أيضا لغير العماني ؟",
-                "تم الإشارة إلى حالات التسجيل المباشر طبقاً للمادة 99 من القانون ولكن ماذا يترتب على هذا التسجيل المباشر: ١ – كل مؤمن عليه تتجاوز اشتراكاته المسددة في فرع تأمين كبار السن والعجز والوفاة الاشتراكات المحتسبة على سقف أجر الاشتراك. ٢ – كل مؤمن عليه يفقد الجنسية العمانية أو تسحب منه أو تسقط عنه ولم تتوفر في شأنه شروط استحقاق المعاش قبل الفقد أو السحب أو الإسقاث. ٣ – كل مؤمن عليه منتسب لأي برنامج تكميلي تم إيقاف العمل به وتحويل أصوله إلى نظام الادخار.",
-                "تم التأكيد على أن فائض الاشتراك يكون فقط في حالة تعدد العقود ولا توجد أي حالات أخرى.",
-                "ما هي آليات الاتفاقيات مع أصحاب العمل للخصم المباشر في تواريخ محددة؟",
-                "في حالة تسجيل أصحاب العمل لعدد من العمال سواء كان بموجب اتفاقية أم لا، هل تخضع لضوابط حد السقف المسموح به وكذلك الحد الأدنى أم لا؟"
-            ]);
         });
     </script>
 </body>

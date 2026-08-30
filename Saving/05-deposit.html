@@ -62,16 +62,6 @@
                                             <div class="payment-method-icon"><i class="fas fa-wallet"></i></div>
                                             <span class="payment-method-label">المحفظة الرقمية</span>
                                         </label>
-                                        <label class="payment-method-card">
-                                            <input type="radio" name="paymentMethod" value="transfer">
-                                            <div class="payment-method-icon"><i class="fas fa-university"></i></div>
-                                            <span class="payment-method-label">تحويل بنكي</span>
-                                        </label>
-                                        <label class="payment-method-card">
-                                            <input type="radio" name="paymentMethod" value="cheque">
-                                            <div class="payment-method-icon"><i class="fas fa-money-check"></i></div>
-                                            <span class="payment-method-label">شيك بنكي</span>
-                                        </label>
                                     </div>
 
                                     <div id="cardDetails" class="mb-4 p-3 bg-light rounded">
@@ -91,27 +81,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="cheque-details-fields mb-4">
+                                    <div id="walletDetails" class="mb-4 p-3 bg-light rounded" style="display:none">
                                         <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label small">اسم البنك</label>
-                                                <input type="text" class="form-control" placeholder="أدخل اسم البنك">
+                                                <label class="form-label small">مزود المحفظة الرقمية</label>
+                                                <select class="form-select">
+                                                    <option>ثواني (Thawani)</option>
+                                                    <option>المحفظة الرقمية العمانية</option>
+                                                    <option>أخرى</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label small">رقم الشيك</label>
-                                                <input type="text" class="form-control" placeholder="00012345">
+                                                <label class="form-label small">رقم الهاتف المرتبط بالمحفظة</label>
+                                                <input type="text" class="form-control" placeholder="+968 XXXXXXXX">
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="form-label small">تاريخ الشيك</label>
-                                                <input type="date" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="chequeNote" class="cheque-note mb-4">
-                                        <i class="fas fa-exclamation-triangle mt-1"></i>
-                                        <div>
-                                            <strong>ملاحظة هامة:</strong> عند الدفع بالشيك، لا يتأثر حساب المدخر ولا تظهر المبالغ في الرصيد إلا بعد إتمام عملية التسوية المالية للشيك بنجاح، وليس بشكل لحظي كما في طرق الدفع اللحظية الأخرى.
                                         </div>
                                     </div>
                                 </div>
@@ -299,19 +282,9 @@
                                             <div class="payment-method-icon"><i class="fas fa-wallet"></i></div>
                                             <span class="payment-method-label">المحفظة الرقمية</span>
                                         </label>
-                                        <label class="payment-method-card">
-                                            <input type="radio" name="paymentMethod" value="transfer">
-                                            <div class="payment-method-icon"><i class="fas fa-university"></i></div>
-                                            <span class="payment-method-label">تحويل بنكي</span>
-                                        </label>
-                                        <label class="payment-method-card">
-                                            <input type="radio" name="paymentMethod" value="cheque">
-                                            <div class="payment-method-icon"><i class="fas fa-money-check"></i></div>
-                                            <span class="payment-method-label">شيك بنكي</span>
-                                        </label>
                                     </div>
 
-                                      <div id="cardDetails" class="mb-4 p-3 bg-light rounded">
+                                      <div id="cardDetailsStep3" class="mb-4 p-3 bg-light rounded">
                                         <div class="row g-3">
                                             <div class="col-12">
                                                 <label class="form-label small">رقم البطاقة</label>
@@ -328,27 +301,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="cheque-details-fields mb-4">
+                                    <div id="walletDetailsStep3" class="mb-4 p-3 bg-light rounded" style="display:none">
                                         <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label small">اسم البنك</label>
-                                                <input type="text" class="form-control" placeholder="أدخل اسم البنك">
+                                                <label class="form-label small">مزود المحفظة الرقمية</label>
+                                                <select class="form-select">
+                                                    <option>ثواني (Thawani)</option>
+                                                    <option>المحفظة الرقمية العمانية</option>
+                                                    <option>أخرى</option>
+                                                </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label small">رقم الشيك</label>
-                                                <input type="text" class="form-control" placeholder="00012345">
+                                                <label class="form-label small">رقم الهاتف المرتبط بالمحفظة</label>
+                                                <input type="text" class="form-control" placeholder="+968 XXXXXXXX">
                                             </div>
-                                            <div class="col-md-12">
-                                                <label class="form-label small">تاريخ الشيك</label>
-                                                <input type="date" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div id="chequeNote" class="cheque-note mb-4">
-                                        <i class="fas fa-exclamation-triangle mt-1"></i>
-                                        <div>
-                                            <strong>ملاحظة هامة:</strong> عند الدفع بالشيك، لا يتأثر حساب المدخر ولا تظهر المبالغ في الرصيد إلا بعد إتمام عملية التسوية المالية للشيك بنجاح.
                                         </div>
                                     </div>
                                     <div class="alert alert-warning small py-2">يجب توفر رصيد كافي في حساب المؤسسة لإتمام العملية.</div>
@@ -497,13 +463,6 @@
             document.getElementById('finalTotal').innerText = total.toFixed(3);
             document.querySelectorAll('.total-display').forEach(el => el.innerText = total.toFixed(3));
         }
-
-        // Initialize inquiries
-        document.addEventListener('DOMContentLoaded', function() {
-            spf.renderInquiries([
-                "هل يتحمل الصندوق النسبة التي يتم اقتطاعها من إجمالي المبلغ المدفوع؟ في حالة رغبة صاحب العمل في دفع مبالغ كبيرة وبناء عليه النسبة المقتطعة لصالح VISA سوف تكون مبلغ كبير أيضاً."
-            ]);
-        });
     </script>
 </body>
 </html>

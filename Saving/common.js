@@ -78,7 +78,7 @@ function initLayout() {
         <ul class="sidebar-nav">
             <li class="nav-saver nav-employer nav-staff"><a href="index.html" id="link-index"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
             <li class="nav-saver nav-employer nav-staff"><a href="01-dashboard.html" id="link-01"><i class="fas fa-th-large"></i> لوحة التحكم</a></li>
-            <li class="nav-saver nav-employer"><a href="02-registration.html" id="link-02"><i class="fas fa-user-plus"></i> التسجيل في النظام</a></li>
+            <li class="nav-saver"><a href="02-registration.html" id="link-02"><i class="fas fa-user-plus"></i> التسجيل في النظام</a></li>
             
             <!-- Staff Specific Categories -->
             <li class="nav-staff sidebar-category-header mt-3">قسم النظم التكميلية</li>
@@ -88,7 +88,6 @@ function initLayout() {
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الصرف</li>
             <li class="nav-staff"><a href="10-disbursement-processing.html" id="link-10"><i class="fas fa-tasks"></i> معالجة طلبات الصرف</a></li>
-            <li class="nav-saver"><a href="08-disbursement.html" id="link-08"><i class="fas fa-money-check-alt"></i> طلبات الصرف (المدخر)</a></li>
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الاستثمار</li>
             <li class="nav-staff"><a href="07-investment-return.html" id="link-07"><i class="fas fa-chart-line"></i> عائد الاستثمار</a></li>
@@ -96,6 +95,7 @@ function initLayout() {
 
             <li class="nav-staff sidebar-category-header mt-3">روابط عامة</li>
             <li class="nav-saver nav-employer"><a href="05-deposit.html" id="link-05"><i class="fas fa-hand-holding-usd"></i> الإيداع الإلكتروني</a></li>
+            <li class="nav-saver"><a href="08-disbursement.html" id="link-08"><i class="fas fa-money-check-alt"></i> طلبات الصرف (المدخر)</a></li>
             <li class="nav-saver"><a href="06-obligations.html" id="link-06"><i class="fas fa-file-invoice-dollar"></i> سداد الالتزامات</a></li>
             <li class="nav-staff"><a href="09-mandatory-saving.html" id="link-09"><i class="fas fa-piggy-bank"></i> الادخار الإلزامي</a></li>
             <li class="nav-staff"><a href="11-optional-saving-inquiries.html" id="link-11"><i class="fas fa-circle-question"></i> استفسارات الادخار الاختياري</a></li>
@@ -294,31 +294,26 @@ window.spf = {
     }
 };
 
-// Handle Cheque Selection Note
+// Handle Payment Method Fields Toggling
 document.addEventListener('change', function (e) {
     if (e.target && e.target.name === 'paymentMethod') {
         const val = e.target.value;
-        const container = e.target.closest('form') || document;
-        const chequeNote = container.querySelector('#chequeNote');
-        const chequeFields = container.querySelector('.cheque-details-fields');
-        const cardFields = container.querySelector('#cardDetails');
+        const grid = e.target.closest('.payment-methods-grid');
+        const container = (grid && grid.parentElement) || e.target.closest('form') || document;
+        const cardFields = container.querySelector('[id^="cardDetails"]');
+        const walletFields = container.querySelector('[id^="walletDetails"]');
 
         // Handle Active Classes
         container.querySelectorAll('.payment-method-card').forEach(card => {
             card.classList.toggle('active', card.querySelector('input').checked);
         });
 
-        // Toggle Note
-        if (chequeNote) {
-            chequeNote.style.display = (val === 'cheque') ? 'flex' : 'none';
-        }
-
         // Toggle Fields
-        if (chequeFields) {
-            chequeFields.style.display = (val === 'cheque') ? 'block' : 'none';
-        }
         if (cardFields) {
             cardFields.style.display = (val === 'card') ? 'block' : 'none';
+        }
+        if (walletFields) {
+            walletFields.style.display = (val === 'wallet') ? 'block' : 'none';
         }
     }
 });
