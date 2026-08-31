@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الإطار الموحد لتحصيل الاشتراكات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  color-scheme: light;
+  --ground:#F6F8F8;
+  --surface:#FFFFFF;
+  --raised:#EDF3F3;
+  --sunk:#E4EDEE;
+  --ink:#0F1E21;
+  --ink-2:#37504F;
+  --ink-3:#5B7075;
+  --line:#DCE5E6;
+  --line-2:#C6D4D6;
+  --brand:#0B4F5C;
+  --brand-2:#0E6373;
+  --brand-wash:#E7F0F1;
+  --focus:#0E6373;
+  /* categorical — payment outcomes (validated light) */
+  --s1:#1E7A4D; --s2:#C08A1E; --s3:#4A6FB5; --s4:#B23A3A;
+  /* ordinal — ageing (validated light, 1→5) */
+  --o1:#7FB4BF; --o2:#4E9AA8; --o3:#2A7A8C; --o4:#155C6E; --o5:#0B3F4E;
+  --track:#E4EDEE;
+  --shadow:0 1px 2px rgba(15,30,33,.05), 0 6px 20px -12px rgba(15,30,33,.18);
+  --maxw:74ch;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --ground:#0E1618; --surface:#131C1E; --raised:#19262A; --sunk:#101A1C;
+    --ink:#E8F0F1; --ink-2:#B7CBCE; --ink-3:#8FA6AB;
+    --line:#24343A; --line-2:#31454B;
+    --brand:#6FBCCB; --brand-2:#8ED0DC; --brand-wash:#16292F;
+    --focus:#8ED0DC;
+    --s1:#3AAE6E; --s2:#B0801C; --s3:#6E8CD0; --s4:#D05A5A;
+    --o1:#BFE0E6; --o2:#93C6D1; --o3:#6BABBB; --o4:#4890A3; --o5:#2E7286;
+    --track:#1E2E32;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --ground:#0E1618; --surface:#131C1E; --raised:#19262A; --sunk:#101A1C;
+  --ink:#E8F0F1; --ink-2:#B7CBCE; --ink-3:#8FA6AB;
+  --line:#24343A; --line-2:#31454B;
+  --brand:#6FBCCB; --brand-2:#8ED0DC; --brand-wash:#16292F;
+  --focus:#8ED0DC;
+  --s1:#3AAE6E; --s2:#B0801C; --s3:#6E8CD0; --s4:#D05A5A;
+  --o1:#BFE0E6; --o2:#93C6D1; --o3:#6BABBB; --o4:#4890A3; --o5:#2E7286;
+  --track:#1E2E32;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:88px}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation:none !important; transition:none !important} }
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+  font-size:16px; line-height:1.85; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Noto Kufi Arabic","IBM Plex Sans Arabic",sans-serif; text-wrap:balance; margin:0; line-height:1.45; color:var(--ink)}
+p{margin:0}
+a{color:var(--brand-2)}
+:focus-visible{outline:2px solid var(--focus); outline-offset:3px; border-radius:3px}
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums; font-weight:500; direction:ltr; unicode-bidi:isolate}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  position:sticky; top:0; z-index:50; background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:saturate(1.4) blur(10px); border-bottom:1px solid var(--line);
+}
+.topbar-in{max-width:1320px; margin:0 auto; padding:.6rem 1.25rem; display:flex; align-items:center; gap:.9rem}
+.mark{display:flex; align-items:center; gap:.6rem; min-width:0}
+.mark svg{flex:none}
+.mark b{font-family:"Noto Kufi Arabic",sans-serif; font-size:.94rem; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pill{font-size:.7rem; letter-spacing:.04em; padding:.16rem .5rem; border:1px solid var(--line-2); border-radius:999px; color:var(--ink-3); white-space:nowrap}
+.tb-sp{flex:1}
+.btn{
+  font:inherit; font-size:.82rem; color:var(--ink-2); background:var(--surface);
+  border:1px solid var(--line-2); border-radius:8px; padding:.34rem .7rem; cursor:pointer;
+  display:inline-flex; align-items:center; gap:.4rem; transition:border-color .15s, color .15s;
+}
+.btn:hover{border-color:var(--brand); color:var(--brand-2)}
+.btn[aria-pressed="true"]{background:var(--brand-wash); border-color:var(--brand); color:var(--brand-2)}
+.progress{position:absolute; bottom:-1px; inset-inline-start:0; height:2px; background:var(--brand); width:0}
+@media (max-width:680px){
+  .topbar-in{flex-wrap:wrap; gap:.5rem .55rem; padding:.55rem .9rem}
+  .mark{flex:1 1 100%}
+  .tb-sp{display:none}
+  .btn{font-size:.78rem; padding:.3rem .6rem}
+}
+
+/* ============ SHELL ============ */
+.shell{max-width:1320px; margin:0 auto; padding:0 1.25rem 6rem; display:grid; grid-template-columns:250px minmax(0,1fr); gap:3rem; align-items:start}
+@media (max-width:1080px){ .shell{grid-template-columns:1fr; gap:0} .rail{display:none} }
+
+.rail{position:sticky; top:76px; max-height:calc(100vh - 96px); overflow-y:auto; padding:1.6rem 0 2rem; font-size:.83rem}
+.rail h4{font-size:.68rem; letter-spacing:.14em; color:var(--ink-3); font-weight:600; margin-bottom:.7rem}
+.rail ol{list-style:none; margin:0 0 1.4rem; padding:0; display:flex; flex-direction:column; gap:1px}
+.rail a{display:flex; gap:.55rem; align-items:baseline; padding:.3rem .55rem; border-radius:6px; color:var(--ink-2); text-decoration:none; border-inline-start:2px solid transparent}
+.rail a:hover{background:var(--raised); color:var(--ink)}
+.rail a.on{color:var(--brand-2); border-inline-start-color:var(--brand); background:var(--brand-wash); font-weight:600}
+.rail a i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--ink-3); min-width:1.4em}
+.rail a.on i{color:var(--brand-2)}
+.mtoc{display:none; margin:1.4rem 0 0}
+.mtoc ol{list-style:none; margin:.5rem 0 0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:.2rem}
+.mtoc a{display:flex; gap:.5rem; padding:.32rem .5rem; border-radius:6px; color:var(--ink-2); text-decoration:none; font-size:.84rem}
+.mtoc a:hover{background:var(--raised)}
+.mtoc a i{font-style:normal; font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--ink-3); min-width:1.4em}
+@media (max-width:1080px){ .mtoc{display:block} }
+
+main{padding-top:1.6rem; min-width:0}
+
+/* ============ HERO ============ */
+.hero{padding:2.2rem 0 1.6rem; border-bottom:1px solid var(--line)}
+.eyebrow{font-size:.76rem; letter-spacing:.1em; color:var(--ink-3); margin-bottom:.9rem}
+.hero h1{font-size:clamp(1.85rem,4.2vw,2.9rem); font-weight:700; letter-spacing:-.01em}
+.hero .sub{margin-top:.8rem; font-size:1.06rem; color:var(--ink-2); max-width:62ch}
+.meta{display:flex; flex-wrap:wrap; gap:.45rem; margin-top:1.3rem}
+.meta span{font-size:.76rem; color:var(--ink-3); border:1px solid var(--line); border-radius:6px; padding:.2rem .55rem; background:var(--surface)}
+
+/* ============ STAT TILES ============ */
+.tiles{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin:1.8rem 0 0}
+.tile{background:var(--surface); padding:1.05rem 1.1rem}
+.tile .k{font-size:.74rem; color:var(--ink-3); letter-spacing:.02em}
+.tile .v{font-size:1.75rem; font-weight:600; line-height:1.2; margin-top:.3rem; color:var(--brand-2)}
+.tile .n{font-size:.78rem; color:var(--ink-3); margin-top:.25rem}
+
+/* ============ SECTIONS ============ */
+section{padding:2.6rem 0 .6rem; border-bottom:1px solid var(--line); scroll-margin-top:88px}
+section:last-of-type{border-bottom:0}
+.sec-h{display:flex; align-items:baseline; gap:.7rem; margin-bottom:.5rem}
+.sec-h .no{font-family:"IBM Plex Mono",monospace; font-size:.85rem; color:var(--brand); font-weight:600; padding-top:.25rem}
+h2{font-size:clamp(1.3rem,2.6vw,1.65rem); font-weight:600}
+h3{font-size:1.06rem; font-weight:600; margin:1.7rem 0 .6rem}
+h4{font-size:.94rem; font-weight:600; margin:1.2rem 0 .5rem; color:var(--ink-2)}
+.lede{color:var(--ink-2); font-size:1rem; max-width:var(--maxw); margin-bottom:.9rem}
+.prose{max-width:var(--maxw)}
+.prose p + p{margin-top:.85rem}
+.purpose{font-size:.85rem; color:var(--ink-3); border-inline-start:2px solid var(--line-2); padding-inline-start:.8rem; margin:.2rem 0 1.2rem; max-width:var(--maxw)}
+
+ul.list{list-style:none; margin:.7rem 0; padding:0; display:flex; flex-direction:column; gap:.55rem; max-width:var(--maxw)}
+ul.list li{display:flex; gap:.7rem; align-items:flex-start}
+ul.list li::before{content:""; flex:none; width:5px; height:5px; border-radius:50%; background:var(--brand); margin-top:.72em}
+ol.list{margin:.7rem 0; padding-inline-start:1.3rem; display:flex; flex-direction:column; gap:.5rem; max-width:var(--maxw)}
+ol.list li::marker{color:var(--brand); font-family:"IBM Plex Mono",monospace; font-size:.85em}
+
+/* ============ CALLOUT ============ */
+.note{background:var(--brand-wash); border:1px solid var(--line-2); border-inline-start:3px solid var(--brand); border-radius:0 10px 10px 0; padding:1rem 1.1rem; margin:1.3rem 0; max-width:var(--maxw)}
+.note h5{margin:0 0 .4rem; font-family:"Noto Kufi Arabic",sans-serif; font-size:.92rem; font-weight:600; color:var(--brand-2)}
+.note p{font-size:.94rem; color:var(--ink-2)}
+.note p + p{margin-top:.6rem}
+.note.flag{background:var(--surface); border-inline-start-color:var(--s2)}
+.note.flag h5{color:var(--ink)}
+.note.keep{border-inline-start-color:var(--s1)}
+.note.keep h5{color:var(--ink)}
+
+/* ============ TABLES ============ */
+.tw{overflow-x:auto; margin:1.1rem 0; border:1px solid var(--line); border-radius:10px; background:var(--surface)}
+table{border-collapse:collapse; width:100%; font-size:.86rem; min-width:520px}
+caption{caption-side:top; text-align:start; font-size:.8rem; color:var(--ink-3); padding:.7rem .9rem 0}
+th,td{text-align:start; padding:.6rem .85rem; border-bottom:1px solid var(--line); vertical-align:top; line-height:1.6}
+thead th{background:var(--raised); font-weight:600; font-size:.79rem; color:var(--ink-2); position:sticky; top:0; border-bottom:1px solid var(--line-2)}
+tbody tr:last-child td{border-bottom:0}
+tbody tr:hover td{background:var(--raised)}
+td.n,th.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap; direction:ltr; text-align:start}
+tbody th{font-weight:600; color:var(--ink)}
+tr.total td, tr.total th{background:var(--sunk); font-weight:600}
+
+/* ============ DETAILS PANELS ============ */
+details.panel{border:1px solid var(--line); border-radius:10px; background:var(--surface); margin:.7rem 0; overflow:hidden}
+details.panel > summary{
+  list-style:none; cursor:pointer; padding:.85rem 1rem; display:flex; align-items:center; gap:.7rem;
+  font-family:"Noto Kufi Arabic",sans-serif; font-size:.95rem; font-weight:600;
+}
+details.panel > summary::-webkit-details-marker{display:none}
+details.panel > summary:hover{background:var(--raised)}
+.chev{flex:none; width:16px; height:16px; color:var(--ink-3); transition:transform .18s}
+details[open] > summary .chev{transform:rotate(-90deg)}
+details.panel .body{padding:.2rem 1rem 1.1rem; border-top:1px solid var(--line)}
+summary .tag{margin-inline-start:auto; font-size:.7rem; color:var(--ink-3); font-family:"IBM Plex Sans Arabic",sans-serif; font-weight:400; white-space:nowrap}
+
+/* ============ CHARTS ============ */
+.fig{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:1.15rem 1.2rem 1rem; margin:1.4rem 0}
+.fig-h{display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap; margin-bottom:.25rem}
+.fig-h h4{margin:0; font-size:.98rem}
+.fig-sub{font-size:.82rem; color:var(--ink-3); margin-bottom:1rem; max-width:68ch}
+.fig-tools{margin-inline-start:auto; display:flex; gap:.35rem}
+.fig-tools .btn{font-size:.74rem; padding:.22rem .55rem}
+.legend{display:flex; flex-wrap:wrap; gap:.35rem .95rem; margin-top:.9rem; font-size:.8rem; color:var(--ink-2)}
+.legend span{display:inline-flex; align-items:center; gap:.4rem}
+.legend i{width:11px; height:11px; border-radius:3px; flex:none}
+.src{font-size:.74rem; color:var(--ink-3); margin-top:.85rem; padding-top:.6rem; border-top:1px solid var(--line)}
+
+.bars{display:flex; flex-direction:column; gap:1rem}
+.bar-row{display:grid; grid-template-columns:minmax(96px,max-content) minmax(0,1fr) max-content; gap:.35rem .8rem; align-items:center}
+.bar-lab{font-size:.85rem; color:var(--ink-2); font-weight:500; white-space:nowrap}
+.track{position:relative; height:22px; background:var(--track); border-radius:5px; overflow:hidden}
+.track .fill{position:absolute; inset-block:0; inset-inline-start:0; background:var(--brand); border-radius:0 5px 5px 0; width:0; transition:width .7s cubic-bezier(.2,.7,.3,1)}
+.bar-val{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; font-size:.85rem; font-weight:500; color:var(--brand-2); white-space:nowrap; direction:ltr}
+.bar-note{grid-column:2 / -1; font-size:.76rem; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:-.15rem}
+@media (max-width:620px){ .bar-row{grid-template-columns:minmax(0,1fr) max-content} .bar-lab{grid-column:1 / -1} .bar-note{grid-column:1 / -1} }
+
+.stack{display:flex; height:34px; border-radius:6px; overflow:hidden; gap:2px; background:var(--surface)}
+.stack .seg{position:relative; display:flex; align-items:center; justify-content:center; min-width:2px; font-size:.76rem; color:#fff; font-family:"IBM Plex Mono",monospace; transition:width .7s cubic-bezier(.2,.7,.3,1); cursor:default}
+.stack .seg:first-child{border-radius:0 6px 6px 0}
+.stack .seg:last-child{border-radius:6px 0 0 6px}
+.stack .seg:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+.stack-row{margin-bottom:1rem}
+.stack-row .sl{display:flex; justify-content:space-between; align-items:baseline; font-size:.85rem; margin-bottom:.35rem}
+.stack-row .sl b{font-weight:600}
+.stack-row .sl span{color:var(--ink-3); font-size:.78rem}
+
+.tip{position:fixed; z-index:80; pointer-events:none; background:var(--ink); color:var(--ground); font-size:.78rem; padding:.4rem .6rem; border-radius:7px; box-shadow:var(--shadow); opacity:0; transition:opacity .12s; max-width:240px; line-height:1.55}
+.tip.on{opacity:1}
+.tip b{font-weight:600}
+
+/* ============ LADDER ============ */
+.ladder{display:flex; gap:3px; align-items:flex-end; margin:1.2rem 0 .4rem; overflow-x:auto; padding-bottom:.4rem}
+.step{
+  flex:1 1 0; min-width:96px; border:1px solid var(--line-2); border-bottom:3px solid var(--brand);
+  background:var(--surface); border-radius:8px 8px 0 0; padding:.65rem .6rem .55rem; cursor:pointer;
+  text-align:start; font:inherit; color:var(--ink); transition:background .15s, transform .15s;
+}
+.step:hover{background:var(--raised)}
+.step[aria-pressed="true"]{background:var(--brand-wash); border-color:var(--brand)}
+.step .sn{display:block; font-size:.7rem; color:var(--ink-3); font-family:"IBM Plex Mono",monospace}
+.step .st{display:block; font-size:.83rem; font-weight:600; margin-top:.15rem; line-height:1.4; font-family:"Noto Kufi Arabic",sans-serif}
+.step .sd{display:block; font-size:.72rem; color:var(--ink-3); margin-top:.2rem; font-family:"IBM Plex Mono",monospace; direction:ltr; text-align:start}
+.step.s0{height:88px} .step.s1{height:104px} .step.s2{height:120px}
+.step.s3{height:136px} .step.s4{height:152px} .step.s5{height:168px} .step.s6{height:184px}
+.step.warn{border-bottom-color:var(--s2)} .step.crit{border-bottom-color:var(--s4)}
+.ladder-out{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:1rem 1.1rem; font-size:.9rem}
+.ladder-out h5{margin:0 0 .35rem; font-family:"Noto Kufi Arabic",sans-serif; font-size:.95rem}
+.ladder-out dl{margin:.6rem 0 0; display:grid; grid-template-columns:auto 1fr; gap:.3rem .9rem; font-size:.85rem}
+.ladder-out dt{color:var(--ink-3)}
+.ladder-out dd{margin:0; color:var(--ink-2)}
+
+/* ============ FLOW ============ */
+.flow{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:.6rem; margin:1.2rem 0}
+.fnode{background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:.8rem .85rem; position:relative}
+.fnode .fi{font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--brand); font-weight:600}
+.fnode h5{margin:.2rem 0 .3rem; font-family:"Noto Kufi Arabic",sans-serif; font-size:.87rem; font-weight:600}
+.fnode p{font-size:.79rem; color:var(--ink-3); line-height:1.6}
+
+/* ============ WAVES ============ */
+.waves{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:.8rem; margin:1.2rem 0}
+.wave{background:var(--surface); border:1px solid var(--line); border-radius:11px; padding:1rem; display:flex; flex-direction:column; gap:.55rem}
+.wave > header{display:flex; align-items:baseline; gap:.5rem; padding-bottom:.55rem; border-bottom:1px solid var(--line)}
+.wave header .wn{font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:#fff; background:var(--brand); border-radius:5px; padding:.1rem .4rem}
+.wave header h5{margin:0; font-family:"Noto Kufi Arabic",sans-serif; font-size:.92rem; font-weight:600}
+.wave .item{font-size:.83rem; line-height:1.6}
+.wave .item b{display:block; font-weight:600; font-size:.85rem}
+.wave .item span{color:var(--ink-3); font-size:.76rem}
+
+/* ============ FILTER BAR ============ */
+.filters{display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin:1rem 0 .3rem}
+.filters input, .filters select{
+  font:inherit; font-size:.84rem; padding:.4rem .65rem; border:1px solid var(--line-2);
+  border-radius:8px; background:var(--surface); color:var(--ink); min-width:0;
+}
+.filters input{flex:1 1 180px}
+.count{font-size:.78rem; color:var(--ink-3); margin-inline-start:auto}
+
+/* chips */
+.chips{display:flex; flex-wrap:wrap; gap:.4rem; margin:.8rem 0}
+.chip{font-size:.79rem; background:var(--raised); border:1px solid var(--line); border-radius:7px; padding:.28rem .6rem; color:var(--ink-2)}
+.chip.ok{border-color:var(--s1); color:var(--s1)}
+
+footer.pg{max-width:1320px; margin:0 auto; padding:2rem 1.25rem 3rem; color:var(--ink-3); font-size:.8rem; border-top:1px solid var(--line)}
+
+/* ============ PRINT ============ */
+@media print{
+  :root{--ground:#fff; --surface:#fff; --raised:#f4f6f6; --ink:#000; --ink-2:#333; --ink-3:#555; --line:#ccc; --line-2:#aaa}
+  .topbar,.rail,.fig-tools,.filters,.btn{display:none !important}
+  .shell{display:block; max-width:none; padding:0}
+  details.panel{border:0; page-break-inside:avoid}
+  details.panel .body{padding:0}
+  details.panel > summary{padding:.4rem 0; font-size:1rem}
+  .chev{display:none}
+  section{page-break-inside:auto; border-bottom:0}
+  .fig,.tw,.note,.wave,.ladder-out{page-break-inside:avoid}
+  .mtoc{display:none !important}
+  a{color:#000; text-decoration:none}
+  body{font-size:11pt}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-in">
+    <div class="mark">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="21" height="21" rx="5" stroke="var(--brand)" stroke-width="1.6"/>
+        <path d="M6.5 15.5V9M11 15.5V6.5M15.5 15.5v-4M6 18.5h12" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <b>الإطار الموحد لتحصيل الاشتراكات</b>
+    </div>
+    <span class="pill">الإصدار 3.0</span>
+    <div class="tb-sp"></div>
+    <button class="btn" id="expandAll" type="button">فتح كل الأقسام</button>
+    <button class="btn" id="printBtn" type="button">طباعة</button>
+    <button class="btn" id="themeBtn" type="button" aria-label="تبديل السمة">السمة</button>
+    <div class="progress" id="progress"></div>
+  </div>
+</div>
+
+<div class="shell">
+
+  <nav class="rail" aria-label="أقسام الوثيقة">
+    <h4>المحتويات</h4>
+    <ol id="toc"></ol>
+    <h4>الملاحق</h4>
+    <ol id="toc2"></ol>
+  </nav>
+
+  <main>
+
+    <details class="panel mtoc" id="mtoc"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>المحتويات</summary><div class="body"><ol id="mtoc-list"></ol></div></details>
+
+    <div class="hero">
+      <div class="eyebrow">صندوق الحماية الاجتماعية · دائرة الاشتراكات</div>
+      <h1>الإطار الموحد لآليات تحصيل الاشتراكات ورفع كفاءتها</h1>
+      <p class="sub">نسخة متخذي القرار. تعرض هذه الوثيقة إطارًا موحدًا لإدارة الالتزام والاشتراكات المستحقة، وتطلب من اللجنة التوجيهية اعتماد واحد وعشرين قرارًا. وجميع أرقامها مستخرجة من قاعدة البيانات التشغيلية في أغسطس 2026.</p>
+      <div class="meta">
+        <span>الإصدار 3.0 — مدعومة بالبيانات</span>
+        <span>31 أغسطس 2026</span>
+        <span>داخلي — للاستخدام الرسمي</span>
+        <span>إعداد: فريق تحليل الأعمال</span>
+      </div>
+      <div class="tiles">
+        <div class="tile"><div class="k">تغطية الفوترة — القطاع الخاص</div><div class="v"><span class="num">3.79</span></div><div class="n">فاتورة لكل جهة سنويًا، مقابل 12 متوقعة</div></div>
+        <div class="tile"><div class="k">السداد في الموعد — الخاص</div><div class="v"><span class="num">53.8%</span></div><div class="n">مقابل <span class="num">10.1%</span> في القطاع الحكومي</div></div>
+        <div class="tile"><div class="k">تتجاوز 60 يومًا — الخاص</div><div class="v"><span class="num">3.4%</span></div><div class="n">من جهات العمل النشطة فقط</div></div>
+        <div class="tile"><div class="k">تتجاوز 60 يومًا — الحكومي</div><div class="v"><span class="num">70.5%</span></div><div class="n">وهنا لا يصلح الحظر أداةً للتحصيل</div></div>
+      </div>
+    </div>
+
+    <!-- ===== تمهيد ===== -->
+    <section id="s0" data-title="تمهيد وكيفية القراءة" data-no="٠">
+      <div class="sec-h"><span class="no">٠</span><h2>تمهيد: كيف تُقرأ هذه الوثيقة</h2></div>
+      <div class="prose">
+        <p class="lede">كُتبت الوثيقة لتُقرأ في ثلاث محطات، لا من أولها إلى آخرها.</p>
+        <ul class="list">
+          <li><b>من يريد أن يعرف ما الذي يتغير:</b> القسم الثاني (الوضع الحالي وصورة البيانات) والقسم الثالث (المقارنة).</li>
+          <li><b>من يريد أن يقرر:</b> القسم الأول والقسم الخامس عشر.</li>
+          <li><b>من سينفذ:</b> الأقسام من الرابع إلى الرابع عشر، والملاحق.</li>
+        </ul>
+        <p>وما ليست هذه الوثيقة: ليست إجراءً تشغيليًا تفصيليًا، ولا تعديلًا تشريعيًا. هي إطار سياسات يحدد الاتجاه والضوابط والصلاحيات، وتُبنى عليه لاحقًا الإجراءات والمواصفات الفنية وخطة التنفيذ التفصيلية.</p>
+        <div class="note">
+          <h5>ما الذي تغيّر عن الإصدار السابق</h5>
+          <p>بُنيت هذه النسخة على أرقام فعلية لا على تقديرات، وقد غيّرت هذه الأرقام ثلاثة أمور جوهرية: تقدّمت معالجة تغطية الفوترة إلى رأس أولويات التنفيذ، وأُضيفت معالجة السداد الجزئي إلى مصفوفة المعالجة، وانتقل مسار المقاصة مع المستحقات الحكومية من إجابة على سؤال جانبي إلى أداة رئيسية لأقدم المتأخرات.</p>
+        </div>
+        <p class="purpose">تلتزم الوثيقة بالمصطلحات المستخدمة في قانون الحماية الاجتماعية ولائحته التنفيذية وفي أدلة الصندوق: «جهة العمل»، و«المؤمن عليه»، و«الاشتراكات»، و«الغرامات والمبالغ الإضافية»، و«الحظر»، و«الاعتراض» و«التظلم»، و«الصندوق». ولا تستحدث مصطلحًا بديلًا لأي منها.</p>
+      </div>
+    </section>
+
+    <!-- ===== 1 ===== -->
+    <section id="s1" data-title="الملخص التنفيذي والمبادئ" data-no="١">
+      <div class="sec-h"><span class="no">١</span><h2>الملخص التنفيذي والمبادئ الحاكمة</h2></div>
+      <div class="prose">
+        <p class="lede">ينتقل هذا الإطار بالتحصيل من سلسلة مطالبات وقرارات حظر، إلى منظومة واحدة لإدارة الالتزام والاشتراكات المستحقة.</p>
+        <p>تبدأ المنظومة بالتأكد من صحة التسجيل والفاتورة، ثم تسهّل السداد، وتتدخل مبكرًا عند التأخر. وتختار لكل جهة عمل المعالجة التي تناسب حالتها، ولا تنتقل إلى الحظر أو التنفيذ إلا باستيفاء شروط واضحة ومعلنة. ولا تُعامَل جهات العمل جميعًا بالطريقة نفسها: فأثر عدم السداد يختلف باختلاف عدد العمال، وسجل السداد، ومدة التأخر، وحجم الاشتراكات المستحقة، والوضع المالي والقانوني، ومدى تجاوب جهة العمل مع الصندوق.</p>
+        <div class="note">
+          <h5>المبدأ الذي يقوم عليه الإطار</h5>
+          <p>أن تعرف جهة العمل ما عليها ومتى، وأن تجد قناة سهلة للسداد، ومسارًا واضحًا للتصحيح أو الاعتراض قبل أي إجراء حظر. فكل تشدد في هذا الإطار يسبقه تسهيل، وكل إجراء يسبقه إشعار.</p>
+        </div>
+      </div>
+      <h3>المبادئ الحاكمة الستة</h3>
+      <div id="principles"></div>
+      <div class="prose">
+        <p style="margin-top:1.1rem">وتُقاس الكفاءة بنسبة السداد في الموعد، ومعالجة المتأخرات خلال مدد محددة، واستدامة خطط السداد، وسرعة المطابقة ورفع الحظر — لا بإجمالي المبالغ المحصلة وحده. فالتحصيل المتأخر بعد حملة واسعة ليس نجاحًا كاملًا إذا استمرت المتأخرات الجديدة في التراكم، أو ارتفعت الشكاوى والأخطاء.</p>
+      </div>
+    </section>
+
+    <!-- ===== 2 ===== -->
+    <section id="s2" data-title="الوضع الحالي وصورة البيانات" data-no="٢">
+      <div class="sec-h"><span class="no">٢</span><h2>الوضع الحالي لآليات التحصيل</h2></div>
+      <p class="purpose">الغرض من هذا القسم: تثبيت ما هو قائم اليوم، حتى يُقرأ كل ما يلي بوصفه تغييرًا محددًا على وضع معلوم، لا اقتراحًا عامًا.</p>
+
+      <h3>٢-١ الفئات الخاضعة ونسب الاشتراك</h3>
+      <div class="prose"><p>يحصّل الصندوق الاشتراكات من خمس فئات: القطاع الخاص، والقطاع الحكومي، وفئة أصحاب الأعمال، والعمانيين العاملين في الخارج، والخاضعين لنظام مد الحماية التأمينية بدول مجلس التعاون.</p></div>
+      <div class="tw" id="t-rates"></div>
+      <div class="prose"><p>أما فئتا أصحاب الأعمال والعاملين في الخارج فنسبة اشتراكهم الشهري <span class="num">18.5%</span> من كامل الأجر.</p></div>
+      <div class="note flag">
+        <h5>يلزم تثبيته قبل الاعتماد</h5>
+        <p>يجب تثبيت هذا الجدول مقابل النص التشريعي وجدول التدرج السنوي للنسب، مع ذكر تاريخ النفاذ لكل نسبة. فبعض النسب مرتبطة بجدول زمني تصاعدي، وأي جدول يُعرض دون تاريخ نفاذ يصبح مضلِّلًا خلال سنة.</p>
+      </div>
+
+      <h3>٢-٢ مواعيد الاستحقاق وغرامة التأخير</h3>
+      <ul class="list">
+        <li>موعد السداد: خلال الأيام الخمسة عشر الأولى من الشهر التالي للشهر المستحق عنه الاشتراك — المادة 58. <span class="chip">للتأكيد</span></li>
+        <li>نسبة غرامة عدم السداد: <span class="num">5.5%</span>. ويلزم توثيق السند وأساس الاحتساب — شهريًا أم سنويًا، وعلى أصل الاشتراك وحده أم على الرصيد القائم. <span class="chip">للتأكيد</span></li>
+      </ul>
+
+      <h3>٢-٣ التسهيلات القائمة اليوم</h3>
+      <div class="tw" id="t-facilities"></div>
+
+      <h3>٢-٤ قاعدة الحظر المعمول بها اليوم</h3>
+      <div class="prose"><p>إذا تخلّف صاحب العمل عن السداد مدة شهرين، يُطبَّق الحظر تلقائيًا، فلا يستطيع إتمام أي معاملة حتى خارج الصندوق، ويُرفع الحظر مباشرة عند السداد.</p></div>
+      <div class="note flag">
+        <h5>هذه هي النقطة التي يقترح الإطار تغييرها</h5>
+        <p>القاعدة الحالية تعمل بمفتاح واحد: لا حظر إطلاقًا حتى الشهرين، ثم حظر شامل بعدهما. وهي بذلك لا تفرّق بين جهة تأخرت بسبب خطأ في مرجع التحويل وجهة توقفت عن السداد وهي مستمرة في النشاط، ولا تترك مساحة للتدخل المبكر قبل بلوغ الشهرين.</p>
+        <p>ويقترح الإطار استبدالها بسلّم متدرج (القسم الثامن). ولا يمكن اعتماد هذا التغيير قبل رأي قانوني يحدد ما إذا كانت القاعدة الحالية التزامًا تشريعيًا أم ممارسة تشغيلية.</p>
+      </div>
+
+      <h3>٢-٥ المبادرات الجارية</h3>
+      <div class="prose"><p>يجري حاليًا اختيار آلية الخصم المباشر بالتعاون مع بنك مسقط. ويبني القسم السابع عليها بوصفها الموجة الأولى، لا بديلًا عنها.</p></div>
+
+      <h3>٢-٦ صورة الوضع من البيانات</h3>
+      <div class="prose"><p>استُخرجت الأرقام الآتية من استعلامات قاعدة البيانات التشغيلية في أغسطس 2026، وتغطي الفواتير الشهرية خلال آخر 12 شهرًا. وتفاصيل المصادر وملاحظات الجودة في الملحق (هـ).</p></div>
+
+      <div class="fig">
+        <div class="fig-h"><h4>تغطية الفوترة</h4></div>
+        <p class="fig-sub">الفواتير الشهرية الصادرة فعليًا كنسبة من 12 فاتورة متوقعة لكل جهة عمل في السنة.</p>
+        <div class="bars" id="c-coverage"></div>
+        <p class="src">المصدر: عدد الفواتير خلال 12 شهرًا ÷ عدد جهات العمل النشطة — القطاع الخاص <span class="num">501,167 ÷ 132,334</span>، الحكومي <span class="num">1,589 ÷ 528</span>.</p>
+      </div>
+
+      <div class="note">
+        <h5>أهم رقم في هذه الوثيقة</h5>
+        <p>تصدر الفوترة الشهرية نحو ثلث ما يُفترض أن تصدره. وفي العينة المفحوصة لم تصدر أي فاتورة خلال 12 شهرًا لـ 28 جهة حكومية من 61 جهة لديها عمال نشطون، من بينها وزارة التعليم بعدد <span class="num">90,221</span> عاملًا نشطًا.</p>
+        <p>وأثر ذلك مباشر: كل رقم عن المتأخرات، وكل تصنيف لسلوك جهة عمل، وكل مُشغِّل للتصعيد، يقيس اليوم فجوة الفوترة أكثر مما يقيس سلوك جهة العمل. ولذلك تتقدم معالجة تغطية الفوترة على كل ما عداها في مسار التنفيذ.</p>
+      </div>
+
+      <div class="fig">
+        <div class="fig-h">
+          <h4>نتائج السداد على مستوى الفاتورة</h4>
+          <div class="fig-tools"><button class="btn" type="button" data-table="c-outcomes">عرض الجدول</button></div>
+        </div>
+        <p class="fig-sub">توزيع نتائج السداد لكل قطاع خلال 12 شهرًا. النمطان مختلفان تمامًا: القطاع الخاص إما يسدد في الموعد أو لا يسدد إطلاقًا، بينما أكثر من نصف فواتير الجهات الحكومية تُسدَّد جزئيًا.</p>
+        <div id="c-outcomes"></div>
+        <div class="legend" id="l-outcomes"></div>
+        <div class="tw" id="c-outcomes-table" hidden></div>
+        <p class="src">«سداد في شهر لاحق» مستبعد من الرسم لصغره (<span class="num">97</span> فاتورة خاصة و<span class="num">13</span> حكومية)، وهو مدرج في الجدول. وضآلته مقابل <span class="num">137,809</span> فاتورة غير مسددة ملاحظةٌ فنية واردة في الملحق (هـ).</p>
+      </div>
+
+      <div class="fig">
+        <div class="fig-h">
+          <h4>تصنيف سلوك جهات العمل</h4>
+          <div class="fig-tools">
+            <button class="btn" type="button" data-sector="PRIVATE" aria-pressed="true">القطاع الخاص</button>
+            <button class="btn" type="button" data-sector="GOV" aria-pressed="false">القطاع الحكومي</button>
+          </div>
+        </div>
+        <p class="fig-sub">نسبة جهات العمل في كل تصنيف سلوكي، ومتوسط عدد الفواتير التي تحملها الجهة الواحدة في ذلك التصنيف.</p>
+        <div class="bars" id="c-behaviour"></div>
+        <p class="src">التصنيف مبني على مزيج فواتير 12 شهرًا لكل جهة عمل.</p>
+      </div>
+
+      <div class="note flag">
+        <h5>لماذا لا تُقرأ نسبة 66.9% على ظاهرها</h5>
+        <p>الجهات المصنفة «غير مسدد بشكل متكرر» تحمل <span class="num">1.24</span> فاتورة فقط لكل جهة في المتوسط، أي أنها في معظمها جهات ذات سجل فوترة قصير جدًا وليست جهات ممتنعة. ويؤكد ذلك أن معدل الالتزام في العينة يبلغ <span class="num">86.2%</span> لدى الجهات التي صدرت لها 8 فواتير فأكثر، مقابل <span class="num">15.8%</span> لدى الجهات التي صدرت لها 3 فواتير أو أقل. أي أن الالتزام المقاس يتتبع اكتمال سجل الفوترة أكثر مما يتتبع سلوك جهة العمل.</p>
+      </div>
+
+      <div class="fig">
+        <div class="fig-h">
+          <h4>أعمار المبالغ المفتوحة</h4>
+          <div class="fig-tools"><button class="btn" type="button" data-table="c-ageing">عرض الجدول</button></div>
+        </div>
+        <p class="fig-sub">حصة كل شريحة عمرية من إجمالي القيمة المفتوحة في كل قطاع. هذه المقارنة هي التي تغيّر ترتيب أولويات الإطار.</p>
+        <div id="c-ageing"></div>
+        <div class="legend" id="l-ageing"></div>
+        <div class="tw" id="c-ageing-table" hidden></div>
+        <p class="src">قد تظهر الجهة الواحدة في أكثر من شريحة عمرية، فأعداد الجهات حدود عليا لا أعداد نهائية. والقيم المطلقة تحتاج تثبيت وحدة العملة — الملحق (هـ).</p>
+      </div>
+
+      <div class="note">
+        <h5>ما تقوله شرائح الأعمار</h5>
+        <p>في القطاع الخاص <span class="num">99.5%</span> من القيمة المفتوحة تقع داخل الثلاثين يومًا الأولى — وهي في معظمها دورة الفوترة الجارية لا متأخرات — ولا تتجاوز <span class="num">3.4%</span> من جهات العمل النشطة حاجز الستين يومًا. أما في القطاع الحكومي فـ<span class="num">59.5%</span> من القيمة المفتوحة أقدم من ثلاثين يومًا، و<span class="num">13.5%</span> تتجاوز 180 يومًا، و<span class="num">70.5%</span> من الجهات النشطة تجاوزت الستين يومًا.</p>
+        <p>ونتيجتها المباشرة: المتأخرات المزمنة مشكلة حكومية بالدرجة الأولى، والحظر الخدمي لا يصلح أداةً معها — وهو ما يجعل المقاصة (القسم العاشر) الأداة الرئيسية لا أداة مساندة.</p>
+      </div>
+
+      <h4>التسهيلات</h4>
+      <div class="prose"><p>لم يتمكن الاستعلام من استخراج بيانات التسهيلات إلا للتقسيط. أما تأجيل إصدار الفاتورة، وإعادة الجدولة، والتنازل عن فائدة التقسيط فغير مسجلة في النظام على نحو قابل للاستخراج. وهذا في ذاته نتيجة مهمة: لا يستطيع الصندوق اليوم أن يجيب عن سؤال بسيط مثل «كم تأجيلًا مُنح العام الماضي، وهل أدى إلى سداد مستدام؟» — وهو ما يجعل سجل التسهيلات متطلبًا أساسيًا لا تحسينًا إداريًا.</p></div>
+
+      <h3>٢-٧ الفجوات المستخلصة</h3>
+      <ul class="list" id="gaps"></ul>
+    </section>
+
+    <!-- ===== 3 ===== -->
+    <section id="s3" data-title="ما الذي يتغير" data-no="٣">
+      <div class="sec-h"><span class="no">٣</span><h2>ما الذي يتغير</h2></div>
+      <p class="purpose">ثمانية تغييرات فقط. وما عداها في هذه الوثيقة تنظيم وتوثيق لما هو قائم.</p>
+      <div id="changes"></div>
+    </section>
+
+    <!-- ===== 4 ===== -->
+    <section id="s4" data-title="النطاق وتحديد الالتزام" data-no="٤">
+      <div class="sec-h"><span class="no">٤</span><h2>نطاق التطبيق وتحديد الالتزام</h2></div>
+      <div class="prose">
+        <p class="lede">يشمل الإطار جهات العمل في القطاع الخاص، والجهات الحكومية والأشخاص الاعتبارية العامة بحسب الأحكام المطبقة، وأصحاب الأعمال والعاملين لحسابهم الخاص، والعمانيين العاملين في الخارج، والخاضعين لنظام مد الحماية التأمينية بدول مجلس التعاون.</p>
+        <p>ويغطي المنشآت النشطة والمتوقفة والملغاة وتحت التصفية أو الإفلاس؛ فاختلاف الحالة القانونية يغيّر أسلوب المتابعة ولا يلغي حق الصندوق في المطالبة. وتبدأ كفاءة التحصيل من تحديد الالتزام تحديدًا صحيحًا، ولذلك يعدّ الصندوق مصفوفة تشريعية محدّثة لكل فئة، ويربطها بمحرك الفوترة، حتى يستطيع الموظف وجهة العمل معًا فهم كيفية احتساب المبلغ وتتبع أي تعديل عليه.</p>
+      </div>
+      <details class="panel"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>نموذج المصفوفة التشريعية<span class="tag">9 حقول</span></summary>
+        <div class="body"><div class="tw" id="t-matrix"></div></div>
+      </details>
+      <details class="panel"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>القدرات السبع لدورة التحصيل المستهدفة</summary>
+        <div class="body"><ol class="list" id="caps"></ol>
+        <div class="prose"><p style="margin-top:.8rem">ولا يبدأ التصعيد إذا كان المبلغ محل اعتراض جدي وفق معايير القسم الحادي عشر، أو كانت المطابقة غير مكتملة، أو لم يصل الإشعار إلى وسيلة تواصل معتمدة. ويُسدَّد الجزء الثابت غير المتنازع عليه، ويُعالَج الجزء محل الاعتراض في مسار محدد المدة.</p></div></div>
+      </details>
+    </section>
+
+    <!-- ===== 5 ===== -->
+    <section id="s5" data-title="التصنيف ومصفوفة المعالجة" data-no="٥">
+      <div class="sec-h"><span class="no">٥</span><h2>تصنيف جهات العمل ومصفوفة المعالجة</h2></div>
+      <p class="purpose">يستخدم الصندوق التصنيف لترتيب أولوية المتابعة، وتحديد نوع الخدمة ومستوى الاعتماد. ولا يستخدمه لإصدار عقوبة آلية.</p>
+
+      <h3>٥-١ التوزيع الفعلي والشرائح</h3>
+      <div class="prose"><p>تبيّن البيانات أن الشرائح المقترحة سابقًا (1–10، 11–50، 51–150، أكثر من 150) لا تميّز فعليًا بين جهات العمل: فوسيط عدد العمال في القطاع الخاص 3 عمال، والشريحة الربعية الثالثة 7 عمال. أي أن شريحة «من 1 إلى 10» تستوعب ما يزيد على ثلاثة أرباع جهات العمل، وتتقاسم الشرائح الثلاث الباقية أقل من الربع.</p></div>
+      <div class="tw" id="t-dist"></div>
+      <div class="prose"><p>والقطاع الحكومي أشد تطرفًا: متوسط <span class="num">437.4</span> مقابل وسيط <span class="num">4</span>. فهو ليس 528 جهة كبيرة، بل نحو ثلاثين وزارة وهيئة كبرى ومئات الوحدات الصغيرة. ولذلك تُبنى الشرائح على النسب المئوية لا على المتوسط، ويُعامل القطاع الحكومي على حدة.</p></div>
+      <div class="tw" id="t-bands"></div>
+
+      <div class="note keep">
+        <h5>قاعدة الحد الأدنى من سجل الفوترة</h5>
+        <p>لا تُصنَّف جهة العمل سلوكيًا قبل أن يكون لها سجل فوترة كافٍ — ست فواتير على الأقل. وما دون ذلك يُدرَج في فئة «سجل غير كافٍ» ويُعالَج بوصفه مشكلة بيانات لا حالة تحصيل. وبدون هذه القاعدة يدخل ثلثا جهات القطاع الخاص مسار التصعيد لأسباب تعود إلى الفوترة لا إلى سلوكها.</p>
+      </div>
+
+      <h3>٥-٢ مصفوفة المعالجة</h3>
+      <div class="tw" id="t-treat"></div>
+      <p class="purpose">الصفان الأخيران مضافان بناءً على البيانات: السداد الجزئي يمثل 55.3% من فواتير القطاع الحكومي ولم تكن له معالجة سابقًا؛ وضعف تغطية الفوترة يجعل كثيرًا من الحالات التي تبدو تعثرًا مشكلةَ إصدار فاتورة لا مشكلة سداد.</p>
+
+      <details class="panel"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>درجة الأولوية وأوزانها<span class="tag">7 عوامل</span></summary>
+        <div class="body">
+          <div class="prose"><p>تُستخدم الدرجة لتحديد سرعة التدخل ومدير الحالة ومستوى الاعتماد، ولا تُستخدم وحدها لتحديد الحظر. وتُراجع الأوزان دوريًا للتحقق من دقتها وعدم تحيزها.</p></div>
+          <div class="tw" id="t-weights"></div>
+        </div>
+      </details>
+    </section>
+
+    <!-- ===== 6 ===== -->
+    <section id="s6" data-title="المسارات والتسهيلات" data-no="٦">
+      <div class="sec-h"><span class="no">٦</span><h2>مسارات المعالجة والتسهيلات المالية</h2></div>
+      <div class="prose">
+        <p class="lede">تُوجَّه كل حالة إلى مسار واضح، وتنتقل بين المسارات عند تغيّر وضعها.</p>
+        <p>يبدأ المسار الوقائي بمعاينة الفاتورة والتنبيه قبل الاستحقاق والخصم المباشر. ويُعالَج التأخر المبكر بتحديد السبب وتصحيح المطابقة وإرسال رابط الدفع وتوثيق التزام السداد. أما الصعوبة المؤقتة فتنتقل إلى خطة مناسبة، وتنتقل الحالات غير المتجاوبة بعد الإنذار إلى الحظر المتدرج ثم التنفيذ. وتُفصَل النزاعات عن المتأخرات الثابتة، حتى لا يوقف الاعتراضُ تحصيلَ مبالغ لا خلاف عليها.</p>
+      </div>
+      <h3>٦-١ سياسة التسهيلات</h3>
+      <div class="tw" id="t-facpolicy"></div>
+      <h3>٦-٢ سجل التسهيلات وانضباط الخطة</h3>
+      <div class="prose">
+        <p>يُنشأ لكل جهة عمل سجل تسهيلات يوضح نوع الميزة وقيمتها وسببها وصاحب اعتمادها ومدتها ونسبة تنفيذها وأي تسهيلات سابقة. يمنع هذا السجل منح مزايا متكررة لجهة لا تلتزم بها، ويتيح قياس ما إذا كان التقسيط أو الإعفاء قد أدى إلى سداد مستدام.</p>
+        <p>والتسهيل ليس تأجيلًا للمتابعة: فلكل خطة جدول أقساط، وتنبيهات قبل الاستحقاق، وإجراء محدد عند فشل الخصم، وفترة سماح معتمدة. ويظل سداد الفاتورة الشهرية الجارية شرطًا أساسيًا، حتى لا تنخفض المتأخرات القديمة بينما تتراكم مبالغ جديدة. وعند الإخلال بالخطة يُعاد تقييم الحالة أو تنتقل إلى المرحلة التالية، دون إعادة دورة التحصيل من بدايتها.</p>
+      </div>
+    </section>
+
+    <!-- ===== 7 ===== -->
+    <section id="s7" data-title="قنوات السداد والخصم المباشر" data-no="٧">
+      <div class="sec-h"><span class="no">٧</span><h2>قنوات السداد والخصم المباشر</h2></div>
+      <div class="prose"><p class="lede">يمثل الخصم المباشر الأداة الوقائية الرئيسية للفواتير الشهرية وأقساط خطط السداد والمبالغ المؤجلة. ويقترح الإطار الوصول إليه على موجتين، بحيث تبني الثانية على الأولى ولا تلغيها.</p></div>
+      <div class="tw" id="t-waves-dd"></div>
+      <details class="panel"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>رحلة التفويض الإلكتروني</summary>
+        <div class="body"><div class="flow" id="f-mandate"></div>
+        <div class="prose"><p style="margin-top:.6rem">ويجب أن تغطي الاتفاقات مع البنوك: إنشاء التفويض وتعديله وإلغاءه، وإشعار ما قبل الخصم، ومواعيد إرسال الطلبات والتسوية، وأكواد النجاح والرفض، وإعادة المحاولة، والخصم الجزئي، وتسوية النزاعات والاسترداد. كما يجب توفير قناة بديلة إذا تعطل البنك أو نظام المقاصة. ولا يُعد إلغاء تفويض الفاتورة مخالفة بذاته ما دامت جهة العمل قادرة على السداد بقناة أخرى.</p></div></div>
+      </details>
+      <h3>٧-١ بقية القنوات</h3>
+      <ul class="list" id="channels"></ul>
+      <div class="prose"><p>وتُقاس فعالية القنوات بنسبة نجاح الدفع من المحاولة الأولى، ونسبة المطابقة الآلية، وزمن انعكاس السداد، وأسباب الرفض حسب البنك، وعدد عمليات الخصم غير الصحيحة، وانخفاض الشيكات اليدوية والمرتجعة.</p></div>
+    </section>
+
+    <!-- ===== 8 ===== -->
+    <section id="s8" data-title="سلّم الحظر التدرجي" data-no="٨">
+      <div class="sec-h"><span class="no">٨</span><h2>سلّم الحظر التدرجي وضوابط الانتقال</h2></div>
+      <div class="note">
+        <h5>ملاحظة على المصطلح</h5>
+        <p>تستخدم هذه الوثيقة مصطلح «الحظر» كما هو متعارف عليه في الصندوق وفي اللائحة التنفيذية لقانون الحماية الاجتماعية، ولا تستحدث مصطلحًا بديلًا. والتدرج هنا في نطاق الحظر لا في تسميته: يبدأ بخدمات محددة منخفضة الأثر، ويتوسع بحسب المستوى، وتبقى الخدمات المحمية متاحة في جميع المستويات.</p>
+      </div>
+      <div class="prose"><p>لا يبدأ الحظر قبل تثبيت الاشتراكات المستحقة وقيمتها، واكتمال المطابقة، وإشعار جهة العمل، وإتاحة السداد والاعتراض والخطة للمؤهلين. ولا يُستخدم لمعالجة خطأ بيانات أو مبلغ محل اعتراض لم يُحسم. ولا ينتقل النظام تلقائيًا إلى مرحلة أشد لمجرد مرور الزمن؛ بل يُعاد فحص المبلغ والاستجابة والتزامات السداد والفاتورة الجارية والوضع المالي وعدد العمال وأي ظرف جديد.</p></div>
+
+      <p class="purpose">اختر مرحلة لعرض تفاصيلها. ارتفاع الدرجة يمثل شدة الإجراء.</p>
+      <div class="ladder" id="ladder" role="group" aria-label="مراحل سلّم الحظر"></div>
+      <div class="ladder-out" id="ladder-out" aria-live="polite"></div>
+
+      <div class="prose"><p style="margin-top:1.2rem">يجوز تسريع الانتقال في حالات الاحتيال أو التهرب، أو استمرار عدم السداد وعدم التجاوب رغم مؤشرات موثقة على النشاط والقدرة المالية، على أن يكون القرار مسبَّبًا ومعتمدًا. وفي المقابل تُجمَّد المرحلة أو تُخفَّض عند قبول اعتراض وفق معايير القسم الحادي عشر، أو وجود خطة ملتزم بها، أو ظرف قهري معتمد.</p></div>
+
+      <div class="note keep">
+        <h5>حجم مجتمع التصعيد — من البيانات</h5>
+        <p>لا تتجاوز <span class="num">3.4%</span> من جهات العمل النشطة في القطاع الخاص حاجز الستين يومًا. فالسلّم إجراء موجَّه لشريحة ضيقة، لا إجراء واسع يمس السوق. أما في القطاع الحكومي فالنسبة <span class="num">70.5%</span> — وهناك لا يصلح الحظر أداةً، وتتولى المقاصة (القسم العاشر) الدور.</p>
+      </div>
+
+      <details class="panel"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>محتوى إشعار ما قبل الحظر، ورفع الحظر، والجهات كبيرة الأثر</summary>
+        <div class="body"><div class="prose">
+          <h4>محتوى الإشعار</h4>
+          <p>رقم جهة العمل والسجل التجاري، والفترات والمبالغ المستحقة، وتاريخ بدء الحظر، والخدمات التي ستتأثر وتلك المستثناة، ورابط السداد، وأهلية التقسيط، وطريقة الاعتراض، ووسيلة التواصل. والنموذج الكامل في الملحق (ج).</p>
+          <h4>رفع الحظر</h4>
+          <p>يُرفع الحظر عند السداد والمطابقة، أو اعتماد خطة نافذة وسداد الدفعة المطلوبة، أو تصحيح المطالبة، أو قبول تعليق الإجراء على الجزء محل الاعتراض. ويُستهدف تنفيذ الرفع آليًا خلال ساعة من تحقق الشرط، مع مراقبة حالات فشل الربط وإتاحة معالجة يدوية مضبوطة.</p>
+          <h4>الجهات كبيرة الأثر</h4>
+          <p>قبل فرض المستوى الثاني على جهة يتجاوز عدد عمالها 150 عاملًا أو تُصنَّف استراتيجية، يُعد تقييم أثر مختصر يوضح احتمالية توقف النشاط، وعدد العمال المتأثرين، والمبالغ المستحقة لها لدى الحكومة، وخيارات السداد أو الضمان. ولا يمثل ذلك إعفاءً للجهة الكبيرة، بل يضمن اختيار إجراء يحمي المطالبة والعمال ويحقق تحصيلًا أفضل.</p>
+        </div></div>
+      </details>
+    </section>
+
+    <!-- ===== 9 ===== -->
+    <section id="s9" data-title="الجهات والخدمات والاستثناءات" data-no="٩">
+      <div class="sec-h"><span class="no">٩</span><h2>الجهات والخدمات المشمولة والاستثناءات</h2></div>
+      <div class="prose"><p class="lede">لا يعتمد الحظر على اسم الجهة الحكومية بصورة عامة، بل على كتالوج خدمات يحدد لكل خدمة: اسمها ورمزها ومالكها، ومستوى الحظر الذي تدخل فيه، والسند القانوني، والأثر المتوقع، والاستثناءات، ورسالة الرفض، وزمن الرفع.</p></div>
+      <div class="tw" id="t-entities"></div>
+      <div class="prose"><p>وتُعد هيئة تنمية المؤسسات الصغيرة والمتوسطة وغرفة تجارة وصناعة عمان شريكين داعمين لا جهتي حظر: دورهما التوعية والتشخيص وإحالة الجهات المتعثرة إلى برامج الدعم، ولا يُطلب منهما أي إجراء عقابي.</p></div>
+
+      <div class="note keep">
+        <h5>الخدمات المحمية دائمًا</h5>
+        <p>تبقى هذه الخدمات متاحة لجهة العمل وللعامل مهما بلغت مدة التأخر أو مستوى الحظر:</p>
+        <div class="chips" id="protected"></div>
+        <p>وتُستثنى كذلك أي خدمة يؤدي منعها إلى زيادة المتأخرات أو الإضرار المباشر بحقوق العمال دون منفعة تحصيلية متناسبة.</p>
+      </div>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section id="s10" data-title="المقاصة مع المستحقات الحكومية" data-no="١٠">
+      <div class="sec-h"><span class="no">١٠</span><h2>المقاصة مع المستحقات الحكومية</h2></div>
+      <div class="prose">
+        <p class="lede">يجيب هذا القسم عن السؤال الذي طرحته دائرة الاشتراكات: ماذا لو تعثّرت جهة عن السداد بينما لها مستحقات قائمة لدى جهة حكومية أخرى؟</p>
+        <p>المنطق بسيط: لا معنى لحظر خدمات جهة تنتظر مستحقاتها من الحكومة، إذا كان تحصيل الصندوق ممكنًا من تلك المستحقات نفسها. والمقاصة في هذه الحالة أسرع وأقل ضررًا من الحظر، وتحفظ استمرارية النشاط وحقوق العمال. وقد رفعت البيانات هذا المسار من إجابة على سؤال جانبي إلى الأداة الرئيسية لأقدم المتأخرات وأكبرها.</p>
+      </div>
+      <div class="flow" id="f-setoff"></div>
+      <div class="tw" id="t-setoff"></div>
+      <div class="prose"><p>ويلزم لتشغيل هذا المسار تفاهم مكتوب مع وزارة المالية يحدد قناة الطلب، ومدة الرد، وصيغة تبادل البيانات، والحالات المستثناة.</p></div>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section id="s11" data-title="الاعتراض والتظلم" data-no="١١">
+      <div class="sec-h"><span class="no">١١</span><h2>الاعتراض والتظلم</h2></div>
+      <div class="prose"><p class="lede">يعتمد سلّم الحظر بأكمله على وجود مسار اعتراض موثوق. فبغيره يتحول كل خطأ في البيانات إلى قرار حظر، وتتحول كل شكوى إلى تصعيد. ولذلك يُعامل هذا القسم بوصفه شرطًا لتشغيل القسم الثامن، لا ملحقًا به.</p></div>
+      <div class="tw" id="t-appeal"></div>
+      <h3>متى يُعد الاعتراض مقبولًا</h3>
+      <div class="prose"><p>لتفادي التقدير الشخصي عند أكثر نقاط الإطار حساسية، يُعد الاعتراض مقبولًا لتجميد التصعيد إذا استوفى ثلاثة شروط: أن يُقدَّم عبر قناة معتمدة قبل تاريخ بدء الحظر، وأن يحدد الفترة والمبلغ محل الخلاف تحديدًا رقميًا، وأن يرفق مستندًا واحدًا على الأقل يدعمه (كشف أجور، أو إشعار انتهاء خدمة، أو إيصال سداد، أو مراسلة سابقة مع الصندوق).</p></div>
+      <h3>قاعدة الجزء غير المتنازع عليه</h3>
+      <div class="prose"><p>لا يوقف الاعتراضُ تحصيلَ الجزء الذي لا خلاف عليه. تُقسَّم المطالبة إلى جزء ثابت يُسدَّد في موعده، وجزء محل اعتراض يُعلَّق حتى البت فيه. وتُظهر بوابة الصندوق الجزأين منفصلين حتى لا تدفع جهة العمل ما تعترض عليه، ولا تؤجل ما لا تعترض عليه.</p></div>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section id="s12" data-title="الحوكمة والصلاحيات والمخاطر" data-no="١٢">
+      <div class="sec-h"><span class="no">١٢</span><h2>الحوكمة والصلاحيات والمخاطر</h2></div>
+      <div class="prose"><p class="lede">تعتمد اللجنة التوجيهية السياسة والجهات والخدمات والصلاحيات والاستثناءات ونتائج القياس. وتراجع لجنة متخصصة الحالات الحساسة والنموذج التشغيلي. وتُفصل الصلاحيات بين إنشاء التسهيل ومراجعته واعتماده، وبين اقتراح الحظر واعتماده. وتظل قرارات الإعفاء والتسوية والتنفيذ لدى الصندوق وأصحاب الصلاحية، حتى عند الاستعانة بشركة تحصيل خارجية.</p></div>
+      <details class="panel"><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>مصفوفة المسؤوليات<span class="tag">8 أنشطة</span></summary>
+        <div class="body"><div class="tw" id="t-raci"></div></div>
+      </details>
+      <details class="panel" open><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>المخاطر الرئيسية والضوابط<span class="tag">8 مخاطر</span></summary>
+        <div class="body"><div class="tw" id="t-risks"></div></div>
+      </details>
+      <div class="prose"><p>ويؤهّل الصندوق فرق التحصيل على تحليل الوضع المالي وإمكانية السداد، وعلى التفاوض وتصميم الخطط، وفهم الصلاحيات، وحماية البيانات، والتعامل مع الحالات الكبيرة. وإذا اعتُمدت حوافز للموظفين أو لمقدمي الخدمة، فتُربط بالتحصيل المستدام وجودة التوثيق وانخفاض الأخطاء، لا بالمبلغ المحصل وحده.</p></div>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section id="s13" data-title="مؤشرات الأداء" data-no="١٣">
+      <div class="sec-h"><span class="no">١٣</span><h2>مؤشرات الأداء</h2></div>
+      <p class="purpose">تعرض بطاقة الأداء التنفيذية شهريًا صورة متوازنة عن الوقاية والتحصيل والجودة. ولا يُعتمد أي مؤشر دون خط أساس ومستهدف ومالك. وخطوط الأساس أدناه متوافرة الآن من نتائج أغسطس 2026.</p>
+      <div class="tw" id="t-kpi"></div>
+      <p class="purpose">قبل تداول أي رقم بالقيمة المالية خارج الدائرة، يلزم تثبيت وحدة العملة ومعالجة ازدواج صفوف الغرامات — الملحق (هـ).</p>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section id="s14" data-title="أولويات التطوير ومسار التنفيذ" data-no="١٤">
+      <div class="sec-h"><span class="no">١٤</span><h2>أولويات التطوير ومسار التنفيذ</h2></div>
+      <div class="prose"><p class="lede">العلاقة بين الموجات علاقة اعتماد لا مجرد ترتيب زمني: يجب تثبيت صحة الفاتورة والبيانات وإتاحة قنوات السداد قبل التوسع في الحظر، ويجب تشغيل إدارة الحالات وضوابط الاعتراض والرفع قبل ربط خدمات إضافية.</p>
+      <p>وقد أدى تحليل البيانات إلى تعديلين في هذا الترتيب: تقدّمت معالجة تغطية الفوترة إلى رأس الموجة الأولى، وتقدّم مسار المقاصة من الموجة الثالثة إلى الثانية.</p></div>
+      <div class="waves" id="waves"></div>
+      <div class="prose"><p>تُربط هذه الموجات بالخطة التفصيلية لمشروع منظومة آليات التحصيل (نسخة نوفمبر 2025)، بحيث يكون لكل بند هنا ما يقابله هناك من مهمة ومدة ومالك، فلا تظهر الوثيقتان جهدين منفصلين.</p></div>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section id="s15" data-title="القرارات المطلوب اعتمادها" data-no="١٥">
+      <div class="sec-h"><span class="no">١٥</span><h2>القرارات المطلوب اعتمادها</h2></div>
+      <p class="purpose">هذه هي الطلبات الفعلية من اللجنة التوجيهية. وما عداها في الوثيقة سياق وتفصيل.</p>
+      <div class="filters">
+        <input type="search" id="dq" placeholder="ابحث في القرارات…" aria-label="بحث في القرارات">
+        <select id="downer" aria-label="تصفية حسب الجهة المعتمدة"><option value="">كل الجهات المعتمِدة</option></select>
+        <span class="count" id="dcount"></span>
+      </div>
+      <div class="tw" id="t-decisions"></div>
+    </section>
+
+    <!-- ===== ANNEXES ===== -->
+    <section id="a1" data-title="ملحق (أ): السند القانوني" data-no="أ" data-annex="1">
+      <div class="sec-h"><span class="no">أ</span><h2>ملحق (أ): السند القانوني</h2></div>
+      <p class="purpose">هيكل جاهز تعبّئه الشؤون القانونية. الغرض منه أن يكون لكل إجراء حظر سند مسمّى، أو إقرار صريح بأنه يحتاج إلى تعديل تشريعي — فلا يبقى التعبير «وفق السند القانوني» بديلًا عن الإجابة.</p>
+      <div class="tw" id="t-legal"></div>
+    </section>
+
+    <section id="a2" data-title="ملحق (ب): التعريفات" data-no="ب" data-annex="1">
+      <div class="sec-h"><span class="no">ب</span><h2>ملحق (ب): التعريفات والمصطلحات</h2></div>
+      <div class="tw" id="t-glossary"></div>
+    </section>
+
+    <section id="a3" data-title="ملحق (ج): نماذج الإشعارات" data-no="ج" data-annex="1">
+      <div class="sec-h"><span class="no">ج</span><h2>ملحق (ج): نماذج الإشعارات</h2></div>
+      <p class="purpose">لغة الإشعار جزء من الإطار لا خارجه: فهي ما تراه جهة العمل فعلًا. والقاعدة في جميع النماذج: مبلغ واضح، وسبب واضح، وخطوة تالية واحدة، ورابط، ومهلة، وطريقة اعتراض.</p>
+      <div id="notices"></div>
+    </section>
+
+    <section id="a4" data-title="ملحق (د): الافتراضات والنطاق" data-no="د" data-annex="1">
+      <div class="sec-h"><span class="no">د</span><h2>ملحق (د): الافتراضات وما هو خارج النطاق</h2></div>
+      <h3>الافتراضات</h3>
+      <ul class="list" id="assumptions"></ul>
+      <h3>خارج النطاق</h3>
+      <ul class="list" id="outscope"></ul>
+    </section>
+
+    <section id="a5" data-title="ملحق (هـ): مصادر البيانات" data-no="هـ" data-annex="1">
+      <div class="sec-h"><span class="no">هـ</span><h2>ملحق (هـ): مصادر البيانات وملاحظات الجودة</h2></div>
+      <p class="purpose">جميع الأرقام في هذه الوثيقة مستخرجة من استعلامات نُفِّذت في أغسطس 2026، وتغطي الفواتير الشهرية (bill_type '01') غير الملغاة خلال آخر 12 شهرًا، لقطاعَي الأعمال الخاص والحكومي.</p>
+      <h3>المصادر</h3>
+      <div class="tw" id="t-sources"></div>
+      <h3>ملاحظات الجودة الواجب معالجتها</h3>
+      <div class="tw" id="t-dq"></div>
+      <h3>استعلامات المتابعة بحسب الأولوية</h3>
+      <div class="tw" id="t-followup"></div>
+    </section>
+
+  </main>
+</div>
+
+<footer class="pg">
+  صندوق الحماية الاجتماعية — دائرة الاشتراكات · الإطار الموحد لآليات تحصيل الاشتراكات ورفع كفاءتها · الإصدار 3.0 · 31 أغسطس 2026 · داخلي — للاستخدام الرسمي · إعداد فريق تحليل الأعمال
+</footer>
+
+<div class="tip" id="tip" role="status"></div>
+
+<script>
+"use strict";
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TBC = '<span class="chip">للتأكيد</span>';
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- helpers ---------- */
+function table(el, head, rows, opts={}){
+  const numCols = opts.num || [];
+  const cap = opts.caption ? `<caption>${opts.caption}</caption>` : '';
+  const thead = `<thead><tr>${head.map((h,i)=>`<th${numCols.includes(i)?' class="n"':''} scope="col">${h}</th>`).join('')}</tr></thead>`;
+  const tbody = `<tbody>${rows.map(r=>{
+    const cls = (opts.totalRow!=null && rows.indexOf(r)===opts.totalRow) ? ' class="total"' : '';
+    return `<tr${cls}>${r.map((c,i)=> i===0 && opts.rowHeader
+      ? `<th scope="row">${c}</th>`
+      : `<td${numCols.includes(i)?' class="n"':''}>${c}</td>`).join('')}</tr>`;
+  }).join('')}</tbody>`;
+  el.innerHTML = `<table>${cap}${thead}${tbody}</table>`;
+}
+function list(el, items){ el.innerHTML = items.map(i=>`<li>${i}</li>`).join(''); }
+
+/* ---------- tooltip ---------- */
+const tip = $('#tip');
+function showTip(e, html){
+  tip.innerHTML = html; tip.classList.add('on');
+  const r = tip.getBoundingClientRect();
+  let x = e.clientX - r.width/2, y = e.clientY - r.height - 12;
+  x = Math.max(8, Math.min(x, innerWidth - r.width - 8));
+  if (y < 8) y = e.clientY + 16;
+  tip.style.left = x+'px'; tip.style.top = y+'px';
+}
+function hideTip(){ tip.classList.remove('on'); }
+
+/* ================= CONTENT DATA ================= */
+
+const PRINCIPLES = [
+  ["الوقاية قبل المعالجة","الفاتورة الصحيحة، والتنبيه المبكر، والخصم المباشر، والمطابقة الآلية تقلّل نشوء المتأخرات وتقلّل تكلفة متابعتها."],
+  ["التناسب","يختار الصندوق الإجراء الذي يحقق السداد بأقل أثر غير ضروري على استمرارية جهة العمل وحقوق العمال، ويسرّع التصعيد في الحالات عالية المخاطر متى توافرت أدلة موثقة."],
+  ["الفصل بين الحالات","أخطاء المطابقة، والنزاعات، والصعوبات المؤقتة، والتعثر المزمن، واستمرار عدم السداد — خمس حالات مختلفة، ولكل منها معالجة مختلفة."],
+  ["التسهيل المنضبط","يمنح الصندوق التقسيط وإعادة الجدولة وتأجيل الفاتورة والتنازل عن الغرامات وفق شروط أهلية وصلاحيات وسجل موحد، لا باجتهاد فردي."],
+  ["الحظر أداة متدرجة","يبدأ بالخدمات المرتبطة بالتوسع والمزايا الجديدة، ويُبقي دائمًا على خدمات السداد والتصحيح والتظلم وحقوق العمال."],
+  ["القرار القائم على البيانات","يسجّل الصندوق أسباب التأخر والإجراءات والنتائج في ملف واحد، ويراجع فعالية المعالجات دوريًا."]
+];
+
+const RATES = [
+  ["الشيخوخة والعجز والوفاة","7.5%","—","للعمانيين فقط"],
+  ["حصة عامة (بند 11%)","11%","—","للعمانيين فقط"],
+  ["إصابات العمل","1%","1%","ذكورًا وإناثًا"],
+  ["الأمان الوظيفي","1%","—","للعمانيين فقط "+TBC],
+  ["الأمومة","1%","1%","ذكورًا وإناثًا"],
+  ["الإجازات المرضية وغير الاعتيادية","1%","1%","ذكورًا وإناثًا"],
+  ["الادخار الإلزامي","—","9%","من الأجر الأساسي، لغير العمانيين فقط"],
+  ["<b>إجمالي الاشتراك الشهري</b>","<b>22.5%</b>","<b>11%</b>","—"]
+];
+
+const FACILITIES = [
+  ["تقسيط المبالغ المستحقة","متاح بضوابط معينة","الضوابط غير موحدة في سياسة معلنة، ولا يوجد سجل مركزي للتسهيلات السابقة"],
+  ["الإعفاء من غرامات التأخير","متاح","لا توجد شروط أهلية معلنة ولا مصفوفة صلاحيات موثقة"],
+  ["الإعفاء من الفائدة على التقسيط","متاح","المعيار غير موحد؛ ويصعب قياس أثره على استدامة السداد"],
+  ["تأجيل إصدار الفاتورة","شهر واحد فقط، ويُمدَّد في حالات محدودة جدًا باعتماد مدير دائرة الاشتراكات","المدة قد لا تناسب الظروف الموسمية، ولا يوجد تصنيف للأسباب المقبولة"]
+];
+
+const GAPS = [
+  "<b>تغطية الفوترة:</b> نحو ثلث الفواتير المتوقعة فقط تصدر فعليًا — وهي الفجوة الأولى التي تسبق كل ما عداها.",
+  "لا يوجد تدرج بين عدم الحظر والحظر الشامل، رغم أن الفئة التي تتجاوز الستين يومًا في القطاع الخاص لا تتعدى 3.4% من الجهات النشطة.",
+  "لا تُعالَج حالة السداد الجزئي رغم أنها النمط الغالب في القطاع الحكومي (55.3% من فواتيره).",
+  "المتأخرات المزمنة تتركز في القطاع الحكومي، حيث لا يصلح الحظر الخدمي أداةً للتحصيل.",
+  "التسهيلات متاحة لكن بلا سياسة موحدة ولا سجل مركزي؛ وثلاثة من أربعة تسهيلات غير مسجلة أصلًا.",
+  "لا يوجد ملف موحد لحالة التحصيل يجمع الفواتير والمدفوعات والتواصل والتسهيلات والإجراءات.",
+  "لا توجد آلية معلنة للمقاصة مع المستحقات لدى الجهات الحكومية الأخرى.",
+  "لا يوجد مسار اعتراض موثق بمدد خدمة محددة.",
+  "ثلاث من الفئات الخمس الخاضعة — أصحاب الأعمال، والعاملون بالخارج، ومد الحماية الخليجي — غير مشمولة في القياس الحالي إطلاقًا."
+];
+
+const CHANGES = [
+  [1,"بدء الحظر","حظر تلقائي شامل بعد شهرين","سلّم متدرج: متابعة، ثم إنذار، ثم حظر خدمات التوسع، ثم توسعة أشمل، ثم التنفيذ","رأي قانوني + قرار اللجنة","3.4% فقط من الجهات النشطة في القطاع الخاص تتجاوز 60 يومًا"],
+  [2,"نطاق الحظر","شامل لجميع المعاملات","كتالوج خدمات محدد لكل مستوى، مع خدمات محمية دائمًا","اتفاقات مع الجهات + تعديل تقني","70.5% من الجهات الحكومية تتجاوز 60 يومًا، والحظر لا يصلح أداةً معها"],
+  [3,"تأجيل الفاتورة","شهر واحد، تمديد نادر باعتماد مدير الدائرة","مدة مرتبطة بسبب مصنّف وموثق، ضمن مصفوفة صلاحيات","قرار سياسة",""],
+  [4,"الإعفاءات والتقسيط","متاح بضوابط غير معلنة","سياسة واحدة معلنة + سجل تسهيلات مركزي + فصل بين الإنشاء والاعتماد","قرار سياسة + تطوير نظام","ثلاثة من أربعة تسهيلات غير مسجلة في النظام"],
+  [5,"الخصم المباشر","قيد الاختيار مع بنك مسقط","موجة أولى مع بنك مسقط، ثم تفويض إلكتروني متعدد البنوك عبر البنك المركزي","اتفاق مع البنك المركزي",""],
+  [6,"المستحقات الحكومية","لا آلية معلنة","مسار مقاصة موثق مع وزارة المالية والجهات","رأي قانوني + تفاهم مع وزارة المالية","59.5% من القيمة الحكومية المفتوحة أقدم من 30 يومًا، و13.5% تتجاوز 180 يومًا"],
+  [7,"قياس الأداء","المبلغ المحصل","بطاقة أداء متوازنة بخط أساس ومستهدف ومالك — وخطوط الأساس متوافرة الآن","اعتماد اللجنة",""],
+  [8,"تغطية الفوترة","غير مقاسة","مؤشر معتمد: الفواتير الصادرة كنسبة من المستحقة، ومعالجتها قبل التوسع في الحظر","قرار سياسة + تطوير نظام","3.79 فاتورة لكل جهة سنويًا في القطاع الخاص مقابل 12 متوقعة"]
+];
+
+const LEGMATRIX = [
+  ["الفئة","القطاع الخاص · الحكومي · أصحاب الأعمال · العاملون بالخارج · مد الحماية"],
+  ["فرع التأمين","الفرع الذي يُحتسب عنه الاشتراك"],
+  ["نسبة جهة العمل / نسبة المؤمن عليه","النسبتان منفصلتين"],
+  ["وعاء الاحتساب والسقف","الأجر الخاضع، والحد الأدنى والأعلى"],
+  ["تاريخ النفاذ","تاريخ بدء العمل بالنسبة، وأي تدرج لاحق"],
+  ["موعد السداد","الأيام الخمسة عشر الأولى من الشهر التالي "+TBC],
+  ["الغرامات والمبالغ الإضافية","نسبة الغرامة وأساس احتسابها، بالمصطلح الوارد في اللائحة التنفيذية"],
+  ["الاستثناءات","الحالات المستثناة وشروطها"],
+  ["السند القانوني","المادة والقرار المرجعي"]
+];
+
+const CAPS = [
+  "<b>توحيد البيانات:</b> السجل التجاري وجهة العمل والعمال والأجور ووسائل التواصل والحالة القانونية، مع تحديد مصدر كل بيان وتاريخ تحديثه.",
+  "<b>احتساب صحيح وقابل للتفسير:</b> معاينة الفاتورة قبل إصدارها، وإتاحة تصحيح بيانات العمال والأجور متى سمحت الإجراءات.",
+  "<b>قنوات دفع متعددة:</b> الخصم المباشر، وبوابة الدفع، والتحويل، والحسابات الافتراضية، مرتبطة كلها بالمطابقة الآلية.",
+  "<b>اكتشاف مبكر:</b> رصد مؤشرات التأخر قبل الاستحقاق أو فور حدوثه، وإرسال تنبيه يتضمن المبلغ الصحيح ورابط السداد وطريقة الاعتراض.",
+  "<b>إدارة الحالة:</b> نظام موحد يوثق التواصل والتزامات السداد والتسهيلات والإجراءات والنتائج.",
+  "<b>حظر متدرج ومتناسب،</b> ثم انتقال إلى التنفيذ الإداري أو القضائي عند استيفاء الشروط.",
+  "<b>القياس والمراجعة:</b> قياس أثر كل معالجة وتكلفتها، ومراجعة السياسات والأوزان والصلاحيات بناءً على النتائج الفعلية."
+];
+
+const DIST = [
+  ["جهات العمل النشطة","132,334","528"],
+  ["العمال النشطون","1,338,084","230,937"],
+  ["متوسط عدد العمال","10.1","437.4"],
+  ["وسيط عدد العمال","3","4"],
+  ["الشريحة الربعية الأولى","2","1"],
+  ["الشريحة الربعية الثالثة","7","16.25"],
+  ["أعلى عدد عمال لجهة واحدة","17,071","90,221"]
+];
+
+const BANDS = [
+  ["الشريحة الأولى","من 1 إلى 2","الوحدات الصغيرة",TBC],
+  ["الشريحة الثانية","من 3 إلى 7","الوحدات المتوسطة",TBC],
+  ["الشريحة الثالثة","من 8 إلى 25","الهيئات",TBC],
+  ["الشريحة الرابعة","من 26 إلى 100","الوزارات المتوسطة",TBC],
+  ["الشريحة الخامسة","أكثر من 100","أكبر ثلاثين جهة تُدار كحسابات مسمّاة",TBC]
+];
+
+const TREAT = [
+  ["جهة صغيرة ملتزمة سابقًا تأخرت بسبب خطأ في مرجع التحويل","حالة عارضة لا تمثل نمطًا","تصحيح المطابقة وإكمال السداد، دون حظر ودون تسجيل تعثر متكرر"],
+  ["جهة متوسطة يتكرر تأخرها في موسم محدد، وقدّمت ما يثبت تدفقات متوقعة","صعوبة مؤقتة مع تجاوب","خطة تقسيط قصيرة مرتبطة بالخصم المباشر، مع استمرار سداد الفاتورة الجارية"],
+  ["جهة كبيرة تسدد الأجور وتوسّع نشاطها ولا تسدد الاشتراكات ولا تستجيب","أثر مرتفع مع استمرار النشاط وعدم اتخاذ خطوات","مدير حالة، وإنذار رسمي، ثم حظر متدرج وتنفيذ عند استيفاء الضوابط"],
+  ["جهة كبيرة توقفت عن سداد الأجور والاشتراكات معًا","تعثر مالي قد يمس استمرارية النشاط وحقوق عدد كبير من العمال","تقييم مشترك، وترتيب سداد منضبط إن أمكن، أو إحالة إلى المسار القانوني"],
+  ["سجل تجاري ملغى، لا عمال نشطون، ومتأخرات قديمة","الاتصال والحظر الخدمي لن يحققا أثرًا","تحديد المسؤول والخلف والأصول، وتسجيل المطالبة في التصفية أو الإفلاس"],
+  ["جهة حكومية أو شخص اعتباري عام عليه متأخرات","الحظر الخدمي غير مناسب وغير مجدٍ","مسار تسوية مؤسسي مع وزارة المالية والجهة، مع جدول سداد معتمد (القسم العاشر)"],
+  ["جهة تعترض على المبلغ وتقدّم مستندات","نزاع محدد، لا امتناع عن السداد","تجميد التصعيد على الجزء محل الاعتراض فقط، وتحصيل الجزء غير المتنازع عليه"],
+  ["<b>جديد —</b> جهة تسدد جزءًا من الفاتورة بانتظام دون إكمالها","سداد جزئي متكرر — غالبًا سقف مخصص مالي أو خلاف على مكوّن محدد، لا امتناع","مطابقة تفصيلية لتحديد المكوّن الناقص، ثم جدول تسوية للفارق مع استمرار الفاتورة الجارية — دون تصعيد"],
+  ["<b>جديد —</b> جهة صدرت لها فواتير قليلة رغم وجود عمال نشطين","خلل في الفوترة لا في السداد","إحالة إلى مسار تصحيح البيانات والفوترة، ووقف أي تصعيد حتى اكتمال الفوترة"]
+];
+
+const WEIGHTS = [
+  ["مدة التأخر","20%"],["حجم المتأخرات مقارنة بمتوسط الاشتراك الشهري","20%"],
+  ["سجل السداد خلال 12 شهرًا","15%"],["عدم الوفاء بالتزامات سداد سابقة","15%"],
+  ["عدد العمال والحقوق المتأثرة","15%"],["جودة البيانات وصحة وسائل التواصل","10%"],
+  ["الوضع القانوني للمنشأة","5%"]
+];
+
+const FACPOLICY = [
+  ["مهلة علاج قصيرة","غير موثقة","خطأ أو تأخر عارض لجهة ملتزمة سابقًا","تُمنح بصورة محدودة لسبب موثق، ولا تلغي أصل الالتزام"],
+  ["تأجيل الفاتورة","شهر واحد؛ تمديد نادر باعتماد مدير الدائرة","ظرف مؤقت ومثبت يؤثر في السيولة","سبب مصنّف وموثق، وتاريخ جديد محدد، وإثبات الالتزام محاسبيًا، ضمن مصفوفة صلاحيات"],
+  ["تقسيط الاشتراكات المستحقة","متاح بضوابط معينة","وجود تدفقات مستقبلية تسمح بالسداد على دفعات","تقييم الوضع المالي، ودفعة أولى عند اللزوم، وخصم مباشر، واستمرار الفاتورة الجارية"],
+  ["إعادة الجدولة","غير موثقة","تغير جوهري بعد تنفيذ نسبة معتبرة من خطة قائمة","سبب جديد مثبت، وعدد مرات محدود، وموافقة ضمن الصلاحيات"],
+  ["التنازل عن الغرامات","متاح","إفصاح طوعي أو سداد أصل الاشتراكات أو ظرف تجيزه السياسة","سند وصلاحية واضحان، وشروط معلنة، وعدم تكرار الميزة دون مبرر"],
+  ["التنازل عن فائدة التقسيط","متاح","تخفيف تكلفة خطة لجهة قابلة للاستمرار","تقييم مالي، واستمرار الفاتورة الجارية، وإلغاء الميزة عند الإخلال"]
+];
+
+const DDWAVES = [
+  ["الموجة الأولى — قيد التنفيذ","آلية الخصم المباشر مع بنك مسقط للفاتورة الشهرية ولأقساط خطط السداد","أن يُصمَّم التفويض ورموز النتائج وملفات التسوية بصيغة قابلة للنقل إلى نموذج متعدد البنوك، لا بصيغة خاصة ببنك واحد"],
+  ["الموجة الثانية","تفويض إلكتروني متعدد البنوك بالتنسيق مع البنك المركزي العماني والبنوك المشاركة","اتفاق إطاري مع البنك المركزي، بحيث تستطيع جهة العمل استخدام حسابها في أي بنك مؤهل"]
+];
+
+const MANDATE = [
+  ["١","بوابة الصندوق","تختار جهة العمل إنشاء تفويض للفاتورة الشهرية أو لخطة التقسيط أو لكليهما."],
+  ["٢","طلب التفويض","يرسل الصندوق معرّف جهة العمل وحساب التحصيل وحدود المبلغ والتكرار وفترة التفويض."],
+  ["٣","قناة البنك","تصادق جهة العمل لدى بنكها، ويعود معرّف التفويض وحالته دون احتفاظ الصندوق بأي بيانات دخول مصرفية."],
+  ["٤","إشعار ما قبل الخصم","تُرسَل قيمة الفاتورة أو القسط وتاريخه قبل تنفيذ الخصم."],
+  ["٥","النتيجة والمطابقة","تُعاد نتيجة العملية برمز واضح، وتُطابَق الدفعة آليًا مع الفاتورة أو القسط."]
+];
+
+const CHANNELS = [
+  "بوابة دفع تعرض المبلغ المحدَّث ورقم الفاتورة، وتصدر إيصالًا قابلًا للتحقق.",
+  "حسابات أو معرّفات افتراضية تربط التحويل تلقائيًا بجهة العمل والفاتورة الصحيحة.",
+  "تحويلات بنكية بمرجع موحد يمنع بقاء المدفوعات دون مطابقة.",
+  "دراسة تكامل نظام آفاق من حيث المعاملات والرسوم والتسوية وأكواد النتائج قبل اعتماده.",
+  "إدارة الشيكات المرتجعة إلكترونيًا خلال الفترة الانتقالية، مع تقليل الاعتماد عليها تدريجيًا.",
+  "أتمتة التسويات والاسترداد، مع الفصل بين الإنشاء والمراجعة والاعتماد والصرف."
+];
+
+const LADDER = [
+  {n:"الوقاية", d:"قبل الاستحقاق", act:"معاينة الفاتورة، وتصحيح البيانات، والتذكير، والخصم المباشر", block:"لا حظر", legal:"إجراء داخلي", cls:"s0"},
+  {n:"التأخر المبكر", d:"من 1 إلى 15 يومًا", act:"رسائل آلية، ورابط دفع، وتحديد سبب التأخر", block:"لا حظر", legal:"إجراء داخلي", cls:"s1"},
+  {n:"المتابعة النشطة", d:"من 16 إلى 30 يومًا", act:"اتصال، وتوثيق التزام السداد، وعرض خطة للمؤهلين", block:"لا حظر", legal:"إجراء داخلي", cls:"s2"},
+  {n:"الإنذار قبل الحظر", d:"من 31 إلى 60 يومًا", act:"إنذار رسمي، ومهلة علاج، وبيان الخدمات التي ستُحظر", block:"إشارة داخلية فقط", legal:"إجراء داخلي", cls:"s3 warn"},
+  {n:"الحظر — المستوى الأول", d:"من 61 إلى 90 يومًا", act:"حظر خدمات التوسع والمزايا الجديدة منخفضة الأثر، مع متابعة مشددة", block:"خدمات التوسع فقط", legal:"المادة 50 (منع تجديد الترخيص حتى إثبات السداد) — يلزم تأكيد امتدادها", cls:"s4 warn"},
+  {n:"الحظر — المستوى الثاني", d:"من 91 إلى 180 يومًا، أو تكرار التأخر", act:"حظر خدمات اقتصادية أوسع وفق القانون، ومراجعة الضمانات والأصول والمستحقات", block:"خدمات اقتصادية أوسع", legal:"يلزم رأي قانوني", cls:"s5 crit"},
+  {n:"التنفيذ", d:"أكثر من 180 يومًا، أو ثبوت تعمد عدم السداد أو التهرب", act:"تنفيذ إداري أو قضائي، وحجز مستحقات أو أصول، مع الإبقاء على الاستثناءات", block:"إيقاف التعامل", legal:"المادة 9 (امتياز دين الصندوق) والمادة 49", cls:"s6 crit"}
+];
+
+const ENTITIES = [
+  ["صندوق الحماية الاجتماعية","حظر شهادة الالتزام والخدمات الاختيارية بحسب المستوى، مع إبقاء السداد والتصحيح والتقسيط والتظلم متاحة، ثم إحالة الحالة إلى التنفيذ"],
+  ["وزارة العمل","حظر طلبات التوسع أو تصاريح العمل الجديدة وخدمات صاحب العمل الاقتصادية المختارة، بعد تقييم الأثر وحماية خدمات العامل"],
+  ["وزارة التجارة والصناعة وترويج الاستثمار","حظر إضافة الأنشطة أو الفروع وبعض التغييرات غير الضرورية، مع معالجة خاصة للتجديد الأساسي ونقل الملكية والتصفية"],
+  ["منظومة المشتريات والعقود الحكومية","إظهار حالة عدم الالتزام عند التأهيل أو الترسية، وحظر العقود أو المزايا الجديدة إذا أجاز النظام"],
+  ["وزارة المالية والجهات الحكومية","تحديد المبالغ المستحقة لجهة العمل التي يجوز حجزها أو تخصيصها بعد استكمال إجراءات التنفيذ (القسم العاشر)"],
+  ["البنك المركزي والبنوك","تمكين الدفع والتفويض والخصم المباشر وإرجاع نتيجة العملية؛ ولا يكون الحجز المصرفي إلا بسند وصلاحية وإجراء قانوني"],
+  ["الجهات القضائية وشرطة عمان السلطانية","تنفيذ القرارات والأحكام ضمن الاختصاص، دون حظر خدمي عام في المراحل المبكرة"]
+];
+
+const PROTECTED = ["سداد الاشتراكات والاطلاع عليها","طلب التقسيط","تقديم الاعتراض والتظلم","تصحيح بيانات العمال والأجور","تسجيل انتهاء الخدمة","خدمات العامل الفردية ومنافعه","الإبلاغ عن الإصابات","خدمات الأجور والسلامة","إجراءات نقل الملكية أو التصفية"];
+
+const SETOFF_FLOW = [
+  ["١","رصد الحالة","مدير الحالة يرصد مستحقات قائمة لجهة العمل لدى جهة حكومية، عند بلوغ مرحلة الإنذار أو قبلها عند الإفصاح."],
+  ["٢","طلب رسمي","طلب موثق عبر قناة رسمية مع وزارة المالية، يحدد المبلغ المستحق للصندوق وفترته."],
+  ["٣","إشعار جهة العمل","إشعار مسبق بالمبلغ والمصدر ومهلة اعتراض عشرة أيام عمل."],
+  ["٤","التنفيذ","المقاصة في حدود المبلغ المستحق وغراماته، ورد الفائض، مع تجميد الانتقال إلى مستوى حظر أعلى."],
+  ["٥","التوثيق","قيد محاسبي مستقل، وسجل في ملف الحالة، ومؤشر أداء لعدد الحالات وقيمتها وزمنها."]
+];
+
+const SETOFF = [
+  ["السند","المادة 9: للمبالغ المستحقة للصندوق امتياز على جميع أموال المدين، ويتقدم عليها دين النفقة. ويلزم رأي قانوني يحدد ما إذا كان هذا الامتياز يكفي لإجراء مقاصة مباشرة مع جهة حكومية دائنة، أم يتطلب إجراء تنفيذ. "+TBC],
+  ["متى يبدأ المسار","عند بلوغ الحالة مرحلة الإنذار قبل الحظر، أو قبلها إذا أفصحت جهة العمل عن مستحقات قائمة"],
+  ["من يبدأ","مدير الحالة في دائرة الاشتراكات، بطلب موثق عبر قناة رسمية مع وزارة المالية"],
+  ["البيانات المتبادلة","رقم جهة العمل والسجل التجاري، والمبلغ المستحق للصندوق وفترته، ومطالبة جهة العمل لدى الجهة الحكومية وحالتها"],
+  ["ترتيب الأولوية","دين النفقة أولًا، ثم دين الصندوق، ثم بقية الدائنين — ويُوثق الترتيب في كل حالة"],
+  ["مهلة الاعتراض","عشرة أيام عمل من تاريخ الإشعار "+TBC],
+  ["أثر المقاصة على الحظر","تجميد الانتقال إلى المستوى الأعلى طوال مدة إجراء المقاصة، ما لم يثبت عدم جدواها"],
+  ["الحد","لا تتجاوز المقاصة المبلغ المستحق للصندوق وغراماته، ويُرد الفائض إلى جهة العمل"],
+  ["التوثيق","قيد محاسبي مستقل، وسجل في ملف الحالة، ومؤشر أداء لعدد حالات المقاصة وقيمتها وزمنها"]
+];
+
+const APPEAL = [
+  ["المستوى الأول — تصحيح","موظف المطابقة في دائرة الاشتراكات","5 أيام عمل","تجميد التصعيد على الجزء محل الاعتراض"],
+  ["المستوى الثاني — مراجعة","لجنة مراجعة داخلية","10 أيام عمل","استمرار التجميد على الجزء محل الاعتراض"],
+  ["المستوى الثالث — تظلم","الجهة المختصة بالتظلمات في الصندوق","20 يوم عمل","قرار نهائي داخليًا، مع بيان طرق الطعن"]
+];
+
+const RACI = [
+  ["إنشاء خطة تقسيط","موظف التحصيل","رئيس القسم / مدير الدائرة حسب القيمة","المالية","المتعامل"],
+  ["التنازل عن الغرامات","موظف التحصيل","مدير الدائرة / اللجنة حسب القيمة","القانونية والمالية","اللجنة"],
+  ["تأجيل الفاتورة","موظف التحصيل","مدير دائرة الاشتراكات","المالية","المتعامل"],
+  ["اقتراح حظر الخدمات","مدير الحالة","مدير الدائرة","القانونية","الجهة المعنية"],
+  ["رفع الحظر","النظام آليًا","—","—","المتعامل والجهات"],
+  ["طلب المقاصة","مدير الحالة","مدير الدائرة","القانونية والمالية","وزارة المالية"],
+  ["الإحالة إلى التنفيذ","القانونية","اللجنة التوجيهية","الاشتراكات","اللجنة"],
+  ["تعديل أوزان الأولوية","تحليل الأعمال","اللجنة المتخصصة","المخاطر","اللجنة التوجيهية"]
+];
+
+const RISKS = [
+  ["حظر بسبب بيانات خاطئة أو مبلغ محل اعتراض","مطابقة نهائية، وإشعار تفصيلي، وفصل الجزء محل الاعتراض، ومسار تظلم بمدد محددة، وسجل لأساس القرار"],
+  ["الإضرار بالعمال أو توقف نشاط قابل للاستمرار","خدمات محمية دائمًا، وتقييم أثر، ومراجعة خاصة للجهات ذات الأعداد الكبيرة"],
+  ["تفاوت قرارات التقسيط أو الإعفاء أو التأجيل","شروط أهلية وصلاحيات موثقة، وسجل موحد، وفصل مهام، ومراجعة دورية للقرارات"],
+  ["تأخر رفع الحظر","بوابة مركزية، ومدة خدمة معتمدة، ومراقبة للحالات المتأخرة، وإجراء استرجاع يدوي مضبوط"],
+  ["إساءة استخدام بيانات الأجور أو الحسابات","الحد الأدنى من الصلاحيات، والتشفير، وسجل تدقيق، ومدد احتفاظ معتمدة"],
+  ["تحيز التصنيف","عدم استخدام الجنسية أو الشكل القانوني عاملًا عقابيًا، واختبار النتائج، ومراجعة بشرية للحالات المؤثرة"],
+  ["إساءة استخدام التسهيلات","الرجوع إلى سجل التسهيلات، واشتراط الفاتورة الجارية، والخصم المباشر، وإيقاف الميزة عند الإخلال"],
+  ["الاعتماد على بنك أو قناة واحدة","تعدد البنوك والقنوات، ومراقبة الرفض، وخطة لاستمرارية الأعمال"]
+];
+
+const KPI = [
+  ["تغطية الفوترة (صادرة ÷ مستحقة)","31.6%","25.1%","95%","تقنية المعلومات"],
+  ["نسبة السداد في الموعد","53.8%","10.1%",TBC,"دائرة الاشتراكات"],
+  ["نسبة السداد المتأخر داخل الشهر","16.8%","9.3%",TBC,"دائرة الاشتراكات"],
+  ["نسبة السداد الجزئي","1.9%","55.3%",TBC,"دائرة الاشتراكات"],
+  ["نسبة غير المسدد","27.5%","24.5%",TBC,"دائرة الاشتراكات"],
+  ["نسبة الجهات الملتزمة دائمًا","9.1%","1.0%",TBC,"دائرة الاشتراكات"],
+  ["نسبة الجهات التي تجاوزت 60 يومًا","3.4%","70.5%",TBC,"دائرة الاشتراكات"],
+  ["حصة القيمة المفتوحة بعد 30 يومًا","0.5%","59.5%",TBC,"المالية"],
+  ["حصة القيمة المفتوحة بعد 180 يومًا","0.26%","13.46%",TBC,"المالية"],
+  ["وسيط أيام السداد لدى المسدِّدين","3.4 قبل الموعد","8 بعد الموعد","قبل الموعد","دائرة الاشتراكات"],
+  ["نسبة المطابقة الآلية",TBC,TBC,TBC,"تقنية المعلومات"],
+  ["نسبة نجاح الدفع من المحاولة الأولى",TBC,TBC,TBC,"المالية"],
+  ["عدد حالات الحظر الخاطئ",TBC,TBC,"صفر","المخاطر"],
+  ["زمن رفع الحظر",TBC,TBC,"ساعة واحدة","تقنية المعلومات"],
+  ["نسبة التظلمات المقبولة",TBC,TBC,TBC,"خدمة المتعاملين"],
+  ["عدد حالات المقاصة وقيمتها وزمنها",TBC,TBC,TBC,"المالية"],
+  ["نسبة الجهات ذات سجل الفوترة غير الكافي",TBC,TBC,"أقل من 10%","تقنية المعلومات"]
+];
+
+const WAVES = [
+  {n:"م١", t:"الأساس", items:[
+    ["تغطية الفوترة","تحديد سبب عدم إصدار الفواتير لجهات لديها عمال نشطون، ومعالجة المتراكم، ومؤشر شهري","تقنية المعلومات + الاشتراكات"],
+    ["صحة البيانات والاستحقاق","توحيد بيانات جهة العمل والعمال والأجور والتواصل، ومراجعة قواعد الاحتساب، وإتاحة التصحيح المبكر","الاشتراكات + تقنية المعلومات"],
+    ["قنوات السداد","الخصم المباشر (بنك مسقط)، وبوابة الدفع، والحسابات الافتراضية، والمطابقة الآلية","المالية + تقنية المعلومات"]
+  ]},
+  {n:"م٢", t:"الانضباط", items:[
+    ["سياسة التسهيلات وسجلها","رقمنة التقسيط وإعادة الجدولة والتأجيل والتنازل ضمن سجل مركزي","الاشتراكات + القانونية"],
+    ["ملف إدارة الحالات","ملف مركزي يحل محل الجداول المنفصلة، ومدير حالة للجهات مرتفعة الأثر","الاشتراكات"],
+    ["مسار الاعتراض والتظلم","بمدد خدمة محددة — شرط لتشغيل سلّم الحظر","خدمة المتعاملين + القانونية"],
+    ["مسار المقاصة","الأداة الرئيسية لأقدم المتأخرات وأكبرها","القانونية + المالية"]
+  ]},
+  {n:"م٣", t:"التوسع", items:[
+    ["سجل الحظر والرفع","سجل مركزي للحظر والرفع والاستثناءات، والتكامل مع الجهات وفق السند القانوني","تقنية المعلومات + القانونية"],
+    ["التفويض متعدد البنوك","عبر البنك المركزي العماني والبنوك المشاركة","المالية + تقنية المعلومات"],
+    ["التنفيذ والتصفية","توجيه الحالات غير المنتجة إلى التنفيذ أو التصفية","القانونية"]
+  ]}
+];
+
+const DECISIONS = [
+  [1,"استبدال الحظر التلقائي الشامل بعد شهرين بسلّم متدرج","الإبقاء · اعتماد السلّم · اعتماده تجريبيًا","اعتماد السلّم بعد الرأي القانوني","اللجنة التوجيهية"],
+  [2,"اعتماد كتالوج الخدمات ومستوياتها والخدمات المحمية","اعتماد · تعديل · تأجيل","اعتماد الخدمات المحمية فورًا، والكتالوج بعد اتفاقات الجهات","اللجنة التوجيهية"],
+  [3,"مواءمة الشرائح مع التصنيف الوطني للمؤسسات الصغيرة والمتوسطة","مواءمة كاملة · شرائح تشغيلية مستقلة","شرائح تشغيلية مستقلة مع جدول تحويل معلن","اللجنة المتخصصة"],
+  [4,"سياسة التسهيلات الموحدة ومصفوفة الصلاحيات","اعتماد · تعديل الحدود","اعتماد مع مراجعة الحدود بعد ستة أشهر","اللجنة التوجيهية"],
+  [5,"تعديل قاعدة تأجيل الفاتورة من شهر واحد إلى مدة مرتبطة بالسبب","الإبقاء · التعديل","التعديل مع تصنيف الأسباب المقبولة","مدير دائرة الاشتراكات + اللجنة"],
+  [6,"اشتراط قابلية النقل في تصميم الخصم المباشر مع بنك مسقط","اشتراط · عدم اشتراط","الاشتراط، لتفادي إعادة البناء في الموجة الثالثة","اللجنة المتخصصة"],
+  [7,"بدء التفاوض مع البنك المركزي على التفويض متعدد البنوك","بدء الآن · بعد الموجة الأولى","البدء الآن بالتوازي","اللجنة التوجيهية"],
+  [8,"اعتماد مسار الاعتراض ومدد الخدمة","اعتماد · تعديل المدد","اعتماد، فهو شرط لتشغيل سلّم الحظر","اللجنة التوجيهية"],
+  [9,"اعتماد مسار المقاصة مع المستحقات الحكومية","اعتماد · تأجيل حتى الرأي القانوني","طلب الرأي القانوني خلال شهر، ثم الاعتماد","اللجنة التوجيهية"],
+  [10,"اعتماد مصفوفة المسؤوليات والفصل بين المهام","اعتماد · تعديل","اعتماد","اللجنة التوجيهية"],
+  [11,"اعتماد بطاقة الأداء وتكليف جهة بتوفير خطوط الأساس","اعتماد · تأجيل","اعتماد، ومهلة أربعة أسابيع لما تبقّى من خطوط الأساس","اللجنة التوجيهية"],
+  [12,"اعتماد ترتيب الموجات الثلاث وربطها بالخطة التفصيلية","اعتماد · إعادة ترتيب","اعتماد","اللجنة التوجيهية"],
+  [13,"تكليف الشؤون القانونية بإعداد الملحق (أ) بصورته النهائية","تكليف · تأجيل","التكليف بمهلة محددة","اللجنة التوجيهية"],
+  [14,"اعتماد نماذج الإشعارات في الملحق (ج) لغةً ومحتوى","اعتماد · تعديل","اعتماد بعد مراجعة خدمة المتعاملين","اللجنة المتخصصة"],
+  [15,"اعتماد مبدأ ربط حوافز التحصيل بالاستدامة لا بالمبلغ","اعتماد · الإبقاء","الاعتماد","اللجنة التوجيهية"],
+  [16,"تقديم معالجة تغطية الفوترة على كل ما عداها في مسار التنفيذ","تقديمها · الإبقاء على الترتيب السابق","التقديم — فبدونها تقيس كل المؤشرات فجوة الفوترة لا سلوك جهة العمل","اللجنة التوجيهية"],
+  [17,"اعتماد قاعدة الحد الأدنى من سجل الفوترة (ست فواتير) قبل التصنيف","اعتماد · تعديل العتبة","الاعتماد","اللجنة المتخصصة"],
+  [18,"اعتماد الشرائح الجديدة المبنية على التوزيع الفعلي","اعتماد · الإبقاء على الشرائح السابقة","الاعتماد بعد استكمال أعداد الجهات لكل شريحة","اللجنة المتخصصة"],
+  [19,"إضافة معالجة السداد الجزئي إلى مصفوفة المعالجة","إضافة · الاكتفاء بالمسارات الحالية","الإضافة — فهي النمط الغالب في القطاع الحكومي","اللجنة المتخصصة"],
+  [20,"تقديم مسار المقاصة إلى الموجة الثانية","تقديمه · الإبقاء في الموجة الثالثة","التقديم","اللجنة التوجيهية"],
+  [21,"تكليف تقنية المعلومات بمعالجة ملاحظات جودة البيانات قبل تداول الأرقام","تكليف · تأجيل","التكليف بمهلة أربعة أسابيع","اللجنة التوجيهية"]
+];
+
+const LEGAL = [
+  ["موعد استحقاق الاشتراك","المادة 58 — خلال الأيام الخمسة عشر الأولى من الشهر التالي","قائم"],
+  ["المطالبة بالاشتراكات والغرامات والمبالغ الإضافية","المادة 49","قائم"],
+  ["امتياز دين الصندوق على أموال المدين","المادة 9 — بعد دين النفقة","قائم"],
+  ["منع تجديد الترخيص حتى إثبات السداد","المادة 50","قائم"],
+  ["نسبة غرامة التأخير 5.5% وأساس احتسابها","—","يلزم تحديد المرجع"],
+  ["حظر خدمات وزارة العمل (تصاريح وتوسع)","—","يلزم رأي: هل تمتد المادة 50 إليها؟"],
+  ["حظر خدمات السجل التجاري","—","يلزم رأي"],
+  ["حظر التأهيل والترسية في المشتريات الحكومية","—","يلزم رأي"],
+  ["الحظر التلقائي الشامل بعد شهرين","—","يلزم تحديد: التزام تشريعي أم ممارسة تشغيلية؟"],
+  ["المقاصة مع مستحقات لدى جهة حكومية","المادة 9","يلزم رأي في كفايتها للمقاصة المباشرة"],
+  ["التقسيط والإعفاء من الغرامات والفوائد","—","يلزم تحديد المرجع وحدود الصلاحية"],
+  ["تأجيل إصدار الفاتورة","—","يلزم تحديد المرجع ومدى مرونة المدة"]
+];
+
+const GLOSSARY = [
+  ["جهة العمل","المصطلح الموحد لكل مَن يقع عليه التزام سداد الاشتراكات، أيًا كان شكله القانوني. ويُستخدم «صاحب العمل» في السياق التشريعي فقط"],
+  ["الفاتورة الشهرية","المبلغ المستحق عن شهر، ويقابلها في اللائحة التنفيذية مصطلح «إشعار السداد»"],
+  ["الاشتراكات المستحقة","المبالغ الواجبة عن فترة انتهى موعد سدادها، أصلًا وغرامةً"],
+  ["التأخر","انقضاء موعد السداد دون سداد كامل، بصرف النظر عن السبب"],
+  ["المتأخرات","رصيد الاشتراكات المستحقة غير المسددة، موزعًا حسب مدة التأخر"],
+  ["الالتزام الجاري","سداد فاتورة الشهر الحالي في موعدها — ويظل شرطًا قائمًا مع أي خطة أو تسهيل"],
+  ["التسوية","اتفاق يحدد كيفية سداد المتأخرات دون إسقاط أصلها"],
+  ["الحظر","منع خدمات محددة وفق كتالوج معتمد ومستوى محدد؛ يتدرج نطاقه بحسب المستوى، وتبقى الخدمات المحمية متاحة في جميع المستويات"],
+  ["مدير الحالة","الموظف المسؤول عن حالة جهة عمل مرتفعة الأثر من بدايتها حتى إغلاقها"],
+  ["الإخلال بالخطة","عدم سداد قسط أو عدم سداد الفاتورة الجارية وفق ما تحدده السياسة"],
+  ["الجزء محل الاعتراض","المبلغ المحدد رقميًا الذي قدّمت جهة العمل بشأنه اعتراضًا مستوفيًا للشروط"],
+  ["الخدمات المحمية","الخدمات التي تبقى متاحة في جميع المستويات (القسم التاسع)"]
+];
+
+const NOTICES = [
+  ["نموذج 1: تذكير قبل الاستحقاق","قبل الاستحقاق بثلاثة أيام","فاتورة اشتراكات شهر [الشهر] الخاصة بمنشأة [الاسم] — رقم [الرقم] — بمبلغ [المبلغ] ريالًا عمانيًا، مستحقة في [التاريخ]. يمكنكم السداد عبر [الرابط]، أو تفعيل الخصم المباشر لتُسدَّد الفاتورة تلقائيًا كل شهر. وإذا لاحظتم فرقًا في بيانات العمال أو الأجور، يمكنكم تصحيحها قبل تاريخ الاستحقاق عبر [الرابط]."],
+  ["نموذج 2: إشعار تأخر مبكر","من اليوم الأول إلى الخامس عشر بعد الاستحقاق","لم يصلنا سداد فاتورة شهر [الشهر] بمبلغ [المبلغ] ريالًا عمانيًا. إن كنتم قد سددتم خلال اليومين الماضيين فقد لا تكون العملية قد طوبقت بعد، ونرجو تجاهل هذا الإشعار. وإن لم يتم السداد، يمكنكم إتمامه عبر [الرابط]. وإن كان لديكم اعتراض على المبلغ، فبإمكانكم تقديمه عبر [الرابط] مع تحديد الفترة والمبلغ."],
+  ["نموذج 3: إنذار قبل الحظر","بعد 31 يومًا من الاستحقاق","منشأة [الاسم] — سجل تجاري [الرقم]. بلغت الاشتراكات المستحقة [المبلغ] ريالًا عمانيًا عن الفترة من [تاريخ] إلى [تاريخ]. وما لم يتم السداد أو اعتماد خطة تقسيط قبل [التاريخ]، ستُحظر الخدمات الآتية: [قائمة الخدمات]. وتبقى متاحة لكم في جميع الأحوال: سداد الاشتراكات، وطلب التقسيط، وتقديم الاعتراض، وتصحيح بيانات العمال والأجور، وجميع خدمات العاملين لديكم ومنافعهم. للسداد: [رابط]. لطلب التقسيط: [رابط]. للاعتراض: [رابط] خلال [عدد] أيام عمل. للاستفسار: [قناة التواصل]."],
+  ["نموذج 4: تأكيد اعتماد خطة سداد","عند اعتماد الخطة","اعتُمدت خطة سداد لمنشأة [الاسم] بمبلغ [المبلغ] على [عدد] أقساط، أولها في [التاريخ]. وقد رُفع الحظر عن الخدمات المحظورة. ونذكّركم بأن استمرار الخطة مشروط بسداد فاتورة كل شهر في موعدها إلى جانب القسط. وسيصلكم تذكير قبل كل قسط بثلاثة أيام. يمكنكم متابعة الخطة عبر [الرابط]."],
+  ["نموذج 5: تأكيد رفع الحظر","خلال ساعة من تحقق الشرط","تم استلام سداد مبلغ [المبلغ] لمنشأة [الاسم]، ورُفع الحظر عن جميع الخدمات المتأثرة اعتبارًا من [التاريخ والوقت]. وإذا واجهتم أي خدمة ما زالت محظورة بعد ساعة من هذا الإشعار، نرجو إبلاغنا عبر [قناة التواصل] وسنعالجها فورًا."]
+];
+
+const ASSUMPTIONS = [
+  "أن البيانات الأساسية لجهات العمل والعمال والأجور قابلة للتوحيد في ملف رئيسي واحد خلال الموجة الأولى.",
+  "أن الجهات الحكومية المعنية مستعدة للربط الفني بعد اتفاق قانوني.",
+  "أن البنك المركزي مستعد لبحث نموذج التفويض متعدد البنوك.",
+  "أن ملاحظات جودة البيانات في الملحق (هـ) قابلة للمعالجة قبل تداول الأرقام المالية خارج الدائرة.",
+  "أن ضعف تغطية الفوترة سببه خلل قابل للمعالجة في الإصدار، لا استثناء تشريعي لفئات من جهات العمل — وهذا أول ما يجب التحقق منه."
+];
+const OUTSCOPE = [
+  "إجراءات صرف المنافع والمعاشات.",
+  "منازعات المؤمن عليهم الأفراد مع الصندوق.",
+  "سياسة الاستثمار وإدارة أصول الصندوق.",
+  "التعديلات التشريعية نفسها — ترصدها هذه الوثيقة ولا تصوغها."
+];
+
+const SOURCES = [
+  ["pillar_b1_workforce_benchmark","توزيع أحجام جهات العمل لكل قطاع: العدد، والمتوسط، والوسيط، والشرائح الربعية","مكتمل"],
+  ["pillar_b2_employer_sample_profiles","عينة 151 جهة: ملف القوى العاملة مع مؤشرات السداد لاثني عشر شهرًا","مكتمل، مع ملاحظة على منهجية التصنيف بالمتوسط"],
+  ["pillar_c1_payment_timing_invoice","توزيع نتائج السداد على مستوى الفاتورة لكل قطاع","مكتمل — أقوى مخرج منفرد"],
+  ["pillar_c2_payment_behaviour_entity","تصنيف سلوك السداد لكل جهة عمل (176,416 صفًا)","مكتمل، ويحتاج قاعدة الحد الأدنى من السجل"],
+  ["pillar_c3_outstanding_ageing","أعمار المبالغ المفتوحة لكل قطاع","مكتمل للنسب؛ القيم المطلقة تحتاج تثبيت الوحدة"],
+  ["pillar_a_fine_validation","التحقق من احتساب غرامة التأخير","لم يُنفَّذ — الاستعلام مقيّد بسجل تجاري واحد"],
+  ["pillar_d_payment_facilities","استخدام التسهيلات","لم يُنفَّذ — والتأجيل وإعادة الجدولة والتنازل عن الفائدة غير مسجلة في النظام"]
+];
+
+const DQ = [
+  ["وحدة العملة","تظهر القيمة المفتوحة للقطاع الخاص في شريحة 1–30 يومًا بالرقم 29,369,999,761، وقراءتها بالريال تتجاوز الناتج المحلي — والأرجح أنها بالبيسة","أي رقم مالي يُنشر قد يكون خاطئًا بمقدار ألف ضعف","تثبيت وحدة الحقل قبل نشر أي قيمة مطلقة"],
+  ["ازدواج الصفوف","ربط جدول الغرامات بجدول الفواتير ربطًا مباشرًا يضاعف صف الفاتورة إذا حملت أكثر من غرامة","يضخّم إجمالي المبالغ المفتوحة","تجميع الغرامات في استعلام فرعي قبل الربط"],
+  ["نافذة الأعمار","يقتصر استعلام الأعمار على فواتير آخر 12 شهرًا، فلا تحتوي شريحة «أكثر من 180 يومًا» إلا على 180–365 يومًا","المتأخرات الأقدم من سنة غير ظاهرة إطلاقًا","إلغاء قيد الاثني عشر شهرًا في استعلام الأعمار وحده"],
+  ["السداد في شهر لاحق","97 فاتورة فقط من 501,167 في القطاع الخاص، مقابل 137,809 غير مسددة","إما أن التحصيل المتأخر شبه معدوم، وإما أن المدفوعات المتأخرة لا تُربط بالفاتورة الأصلية","تتبع عينة من الفواتير المسددة متأخرة والتحقق من الربط"],
+  ["عدد الجهات","175,908 جهة خاصة لها فواتير مقابل 132,334 جهة لها عمال نشطون","نحو 43,600 جهة تُفوتر دون قوى عاملة نشطة — وهي التي ستهيمن على أي إحصاء للممتنعين","تحديد ما إذا كانت جزءًا من مجتمع التحصيل، وتحت أي مسار"],
+  ["قاعدة التصنيف السلوكي","تصنّف الجهةَ ذات الفاتورة الواحدة غير المسددة ممتنعةً متكررة","تنتج نسبة 66.9% المضللة","إضافة حد أدنى من سجل الفوترة وفئة «سجل غير كافٍ»"],
+  ["نطاق القطاعات","تعليقات الاستعلام تذكر قطاعات غير التي يستخدمها الكود فعليًا","لا يمكن إعادة إنتاج الإجماليات من التوثيق","مواءمة التوثيق مع الكود، وتثبيت القطاعات المشمولة"],
+  ["الفئات غير المقاسة","أصحاب الأعمال، والعاملون بالخارج، والخاضعون لمد الحماية الخليجي خارج نطاق جميع الاستعلامات","ثلاث من الفئات الخمس الخاضعة غير مقاسة","توسيع الاستعلامات لتشملها قبل اعتماد قسم النطاق"]
+];
+
+const FOLLOWUP = [
+  [1,"عدد جهات العمل والقيمة المفتوحة موزعة على الشرائح المقترحة (1–2، 3–7، 8–25، 26–100، أكثر من 100)","اعتماد الشرائح الجديدة — القرار 18"],
+  [2,"العدد المتمايز للجهات التي تجاوزت 60 يومًا و180 يومًا (لا حسب الشريحة)","الحجم الحقيقي لمجتمع التصعيد — القرار 1"],
+  [3,"الفواتير الصادرة مقابل المستحقة لكل جهة شهريًا على مدى 24 شهرًا","طبيعة فجوة الفوترة: متراكم أم قاعدة ناقصة أم جهات لا تُفوتر إطلاقًا"],
+  [4,"استعلام الأعمار بعد إلغاء قيد الاثني عشر شهرًا","رصيد المتأخرات المزمنة الحقيقي"],
+  [5,"استعلام الغرامة بعد إلغاء قيد السجل التجاري الواحد، مع التحقق من نسبة 5.5%","صحة قاعدة الغرامة — الملحق (أ)"],
+  [6,"استخدام التسهيلات، وعدد خطط التقسيط المكتملة مقابل المخلّة","هل يؤدي التقسيط إلى سداد مستدام — القسم السادس"],
+  [7,"توزيع نسبة المسدَّد إلى المفوتر في حالات السداد الجزئي","هل السداد الجزئي الحكومي سقف مخصص أم خلاف — القرار 19"],
+  [8,"إعادة تنفيذ الاستعلامات على الفئات غير المشمولة","تغطية الفئات الخمس كاملة"]
+];
+
+/* ================= CHART DATA ================= */
+const OUTCOMES = {
+  labels:["سداد في الموعد","سداد متأخر داخل الشهر","سداد جزئي","غير مسدد"],
+  vars:["--s1","--s2","--s3","--s4"],
+  PRIVATE:{name:"القطاع الخاص", total:501167, v:[53.8,16.8,1.9,27.5], n:[269807,84000,9454,137809], later:[97,"0.02%"]},
+  GOV:{name:"القطاع الحكومي", total:1589, v:[10.1,9.3,55.3,24.5], n:[161,147,878,390], later:[13,"0.8%"]}
+};
+const AGEING = {
+  labels:["من 1 إلى 30 يومًا","من 31 إلى 60 يومًا","من 61 إلى 90 يومًا","من 91 إلى 180 يومًا","أكثر من 180 يومًا"],
+  vars:["--o1","--o2","--o3","--o4","--o5"],
+  PRIVATE:{name:"القطاع الخاص", v:[99.49,0.08,0.02,0.14,0.26], ent:[138562,1112,550,1535,2418]},
+  GOV:{name:"القطاع الحكومي", v:[40.52,31.71,2.97,11.33,13.46], ent:[439,132,31,149,192]}
+};
+const BEHAVIOUR = {
+  PRIVATE:[["ملتزم دائمًا",9.1,16053,7.5],["ملتزم غالبًا",4.3,7635,8.9],["متأخر أحيانًا",19.6,34487,4.8],["غير مسدد بشكل متكرر",66.9,117733,1.24]],
+  GOV:[["ملتزم دائمًا",1.0,5,1.8],["ملتزم غالبًا",0.2,1,5.0],["متأخر أحيانًا",9.3,47,4.7],["غير مسدد بشكل متكرر",89.6,455,3.0]]
+};
+
+/* ================= RENDER ================= */
+
+/* principles */
+$('#principles').innerHTML = PRINCIPLES.map(([t,d],i)=>
+  `<details class="panel"${i===0?' open':''}><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${t}</summary><div class="body"><p style="padding-top:.7rem">${d}</p></div></details>`).join('');
+
+table($('#t-rates'), ["الفرع التأميني","العماني","غير العماني","ملاحظة"], RATES, {num:[1,2], rowHeader:true, totalRow:7});
+table($('#t-facilities'), ["التسهيل","القاعدة المعمول بها حاليًا","الفجوة"], FACILITIES, {rowHeader:true});
+list($('#gaps'), GAPS);
+
+/* changes */
+$('#changes').innerHTML = CHANGES.map(([i,t,now,prop,need,evid])=>
+  `<details class="panel"${i<=2?' open':''}>
+    <summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span class="num" style="color:var(--brand);font-size:.85rem">${i}</span> ${t}<span class="tag">${need}</span></summary>
+    <div class="body">
+      <div class="tw" style="margin-top:.9rem"><table><thead><tr><th>اليوم</th><th>المقترح</th></tr></thead>
+      <tbody><tr><td>${now}</td><td>${prop}</td></tr></tbody></table></div>
+      ${evid?`<p style="font-size:.85rem;color:var(--ink-3);margin-top:.4rem"><b style="color:var(--brand-2)">ما يسنده من البيانات:</b> ${evid}</p>`:''}
+    </div></details>`).join('');
+
+table($('#t-matrix'), ["الحقل","الوصف"], LEGMATRIX, {rowHeader:true});
+$('#caps').innerHTML = CAPS.map(c=>`<li>${c}</li>`).join('');
+table($('#t-dist'), ["مؤشر التوزيع","القطاع الخاص","القطاع الحكومي"], DIST, {num:[1,2], rowHeader:true});
+table($('#t-bands'), ["الشريحة","القطاع الخاص (عدد العمال)","القطاع الحكومي","عدد جهات العمل"], BANDS, {rowHeader:true, caption:"العمود الأخير يحتاج استعلامًا واحدًا قصيرًا — أهم استعلام متابعة في الملحق (هـ)."});
+table($('#t-treat'), ["الحالة المرصودة","قراءة الحالة","المعالجة المناسبة"], TREAT);
+table($('#t-weights'), ["العامل","الوزن المقترح"], WEIGHTS, {num:[1], rowHeader:true});
+table($('#t-facpolicy'), ["التسهيل","القاعدة الحالية","الاستخدام المناسب","الضوابط المقترحة"], FACPOLICY, {rowHeader:true});
+table($('#t-waves-dd'), ["الموجة","المحتوى","الشرط الحاكم"], DDWAVES, {rowHeader:true});
+$('#f-mandate').innerHTML = MANDATE.map(([i,t,d])=>`<div class="fnode"><div class="fi">${i}</div><h5>${t}</h5><p>${d}</p></div>`).join('');
+list($('#channels'), CHANNELS);
+table($('#t-entities'), ["الجهة","الدور ضمن التدرج"], ENTITIES, {rowHeader:true});
+$('#protected').innerHTML = PROTECTED.map(p=>`<span class="chip ok">${p}</span>`).join('');
+$('#f-setoff').innerHTML = SETOFF_FLOW.map(([i,t,d])=>`<div class="fnode"><div class="fi">${i}</div><h5>${t}</h5><p>${d}</p></div>`).join('');
+table($('#t-setoff'), ["العنصر","المقترح"], SETOFF, {rowHeader:true});
+table($('#t-appeal'), ["المستوى","من يقدَّم إليه","مدة الرد المستهدفة","الأثر على الحظر"], APPEAL, {rowHeader:true});
+table($('#t-raci'), ["النشاط","المنفّذ","المعتمد","يُستشار","يُبلَّغ"], RACI, {rowHeader:true});
+table($('#t-risks'), ["الخطر","الضوابط"], RISKS, {rowHeader:true});
+table($('#t-kpi'), ["المؤشر","خط الأساس — خاص","خط الأساس — حكومي","المستهدف","المالك"], KPI, {num:[1,2], rowHeader:true});
+table($('#t-legal'), ["الإجراء","السند المبدئي","الحالة"], LEGAL, {rowHeader:true, caption:"عمود «ملاحظة القانونية» يُستكمل داخليًا."});
+table($('#t-glossary'), ["المصطلح","التعريف المعتمد في هذه الوثيقة"], GLOSSARY, {rowHeader:true});
+table($('#t-sources'), ["المصدر","ما يقدمه","الحالة"], SOURCES, {rowHeader:true});
+table($('#t-dq'), ["الملاحظة","التفصيل","الأثر","المعالجة"], DQ, {rowHeader:true});
+table($('#t-followup'), ["#","الاستعلام","ما يحسمه"], FOLLOWUP, {num:[0]});
+list($('#assumptions'), ASSUMPTIONS);
+list($('#outscope'), OUTSCOPE);
+
+$('#notices').innerHTML = NOTICES.map(([t,when,body],i)=>
+  `<details class="panel"${i===2?' open':''}><summary><svg class="chev" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 4 6 8l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>${t}<span class="tag">${when}</span></summary>
+  <div class="body"><p style="padding-top:.8rem;background:var(--raised);padding:.9rem;border-radius:8px;margin-top:.7rem;font-size:.92rem">${body}</p></div></details>`).join('');
+
+/* waves */
+$('#waves').innerHTML = WAVES.map(w=>
+  `<div class="wave"><header><span class="wn">${w.n}</span><h5>${w.t}</h5></header>
+   ${w.items.map(([b,d,o])=>`<div class="item"><b>${b}</b>${d}<br><span>${o}</span></div>`).join('')}</div>`).join('');
+
+/* ---------- CHART: coverage ---------- */
+(function(){
+  const rows = [["القطاع الخاص",31.6,"3.79 فاتورة سنويًا"],["القطاع الحكومي",25.1,"3.01 فاتورة سنويًا"]];
+  $('#c-coverage').innerHTML = rows.map(([lab,pct,note])=>
+    `<div class="bar-row"><span class="bar-lab">${lab}</span>
+      <div class="track"><div class="fill" data-w="${pct}"></div></div>
+      <span class="bar-val">${pct}%</span>
+      <span class="bar-note">${note}</span></div>`).join('');
+})();
+
+/* ---------- CHART: outcomes ---------- */
+(function(){
+  const wrap = $('#c-outcomes');
+  wrap.innerHTML = ["PRIVATE","GOV"].map(k=>{
+    const d = OUTCOMES[k];
+    return `<div class="stack-row"><div class="sl"><b>${d.name}</b><span><span class="num">${d.total.toLocaleString('en')}</span> فاتورة</span></div>
+      <div class="stack" data-k="${k}" role="img" aria-label="${d.name}: ${OUTCOMES.labels.map((l,i)=>l+' '+d.v[i]+'%').join('، ')}">
+      ${d.v.map((v,i)=>`<div class="seg" tabindex="0" data-i="${i}" data-k="${k}" style="background:var(${OUTCOMES.vars[i]}); width:0">${v>=8?v+'%':''}</div>`).join('')}
+      </div></div>`;
+  }).join('');
+  $('#l-outcomes').innerHTML = OUTCOMES.labels.map((l,i)=>`<span><i style="background:var(${OUTCOMES.vars[i]})"></i>${l}</span>`).join('');
+  const rows = OUTCOMES.labels.map((l,i)=>[l, OUTCOMES.PRIVATE.n[i].toLocaleString('en'), OUTCOMES.PRIVATE.v[i]+'%', OUTCOMES.GOV.n[i].toLocaleString('en'), OUTCOMES.GOV.v[i]+'%']);
+  rows.splice(2,0,["سداد في شهر لاحق","97","0.02%","13","0.8%"]);
+  rows.push(["<b>الإجمالي</b>","<b>501,167</b>","<b>100%</b>","<b>1,589</b>","<b>100%</b>"]);
+  table($('#c-outcomes-table'), ["نتيجة السداد","الخاص — فواتير","النسبة","الحكومي — فواتير","النسبة"], rows, {num:[1,2,3,4], rowHeader:true, totalRow:rows.length-1});
+})();
+
+/* ---------- CHART: ageing ---------- */
+(function(){
+  const wrap = $('#c-ageing');
+  wrap.innerHTML = ["PRIVATE","GOV"].map(k=>{
+    const d = AGEING[k];
+    return `<div class="stack-row"><div class="sl"><b>${d.name}</b><span>حصة كل شريحة من القيمة المفتوحة</span></div>
+      <div class="stack" role="img" aria-label="${d.name}: ${AGEING.labels.map((l,i)=>l+' '+d.v[i]+'%').join('، ')}">
+      ${d.v.map((v,i)=>`<div class="seg" tabindex="0" data-a="${i}" data-k="${k}" style="background:var(${AGEING.vars[i]}); width:0; color:${i<2?'#0B2D33':'#fff'}">${v>=8?v+'%':''}</div>`).join('')}
+      </div></div>`;
+  }).join('');
+  $('#l-ageing').innerHTML = AGEING.labels.map((l,i)=>`<span><i style="background:var(${AGEING.vars[i]})"></i>${l}</span>`).join('');
+  const rows = AGEING.labels.map((l,i)=>[l, AGEING.PRIVATE.ent[i].toLocaleString('en'), AGEING.PRIVATE.v[i]+'%', AGEING.GOV.ent[i].toLocaleString('en'), AGEING.GOV.v[i]+'%']);
+  rows.push(["<b>ما تجاوز 60 يومًا</b>","<b>4,503</b> (3.4% من النشطة)","<b>0.42%</b>","<b>372</b> (70.5% من النشطة)","<b>27.76%</b>"]);
+  table($('#c-ageing-table'), ["شريحة العمر","الخاص — جهات","حصتها","الحكومي — جهات","حصتها"], rows, {num:[1,2,3,4], rowHeader:true, totalRow:rows.length-1});
+})();
+
+/* ---------- CHART: behaviour ---------- */
+function drawBehaviour(sector){
+  const d = BEHAVIOUR[sector];
+  $('#c-behaviour').innerHTML = d.map(([lab,pct,ent,avg])=>
+    `<div class="bar-row"><span class="bar-lab">${lab}</span>
+      <div class="track"><div class="fill" data-w="${pct}"></div></div>
+      <span class="bar-val">${pct}%</span>
+      <span class="bar-note"><span class="num">${ent.toLocaleString('en')}</span> جهة &nbsp;·&nbsp; <span class="num">${avg}</span> فاتورة لكل جهة</span></div>`).join('');
+  animate();
+}
+drawBehaviour('PRIVATE');
+$$('[data-sector]').forEach(b=>b.addEventListener('click', ()=>{
+  $$('[data-sector]').forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+  drawBehaviour(b.dataset.sector);
+}));
+
+/* ---------- animate bars ---------- */
+function animate(){
+  $$('.fill').forEach(f=>{ const w=f.dataset.w+'%'; if(reduce){f.style.width=w;} else {requestAnimationFrame(()=>{f.style.width=w;});} });
+  $$('.stack .seg').forEach(s=>{
+    const k=s.dataset.k, i=s.dataset.i, a=s.dataset.a;
+    const v = (i!=null) ? OUTCOMES[k].v[i] : AGEING[k].v[a];
+    const w = Math.max(v,0.35)+'%';
+    if(reduce){s.style.width=w;} else {requestAnimationFrame(()=>{s.style.width=w;});}
+  });
+}
+if('IntersectionObserver' in window && !reduce){
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){animate(); io.disconnect();}})},{threshold:.15});
+  $$('.fig').forEach(f=>io.observe(f));
+  setTimeout(animate, 600);
+} else animate();
+
+/* ---------- chart tooltips ---------- */
+document.addEventListener('mouseover', e=>{
+  const seg = e.target.closest('.stack .seg'); if(!seg) return;
+  const k=seg.dataset.k;
+  if(seg.dataset.i!=null){ const i=+seg.dataset.i;
+    showTip(e, `<b>${OUTCOMES.labels[i]}</b><br>${OUTCOMES[k].name}<br>${OUTCOMES[k].n[i].toLocaleString('en')} فاتورة · ${OUTCOMES[k].v[i]}%`);
+  } else { const i=+seg.dataset.a;
+    showTip(e, `<b>${AGEING.labels[i]}</b><br>${AGEING[k].name}<br>${AGEING[k].ent[i].toLocaleString('en')} جهة · ${AGEING[k].v[i]}% من القيمة المفتوحة`);
+  }
+});
+document.addEventListener('mousemove', e=>{ if(tip.classList.contains('on') && e.target.closest('.stack .seg')) showTip(e, tip.innerHTML); });
+document.addEventListener('mouseout', e=>{ if(e.target.closest('.stack .seg')) hideTip(); });
+$$('.stack .seg').forEach(s=>{ s.addEventListener('focus', ()=>{ const r=s.getBoundingClientRect(); showTip({clientX:r.left+r.width/2, clientY:r.top}, s.getAttribute('aria-label')||s.parentElement.getAttribute('aria-label')); }); s.addEventListener('blur', hideTip); });
+
+/* ---------- table toggles ---------- */
+$$('[data-table]').forEach(b=>b.addEventListener('click', ()=>{
+  const t = $('#'+b.dataset.table+'-table');
+  const open = t.hasAttribute('hidden');
+  if(open) t.removeAttribute('hidden'); else t.setAttribute('hidden','');
+  b.setAttribute('aria-pressed', String(open));
+  b.textContent = open ? 'إخفاء الجدول' : 'عرض الجدول';
+}));
+
+/* ---------- ladder ---------- */
+(function(){
+  const el = $('#ladder');
+  el.innerHTML = LADDER.map((s,i)=>
+    `<button class="step ${s.cls}" type="button" data-i="${i}" aria-pressed="${i===4}">
+      <span class="sn">${i+1}</span><span class="st">${s.n}</span><span class="sd">${s.d}</span></button>`).join('');
+  function show(i){
+    const s = LADDER[i];
+    $('#ladder-out').innerHTML = `<h5>${s.n}</h5>
+      <dl><dt>مدة التأخر</dt><dd>${s.d}</dd>
+      <dt>المعالجة</dt><dd>${s.act}</dd>
+      <dt>نطاق الحظر</dt><dd>${s.block}</dd>
+      <dt>السند</dt><dd>${s.legal} ${s.legal.includes('يلزم')?TBC:''}</dd></dl>`;
+  }
+  el.addEventListener('click', e=>{
+    const b = e.target.closest('.step'); if(!b) return;
+    $$('.step', el).forEach(x=>x.setAttribute('aria-pressed', String(x===b)));
+    show(+b.dataset.i);
+  });
+  show(4);
+})();
+
+/* ---------- decisions ---------- */
+(function(){
+  const owners = [...new Set(DECISIONS.map(d=>d[4]))];
+  $('#downer').insertAdjacentHTML('beforeend', owners.map(o=>`<option value="${esc(o)}">${o}</option>`).join(''));
+  function render(){
+    const q = $('#dq').value.trim(), own = $('#downer').value;
+    const rows = DECISIONS.filter(d=>
+      (!own || d[4]===own) && (!q || (d[1]+d[2]+d[3]+d[4]).includes(q))
+    ).map(d=>[`ق-${d[0]}`, d[1], d[2], d[3], d[4]]);
+    table($('#t-decisions'), ["الرقم","القرار","الخيارات","التوصية","الجهة المعتمِدة"], rows, {num:[0]});
+    $('#dcount').textContent = `${rows.length} من ${DECISIONS.length} قرارًا`;
+  }
+  $('#dq').addEventListener('input', render);
+  $('#downer').addEventListener('change', render);
+  render();
+})();
+
+/* ---------- TOC + scrollspy ---------- */
+(function(){
+  const secs = $$('section[data-title]');
+  const main = secs.filter(s=>!s.dataset.annex), ann = secs.filter(s=>s.dataset.annex);
+  const li = s => `<li><a href="#${s.id}"><i>${s.dataset.no}</i><span>${s.dataset.title}</span></a></li>`;
+  $('#toc').innerHTML = main.map(li).join('');
+  $('#toc2').innerHTML = ann.map(li).join('');
+  $('#mtoc-list').innerHTML = secs.map(li).join('');
+  $('#mtoc-list').addEventListener('click', ()=>{ $('#mtoc').open = false; });
+  const links = new Map($$('.rail a').map(a=>[a.getAttribute('href').slice(1), a]));
+  const io = new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ links.forEach(a=>a.classList.remove('on')); links.get(e.target.id)?.classList.add('on'); } });
+  }, {rootMargin:'-90px 0px -70% 0px', threshold:0});
+  secs.forEach(s=>io.observe(s));
+  addEventListener('scroll', ()=>{
+    const h = document.documentElement;
+    $('#progress').style.width = (h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  }, {passive:true});
+})();
+
+/* ---------- controls ---------- */
+$('#printBtn').addEventListener('click', ()=>{ $$('details').forEach(d=>d.open=true); print(); });
+$('#expandAll').addEventListener('click', e=>{
+  const open = e.currentTarget.getAttribute('aria-pressed')!=='true';
+  $$('details.panel').forEach(d=>d.open=open);
+  e.currentTarget.setAttribute('aria-pressed', String(open));
+  e.currentTarget.textContent = open ? 'طي كل الأقسام' : 'فتح كل الأقسام';
+});
+$('#themeBtn').addEventListener('click', ()=>{
+  const cur = document.documentElement.getAttribute('data-theme');
+  const sysDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const next = cur ? (cur==='dark'?'light':'dark') : (sysDark?'light':'dark');
+  document.documentElement.setAttribute('data-theme', next);
+  try{ localStorage.setItem('spf-theme', next); }catch(_){}
+});
+try{ const t=localStorage.getItem('spf-theme'); if(t) document.documentElement.setAttribute('data-theme', t); }catch(_){}
+</script>
+</body>
+</html>
