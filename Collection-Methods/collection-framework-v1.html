@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>رفع كفاءة آليات التحصيل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;700&display=swap">
+  <link rel="stylesheet" href="collection-framework-v1.css">
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="#top" aria-label="العودة إلى بداية الوثيقة">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+            <path d="M6 17V11M11 17V7M16 17v-3M6 19h12"></path>
+          </svg>
+        </span>
+        <span>رفع كفاءة آليات التحصيل</span>
+      </a>
+      <div class="top-actions">
+        <button class="button button-quiet" id="expandAll" type="button" aria-pressed="false">فتح الملاحق</button>
+        <button class="button button-quiet" id="themeBtn" type="button" aria-pressed="false">الوضع الداكن</button>
+      </div>
+      <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <div class="page-shell" id="top">
+    <aside class="side-nav" aria-label="محتويات الوثيقة">
+      <p class="side-title">محتويات الوثيقة</p>
+      <ol id="toc"></ol>
+    </aside>
+
+    <main>
+      <details class="mobile-toc">
+        <summary>محتويات الوثيقة</summary>
+        <ol id="mobileToc"></ol>
+      </details>
+
+      <header class="hero">
+        <div class="hero-kicker">صندوق الحماية الاجتماعية · دائرة الاشتراكات</div>
+        <h1>رفع كفاءة آليات التحصيل</h1>
+        <p>إطار عملي مقترح لتسهيل السداد، ومعالجة أسباب التأخر، وتحسين تحصيل الاشتراكات بطريقة واضحة ومتدرجة.</p>
+        <div class="status-row">
+          <span class="status status-discussion">مسودة للنقاش</span>
+          <span class="status status-neutral">نسخة شاشة</span>
+          <span class="status status-neutral">سبتمبر 2026</span>
+        </div>
+      </header>
+
+      <section id="purpose" data-title="هدف الوثيقة" data-number="١">
+        <div class="section-heading">
+          <span class="section-number">١</span>
+          <div>
+            <p class="section-label">البداية</p>
+            <h2>هدف الوثيقة</h2>
+          </div>
+        </div>
+
+        <div class="statement">
+          <div class="statement-icon" aria-hidden="true">✓</div>
+          <div>
+            <h3>النتيجة المطلوبة</h3>
+            <p>الاتفاق على إطار موحد يرفع كفاءة آليات التحصيل، ويسهّل السداد على جهات العمل، ويعالج كل حالة
+              بالإجراء المناسب قبل الانتقال إلى التصعيد.</p>
+          </div>
+        </div>
+
+        <div class="goal-grid" id="goalCards"></div>
+
+        <div class="discussion-line">
+          <button class="question-mark" type="button" data-question="هل يعكس هذا الهدف الأولوية الفعلية لدائرة الاشتراكات؟"
+            aria-label="نقطة للنقاش: هل يعكس هذا الهدف الأولوية الفعلية لدائرة الاشتراكات؟">؟</button>
+          <span>تأكيد النتيجة التي تريد دائرة الاشتراكات تحقيقها أولاً.</span>
+        </div>
+
+        <h3>المبادئ التي تحكم الإطار</h3>
+        <div class="principle-grid" id="principles"></div>
+      </section>
+
+      <section id="current" data-title="الوضع الحالي" data-number="٢">
+        <div class="section-heading">
+          <span class="section-number">٢</span>
+          <div>
+            <p class="section-label">لماذا نغيّر؟</p>
+            <h2>الوضع الحالي وفرص التحسين</h2>
+          </div>
+        </div>
+
+        <p class="section-intro">توضح الأرقام أن نمط السداد يختلف بوضوح بين القطاعين؛ لذلك لا تصلح معالجة واحدة
+          لجميع الجهات أو جميع أنواع التأخر.</p>
+
+        <div class="metric-grid" id="headlineMetrics"></div>
+
+        <div class="figure-card">
+          <div class="figure-heading">
+            <div>
+              <h3>نتيجة الفواتير الشهرية خلال اثني عشر شهراً</h3>
+              <p>يعرض الرسم حصة كل نتيجة من إجمالي فواتير القطاع.</p>
+            </div>
+            <div class="segment-toggle" role="group" aria-label="اختيار القطاع">
+              <button type="button" data-outcome-sector="private" aria-pressed="true">القطاع الخاص</button>
+              <button type="button" data-outcome-sector="government" aria-pressed="false">القطاع الحكومي</button>
+            </div>
+          </div>
+          <div id="outcomeChart"></div>
+        </div>
+
+        <h3>ما يتم العمل به أو دراسته حالياً</h3>
+        <div class="callout callout-info current-context-note">
+          <strong>الغرض من هذا العرض:</strong>
+          يوضح نقطة البداية للنقاش فقط. ولا يعد الوضع الحالي خط أساس ملزماً؛ إذ يمكن تعديل أي طريقة أو إجراء بما يرفع كفاءة آليات التحصيل ويتفق مع المتطلبات القانونية والتشغيلية المعتمدة.
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">الطريقة أو الإجراء</th>
+                <th scope="col">الوضع التشغيلي</th>
+                <th scope="col">فرصة التطوير</th>
+              </tr>
+            </thead>
+            <tbody id="currentMethods"></tbody>
+          </table>
+        </div>
+
+        <div class="discussion-line">
+          <button class="question-mark" type="button"
+            data-question="يجب أن تؤكد دائرة الاشتراكات وضع الشيكات وما إذا كانت بوابة دفع عاملة متاحة الآن."
+            aria-label="نقطة للنقاش: تأكيد قنوات السداد الحالية">؟</button>
+          <span>تأكيد وضع القنوات الأخرى إلى جانب التحويل البنكي قبل اعتماد وصف الوضع التشغيلي.</span>
+        </div>
+
+        <h3>أهم فرص التحسين</h3>
+        <div class="card-grid card-grid-3" id="improvementCards"></div>
+      </section>
+
+      <section id="journey" data-title="دورة التحصيل المستهدفة" data-number="٣">
+        <div class="section-heading">
+          <span class="section-number">٣</span>
+          <div>
+            <p class="section-label">كيف ستعمل؟</p>
+            <h2>دورة التحصيل المستهدفة</h2>
+          </div>
+        </div>
+
+        <div class="legend-row" aria-label="دليل أنواع المراحل">
+          <span><i class="legend-dot required"></i>مرحلة ضرورية لكل فاتورة</span>
+          <span><i class="legend-dot optional"></i>مرحلة اختيارية حسب الحالة</span>
+        </div>
+
+        <h3>المراحل الضرورية</h3>
+        <div class="process-flow" id="requiredJourney"></div>
+
+        <h3>المراحل التي تستخدم عند الحاجة فقط</h3>
+        <div class="optional-grid" id="optionalJourney"></div>
+
+        <div class="callout callout-info">
+          <strong>قاعدة الدورة:</strong>
+          لا تنتقل الفاتورة إلى التصعيد قبل التأكد من صحة البيانات، وثبات المبلغ، وإتاحة وسيلة سداد، ومعالجة أي
+          دفعة غير مطابقة أو اعتراض قائم.
+        </div>
+
+        <h3>سبب تعثر السداد والإجراء المناسب</h3>
+        <p class="section-intro">هذه الحالات لا تصنف نية جهة العمل ولا تفرض عقوبة؛ بل تحدد الفريق والخطوة التالية.</p>
+        <div class="case-grid" id="caseRoutes"></div>
+      </section>
+
+      <section id="methods" data-title="طرق التحصيل" data-number="٤">
+        <div class="section-heading">
+          <span class="section-number">٤</span>
+          <div>
+            <p class="section-label">كيف نجعل السداد أسهل؟</p>
+            <h2>طرق التحصيل المقترحة</h2>
+          </div>
+        </div>
+
+        <div class="method-grid" id="targetMethods"></div>
+
+        <div class="priority-banner">
+          <div>
+            <span class="status status-proposed">أولوية تطوير</span>
+            <h3>بوابة الدفع الإلكترونية الخاصة بالصندوق</h3>
+            <p>تعرض الفواتير والمبلغ المحدث، وتسمح باختيار عدة فواتير، وتعيد نتيجة الدفع والمطابقة إلى سجل جهة
+              العمل دون إدخال يدوي.</p>
+          </div>
+          <span class="priority-index" aria-hidden="true">01</span>
+        </div>
+
+        <h3>دورة الخصم المباشر</h3>
+        <div class="process-flow compact-flow" id="directDebitFlow"></div>
+
+        <div class="discussion-line">
+          <button class="question-mark" type="button"
+            data-question="هل يبدأ الخصم المباشر مع بنك مسقط كتجربة قابلة للتوسع، أم يشترط النموذج متعدد البنوك من البداية؟"
+            aria-label="نقطة للنقاش: نطاق تطبيق الخصم المباشر">؟</button>
+          <span>تحديد نطاق البداية للخصم المباشر وطريقة التوسع إلى البنوك الأخرى.</span>
+        </div>
+
+        <h3>ممارسات يمكن الاستفادة منها خارج الصندوق</h3>
+        <p class="section-intro">تركز المقارنة على إضافات غير مطبقة حالياً أو غير مكتملة في الصندوق.</p>
+        <div class="benchmark-grid" id="benchmarks"></div>
+      </section>
+
+      <section id="treatments" data-title="المعالجات والضوابط" data-number="٥">
+        <div class="section-heading">
+          <span class="section-number">٥</span>
+          <div>
+            <p class="section-label">ماذا يحدث عند عدم اكتمال السداد؟</p>
+            <h2>المعالجات المالية والضوابط</h2>
+          </div>
+        </div>
+
+        <h3>خيارات المعالجة المالية</h3>
+        <div class="treatment-grid" id="financialTreatments"></div>
+
+        <div class="plan-proposal">
+          <div class="plan-proposal-heading">
+            <span class="status status-proposed">خيار مقترح</span>
+            <div>
+              <h3>خطة سداد تقترحها جهة العمل</h3>
+              <p>تستطيع الجهة بناء جدول يناسب تدفقاتها وإرساله من خلال النظام. ويظل الطلب غير نافذ حتى انتهاء الدراسة الداخلية وصدور القرار.</p>
+            </div>
+          </div>
+          <div class="workflow-board workflow-board-3" id="customPlanWorkflow"></div>
+        </div>
+
+        <div class="discussion-line">
+          <button class="question-mark" type="button"
+            data-question="ما الحدود المالية والمدد ومستويات الاعتماد المناسبة لكل خيار من خيارات المعالجة؟"
+            aria-label="نقطة للنقاش: ضوابط خيارات المعالجة المالية">؟</button>
+          <span>تحديد شروط الأهلية وحدود الصلاحية لكل خيار.</span>
+        </div>
+
+        <h3>التدرج المقترح في الحظر الخدمي</h3>
+        <p class="section-intro">المراحل التالية نموذج مقترح. تطبيقها ومددها ونطاقها يتطلب اعتماداً قانونياً
+          وإدارياً واتفاقاً مع الجهات المعنية.</p>
+        <div class="restriction-ladder" id="restrictionLadder"></div>
+        <div class="restriction-detail" id="restrictionDetail" aria-live="polite"></div>
+
+        <h3>المقاصة المالية الحكومية المقترحة</h3>
+        <p class="section-intro">يعرض الإجراء في ثلاث مجموعات؛ لأن التحقق والاعتماد والتنفيذ تتولاها أطراف مختلفة.</p>
+        <div class="workflow-board workflow-board-3" id="setoffWorkflow"></div>
+
+        <h3>إجراء الاعتراض والتظلم</h3>
+        <p class="section-intro">يُجمع الإجراء حسب الغرض من كل مرحلة، مع استمرار سداد الجزء غير المعترض عليه.</p>
+        <div class="workflow-board" id="appealWorkflow"></div>
+      </section>
+
+      <section id="governance" data-title="الحوكمة والتنفيذ" data-number="٦">
+        <div class="section-heading">
+          <span class="section-number">٦</span>
+          <div>
+            <p class="section-label">من يفعل ماذا؟ وكيف نقيس النجاح؟</p>
+            <h2>الحوكمة والتنفيذ ومؤشرات الأداء</h2>
+          </div>
+        </div>
+
+        <h3>الأدوار الأساسية</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">الدور</th>
+                <th scope="col">المسؤولية الأساسية</th>
+                <th scope="col">الضابط</th>
+              </tr>
+            </thead>
+            <tbody id="rolesTable"></tbody>
+          </table>
+        </div>
+
+        <h3>كيف نقيس نجاح كل إجراء؟</h3>
+        <div class="kpi-grid" id="kpis"></div>
+
+        <h3>موجات التنفيذ</h3>
+        <div class="wave-grid" id="implementationWaves"></div>
+
+        <div class="discussion-line">
+          <button class="question-mark" type="button"
+            data-question="هل ترتيب موجات التنفيذ مناسب للأولويات والاعتماديات الفعلية لدى دائرة الاشتراكات؟"
+            aria-label="نقطة للنقاش: ترتيب موجات التنفيذ">؟</button>
+          <span>اعتماد ترتيب موجات التنفيذ والجهات المشاركة.</span>
+        </div>
+      </section>
+
+      <section id="appendices" data-title="الملاحق" data-number="٧">
+        <div class="section-heading">
+          <span class="section-number">٧</span>
+          <div>
+            <p class="section-label">تفاصيل مساندة</p>
+            <h2>الملاحق</h2>
+          </div>
+        </div>
+
+        <details class="appendix-panel">
+          <summary>الارتباط القانوني للإجراءات المقترحة</summary>
+          <div class="appendix-body">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">الإجراء</th>
+                    <th scope="col">المادة المرتبطة</th>
+                    <th scope="col">مدى دعم المادة</th>
+                    <th scope="col">المطلوب قبل التطبيق</th>
+                  </tr>
+                </thead>
+                <tbody id="legalTable"></tbody>
+              </table>
+            </div>
+            <p class="legal-note">تعرض المواد المرتبطة فقط، وقد روجعت التعديلات المنشورة حتى 2 سبتمبر 2026. وجود مادة مرتبطة لا يعني اعتماد جميع تفاصيل الإجراء المقترح، ويجب الرجوع إلى النص الرسمي عند الاعتماد.</p>
+          </div>
+        </details>
+
+        <details class="appendix-panel">
+          <summary>نسب الاشتراكات المعروضة للنقاش</summary>
+          <div class="appendix-body">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">فرع التأمين</th>
+                    <th scope="col">العماني</th>
+                    <th scope="col">غير العماني</th>
+                    <th scope="col">ملاحظة</th>
+                  </tr>
+                </thead>
+                <tbody id="ratesTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+
+        <details class="appendix-panel">
+          <summary>مخاطر التنفيذ وإجراءات الحد منها</summary>
+          <div class="appendix-body">
+            <div class="risk-list" id="riskList"></div>
+          </div>
+        </details>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    صندوق الحماية الاجتماعية · دائرة الاشتراكات · رفع كفاءة آليات التحصيل · مسودة للنقاش
+  </footer>
+
+  <div class="question-popover" id="questionPopover" role="status" aria-live="polite"></div>
+
+  <script src="collection-framework-v1.js"></script>
+</body>
+
+</html>
