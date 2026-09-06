@@ -58,13 +58,16 @@
         <p class="section-intro">توضح بيانات الاثني عشر شهراً أن نمط السداد يختلف بوضوح بين جهات العمل الخاصة والحكومية. لذلك لا يكفي إجراء واحد أو مدة تأخر واحدة لتحديد طريقة المعالجة.</p>
         <div class="metric-grid" id="headlineMetrics"></div>
         <div class="figure-card"><div class="figure-heading"><div><span class="section-eyebrow">نتائج الفواتير الشهرية</span><h3>كيف سددت جهات العمل خلال اثني عشر شهراً؟</h3></div></div><div id="outcomeChart"></div></div>
+        <h3>ما الذي يعمل اليوم؟</h3>
+        <p class="section-intro">يبني الإطار على قدرات قائمة ولا يعيد تقديمها كمشروعات جديدة. ويتركز التطوير في معالجة الاستثناءات والعمل اليدوي وربط الإجراءات ببعضها.</p>
+        <div class="baseline-grid" id="currentCapabilities"></div>
         <h3>أين تتركز فرص التحسين؟</h3>
         <div class="table-wrap"><table class="comparison-table"><thead><tr><th scope="col">الموضوع</th><th scope="col">الوضع الحالي</th><th scope="col">أثره</th><th scope="col">التوجه المقترح</th></tr></thead><tbody id="currentGaps"></tbody></table></div>
       </section>
 
       <section id="framework" data-title="إطار المعالجة" data-number="٣">
         <div class="section-heading"><span class="section-number">٣</span><div><span class="section-eyebrow">المسار من الاستحقاق إلى الإغلاق</span><h2>إطار المعالجة المقترح</h2></div></div>
-        <p class="section-intro">يمر كل استحقاق بخمس محطات مترابطة. وعند ظهور عائق، تنتقل الحالة إلى مسار معالجة متخصص ثم تعود إلى المسار الأساسي بعد إزالة السبب.</p>
+        <p class="section-intro">يمر كل استحقاق بخمس محطات مترابطة. وعند ظهور عائق، تنتقل الحالة إلى مسار معالجة متخصص ثم تعود إلى المسار الأساسي بعد إزالة السبب. وتشمل المعالجة الفروقات والشيكات المرتجعة، لا الفواتير المتأخرة فقط.</p>
         <div class="process-flow" id="collectionFlow"></div>
         <h3>نوجه الحالة حسب سبب التأخر</h3>
         <div class="route-grid" id="caseRoutes"></div>
@@ -86,7 +89,7 @@
 
       <section id="escalation" data-title="التصعيد والحظر التدريجي" data-number="٥">
         <div class="section-heading"><span class="section-number">٥</span><div><span class="section-eyebrow">الحظر هو آخر مسار المعالجة وليس بدايتها</span><h2>التصعيد والحظر التدريجي</h2></div></div>
-        <p class="section-intro">ينتقل الصندوق من التذكير إلى المتابعة ثم إلى الحظر المحدود أو الموسع وفق درجة الحالة واستجابة جهة العمل. لا يكفي مرور الوقت وحده للانتقال بين المستويات.</p>
+        <p class="section-intro">ينتقل الصندوق من التذكير إلى المتابعة ثم إلى الحظر المحدود أو الموسع وفق درجة الحالة واستجابة جهة العمل. لا يكفي مرور الوقت وحده للانتقال بين المستويات، ولا يشترط مسار التنفيذ الإداري الوارد في القسم التالي المرور بجميع مستويات الحظر.</p>
         <div class="escalation-principles" id="escalationPrinciples"></div>
         <div class="restriction-scroll"><div class="restriction-ladder" id="restrictionLadder"></div></div>
         <div class="restriction-detail" id="restrictionDetail" aria-live="polite"></div>
@@ -94,30 +97,56 @@
         <div class="control-grid" id="restrictionControls"></div>
       </section>
 
-      <section id="improvements" data-title="تحسينات ذات أولوية" data-number="٦">
-        <div class="section-heading"><span class="section-number">٦</span><div><span class="section-eyebrow">تحسينات محددة وقابلة للقياس</span><h2>مبادرات التحسين ذات الأولوية</h2></div></div>
+      <section id="administrative-enforcement" data-title="التنفيذ الإداري" data-number="٦">
+        <div class="section-heading"><span class="section-number">٦</span><div><span class="section-eyebrow">تحصيل مالي مستقل عن الحظر</span><h2>مسار التحصيل بالتنفيذ الإداري</h2></div></div>
+        <p class="section-intro">يتيح هذا المسار للصندوق تحصيل المبالغ المستحقة من أموال جهة العمل أو من المبالغ المستحقة لها لدى وزارة المالية والجهات الأخرى. ويطبق الصندوق المسار وفق قانون تحصيل مستحقات الدولة وبعد اعتماد انطباقه والصلاحيات والنماذج والإجراءات التنفيذية.</p>
+        <div class="legal-source-strip">
+          <div><strong>المرسوم السلطاني رقم 77/2025</strong><span>ينظم التنبيه بوجوب الأداء، وقرار التنفيذ الإداري، والحجز على ما لجهة العمل لدى الغير، وتسوية المبالغ المحصلة.</span></div>
+          <a class="source-link" href="https://qanoon.om/p/2025/rd2025077/" target="_blank" rel="noopener noreferrer" aria-label="فتح قانون تحصيل مستحقات الدولة في تبويب جديد" title="فتح نص القانون"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M19 5l-8 8M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></a>
+        </div>
+        <div class="path-contrast">
+          <article><span>الحظر التدريجي</span><h3>يقيد خدمات محددة</h3><p>يهدف إلى دفع جهة العمل إلى معالجة التأخر، ويتدرج وفق مستوى الحالة ونطاق الخدمات المعتمد.</p></article>
+          <article><span>التنفيذ الإداري</span><h3>يحصل المبلغ من الأموال أو المستحقات</h3><p>يستخدم إجراءات قانونية محددة، ولا يعد مستوى إضافياً من مستويات الحظر.</p></article>
+        </div>
+        <div class="framework-rule"><span>قاعدة الفصل بين المسارين</span><strong>يختار الصندوق الحظر لتقييد خدمات محددة، ويختار التنفيذ الإداري لتحصيل المبلغ من الأموال أو المستحقات. ويجوز أن يسيرا في توقيتين مختلفين وفق السند والضوابط المعتمدة لكل منهما.</strong></div>
+        <h3>متى تدخل الحالة هذا المسار؟</h3>
+        <div class="admin-gate-grid" id="adminEntryGates"></div>
+        <div class="callout"><strong>التنبيه بوجوب الأداء ليس رسالة تذكير عادية.</strong> يصدر الصندوق التنبيه النظامي بمهلة سبعة أيام وفق التوقيت والإجراء اللذين تعتمدهما الدائرة القانونية، ويحتفظ بما يثبت تبليغه.</div>
+        <h3>كيف ينفذ المسار؟</h3>
+        <div class="admin-flow" id="adminEnforcementSteps"></div>
+        <h3>كيف تنتهي الحالة؟</h3>
+        <div class="admin-outcome-grid" id="adminOutcomes"></div>
+        <h3>من يفعل ماذا؟</h3>
+        <div class="table-wrap"><table class="responsibility-table"><thead><tr><th scope="col">الطرف</th><th scope="col">مسؤوليته في المسار</th></tr></thead><tbody><tr><th scope="row">دائرة الاشتراكات</th><td>تثبت المبلغ، وتفحص شروط الدخول، وتعد ملف الحالة، وتتابع النتيجة.</td></tr><tr><th scope="row">الدائرة القانونية</th><td>تؤكد انطباق القانون واللائحة، وتراجع النماذج والموانع والمنازعات.</td></tr><tr><th scope="row">صاحب الصلاحية</th><td>يصدر قرار التنفيذ الإداري بعد اكتمال الملف وفق التفويض المعتمد.</td></tr><tr><th scope="row">الدائرة المالية</th><td>تطابق المبالغ الواردة، وتسجلها، وتؤكد الرصيد المتبقي أو اكتمال السداد.</td></tr><tr><th scope="row">وزارة المالية والجهات المعنية</th><td>توفر البيانات، وتحجز ما يكون مستحقاً لجهة العمل، وتخصصه لحساب الصندوق وفق القرار.</td></tr><tr><th scope="row">الحلول الرقمية</th><td>توفر سجل الحالة والمهل والمستندات والصلاحيات والتكاملات بعد نجاح التجربة.</td></tr></tbody></table></div>
+        <h3>ضوابط لا يجوز تجاوزها</h3>
+        <div class="admin-control-grid" id="adminControls"></div>
+        <div class="pilot-panel"><div><span class="section-eyebrow">تطبيق واقعي قبل الأتمتة</span><h3>تجربة منضبطة على عينة صغيرة</h3><p>يبدأ الصندوق باختبار يدوي موثق، ثم يطبق المسار على حالات مؤهلة، ولا يبني التكاملات التقنية إلا بعد ثبوت سلامة الإجراء وقابليته للتحصيل.</p></div><div class="pilot-phases" id="adminPilotPhases"></div></div>
+      </section>
+
+      <section id="improvements" data-title="تحسينات ذات أولوية" data-number="٧">
+        <div class="section-heading"><span class="section-number">٧</span><div><span class="section-eyebrow">تحسينات محددة وقابلة للقياس</span><h2>مبادرات التحسين ذات الأولوية</h2></div></div>
         <div class="initiative-grid" id="priorityInitiatives"></div>
         <h3>معالجة التعثر المالي</h3>
-        <p class="section-intro">يستخدم الصندوق مسارين واضحين بدلاً من تعدد أنواع الخطط وتشابهها.</p>
+        <p class="section-intro">يقترح الإطار مساراً معيارياً للحالات المعتادة ومساراً استثنائياً للحالات التي تحتاج إلى دراسة أعمق، مع الحفاظ على الضوابط النظامية القائمة ومراجعتها قبل التطبيق.</p>
         <div class="plan-grid" id="paymentPlans"></div>
         <h3>ممارسات دولية قابلة للتطبيق</h3>
-        <p class="section-intro">لا يعرض الإطار التجارب الدولية كأمثلة عامة؛ بل يحول كل ممارسة إلى قرار تصميمي ومقياس نجاح.</p>
+        <p class="section-intro">لا يعرض الإطار التجارب الدولية كأمثلة عامة؛ بل يحول كل ممارسة إلى قرار تصميمي قابل للتطبيق في الصندوق.</p>
         <div class="benchmark-grid" id="benchmarks"></div>
       </section>
 
-      <section id="delivery" data-title="التنفيذ والقياس" data-number="٧">
-        <div class="section-heading"><span class="section-number">٧</span><div><span class="section-eyebrow">نبدأ بالأساس التشغيلي ثم نتوسع</span><h2>التنفيذ والحوكمة وقياس الأثر</h2></div></div>
+      <section id="delivery" data-title="التنفيذ والقياس" data-number="٨">
+        <div class="section-heading"><span class="section-number">٨</span><div><span class="section-eyebrow">نبدأ بالأساس التشغيلي ثم نتوسع</span><h2>التنفيذ والحوكمة وقياس الأثر</h2></div></div>
         <h3>دور النظام والموظف</h3>
         <div class="responsibility-split">
           <article><span>النظام</span><h4>ينفذ الأعمال المتكررة</h4><ul><li>يحسب المبالغ ويربط الدفعات ويرسل الإشعارات.</li><li>يطبق شروط الاستبعاد وعوامل التصنيف المعتمدة.</li><li>يوجه الحالات التي تحتاج إلى تدخل إلى قائمة مهام الموظف، ويتابع المهل والنتائج.</li></ul></article>
-          <article><span>الموظف وصاحب الصلاحية</span><h4>يتوليان التقدير والقرار</h4><ul><li>يراجع الموظف خطط السداد والتظلمات والحالات التي تحتاج إلى تقدير مهني.</li><li>يعتمد صاحب الصلاحية الاستثناء من قواعد المعالجة أو الحظر الآلي عندما تتوافر أسبابه.</li><li>توثق الجهة القرار وسببه والنتيجة التي حققها.</li></ul></article>
+          <article><span>الموظف وصاحب الصلاحية</span><h4>يراجعان الحالات ويتخذان القرارات</h4><ul><li>يراجع الموظف خطط السداد والتظلمات والحالات التي تحتاج إلى تقدير مهني.</li><li>يعتمد صاحب الصلاحية الاستثناء من قواعد المعالجة أو الحظر الآلي عندما تتوافر أسبابه.</li><li>يسجل النظام القرار وسببه والمسؤول عنه والنتيجة التي حققها.</li></ul></article>
         </div>
         <h3>مؤشرات قياس الأثر</h3><div class="kpi-grid" id="kpis"></div>
         <h3>مراحل التنفيذ</h3><div class="wave-grid" id="implementationWaves"></div>
       </section>
 
-      <section id="decisions" data-title="القرارات المطلوبة" data-number="٨">
-        <div class="section-heading"><span class="section-number">٨</span><div><span class="section-eyebrow">مخرجات جلسة النقاش</span><h2>ما الذي نحتاج إلى الاتفاق عليه؟</h2></div></div>
+      <section id="decisions" data-title="القرارات المطلوبة" data-number="٩">
+        <div class="section-heading"><span class="section-number">٩</span><div><span class="section-eyebrow">مخرجات جلسة النقاش</span><h2>ما الذي نحتاج إلى الاتفاق عليه؟</h2></div></div>
         <p class="section-intro">يتطلب الانتقال إلى التصميم التفصيلي اتفاق دائرة الاشتراكات والجهات المعنية على القرارات التالية.</p>
         <ol class="decision-list" id="decisionsList"></ol>
       </section>

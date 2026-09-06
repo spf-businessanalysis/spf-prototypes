@@ -18,6 +18,7 @@
   --red-700: #a33a36;
   --red-100: #faeae8;
   --purple-700: #65509a;
+  --purple-200: #d8cfee;
   --purple-100: #f0ecf8;
   --border: #d8e0dc;
   --border-soft: #e8eeeb;
@@ -103,7 +104,7 @@ section { margin-top: 30px; padding: clamp(24px, 4vw, 42px); border: 1px solid v
 .section-intro { max-width: 900px; margin-top: 20px; color: var(--ink-soft); font-size: 15px; }
 .reading-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 24px; padding: 22px; border-inline-start: 4px solid var(--green-500); border-radius: 0 12px 12px 0; color: var(--ink-soft); background: var(--surface-soft); }
 
-.principle-grid, .metric-grid, .route-grid, .segment-grid, .control-grid, .initiative-grid, .benchmark-grid, .kpi-grid, .wave-grid { display: grid; gap: 12px; }
+.principle-grid, .metric-grid, .baseline-grid, .route-grid, .segment-grid, .control-grid, .admin-gate-grid, .admin-outcome-grid, .admin-control-grid, .initiative-grid, .benchmark-grid, .kpi-grid, .wave-grid { display: grid; gap: 12px; }
 .principle-grid { grid-template-columns: repeat(5, 1fr); }
 .principle-card { position: relative; min-width: 0; padding: 17px; border: 1px solid var(--border-soft); border-radius: 12px; background: var(--surface); }
 .numbered-card-heading { display: flex; align-items: center; gap: 10px; min-width: 0; }
@@ -124,6 +125,9 @@ section { margin-top: 30px; padding: clamp(24px, 4vw, 42px); border: 1px solid v
 .metric-card span { color: var(--muted); font-size: 11px; }
 .metric-card strong { margin: 5px 0 2px; color: var(--green-900); font-size: 27px; line-height: 1.35; font-variant-numeric: tabular-nums; }
 .metric-card p { color: var(--ink-soft); font-size: 11px; }
+.baseline-grid { grid-template-columns: repeat(2, 1fr); margin: 16px 0 24px; }
+.baseline-card { padding: 17px; border: 1px solid var(--green-200); border-radius: 12px; background: var(--green-100); }
+.baseline-card p { margin-top: 6px; color: var(--ink-soft); font-size: 12px; }
 .figure-card { margin-top: 20px; padding: 20px; border: 1px solid var(--border-soft); border-radius: 14px; }
 .figure-heading h3 { margin: 0; }
 .outcome-row { margin-top: 20px; }
@@ -152,7 +156,7 @@ tbody tr:last-child > * { border-bottom: 0; }
 .process-step:not(:last-child)::after { position: absolute; inset-inline-end: -10px; inset-block-start: 31px; z-index: 2; width: 19px; height: 19px; color: var(--green-700); background: var(--surface); content: "←"; font-weight: 700; line-height: 19px; text-align: center; }
 .process-step .step-number { width: 28px; height: 28px; font-size: 11px; }
 .process-step p { margin-top: 5px; color: var(--ink-soft); font-size: 11px; }
-.route-grid { grid-template-columns: repeat(5, 1fr); }
+.route-grid { grid-template-columns: repeat(3, 1fr); }
 .route-card { padding: 16px; border-block-start: 3px solid var(--blue-700); border-radius: 10px; background: var(--blue-100); }
 .route-card > span { color: var(--blue-700); font-size: 10px; font-weight: 700; }
 .route-card h4 { margin-top: 5px; }
@@ -207,6 +211,40 @@ tbody tr:last-child > * { border-bottom: 0; }
 .restriction-detail dd { margin: 0; color: var(--ink-soft); }
 .control-grid { grid-template-columns: repeat(5, 1fr); }
 .control-card { padding: 15px; border: 1px solid var(--border-soft); border-radius: 11px; }
+
+.legal-source-strip { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-top: 20px; padding: 17px 19px; border: 1px solid var(--green-200); border-radius: 13px; background: var(--green-100); }
+.legal-source-strip > div { display: grid; gap: 3px; }
+.legal-source-strip strong { color: var(--green-900); font-size: 13px; }
+.legal-source-strip span { color: var(--ink-soft); font-size: 11px; }
+.path-contrast { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
+.path-contrast article { padding: 18px; border-radius: 13px; background: var(--surface-soft); }
+.path-contrast article:last-child { border: 1px solid var(--purple-200); background: var(--purple-100); }
+.path-contrast span { color: var(--green-700); font-size: 10px; font-weight: 700; }
+.path-contrast article:last-child span { color: var(--purple-700); }
+.path-contrast h3 { margin: 4px 0 0; font-size: 16px; }
+.path-contrast p { margin-top: 5px; color: var(--ink-soft); font-size: 11px; }
+.admin-gate-grid { grid-template-columns: repeat(2, 1fr); }
+.admin-gate-card, .admin-outcome-card, .admin-control-card { padding: 16px; border: 1px solid var(--border-soft); border-radius: 12px; }
+.admin-gate-card { background: var(--surface-soft); }
+.admin-gate-card p, .admin-outcome-card p, .admin-control-card p { margin-top: 6px; color: var(--ink-soft); font-size: 11px; }
+.admin-flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.admin-step { position: relative; min-width: 0; padding: 17px; border: 1px solid var(--purple-200); border-radius: 12px; background: var(--purple-100); }
+.admin-step-number { display: grid; width: 32px; height: 32px; flex: none; place-items: center; border-radius: 50%; color: white; background: var(--purple-700); font-size: 10px; font-weight: 700; }
+.admin-step small { display: block; margin-top: 10px; color: var(--purple-700); font-size: 9px; font-weight: 700; }
+.admin-step p { margin-top: 5px; color: var(--ink-soft); font-size: 11px; }
+.admin-outcome-grid { grid-template-columns: repeat(2, 1fr); }
+.admin-outcome-card { border-inline-start: 4px solid var(--green-500); }
+.admin-control-grid { grid-template-columns: repeat(3, 1fr); }
+.admin-control-card .card-index { background: var(--purple-700); }
+.pilot-panel { display: grid; grid-template-columns: .8fr 1.2fr; gap: 24px; margin-top: 22px; padding: 22px; border-radius: 15px; color: white; background: var(--green-900); }
+.pilot-panel .section-eyebrow { color: #bfe1d3; }
+.pilot-panel h3 { margin: 4px 0 0; color: white; }
+.pilot-panel > div > p { margin-top: 7px; color: #cfe0d9; font-size: 11px; }
+.pilot-phases { display: grid; gap: 8px; }
+.pilot-phases article { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: start; padding: 11px; border-radius: 10px; background: rgba(255,255,255,.08); }
+.pilot-phases article > span { display: grid; width: 27px; height: 27px; place-items: center; border-radius: 50%; color: var(--green-900); background: white; font-size: 10px; font-weight: 700; }
+.pilot-phases h4 { color: white; font-size: 12px; }
+.pilot-phases p { margin-top: 2px; color: #cfe0d9; font-size: 10px; }
 
 .initiative-grid { grid-template-columns: repeat(2, 1fr); margin-top: 22px; }
 .initiative-card { padding: 20px; border: 1px solid var(--border); border-radius: 14px; }
@@ -266,11 +304,12 @@ footer { padding: 28px; color: #c9dbd3; background: var(--green-900); font-size:
   .page-shell { padding: 16px 14px 55px; }
   .hero, section { border-radius: 16px; }
   .hero-outcomes, .reading-panel, .two-stage, .readiness-panel { grid-template-columns: 1fr; }
-  .principle-grid, .metric-grid, .route-grid, .segment-grid, .control-grid, .benchmark-grid, .kpi-grid, .wave-grid { grid-template-columns: repeat(2, 1fr); }
+  .principle-grid, .metric-grid, .baseline-grid, .route-grid, .segment-grid, .control-grid, .admin-gate-grid, .admin-outcome-grid, .admin-control-grid, .benchmark-grid, .kpi-grid, .wave-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-flow { grid-template-columns: repeat(2, 1fr); }
   .process-flow { grid-template-columns: repeat(5, minmax(165px, 1fr)); overflow-x: auto; padding-bottom: 7px; }
   .factor-row { grid-template-columns: 1fr 45px; }
   .factor-visual { grid-column: 1 / -1; grid-row: 2; }
-  .initiative-grid, .plan-grid, .responsibility-split, .decision-list { grid-template-columns: 1fr; }
+  .initiative-grid, .plan-grid, .responsibility-split, .decision-list, .pilot-panel { grid-template-columns: 1fr; }
   .outcome-legend { grid-template-columns: repeat(3, 1fr); }
   .framework-rule { grid-template-columns: 1fr; gap: 5px; }
 }
@@ -282,7 +321,8 @@ footer { padding: 28px; color: #c9dbd3; background: var(--green-900); font-size:
   .brand { min-width: 0; }
   .hero { padding: 31px 23px; }
   section { padding: 23px 18px; }
-  .principle-grid, .metric-grid, .route-grid, .segment-grid, .control-grid, .benchmark-grid, .kpi-grid, .wave-grid { grid-template-columns: 1fr; }
+  .principle-grid, .metric-grid, .baseline-grid, .route-grid, .segment-grid, .control-grid, .admin-gate-grid, .admin-outcome-grid, .admin-control-grid, .benchmark-grid, .kpi-grid, .wave-grid { grid-template-columns: 1fr; }
+  .path-contrast, .admin-flow { grid-template-columns: 1fr; }
   .section-number { width: 40px; height: 40px; }
   .outcome-legend { grid-template-columns: repeat(2, 1fr); }
   .restriction-detail dl { grid-template-columns: 1fr; gap: 3px; }
