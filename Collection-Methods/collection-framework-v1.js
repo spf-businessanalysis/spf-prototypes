@@ -11,10 +11,6 @@ function statusBadge(key) {
 }
 
 function renderCards() {
-  select("#goalCards").innerHTML = GOALS.map(function (item) {
-    return "<article class=\"goal-card\"><span>" + item[0] + "</span><strong>" + item[1] + "</strong><p>" + item[2] + "</p></article>";
-  }).join("");
-
   select("#principles").innerHTML = PRINCIPLES.map(function (item, index) {
     return "<article class=\"principle-card\"><span class=\"card-number\">" + (index + 1) + "</span><h4>" + item[0] + "</h4><p>" + item[1] + "</p></article>";
   }).join("");
@@ -22,10 +18,17 @@ function renderCards() {
   select("#headlineMetrics").innerHTML = HEADLINE_METRICS.map(function (item) {
     return "<article class=\"metric-card\"><span>" + item[1] + "</span><strong>" + item[0] + "</strong><p>" + item[2] + "</p></article>";
   }).join("");
+}
 
-  select("#improvementCards").innerHTML = IMPROVEMENTS.map(function (item) {
-    return "<article class=\"plain-card\"><h4>" + item[0] + "</h4><p>" + item[1] + "</p></article>";
+function renderShareFigure() {
+  const data = CONTRIBUTION_SHARES;
+  const rows = data.rows.map(function (row) {
+    return "<div class=\"share-row\"><span class=\"share-name\">" + row[0] + "</span>" +
+      "<span class=\"share-track\"><i style=\"width:" + (row[1] / data.max * 100) + "%\"></i></span>" +
+      "<strong class=\"share-value\">" + row[2] + "</strong>" +
+      "<span class=\"share-base\">" + row[3] + "</span></div>";
   }).join("");
+  select("#shareFigure").innerHTML = "<p class=\"share-title\">" + data.title + "</p>" + rows;
 }
 
 function renderCurrentMethods() {
@@ -34,8 +37,7 @@ function renderCurrentMethods() {
   }).join("");
 }
 
-function renderOutcome(sector) {
-  const data = OUTCOMES[sector];
+function outcomeRow(data) {
   const totalWidth = data.values.reduce(function (sum, item) { return sum + item[1]; }, 0);
   const segments = data.values.map(function (item) {
     const width = item[1] / totalWidth * 100;
@@ -45,10 +47,19 @@ function renderOutcome(sector) {
   const legend = data.values.map(function (item) {
     return "<span>" + item[0] + "<b>" + item[1] + "% · " + item[2] + "</b></span>";
   }).join("");
-  select("#outcomeChart").innerHTML =
-    "<div class=\"outcome-summary\"><strong>" + data.name + "</strong><span>" + data.total + "</span></div>" +
+  const paid = data.values.slice(0, 3).reduce(function (s, item) { return s + item[1]; }, 0);
+  const unpaid = totalWidth - paid;
+  return "<div class=\"outcome-summary\"><strong>" + data.name + "</strong><span>" + data.total + "</span></div>" +
     "<div class=\"outcome-bar\" role=\"img\" aria-label=\"" + UI_TEXT.outcomeAriaPrefix + data.name + "\">" + segments + "</div>" +
+    "<div class=\"outcome-groups\"><span style=\"width:" + (paid / totalWidth * 100) + "%\">" + UI_TEXT.groupPaid + "</span>" +
+    "<span style=\"width:" + (unpaid / totalWidth * 100) + "%\">" + UI_TEXT.groupUnpaid + "</span></div>" +
     "<div class=\"outcome-legend\">" + legend + "</div>";
+}
+
+function renderOutcome() {
+  select("#outcomeChart").innerHTML = Object.keys(OUTCOMES).map(function (key) {
+    return outcomeRow(OUTCOMES[key]);
+  }).join("");
 }
 
 function renderJourney() {
@@ -56,12 +67,10 @@ function renderJourney() {
     return processStep(item, index);
   }).join("");
 
-  select("#optionalJourney").innerHTML = OPTIONAL_JOURNEY.map(function (item) {
-    return "<article class=\"optional-card\"><h4>" + item[0] + "</h4><p>" + item[1] + "</p></article>";
-  }).join("");
-
   select("#caseRoutes").innerHTML = CASE_ROUTES.map(function (item) {
-    return "<article class=\"case-card\"><span class=\"case-icon\">" + item[0] + "</span><div><h4>" + item[1] + "</h4><p>" + item[2] + "</p><span class=\"route\">" + item[3] + "</span></div></article>";
+    return "<article class=\"case-card\"><div><span class=\"case-branch\">" + UI_TEXT.branchFrom + "</span>" +
+      "<span class=\"case-icon\">" + item[0] + "</span><h4>" + item[1] + "</h4><p>" + item[2] + "</p>" +
+      "<span class=\"route\">" + item[3] + "</span></div></article>";
   }).join("");
 }
 
@@ -99,9 +108,27 @@ function renderTreatments() {
     return workflowPhase(item, index);
   }).join("");
 
-  select("#restrictionLadder").innerHTML = RESTRICTION_STEPS.map(function (item, index) {
-    return "<button class=\"restriction-step\" type=\"button\" data-restriction=\"" + index + "\" aria-pressed=\"" + (index === 0) + "\"><strong>" + item.title + "</strong><span>" + item.period + "</span></button>";
+  select("#classificationRules").innerHTML = CLASSIFICATION_RULES.map(function (item) {
+    return "<details class=\"rule-item\"><summary><strong>" + item.group + "</strong><span>" + item.when + "</span></summary>" +
+      "<div class=\"rule-body\"><p><span>" + UI_TEXT.ruleSystem + "</span>" + item.system + "</p>" +
+      "<p><span>" + UI_TEXT.ruleStaff + "</span>" + item.staff + "</p></div></details>";
   }).join("");
+
+  const band = RESTRICTION_STEPS.map(function (item, index) {
+    return "<i style=\"flex:" + item.weight + " 1 0\" data-tone=\"" + (index + 1) + "\"></i>";
+  }).join("");
+  const ticks = RESTRICTION_STEPS.map(function (item) {
+    return "<i style=\"flex:" + item.weight + " 1 0\">" + (item.tick ? "<b>" + item.tick + "</b>" : "") + "</i>";
+  }).join("");
+  const labels = RESTRICTION_STEPS.map(function (item, index) {
+    return "<button class=\"restriction-step\" type=\"button\" style=\"flex:" + item.weight + " 1 0\" data-restriction=\"" + index +
+      "\" data-tone=\"" + (index + 1) + "\" aria-pressed=\"" + (index === 0) + "\"><strong>" + item.title + "</strong><span>" + item.period + "</span></button>";
+  }).join("");
+  select("#restrictionLadder").innerHTML =
+    "<div class=\"timeline-band\" role=\"img\" aria-label=\"" + UI_TEXT.restrictionAxis + "\">" + band + "</div>" +
+    "<div class=\"timeline-ticks\" aria-hidden=\"true\">" + ticks + "</div>" +
+    "<div class=\"timeline-axis-note\">" + UI_TEXT.restrictionAxis + "</div>" +
+    "<div class=\"timeline-labels\">" + labels + "</div>";
 
   select("#setoffWorkflow").innerHTML = SETOFF_WORKFLOW.map(function (item, index) {
     return workflowPhase(item, index);
@@ -137,6 +164,10 @@ function renderGovernance() {
     const list = item.items.map(function (entry) { return "<li>" + entry + "</li>"; }).join("");
     return "<article class=\"wave-card\"><span class=\"wave-number\">" + item.number + "</span><h4>" + item.title + "</h4><ul>" + list + "</ul></article>";
   }).join("");
+
+  // select("#decisions").innerHTML = DECISIONS.map(function (item) {
+  //   return "<li><strong>" + item[0] + "</strong><p>" + item[1] + "</p></li>";
+  // }).join("");
 }
 
 function legalSupport(type) {
@@ -147,6 +178,21 @@ function legalSupport(type) {
     return "<span class=\"legal-support legal-partial\">" + UI_TEXT.legalPartial + "</span>";
   }
   return "<span class=\"legal-support legal-none\">" + UI_TEXT.legalNone + "</span>";
+}
+
+function renderLegalSummary() {
+  const tally = { direct: 0, partial: 0, none: 0 };
+  LEGAL_ITEMS.forEach(function (item) { tally[item[3]] += 1; });
+  const marks = [
+    ["direct", tally.direct, UI_TEXT.legalDirect],
+    ["partial", tally.partial, UI_TEXT.legalPartial],
+    ["none", tally.none, UI_TEXT.legalNone]
+  ];
+  select("#legalSummary").innerHTML =
+    "<p class=\"legal-summary-title\">" + UI_TEXT.legalSummaryTitle + "</p>" +
+    "<div class=\"legal-summary-marks\">" + marks.map(function (m) {
+      return "<article data-legal=\"" + m[0] + "\"><strong>" + m[1] + "</strong><span>" + m[2] + "</span></article>";
+    }).join("") + "</div>";
 }
 
 function renderAppendices() {
@@ -160,15 +206,6 @@ function renderAppendices() {
 }
 
 function setupInteractions() {
-  selectAll("[data-outcome-sector]").forEach(function (button) {
-    button.addEventListener("click", function () {
-      selectAll("[data-outcome-sector]").forEach(function (item) {
-        item.setAttribute("aria-pressed", String(item === button));
-      });
-      renderOutcome(button.dataset.outcomeSector);
-    });
-  });
-
   select("#restrictionLadder").addEventListener("click", function (event) {
     const button = event.target.closest("[data-restriction]");
     if (!button) {
@@ -180,84 +217,44 @@ function setupInteractions() {
     showRestriction(Number(button.dataset.restriction));
   });
 
-  const popover = select("#questionPopover");
-  let popoverTimer;
+  // select("#expandAll").addEventListener("click", function (event) {
+  //   const button = event.currentTarget;
+  //   const shouldOpen = button.getAttribute("aria-pressed") !== "true";
+  //   selectAll(".appendix-panel").forEach(function (panel) {
+  //     panel.open = shouldOpen;
+  //   });
+  //   button.setAttribute("aria-pressed", String(shouldOpen));
+  //   button.textContent = shouldOpen ? UI_TEXT.appendicesClose : UI_TEXT.appendicesOpen;
+  // });
 
-  function openQuestion(button) {
-    clearTimeout(popoverTimer);
-    popover.textContent = button.dataset.question;
-    const rect = button.getBoundingClientRect();
-    const width = Math.min(310, window.innerWidth - 24);
-    let left = rect.left + rect.width / 2 - width / 2;
-    left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
-    let top = rect.bottom + 10;
-    if (top + 110 > window.innerHeight) {
-      top = rect.top - 100;
-    }
-    popover.style.width = width + "px";
-    popover.style.left = left + "px";
-    popover.style.top = Math.max(12, top) + "px";
-    popover.classList.add("visible");
-  }
+  // const themeButton = select("#themeBtn");
 
-  function closeQuestion() {
-    popoverTimer = setTimeout(function () {
-      popover.classList.remove("visible");
-    }, 120);
-  }
+  // function setTheme(theme) {
+  //   document.documentElement.setAttribute("data-theme", theme);
+  //   const dark = theme === "dark";
+  //   themeButton.setAttribute("aria-pressed", String(dark));
+  //   themeButton.textContent = dark ? UI_TEXT.themeLight : UI_TEXT.themeDark;
+  // }
 
-  selectAll(".question-mark").forEach(function (button) {
-    button.addEventListener("mouseenter", function () { openQuestion(button); });
-    button.addEventListener("mouseleave", closeQuestion);
-    button.addEventListener("focus", function () { openQuestion(button); });
-    button.addEventListener("blur", closeQuestion);
-    button.addEventListener("click", function () {
-      if (popover.classList.contains("visible")) {
-        popover.classList.remove("visible");
-      } else {
-        openQuestion(button);
-      }
-    });
-  });
+  // themeButton.addEventListener("click", function () {
+  //   const current = document.documentElement.getAttribute("data-theme") || "light";
+  //   const next = current === "dark" ? "light" : "dark";
+  //   setTheme(next);
+  //   try {
+  //     localStorage.setItem("collection-theme", next);
+  //   } catch (error) {
+  //     return;
+  //   }
+  // });
 
-  select("#expandAll").addEventListener("click", function (event) {
-    const button = event.currentTarget;
-    const shouldOpen = button.getAttribute("aria-pressed") !== "true";
-    selectAll(".appendix-panel").forEach(function (panel) {
-      panel.open = shouldOpen;
-    });
-    button.setAttribute("aria-pressed", String(shouldOpen));
-    button.textContent = shouldOpen ? UI_TEXT.appendicesClose : UI_TEXT.appendicesOpen;
-  });
-
-  const themeButton = select("#themeBtn");
-
-  function setTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    const dark = theme === "dark";
-    themeButton.setAttribute("aria-pressed", String(dark));
-    themeButton.textContent = dark ? UI_TEXT.themeLight : UI_TEXT.themeDark;
-  }
-
-  themeButton.addEventListener("click", function () {
-    const current = document.documentElement.getAttribute("data-theme") || "light";
-    const next = current === "dark" ? "light" : "dark";
-    setTheme(next);
-    try {
-      localStorage.setItem("collection-theme", next);
-    } catch (error) {
-      return;
-    }
-  });
-
-  try {
-    const savedTheme = localStorage.getItem("collection-theme");
-    if (savedTheme === "dark" || savedTheme === "light") {
-      setTheme(savedTheme);
-    }
-  } catch (error) {
-    setTheme("light");
-  }
+  // try {
+  //   const savedTheme = localStorage.getItem("collection-theme");
+  //   if (savedTheme === "dark" || savedTheme === "light") {
+  //     setTheme(savedTheme);
+  //   }
+  // } catch (error) {
+  //   setTheme("light");
+  // }
 }
 
 function setupNavigation() {
@@ -302,12 +299,14 @@ function setupNavigation() {
 }
 
 renderCards();
+renderShareFigure();
 renderCurrentMethods();
-renderOutcome("private");
+renderOutcome();
 renderJourney();
 renderMethods();
 renderTreatments();
 renderGovernance();
-renderAppendices();
+renderLegalSummary();
+// renderAppendices();
 setupInteractions();
 setupNavigation();
