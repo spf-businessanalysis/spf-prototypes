@@ -1,926 +1,131 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="ar" dir="rtl">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>رفع كفاءة آليات التحصيل</title>
+  <meta name="description" content="إطار عملي لرفع كفاءة آليات تحصيل الاشتراكات في صندوق الحماية الاجتماعية.">
+  <title>إطار رفع كفاءة آليات التحصيل</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="collection-framework-v1.css">
 </head>
-
 <body>
   <header class="topbar">
     <div class="topbar-in">
       <a class="brand" href="#top" aria-label="العودة إلى بداية الوثيقة">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="5"></rect>
-            <path d="M6 17V11M11 17V7M16 17v-3M6 19h12"></path>
-          </svg>
-        </span>
-        <span>رفع كفاءة آليات التحصيل - دائرة الاشتراكات - صندوق الحماية الاجتماعية</span>
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M5 18V9m7 9V5m7 13v-6M3 20h18"></path></svg></span>
+        <span>إطار رفع كفاءة آليات التحصيل</span>
       </a>
-      <div class="top-actions">
-        <button class="button button-quiet" id="expandAll" type="button" aria-pressed="false">فتح الملاحق</button>
-        <button class="button button-quiet" id="themeBtn" type="button" aria-pressed="false">الوضع الداكن</button>
-      </div>
+      <span class="document-owner">دائرة الاشتراكات · صندوق الحماية الاجتماعية</span>
       <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
     </div>
   </header>
 
   <div class="page-shell" id="top">
-    <aside class="side-nav" aria-label="محتويات الوثيقة">
-      <p class="side-title">محتويات الوثيقة</p>
-      <ol id="toc"></ol>
-    </aside>
-
+    <aside class="side-nav" aria-label="محتويات الوثيقة"><p class="side-title">محتويات الإطار</p><ol id="toc"></ol></aside>
     <main>
-      <details class="mobile-toc">
-        <summary>محتويات الوثيقة</summary>
-        <ol id="mobileToc"></ol>
-      </details>
+      <details class="mobile-toc"><summary>محتويات الإطار</summary><ol id="mobileToc"></ol></details>
 
       <header class="hero">
         <div class="hero-kicker">صندوق الحماية الاجتماعية · دائرة الاشتراكات</div>
-        <h1>رفع كفاءة آليات التحصيل</h1>
-        <p>تقترح هذه الوثيقة إطاراً عملياً يساعد جهات العمل على السداد، ويساعد الصندوق على فهم أسباب التأخر ومعالجتها
-          بخطوات واضحة ومتدرجة.</p>
-        <div class="status-row">
-          <span class="status status-discussion">مسودة للنقاش</span>
-          <span class="status status-neutral">سبتمبر 2026</span>
-        </div>
+        <h1>إطار رفع كفاءة آليات التحصيل</h1>
+        <p class="hero-lead">إطار عملي يساعد جهات العمل على الوفاء بالتزاماتها، ويوجه الصندوق إلى المعالجة المناسبة لكل حالة، ويجعل التصعيد متدرجاً ومتناسباً وقابلاً للقياس.</p>
+        <div class="hero-meta"><span>نسخة عمل للنقاش</span><span>سبتمبر 2026</span></div>
+        <div class="hero-outcomes" id="heroOutcomes"></div>
       </header>
 
-      <section id="purpose" data-title="الهدف والمبادئ" data-number="١">
-        <div class="section-heading">
-          <span class="section-number">١</span>
-          <div>
-            <h2>الهدف والمبادئ</h2>
-          </div>
+      <section id="introduction" data-title="التمهيد والغاية" data-number="١">
+        <div class="section-heading"><span class="section-number">١</span><div><span class="section-eyebrow">لماذا هذا الإطار؟</span><h2>التمهيد والغاية</h2></div></div>
+        <div class="reading-panel">
+          <p>تمثل الاشتراكات مورداً أساسياً لاستدامة منظومة الحماية الاجتماعية، ويعتمد تحصيلها بكفاءة على وضوح الفاتورة، وسهولة السداد، وسرعة معالجة الأخطاء، والتدخل في الوقت المناسب عند التأخر.</p>
+          <p>يوفر الصندوق اليوم عدداً من إجراءات التحصيل وخيارات السداد. ويأتي هذا الإطار لتنظيم هذه الإجراءات ضمن مسار موحد يميز بين الخطأ أو التعثر المؤقت وبين عدم الاستجابة، ثم يربط كل حالة بمعالجة واضحة قبل الانتقال إلى أي إجراء تصعيدي.</p>
         </div>
-
-        <p class="section-intro">يهدف الإطار إلى رفع نسبة السداد في الموعد، وتسهيل الدفع وتسوية الفواتير آلياً، واختيار
-          إجراء المعالجة حسب سبب التأخر لا حسب مدته وحدها.</p>
-
+        <h3>ما الذي يسعى الإطار إلى تحقيقه؟</h3>
         <div class="principle-grid" id="principles"></div>
-      </section>
-
-      <section id="contributions" data-title="الفئات المسؤولة عن السداد ونسب الاشتراك" data-number="٢">
-        <div class="section-heading">
-          <span class="section-number">٢</span>
+        <div class="scope-strip"><strong>يركز الإطار على</strong><span>الوقاية من التأخر</span><span>معالجة المتأخرات</span><span>التصعيد المتدرج</span><span>متابعة النتائج والأثر</span></div>
+        <div class="readiness-panel">
+          <span>الوقاية تبدأ قبل نشوء الالتزام</span>
           <div>
-            <h2>الفئات المسؤولة عن السداد ونسب الاشتراك</h2>
+            <h3>دراسة أثر الاشتراكات قبل إقرارها أو تعديلها</h3>
+            <p>يراجع الصندوق، بالتنسيق مع الجهات المختصة، القوانين واللوائح القائمة أو المقترحة التي تفرض اشتراكات جديدة أو تعدل الاشتراكات الحالية. وتشمل المراجعة تقدير الأثر المالي في فئات المنشآت المختلفة، وقدرتها على الوفاء بالالتزام، وجاهزية أنظمتها وإجراءاتها، والمدة اللازمة للتهيئة والتوعية. وتدعم نتائج الدراسة اختيار توقيت التطبيق وآليته وفترته الانتقالية بما يحقق الغاية التشريعية ويحد من نشوء متأخرات يمكن توقعها.</p>
           </div>
         </div>
-
-        <p class="section-intro">تختلف نسبة الاشتراك حسب جنسية المؤمن عليه والفرع التأميني ووعاء الأجر.</p>
-
-        <h3>الفئات التي تسدد الاشتراكات</h3>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">الفئة</th>
-                <th scope="col">من يسدد الاشتراكات؟</th>
-                <th scope="col">الفئات المشمولة</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">جهات العمل الحكومية</th>
-                <td>تسدد الجهة حصتها وحصة المؤمن عليه.</td>
-                <td>الموظفون العمانيون، وغير العمانيين المشمولون بالفروع المطبقة عليهم.</td>
-              </tr>
-              <tr>
-                <th scope="row">جهات العمل الخاصة</th>
-                <td>تسدد جهة العمل حصتها وحصة المؤمن عليه.</td>
-                <td>العاملون العمانيون، وغير العمانيين المشمولون بالفروع المطبقة عليهم.</td>
-              </tr>
-              <tr>
-                <th scope="row">العمانيون العاملون لحسابهم الخاص ومن في حكمهم</th>
-                <td>يسدد المؤمن عليه الاشتراك المقرر وفق نظام هذه الفئة.</td>
-                <td>الاشتراك وفق الدخل أو قيمة الاشتراك المسجلة والضوابط المطبقة.</td>
-              </tr>
-              <tr>
-                <th scope="row">العمانيون العاملون في الخارج ومن في حكمهم</th>
-                <td>يسدد المؤمن عليه الاشتراكات المستحقة.</td>
-                <td>الفروع التي تشملها طريقة التسجيل المعتمدة لهذه الفئة.</td>
-              </tr>
-              <tr>
-                <th scope="row">العمانيون المشمولون بمد الحماية التأمينية في دول مجلس التعاون</th>
-                <td>تتولى جهة العمل في دولة مقر العمل السداد، ويتحمل المؤمن عليه فرق حصة جهة العمل عند وجوده.</td>
-                <td>18.5% من أجر الاشتراك: 11% حصة جهة العمل و7.5% حصة المؤمن عليه.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3>نسب اشتراكات العاملين لدى جهات العمل حسب الفرع التأميني</h3>
-        <div class="share-figure" id="shareFigure"></div>
-        <div class="table-wrap">
-          <table class="contribution-rates-table">
-            <thead>
-              <tr>
-                <th scope="col">الفرع التأميني</th>
-                <th scope="col">حصة المؤمن عليه العماني</th>
-                <th scope="col">حصة جهة العمل عن العماني</th>
-                <th scope="col">حصة جهة العمل عن غير العماني</th>
-                <th scope="col">ملاحظة</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">كبار السن والعجز والوفاة</th>
-                <td>7.5%</td>
-                <td>11%</td>
-                <td>لا ينطبق</td>
-                <td>يحسب على أجر الاشتراك.</td>
-              </tr>
-              <tr>
-                <th scope="row">إصابات العمل والأمراض المهنية</th>
-                <td>0%</td>
-                <td>1%*</td>
-                <td>1%*</td>
-                <td>تسدد جهة العمل كامل النسبة.</td>
-              </tr>
-              <tr>
-                <th scope="row">الأمان الوظيفي</th>
-                <td>0.5%</td>
-                <td>0.5%</td>
-                <td>لا ينطبق</td>
-                <td>يطبق على الفئات العمانية المشمولة.</td>
-              </tr>
-              <tr>
-                <th scope="row">إجازات الأمومة</th>
-                <td>0%</td>
-                <td>1%*</td>
-                <td>1%*</td>
-                <td>يحسب على الأجر الإجمالي دون سقف.</td>
-              </tr>
-              <tr>
-                <th scope="row">الإجازات المرضية وغير الاعتيادية</th>
-                <td>0%</td>
-                <td>1%*</td>
-                <td>1%*</td>
-                <td>يحسب على الأجر الإجمالي دون سقف.</td>
-              </tr>
-              <tr>
-                <th scope="row">برنامج الادخار</th>
-                <td>اختياري</td>
-                <td>اختياري</td>
-                <td>9%*</td>
-                <td>يحسب لغير العماني على الأجر الأساسي.</td>
-              </tr>
-              <tr class="contribution-total">
-                <th scope="row">الإجمالي عند انطباق جميع الفروع</th>
-                <td><strong>8%</strong></td>
-                <td><strong>14.5%</strong></td>
-                <td><strong>3% من الأجر الإجمالي، إضافة إلى 9% من الأجر الأساسي*</strong></td>
-                <td><strong>إجمالي اشتراكات العماني 22.5% عند انطباق جميع الفروع.</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <p class="legal-note">* تطبق النسبة على الفئات المشمولة بالفرع فقط، وفق ما تحدده اللائحة والقرارات المنظمة له.
-        </p>
-
-        <div class="callout">
-          <strong>كيف يظهر حجم الاشتراكات في إشعار السداد؟</strong>
-          يجمع النظام المبالغ المستحقة لكل فرع بحسب العاملين المسجلين وأجورهم والفئات التي تنطبق عليهم، ثم يصدر إشعار
-          السداد مباشرة من البيانات المسجلة.
-        </div>
-
-        <p class="legal-note">تعكس النسب الفروع السارية حتى سبتمبر 2026. المصدر:
-          <a href="https://www.spf.gov.om/faq/%D9%85%D8%A7-%D9%87%D9%8A-%D9%86%D8%B3%D8%A8-%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D9%8A-%D8%B3%D9%8A%D8%B3%D8%AF%D8%AF%D9%87%D8%A7-%D8%A7%D9%84%D8%B9%D8%A7/"
-            target="_blank" rel="noopener noreferrer">نسب اشتراكات العمانيين</a>،
-          <a href="https://www.spf.gov.om/insurance_programs/%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-%D8%A7%D9%84%D8%A7%D8%AF%D8%AE%D8%A7%D8%B1/"
-            target="_blank" rel="noopener noreferrer">برنامج الادخار</a>، و
-          <a href="https://www.spf.gov.om/insurance_programs/%D9%85%D8%AF-%D8%A7%D9%84%D8%AD%D9%85%D8%A7%D9%8A%D8%A9-%D8%A7%D9%84%D8%AA%D8%A3%D9%85%D9%8A%D9%86%D9%8A%D8%A9/"
-            target="_blank" rel="noopener noreferrer">مد الحماية التأمينية</a>.
-        </p>
       </section>
 
-      <section id="current" data-title="الوضع الحالي وفرص التحسين" data-number="٣">
-        <div class="section-heading">
-          <span class="section-number">٣</span>
-          <div>
-            <h2>الوضع الحالي وفرص التحسين</h2>
-          </div>
-        </div>
-
-        <p class="section-intro">توضح الأرقام أن نمط السداد في القطاع الخاص يختلف عن نمطه في الجهات الحكومية. لذلك
-          يحتاج الصندوق إلى اختيار إجراء يناسب سبب التأخر وطبيعة الجهة، بدلاً من تطبيق إجراء واحد على جميع الحالات.</p>
-
+      <section id="challenge" data-title="الوضع الحالي والتحدي" data-number="٢">
+        <div class="section-heading"><span class="section-number">٢</span><div><span class="section-eyebrow">نقطة الانطلاق</span><h2>الوضع الحالي والتحدي</h2></div></div>
+        <p class="section-intro">توضح بيانات الاثني عشر شهراً أن نمط السداد يختلف بوضوح بين جهات العمل الخاصة والحكومية. لذلك لا يكفي إجراء واحد أو مدة تأخر واحدة لتحديد طريقة المعالجة.</p>
         <div class="metric-grid" id="headlineMetrics"></div>
-
-        <div class="figure-card">
-          <div class="figure-heading">
-            <div>
-              <h3>كيف سددت جهات العمل الفواتير الشهرية خلال اثني عشر شهراً؟</h3>
-            </div>
-          </div>
-          <div id="outcomeChart"></div>
-        </div>
-
-        <h3>الإجراءات التي يستخدمها الصندوق حالياً وفرص تطويرها</h3>
-        <p class="section-intro">تُعرض طرق الدفع نفسها في القسم الخامس.</p>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">الإجراء</th>
-                <th scope="col">الوضع التشغيلي</th>
-                <th scope="col">كيف يمكن تطويره؟</th>
-              </tr>
-            </thead>
-            <tbody id="currentMethods"></tbody>
-          </table>
-        </div>
+        <div class="figure-card"><div class="figure-heading"><div><span class="section-eyebrow">نتائج الفواتير الشهرية</span><h3>كيف سددت جهات العمل خلال اثني عشر شهراً؟</h3></div></div><div id="outcomeChart"></div></div>
+        <h3>أين تتركز فرص التحسين؟</h3>
+        <div class="table-wrap"><table class="comparison-table"><thead><tr><th scope="col">الموضوع</th><th scope="col">الوضع الحالي</th><th scope="col">أثره</th><th scope="col">التوجه المقترح</th></tr></thead><tbody id="currentGaps"></tbody></table></div>
       </section>
 
-      <section id="journey" data-title="دورة التحصيل المقترحة" data-number="٤">
-        <div class="section-heading">
-          <span class="section-number">٤</span>
-          <div>
-            <h2>كيف تعمل دورة التحصيل المقترحة؟</h2>
-          </div>
-        </div>
-
-        <h3>الخطوات التي تمر بها كل فاتورة</h3>
-        <div class="process-flow" id="requiredJourney"></div>
-
-        <h3>كيف نحدد سبب تأخر السداد والإجراء المناسب؟</h3>
-        <div class="case-grid" id="caseRoutes"></div>
+      <section id="framework" data-title="إطار المعالجة" data-number="٣">
+        <div class="section-heading"><span class="section-number">٣</span><div><span class="section-eyebrow">المسار من الاستحقاق إلى الإغلاق</span><h2>إطار المعالجة المقترح</h2></div></div>
+        <p class="section-intro">يمر كل استحقاق بخمس محطات مترابطة. وعند ظهور عائق، تنتقل الحالة إلى مسار معالجة متخصص ثم تعود إلى المسار الأساسي بعد إزالة السبب.</p>
+        <div class="process-flow" id="collectionFlow"></div>
+        <h3>نوجه الحالة حسب سبب التأخر</h3>
+        <div class="route-grid" id="caseRoutes"></div>
+        <div class="framework-rule"><span>القاعدة الحاكمة</span><strong>لا يبدأ التصعيد قبل التأكد من صحة المبالغ المستحقة، وربط الدفعات، وفصل المبلغ محل التظلم، وإتاحة فرصة واضحة للسداد أو طلب المعالجة.</strong></div>
       </section>
 
-      <section id="methods" data-title="طرق السداد والتحصيل" data-number="٥">
-        <div class="section-heading">
-          <span class="section-number">٥</span>
-          <div>
-            <h2>طرق السداد والتحصيل</h2>
-          </div>
+      <section id="classification" data-title="تصنيف جهات العمل" data-number="٤">
+        <div class="section-heading"><span class="section-number">٤</span><div><span class="section-eyebrow">تصنيف بسيط وقابل للتفسير</span><h2>كيف نحدد المعالجة المناسبة قبل التصعيد؟</h2></div></div>
+        <div class="two-stage">
+          <article><span class="stage-chip">المرحلة الأولى</span><h3>التحقق من صلاحية الحالة للتصنيف</h3><p>يستبعد النظام مؤقتاً من التصعيد أي مبلغ غير مؤكد أو حالة تحتاج إلى معالجة سابقة.</p><ul id="classificationGates"></ul></article>
+          <article><span class="stage-chip">المرحلة الثانية</span><h3>احتساب درجة المعالجة</h3><p>يستخدم النظام خمسة عوامل فقط، ويعرض نتيجة كل عامل وسبب الدرجة للموظف.</p><div class="score-total"><strong>100</strong><span>درجة</span></div></article>
         </div>
+        <h3>عوامل التصنيف وأوزانها المبدئية</h3>
+        <div class="factor-list" id="classificationFactors"></div>
+        <div class="callout"><strong>نوع القطاع يحدد مسار المعالجة ولا يرفع درجة المخاطر بذاته.</strong> تختلف أدوات المتابعة المتاحة للجهات الحكومية عن الجهات الخاصة، ولذلك يستخدم النظام نوع القطاع لتوجيه الحالة إلى المسار المختص، لا للحكم على مستوى التزامها.</div>
+        <h3>ماذا ينتج عن التصنيف؟</h3>
+        <div class="segment-grid" id="riskSegments"></div>
+      </section>
 
-        <div class="method-grid" id="targetMethods"></div>
+      <section id="escalation" data-title="التصعيد والحظر التدريجي" data-number="٥">
+        <div class="section-heading"><span class="section-number">٥</span><div><span class="section-eyebrow">الحظر هو آخر مسار المعالجة وليس بدايتها</span><h2>التصعيد والحظر التدريجي</h2></div></div>
+        <p class="section-intro">ينتقل الصندوق من التذكير إلى المتابعة ثم إلى الحظر المحدود أو الموسع وفق درجة الحالة واستجابة جهة العمل. لا يكفي مرور الوقت وحده للانتقال بين المستويات.</p>
+        <div class="escalation-principles" id="escalationPrinciples"></div>
+        <div class="restriction-scroll"><div class="restriction-ladder" id="restrictionLadder"></div></div>
+        <div class="restriction-detail" id="restrictionDetail" aria-live="polite"></div>
+        <h3>ضوابط تطبق على جميع مستويات الحظر</h3>
+        <div class="control-grid" id="restrictionControls"></div>
+      </section>
 
-        <div class="priority-banner">
-          <div>
-            <span class="status status-proposed">يعطي الصندوق هذه الخدمة أولوية</span>
-            <h3>يسرّع الصندوق من تطوير بوابة الدفع الإلكترونية</h3>
-            <p>تعرض البوابة لجهة العمل فواتيرها والمبالغ المحدثة، وتسمح لها باختيار عدة فواتير وسداد إجمالي قيمتها في
-              عملية إلكترونية واحدة. ثم يوزع النظام المبلغ على الفواتير المختارة ويحدث حالة كل فاتورة آلياً.</p>
-          </div>
-          <span class="priority-index" aria-hidden="true">01</span>
-        </div>
-
-        <h3>كيف يعمل الخصم المباشر؟</h3>
-        <div class="process-flow compact-flow" id="directDebitFlow"></div>
-
-        <h3>ما الممارسات التي يمكن أن يستفيد منها الصندوق؟</h3>
+      <section id="improvements" data-title="تحسينات ذات أولوية" data-number="٦">
+        <div class="section-heading"><span class="section-number">٦</span><div><span class="section-eyebrow">تحسينات محددة وقابلة للقياس</span><h2>مبادرات التحسين ذات الأولوية</h2></div></div>
+        <div class="initiative-grid" id="priorityInitiatives"></div>
+        <h3>معالجة التعثر المالي</h3>
+        <p class="section-intro">يستخدم الصندوق مسارين واضحين بدلاً من تعدد أنواع الخطط وتشابهها.</p>
+        <div class="plan-grid" id="paymentPlans"></div>
+        <h3>ممارسات دولية قابلة للتطبيق</h3>
+        <p class="section-intro">لا يعرض الإطار التجارب الدولية كأمثلة عامة؛ بل يحول كل ممارسة إلى قرار تصميمي ومقياس نجاح.</p>
         <div class="benchmark-grid" id="benchmarks"></div>
       </section>
 
-      <section id="treatments" data-title="تصنيف جهات العمل ومعالجة التأخر والمتأخرات" data-number="٦">
-        <div class="section-heading">
-          <span class="section-number">٦</span>
-          <div>
-            <h2>كيف يصنف الصندوق جهات العمل ويعالج التأخر والمتأخرات؟</h2>
-          </div>
+      <section id="delivery" data-title="التنفيذ والقياس" data-number="٧">
+        <div class="section-heading"><span class="section-number">٧</span><div><span class="section-eyebrow">نبدأ بالأساس التشغيلي ثم نتوسع</span><h2>التنفيذ والحوكمة وقياس الأثر</h2></div></div>
+        <h3>دور النظام والموظف</h3>
+        <div class="responsibility-split">
+          <article><span>النظام</span><h4>ينفذ الأعمال المتكررة</h4><ul><li>يحسب المبالغ ويربط الدفعات ويرسل الإشعارات.</li><li>يطبق شروط الاستبعاد وعوامل التصنيف المعتمدة.</li><li>يوجه الحالات التي تحتاج إلى تدخل إلى قائمة مهام الموظف، ويتابع المهل والنتائج.</li></ul></article>
+          <article><span>الموظف وصاحب الصلاحية</span><h4>يتوليان التقدير والقرار</h4><ul><li>يراجع الموظف خطط السداد والتظلمات والحالات التي تحتاج إلى تقدير مهني.</li><li>يعتمد صاحب الصلاحية الاستثناء من قواعد المعالجة أو الحظر الآلي عندما تتوافر أسبابه.</li><li>توثق الجهة القرار وسببه والنتيجة التي حققها.</li></ul></article>
         </div>
-
-        <h3>ما الخيارات المالية التي يمكن أن يستخدمها الصندوق؟</h3>
-        <div class="treatment-grid" id="financialTreatments"></div>
-
-        <h3>كيف تُدرس خطة السداد التي تقترحها جهة العمل؟</h3>
-        <div class="workflow-board workflow-board-3" id="customPlanWorkflow"></div>
-
-        <div class="classification-framework">
-          <div class="classification-heading">
-            <span class="status status-proposed">يقترح الإطار أن ينفذ النظام التصنيف آلياً</span>
-            <div>
-              <h3>كيف يصنف النظام جهات العمل ويوجه كل مجموعة إلى الإجراء المناسب؟</h3>
-              <p>لا يحتاج الموظف إلى فتح ملف كل جهة وتصنيفها يدوياً. يطبق النظام قواعد واضحة على جميع الجهات يومياً،
-                ويعرض للموظف قوائم المهام التي تحتاج إلى متابعة أو قرار.</p>
-            </div>
-          </div>
-
-          <h4>ما المجموعات التي ينشئها النظام، وماذا يحدث لكل مجموعة؟</h4>
-          <div class="rules-accordion" id="classificationRules"></div>
-
-          <p class="legal-note">المدد الواردة أعلاه مقترح مبدئي لم تعتمده دائرة الاشتراكات بعد.</p>
-
-          <div class="callout callout-warning">
-            <strong>التصنيف الآلي لا يعني اتخاذ قرار آلي بإيقاف التعامل.</strong>
-            ينفذ النظام التذكيرات وتجميع الحالات وتوجيهها، بينما يعتمد الموظف المسؤول خطط السداد وقوائم الإيقاف والإحالة
-            القانونية.
-          </div>
-
-        </div>
-
-        <h3>كيف يطبق الصندوق إيقاف التعامل بصورة تدريجية؟</h3>
-        <p class="section-intro">يبدأ الصندوق بالتذكير والمساعدة قبل أن يطلب إيقاف التعامل، ويحتاج كل انتقال بين
-          المراحل إلى اعتماد قانوني وإداري.</p>
-        <div class="restriction-scroll">
-          <div class="restriction-ladder" id="restrictionLadder"></div>
-        </div>
-        <div class="restriction-detail" id="restrictionDetail" aria-live="polite"></div>
-
-        <h3>كيف يخصم الصندوق دينه من مستحقات جهة العمل لدى الحكومة؟</h3>
-        <p class="section-intro">يسمى هذا الإجراء «المقاصة مع المستحقات لدى الجهات الحكومية».</p>
-        <div class="workflow-board workflow-board-3" id="setoffWorkflow"></div>
-
-        <h3>إجراء التظلم</h3>
-        <p class="section-intro">تستمر جهة العمل في سداد الجزء غير المشمول بالتظلم أثناء دراسة الطلب.</p>
-        <div class="workflow-board" id="appealWorkflow"></div>
-
-        <h3>ما الأساس القانوني لكل إجراء مقترح؟</h3>
-        <div class="legal-summary" id="legalSummary"></div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">ما الإجراء المقترح؟</th>
-                <th scope="col">ما المادة المرتبطة به؟</th>
-                <th scope="col">إلى أي مدى تدعم المادة الإجراء؟</th>
-                <th scope="col">ماذا يجب أن يفعل الصندوق قبل التطبيق؟</th>
-              </tr>
-            </thead>
-            <tbody id="legalTable"></tbody>
-          </table>
-        </div>
-        <p class="legal-note">لا يعني وجود مادة مرتبطة أن القانون يعتمد كل تفاصيل المقترح، لذلك تراجع الشؤون القانونية
-          النص الرسمي قبل أن يعتمد الصندوق أي إجراء.</p>
+        <h3>مؤشرات قياس الأثر</h3><div class="kpi-grid" id="kpis"></div>
+        <h3>مراحل التنفيذ</h3><div class="wave-grid" id="implementationWaves"></div>
       </section>
 
-      <section id="governance" data-title="دور النظام والذكاء الاصطناعي والمسؤوليات" data-number="٧">
-        <div class="section-heading">
-          <span class="section-number">٧</span>
-          <div>
-            <p class="section-label">ينفذ النظام الأعمال المتكررة ويتولى الموظف القرارات</p>
-            <h2>كيف يدعم النظام الإلكتروني الموظفين، وأين يستخدم الصندوق الذكاء الاصطناعي؟</h2>
-          </div>
-        </div>
-
-        <h3>ما الأعمال التي ينفذها نظام الصندوق؟</h3>
-        <p class="section-intro">إضافة إلى إصدار الفواتير ومطابقة الدفعات والتصنيف اليومي، ينفذ النظام ثلاثة أعمال
-          تحكم انتقال الحالة بين الفرق والجهات.</p>
-        <div class="system-role-grid">
-          <article><span>قبل إجراءات التصعيد</span>
-            <h4>يفرض النظام شروط الاعتماد</h4>
-            <p>يمنع النظام إيقاف التعامل أو الإحالة القانونية إذا وجد تظلماً مفتوحاً أو دفعة غير مربوطة أو موافقة
-              ناقصة.</p>
-          </article>
-          <article><span>الربط الخارجي</span>
-            <h4>يتبادل النظام النتائج مع البنوك والجهات الحكومية</h4>
-            <p>يرسل النظام طلبات الدفع أو المقاصة أو الإيقاف بعد اعتمادها، ويستقبل النتيجة، ويعيد التعامل عندما يزول سبب
-              الإيقاف.</p>
-          </article>
-          <article><span>متابعة الإدارة</span>
-            <h4>يعرض النظام النتائج والتنبيهات</h4>
-            <p>يعرض النظام السداد في الموعد والدفعات غير المربوطة وخطط السداد المتأخرة ومدة التظلمات ووقت إعادة
-              التعامل.</p>
-          </article>
-        </div>
-
-        <h3>كيف يستخدم الصندوق الذكاء الاصطناعي بطريقة عملية؟</h3>
-        <p class="section-intro">يستخدم الصندوق الذكاء الاصطناعي لمساعدة الموظف في القراءة والبحث وترتيب العمل. ويعتمد
-          النظام الأساسي القواعد والمبالغ الرسمية، بينما يراجع الموظف أي اقتراح ينتجه الذكاء الاصطناعي.</p>
-        <div class="ai-use-grid">
-          <article><span>قراءة المستندات</span>
-            <h4>يقرأ المستندات ويرتب الطلبات</h4>
-            <p>يستخرج الذكاء الاصطناعي رقم جهة العمل والفاتورة والمبلغ من طلبات التظلم وخطط السداد، ويبين المستندات
-              الناقصة قبل أن يفتح الموظف الطلب.</p><strong>يؤكد الموظف البيانات قبل حفظها.</strong>
-          </article>
-          <article><span>تلخيص الملف</span>
-            <h4>يلخص ملف جهة العمل للموظف</h4>
-            <p>يجمع الذكاء الاصطناعي الفواتير والدفعات والمراسلات والقرارات في ملخص زمني قصير، مع رابط إلى كل معلومة
-              أصلية.</p><strong>يعتمد الموظف على السجلات الأصلية عند اتخاذ القرار.</strong>
-          </article>
-          <article><span>كشف الحالات غير المعتادة</span>
-            <h4>يكشف العمليات التي تحتاج إلى مراجعة</h4>
-            <p>ينبه الذكاء الاصطناعي الموظف إلى دفعة مكررة أو تغير غير معتاد في قيمة الفاتورة أو خطة سداد تختلف كثيراً
-              عن نمط الجهة.</p><strong>لا يعدل الذكاء الاصطناعي الفاتورة أو الدفعة بنفسه.</strong>
-          </article>
-          <article><span>ترتيب الأولويات</span>
-            <h4>يرتب قوائم المهام حسب الحاجة إلى التدخل</h4>
-            <p>يتوقع النموذج الجهات الأكثر احتمالاً لعدم الالتزام بالخطة أو استمرار التأخر، ويعرض الأسباب التي أثرت في
-              التوقع.</p><strong>لا يستخدم الصندوق التوقع وحده لإيقاف التعامل أو رفض طلب.</strong>
-          </article>
-          <article><span>صياغة الرسائل</span>
-            <h4>يقترح رسالة واضحة للموظف</h4>
-            <p>يعد الذكاء الاصطناعي مسودة تذكير أو طلب استكمال أو ملخص قرار باستخدام النصوص التي يعتمدها الصندوق.</p>
-            <strong>يراجع الموظف الرسالة قبل إرسالها.</strong>
-          </article>
-          <article><span>المساعد المعرفي</span>
-            <h4>يساعد الموظف على الوصول إلى الإجراء الصحيح</h4>
-            <p>يجيب المساعد الداخلي عن أسئلة الموظف من السياسات والأدلة والمواد القانونية المعتمدة، ويعرض مصدر الإجابة
-              وتاريخه.</p><strong>لا يصدر المساعد رأياً قانونياً.</strong>
-          </article>
-        </div>
-
-        <div class="ai-guardrails">
-          <div>
-            <h4>ما الذي يحتاجه الصندوق قبل الاستخدام؟</h4>
-            <ul>
-              <li>يحدد الصندوق مصادر البيانات التي يسمح للنموذج باستخدامها.</li>
-              <li>يحمي الصندوق بيانات جهات العمل والموظفين ولا يرسلها إلى خدمة عامة.</li>
-              <li>يختبر الفريق النتائج على عينة سابقة قبل استخدامها في العمل اليومي.</li>
-              <li>يقيس الفريق الأخطاء والوقت الذي وفره الاستخدام، ويوقفه إذا لم يحقق نتيجة واضحة.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="implementation-strip">
-          <article><span>المستوى الأول</span>
-            <p>يكمل الصندوق قواعد التصنيف وربط البيانات وقوائم المهام دون استخدام الذكاء الاصطناعي.</p>
-          </article>
-          <article><span>المستوى الثاني</span>
-            <p>يجرب الصندوق قراءة المستندات وتلخيص الملفات وإعداد مسودات الرسائل على نطاق محدود.</p>
-          </article>
-          <article><span>المستوى الثالث</span>
-            <p>يجرب الصندوق التوقع وترتيب الأولويات بعد أن تتوفر بيانات صحيحة ونتائج سابقة تكفي لاختبار النموذج.</p>
-          </article>
-        </div>
-
-        <h3>ما مسؤولية كل فريق؟</h3>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">الجهة المسؤولة</th>
-                <th scope="col">ما الذي تقوم به؟</th>
-                <th scope="col">ما الضابط الذي تلتزم به؟</th>
-              </tr>
-            </thead>
-            <tbody id="rolesTable"></tbody>
-          </table>
-        </div>
-
-        <h3>كيف نقيس نجاح كل إجراء؟</h3>
-        <div class="kpi-grid" id="kpis"></div>
-
-        <h3>كيف ينفذ الصندوق التغييرات على مراحل؟</h3>
-        <div class="wave-grid" id="implementationWaves"></div>
+      <section id="decisions" data-title="القرارات المطلوبة" data-number="٨">
+        <div class="section-heading"><span class="section-number">٨</span><div><span class="section-eyebrow">مخرجات جلسة النقاش</span><h2>ما الذي نحتاج إلى الاتفاق عليه؟</h2></div></div>
+        <p class="section-intro">يتطلب الانتقال إلى التصميم التفصيلي اتفاق دائرة الاشتراكات والجهات المعنية على القرارات التالية.</p>
+        <ol class="decision-list" id="decisionsList"></ol>
       </section>
 
-      <!-- <section id="decisions" data-title="ما نحتاج قراركم فيه" data-number="٨">
-        <div class="section-heading">
-          <span class="section-number">٨</span>
-          <div>
-            <h2>ما نحتاج قراركم فيه</h2>
-          </div>
-        </div>
-
-        <p class="section-intro">تعتمد المقترحات السابقة على خمسة قرارات تخص دائرة الاشتراكات.</p>
-        <ol class="decision-list" id="decisions"></ol>
-      </section>
-
-      <section id="appendices" data-title="الملاحق" data-number="٩">
-        <div class="section-heading">
-          <span class="section-number">٩</span>
-          <div>
-            <h2>الملاحق</h2>
-          </div>
-        </div>
-
-        <details class="appendix-panel">
-          <summary>ما مخاطر التنفيذ، وكيف يحد الصندوق منها؟</summary>
-          <div class="appendix-body">
-            <div class="risk-list" id="riskList"></div>
-          </div>
-        </details>
-      </section> -->
     </main>
   </div>
 
-  <footer>
-    صندوق الحماية الاجتماعية · دائرة الاشتراكات · رفع كفاءة آليات التحصيل · مسودة للنقاش
-  </footer>
-
-  <script id="collectionFrameworkContent">
-    // محتوى الوثيقة: يراجع ويحدث من هذا الملف.
-    const STATUS_LABELS = {
-      current: ["مطبق حالياً", "status-current"],
-      progress: ["قيد التطوير", "status-progress"],
-      proposed: ["مقترح", "status-proposed"],
-      review: ["يتطلب التأكيد", "status-review"],
-      legal: ["يتطلب الاعتماد", "status-legal"]
-    };
-
-    const UI_TEXT = {
-      invoiceUnit: "فاتورة",
-      percentageSeparator: "%، ",
-      outcomeAriaPrefix: "نتائج سداد الفواتير في ",
-      officialSource: "فتح المصدر الرسمي",
-      restrictionAction: "الإجراء",
-      restrictionScope: "نطاق الإيقاف",
-      restrictionReference: "الأساس أو الاعتماد المطلوب",
-      ruleSystem: "ماذا ينفذ النظام؟ ",
-      ruleStaff: "متى يتدخل الموظف؟ ",
-      groupPaid: "سُددت بالكامل",
-      groupUnpaid: "لم تُسدد بالكامل",
-      legalSummaryTitle: "خلاصة السند القانوني للإجراءات الأحد عشر المقترحة",
-      restrictionAxis: "يوم من تاريخ الاستحقاق",
-      branchFrom: "تتفرع عند خطوة",
-      legalDirect: "تدعم المادة الإجراء مباشرة",
-      legalPartial: "تدعم المادة جزءاً من الإجراء",
-      legalNone: "لا تدعم المواد الإجراء مباشرة",
-      appendicesOpen: "فتح الملاحق",
-      appendicesClose: "إغلاق الملاحق",
-      themeDark: "الوضع الداكن",
-      themeLight: "الوضع الفاتح"
-    };
-
-    // مقارنة الحصص عند انطباق جميع الفروع. value = النسبة، base = وعاء الأجر.
-    const CONTRIBUTION_SHARES = {
-      title: "من يتحمل الاشتراك عند انطباق جميع الفروع؟",
-      max: 14.5,
-      rows: [
-        ["حصة المؤمن عليه العماني", 8, "8%", "من أجر الاشتراك"],
-        ["حصة جهة العمل عن العماني", 14.5, "14.5%", "من أجر الاشتراك"],
-        ["حصة جهة العمل عن غير العماني", 12, "3% + 9%", "من الأجر الإجمالي ومن الأجر الأساسي"]
-      ]
-    };
-
-    const PRINCIPLES = [
-      ["تسهيل السداد أولاً", "فاتورة واضحة وتنبيه مبكر وطرق دفع سهلة قبل بدء إجراءات التصعيد."],
-      ["المطابقة الآلية للدفعات", "يعالج النظام الدفعات آلياً، ويتدخل فريق المطابقة المالية في الحالات غير الواضحة فقط."],
-      ["معالجة سبب التأخر", "يحدد الإجراء حسب سبب التأخر واستجابة جهة العمل، وليس حسب مدة التأخر وحدها."],
-      ["استمرار سداد الفواتير الجديدة", "لا توقف خطة المتأخرات استحقاق الفواتير الجديدة في مواعيدها."],
-      ["توثيق القرارات", "يسجل النظام القرار وسببه ومن اعتمده ونتيجته."],
-      ["قياس النتائج", "تشمل المتابعة السداد في الموعد والمطابقة الآلية والالتزام بخطط السداد."]
-    ];
-
-    const HEADLINE_METRICS = [
-      ["53.8%", "القطاع الخاص", "من الفواتير سُددت في الموعد."],
-      ["10.1%", "القطاع الحكومي", "من الفواتير سُددت في الموعد."],
-      ["55.3%", "القطاع الحكومي", "من الفواتير سُددت جزئياً."],
-      ["13.46%", "القطاع الحكومي", "من المستحقات متأخرة لأكثر من 180 يوماً."]
-    ];
-
-    const OUTCOMES = {
-      private: {
-        name: "القطاع الخاص",
-        total: "501,167 فاتورة",
-        values: [
-          ["السداد في الموعد", 53.8, "269,807"],
-          ["السداد بعد الموعد خلال الشهر", 16.8, "84,000"],
-          ["السداد في شهر لاحق", 0.02, "97"],
-          ["السداد الجزئي", 1.9, "9,454"],
-          ["عدم السداد", 27.5, "137,809"]
-        ]
-      },
-      government: {
-        name: "القطاع الحكومي",
-        total: "1,589 فاتورة",
-        values: [
-          ["السداد في الموعد", 10.1, "161"],
-          ["السداد بعد الموعد خلال الشهر", 9.3, "147"],
-          ["السداد في شهر لاحق", 0.8, "13"],
-          ["السداد الجزئي", 55.3, "878"],
-          ["عدم السداد", 24.5, "390"]
-        ]
-      }
-    };
-
-    const CURRENT_METHODS = [
-      ["إشعار السداد الشهري", "current", "إصدار الفاتورة من البيانات المسجلة، ثم إرسالها وإتاحة طلب التصحيح."],
-      ["تقسيط المستحقات", "current", "توحيد شروط التقسيط تحت مسمى «خطة السداد» مع استمرار سداد الفواتير الجديدة."],
-      ["الإعفاء من المبلغ الإضافي", "current", "تطبيق الإعفاء في الحالات التي يسمح بها القانون وبعد الاعتماد."],
-      ["تأجيل إصدار الفاتورة", "current", "إيقاف هذا الإجراء وإصدار الفاتورة في موعدها. وعند وجود أساس قانوني، يؤجل السداد لا إصدار الفاتورة."],
-      ["إيقاف التعامل بعد شهرين", "current", "استبدال الإيقاف الموحد بمراحل وضوابط واعتمادات واضحة."],
-      ["معالجة السداد الجزئي", "proposed", "تحديد سبب الفرق وطريقة سداد المبلغ المتبقي بدل تركه مفتوحاً."],
-      ["المقاصة مع المستحقات الحكومية", "proposed", "خصم الدين من مستحقات الجهة لدى الحكومة بعد الاعتماد."]
-    ];
-
-    const REQUIRED_JOURNEY = [
-      ["إصدار الفاتورة", "يحسب النظام المبلغ من البيانات المسجلة ويصدر الفاتورة مباشرة."],
-      ["إرسال إشعار السداد", "يرسل النظام المبلغ وموعد السداد وطرق الدفع."],
-      ["سداد الفاتورة", "تختار جهة العمل طريقة الدفع المناسبة."],
-      ["مطابقة الدفعة", "يربط النظام الدفعة بالفاتورة ويحدث الرصيد."],
-      ["إغلاق الفاتورة", "يغلق النظام الفاتورة ويرسل نتيجة السداد."]
-    ];
-
-    const CASE_ROUTES = [
-      ["إصدار الفاتورة", "خطأ في بيانات الفاتورة", "تحدد جهة العمل البيانات غير الصحيحة وتطلب تصحيحها.", "يراجع موظف الاشتراكات البيانات، ثم يعيد النظام حساب الفاتورة."],
-      ["مطابقة الدفعة", "دفعة غير مرتبطة بالفاتورة", "تقدم جهة العمل ما يثبت الدفع.", "يراجع فريق المطابقة المالية مرجع الدفع ويربطه بالفاتورة."],
-      ["سداد الفاتورة", "صعوبة مالية مؤقتة", "تقدم جهة العمل سبب الطلب وقدرتها على السداد.", "يدرس موظف التحصيل خطة مناسبة مع استمرار سداد الفواتير الجديدة."],
-      ["إغلاق الفاتورة", "سداد جزئي متكرر", "يبقى جزء من الفاتورة مستحقاً لأكثر من شهر.", "يحدد موظف التحصيل سبب الفرق وطريقة سداد المتبقي."],
-      ["إشعار السداد", "تظلم", "تحدد جهة العمل الفاتورة والمبلغ محل الطلب وترفق المستندات.", "يفصل موظف الاشتراكات المبلغ محل الطلب، ثم يصدر المختصون القرار."],
-      ["سداد الفاتورة", "عدم الاستجابة", "لا تسدد جهة العمل ولا تقدم تظلماً أو طلب خطة.", "يرسل الصندوق الإنذار، ثم يطبق الإجراء المعتمد بعد انتهاء المهلة."]
-    ];
-
-    const TARGET_METHODS = [
-      ["خصم", "الخصم المباشر", "خصم قيمة الفاتورة أو القسط بعد إشعار جهة العمل بالمبلغ والموعد. يبدأ مع بنك مسقط ويتوسع لاحقاً.", "progress"],
-      ["رمز", "رمز الدفع (QR)", "رمز يتضمن رقم الفاتورة والمبلغ لتجنب الإدخال اليدوي.", "proposed"],
-      ["عدة", "سداد عدة فواتير", "عملية إلكترونية واحدة يوزعها النظام على الفواتير المختارة.", "proposed"],
-      ["بنك", "التحويل البنكي بمرجع موحد", "مرجع موحد يربط التحويل بجهة العمل وفواتيرها، ويتيح مطابقته آلياً.", "current"],
-      ["بوابة", "بوابة الدفع", "شاشة واحدة لمراجعة الفواتير وسدادها وتحميل الإيصالات.", "proposed"]
-    ];
-
-    const DIRECT_DEBIT_FLOW = [
-      ["اختيار نوع الخصم", "فاتورة شهرية أو قسط ضمن خطة سداد."],
-      ["تسجيل الطلب", "تحدد جهة العمل الحساب والحد الأعلى وتاريخ الخصم."],
-      ["التفويض بالخصم المباشر", "يتحقق البنك من صاحب الصلاحية ويرسل نتيجة الطلب."],
-      ["الإشعار المسبق", "يرسل الصندوق المبلغ وتاريخ الخصم."],
-      ["تنفيذ الخصم", "يخصم البنك المبلغ ويطابقه النظام مع الفاتورة."],
-      ["معالجة تعذّر تنفيذ الخصم", "يرسل النظام السبب وخيار إعادة المحاولة أو طريقة دفع أخرى."]
-    ];
-
-    const BENCHMARKS = [
-      {
-        country: "السعودية",
-        title: "السداد عبر القنوات البنكية",
-        detail: "تتيح المؤسسة العامة للتأمينات الاجتماعية السداد عبر نظام سداد وقنوات البنوك المختلفة.",
-        use: "قناة موحدة تربط البنوك بالفاتورة وتصدر إثبات الدفع.",
-        source: "https://www.gosi.gov.sa/GOSIOnline/FAQ_Employer?locale=en_US"
-      },
-      {
-        country: "الإمارات",
-        title: "منصة موحدة للاشتراك والسداد",
-        detail: "تعرض منصة «معاشي» المستحقات وتربط بيانات السداد بالتحويل الإلكتروني.",
-        use: "جمع بيانات الاشتراك والفاتورة والدفع في مسار واحد.",
-        source: "https://gpssa.gov.ae/pages/en/media-center/news/gpssa-explains-mechanism-pay-employer-contributions"
-      },
-      {
-        country: "البحرين",
-        title: "الخصم المباشر للفاتورة الشهرية",
-        detail: "يقدم صاحب العمل الطلب إلكترونياً، ثم تخصم قيمة الفاتورة من حسابه البنكي.",
-        use: "ربط الخصم بإشعار السداد والحساب الذي تعتمده جهة العمل.",
-        source: "https://www.sio.gov.bh/en/direct-debit-installment"
-      },
-      {
-        country: "الإمارات – الجهات الاتحادية",
-        title: "ربط الاشتراكات بدورة الرواتب الحكومية",
-        detail: "تسدد الجهات الاتحادية اشتراكات التقاعد خلال الأسبوع الأول من الشهر التالي لصرف الرواتب.",
-        use: "دراسة تحويل اشتراكات موظفي الحكومة ضمن دورة الرواتب بالتنسيق مع وزارة المالية. ولا يشمل ذلك جهات العمل الخاصة.",
-        source: "https://mof.gov.ae/wp-content/uploads/2024/05/%D8%A7%D9%84%D8%AF%D9%84%D9%8A%D9%84-%D8%A7%D9%84%D8%AA%D8%B4%D8%BA%D9%8A%D9%84%D9%8A-%D9%84%D9%84%D8%A7%D8%AC%D8%B1%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%A7%D8%AA%D8%AD%D8%A7%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D9%86%D9%87%D8%A7%D9%8A%D9%94%D9%8A-2024.pdf"
-      },
-      {
-        country: "سنغافورة",
-        title: "ربط الدفع ببيانات الرواتب",
-        detail: "ترسل جهة العمل بيانات الاشتراكات من نظام الرواتب وتستخدم رمزاً يحمل معلومات الدفع.",
-        use: "تقليل الإدخال اليدوي وتسريع مطابقة الدفعة.",
-        source: "https://www.cpf.gov.sg/employer/making-cpf-contributions/submitting-cpf-contributions-via-cpf-ezpay"
-      },
-      {
-        country: "المملكة المتحدة",
-        title: "خصم مباشر بقيمة متغيرة",
-        detail: "تتغير قيمة الخصم حسب المبلغ المستحق، مع إشعار جهة العمل قبل التنفيذ.",
-        use: "ربط الخصم بقيمة إشعار السداد وإرسال إشعار مسبق.",
-        source: "https://www.gov.uk/pay-paye-tax/direct-debit"
-      }
-    ];
-
-    const FINANCIAL_TREATMENTS = [
-      ["تقسيط المستحقات (خطة السداد القائمة)", "توزيع المتأخرات على أقساط مع استمرار سداد الفواتير الجديدة.", "current", "تحدد السياسة شروط القبول والمدة وصلاحية الاعتماد."],
-      ["خطة تقترحها جهة العمل", "تقدم جهة العمل الدفعة الأولى والأقساط والتواريخ المقترحة.", "proposed", "يدرس الموظف الطلب ويعتمده صاحب الصلاحية."],
-      ["تعديل خطة قائمة", "تقدم جهة العمل سبب التعثر وجدولاً بديلاً.", "proposed", "يسمح بالتعديل وفق شروط وعدد مرات محدد."],
-      ["خطة قصيرة للمبالغ المحدودة", "مسار مبسط للمبالغ المحدودة والجهات المنتظمة سابقاً.", "proposed", "تحدد السياسة الحد الأعلى للمبلغ والمدة."],
-      ["خطة واحدة لعدة فواتير", "جمع الفواتير القائمة في جدول سداد واحد.", "proposed", "يوضح النظام توزيع كل قسط على الفواتير."],
-      ["أقساط مرتبطة بموسم النشاط", "تعديل قيمة الأقساط حسب أشهر النشاط المثبتة.", "proposed", "يستمر سداد الفواتير الجديدة في موعدها."],
-      ["تأجيل السداد", "تأجيل المطالبة في الحالات التي تحددها المادة 35 من اللائحة.", "legal", "تطبق الحالات والمدة الواردة في المادة فقط."],
-      ["الإعفاء من المبلغ الإضافي", "دراسة السبب القاهر وفق القواعد المعتمدة.", "legal", "لا يطبق الإعفاء بصورة عامة."],
-      ["تسوية الرصيد الدائن", "استخدام الرصيد المؤكد لسداد فاتورة أخرى بعد الموافقة.", "proposed", "يسجل النظام المبلغ والفاتورة ومن اعتمد التسوية."]
-    ];
-
-    const CUSTOM_PLAN_WORKFLOW = [
-      {
-        title: "تقدم جهة العمل اقتراحها",
-        summary: "تقدم الخطة من حسابها في النظام.",
-        items: ["تحدد الفواتير والدفعة الأولى والأقساط والتواريخ.", "توضح سبب الطلب وترفق المستندات."]
-      },
-      {
-        title: "دراسة الطلب",
-        summary: "يفحص النظام البيانات، ثم يراجعها الموظف.",
-        items: ["يعرض النظام المبلغ وسجل السداد والخطط القائمة.", "يقيم الموظف القدرة على دفع الأقساط والفواتير الجديدة."]
-      },
-      {
-        title: "القرار والمتابعة",
-        summary: "يعتمد صاحب الصلاحية القرار وتوافق جهة العمل على الجدول.",
-        items: ["يرسل النظام القرار وسببه والجدول النهائي.", "يتابع النظام الأقساط والفواتير الجديدة وينبه الموظف عند التعثر."]
-      }
-    ];
-
-    const CLASSIFICATION_RULES = [
-      {
-        group: "تحتاج الفاتورة إلى تصحيح قبل متابعة التحصيل",
-        when: "يجد النظام خطأً في الفاتورة أو دفعة لم يربطها، أو يجد تظلماً لم يصدر الصندوق قراراً بشأنه.",
-        system: "يوقف أي إجراء تصعيدي، ويرسل الحالة إلى قائمة تصحيح البيانات أو ربط الدفعات أو دراسة التظلم.",
-        staff: "يعالج الموظف سبب الاستبعاد فقط، ثم يعيد النظام التصنيف."
-      },
-      {
-        group: "تلتزم جهة العمل بالسداد",
-        when: "تسدد فواتيرها في الموعد، أو تلتزم بخطة سداد اعتمدها الصندوق.",
-        system: "يحدث الفواتير ويحفظ سجل الالتزام، ولا ينشئ مهمة تحصيل.",
-        staff: "لا يتدخل الموظف إلا عند ظهور دفعة غير مربوطة أو طلب جديد."
-      },
-      {
-        group: "تحتاج جهة العمل إلى تذكير آلي",
-        when: "يتأكد النظام من المبلغ، ويبقى التأخر في حدود 30 يوماً، ولا يوجد تظلم أو طلب خطة سداد.",
-        system: "يرسل تذكيراً ورابط السداد وطرق الدفع المتاحة، ويتابع النتيجة.",
-        staff: "يتدخل الموظف إذا طلبت جهة العمل المساعدة أو لم تنجح وسائل التواصل الآلية."
-      },
-      {
-        group: "تحتاج جهة العمل إلى معالجة مالية",
-        when: "تسدد جزءاً من الفاتورة بصورة متكررة، أو تطلب خطة سداد، أو تتعثر في خطة قائمة.",
-        system: "يجمع الفواتير والمدفوعات السابقة، ويرسل الطلب إلى قائمة دراسة الخطط.",
-        staff: "يدرس الموظف الطلب، ويصدر صاحب الصلاحية القرار."
-      },
-      {
-        group: "تحتاج جهة العمل إلى متابعة رسمية",
-        when: "يتأكد النظام من الدين، ويتجاوز التأخر 30 يوماً، ولا يوجد تظلم مفتوح ولا خطة سداد ملتزم بها.",
-        system: "ينشئ إنذاراً موحداً ويرسله إلى بيانات التواصل المعتمدة، ويسجل تاريخ الإرسال والمهلة.",
-        staff: "يراجع الموظف الجهات التي لم تستجب قبل انتهاء المهلة فقط."
-      },
-      {
-        group: "تحتاج جهة العمل إلى مراجعة الإيقاف",
-        when: "يتجاوز التأخر 60 يوماً، ويرسل النظام إشعارين بنجاح، ولا تستجيب جهة العمل أو لا تلتزم بالخطة المعتمدة.",
-        system: "ينشئ قائمة موحدة بالجهات المرشحة، ويستبعد أي جهة لديها تظلم مفتوح أو دفعة غير مربوطة.",
-        staff: "يراجع الموظف الاستثناءات، ثم يعتمد المسؤول القائمة أو يعيد بعض الجهات إلى مسار آخر."
-      },
-      {
-        group: "تحتاج جهة العمل إلى مراجعة قانونية",
-        when: "يتجاوز التأخر 180 يوماً، وتستمر شروط المتابعة الرسمية، ولا تعالج جهة العمل سبب التأخر.",
-        system: "يجمع الفواتير والإشعارات والقرارات والمدفوعات في ملف واحد ويرسله إلى المراجعة القانونية.",
-        staff: "تحدد الشؤون القانونية الإجراء الذي يسمح به القانون قبل الإحالة إلى دائرة التنفيذ بالمحكمة المختصة."
-      }
-    ];
-
-    const DECISIONS = [
-      ["نطاق تطبيق الخصم المباشر", "هل يبدأ الخصم المباشر مع بنك مسقط كتجربة قابلة للتوسع، أم يشترط النموذج متعدد البنوك من البداية؟"],
-      ["ضوابط خيارات المعالجة المالية", "ما الحدود المالية والمدد ومستويات الاعتماد المناسبة لكل خيار من خيارات المعالجة؟"],
-      ["قواعد التصنيف الآلي", "هل تمثل مدد 30 و60 و180 يوماً المواعيد المناسبة للانتقال بين التذكير والمتابعة الرسمية ومراجعة الإيقاف والمراجعة القانونية؟"],
-      ["أولويات النظام والذكاء الاصطناعي", "ما أكثر عمل متكرر يستغرق وقت موظفي دائرة الاشتراكات ويمكن للنظام أن يساعدهم فيه أولاً؟"],
-      ["ترتيب مراحل التنفيذ", "هل يناسب ترتيب مراحل التنفيذ الأولويات والمتطلبات السابقة الفعلية لدى دائرة الاشتراكات؟"]
-    ];
-
-    // weight = مدة المرحلة بالأيام، تُرسم بمقياس متناسب. tick = علامة نهاية المرحلة على المحور.
-    const RESTRICTION_STEPS = [
-      {
-        title: "التذكير قبل الاستحقاق",
-        period: "قبل موعد السداد",
-        weight: 40,
-        tick: "0",
-        action: "يرسل النظام الفاتورة والتذكير وطرق السداد.",
-        scope: "لا يوجد إيقاف للتعامل.",
-        reference: "تعتمد هذه الخطوة ضمن سياسة التحصيل."
-      },
-      {
-        title: "التذكير بعد التأخر",
-        period: "من 1 إلى 30 يوماً",
-        weight: 30,
-        tick: "30",
-        action: "يرسل النظام إشعاراً ورابط السداد، ويوجه الحالات غير الواضحة إلى الفريق المختص.",
-        scope: "لا يوجد إيقاف للتعامل.",
-        reference: "تنظم هذه الخطوة كإجراء تشغيلي داخلي."
-      },
-      {
-        title: "الإنذار الرسمي",
-        period: "من 31 إلى 60 يوماً",
-        weight: 30,
-        tick: "60",
-        action: "يرسل النظام إنذاراً يوضح المبلغ والمهلة والخطوة التالية.",
-        scope: "لا يبدأ الإيقاف قبل انتهاء المهلة.",
-        reference: "تعتمد الجهة المختصة نص الإنذار ومدته."
-      },
-      {
-        title: "مراجعة الإيقاف وتوسيعه",
-        period: "من 61 إلى 180 يوماً",
-        weight: 120,
-        tick: "180",
-        action: "ينشئ النظام قائمة الجهات المستوفية للشروط ويحدثها، ثم يراجع المسؤول الاستثناءات ويعتمد نطاق الإيقاف ومداه.",
-        scope: "لا ينفذ النظام الإيقاف تلقائياً، ولا تكفي مدة التأخر وحدها.",
-        reference: "تسمح المادة 116 بطلب إيقاف التعامل في حالات محددة، ولا تحدد المستوى أو المدة، ويتطلب التوسيع سياسة معتمدة واتفاقاً مع الجهات المنفذة."
-      },
-      {
-        title: "المراجعة القانونية",
-        period: "أكثر من 180 يوماً",
-        weight: 70,
-        tick: "",
-        action: "يجمع النظام ملف الجهة، ثم تحدد الشؤون القانونية الإجراء المناسب.",
-        scope: "ينفذ الإجراء الذي يسمح به القانون وبعد الاعتماد.",
-        reference: "تعطي المادة 9 دين الصندوق أولوية في السداد، ولا تمنح حق الحجز المباشر."
-      }
-    ];
-
-    const SETOFF_WORKFLOW = [
-      {
-        title: "التحقق من المبالغ",
-        summary: "تأكيد دين الصندوق ومستحقات جهة العمل لدى الحكومة.",
-        items: ["تؤكد الجهة الحكومية قيمة المستحقات.", "يؤكد موظف الاشتراكات الدين ويستبعد المبلغ محل التظلم أو غير المكتمل."]
-      },
-      {
-        title: "الإشعار والاعتماد",
-        summary: "إبلاغ جهة العمل ومراجعة الطلب قبل التنفيذ.",
-        items: ["يرسل الصندوق المبلغ ومصدره والفواتير المشمولة والمدة المتاحة للتظلم.", "تراجع الشؤون القانونية والدائرة المالية الطلب ويعتمده صاحب الصلاحية."]
-      },
-      {
-        title: "التنفيذ والتسوية",
-        summary: "تحويل المبلغ وتحديث الفواتير.",
-        items: ["ترسل الدائرة المالية أمر المقاصة وفق الآلية المعتمدة.", "يربط النظام المبلغ بالفواتير ويرسل النتيجة ويغلق الطلب."]
-      }
-    ];
-
-    const APPEAL_WORKFLOW = [
-      {
-        title: "تقديم التظلم",
-        summary: "تحدد جهة العمل الفاتورة والمبلغ وسبب التظلم.",
-        items: ["ترفق جهة العمل المستندات وترسل الطلب.", "يفحص النظام اكتمال الطلب ويطلب المعلومات الناقصة."]
-      },
-      {
-        title: "دراسة التظلم",
-        summary: "يراجع الموظف المبلغ محل التظلم، ويستمر سداد المبلغ غير المشمول به.",
-        items: ["يفصل الموظف المبلغ محل التظلم عن المبلغ الواجب سداده.", "يراجع البيانات والمدفوعات والحساب ويطلب رأي المختص عند الحاجة."]
-      },
-      {
-        title: "إصدار القرار",
-        summary: "يصدر صاحب الصلاحية القرار مع الأسباب والمبلغ النهائي.",
-        items: ["يرسل النظام القرار إلى جهة العمل.", "يمكن لجهة العمل تقديم الطعن أمام الجهة المختصة خلال المدة المعتمدة."]
-      },
-      {
-        title: "تنفيذ القرار",
-        summary: "يحدث النظام الفاتورة وينفذ الفريق الإجراء الناتج عن القرار.",
-        items: ["يعدل النظام الفاتورة أو يبقي المبلغ مستحقاً حسب القرار.", "يسجل النظام النتيجة ويغلق الطلب بعد اكتمال التنفيذ."]
-      }
-    ];
-
-    const ROLES = [
-      ["دائرة الاشتراكات", "سياسة التحصيل ومعالجة الحالات ومتابعة النتائج.", "يفصل الإجراء بين اقتراح الاستثناء ومراجعته واعتماده."],
-      ["فريق المطابقة المالية", "معالجة الدفعات الناقصة البيانات أو الناقصة أو الزائدة أو المكررة.", "يعرض النظام الاستثناءات فقط، أما سداد عدة فواتير فيسويه آلياً."],
-      ["الدائرة المالية", "مراجعة الحسابات البنكية والمبالغ المستردة وتنفيذ المقاصة.", "يفصل الإجراء بين الإنشاء والمراجعة والاعتماد."],
-      ["الشؤون القانونية", "مراجعة أساس الإنذار والإيقاف والمقاصة والتنفيذ.", "لا يبدأ الإجراء القانوني قبل المراجعة والاعتماد."],
-      ["تقنية المعلومات", "تطوير البوابة والتكامل وقواعد التصنيف وقوائم المهام.", "إدارة الصلاحيات وحماية البيانات وسجل العمليات واستمرار الخدمة."],
-      ["فريق البيانات والذكاء الاصطناعي", "تجهيز البيانات واختبار قراءة المستندات والتلخيص وترتيب العمل.", "قياس الدقة وإيقاف الاستخدام غير المجدي، مع بقاء القرار للموظف."],
-      ["خدمة المتعاملين", "شرح الإجراءات واستلام الاستفسارات ومتابعة التظلمات.", "استخدام رسائل موحدة وتوضيح مدة المعالجة."]
-    ];
-
-    const KPIS = [
-      ["السداد في الموعد", "الفواتير المسددة كاملة قبل موعد الاستحقاق."],
-      ["نجاح الدفع من أول محاولة", "عمليات الدفع الناجحة دون إعادة المحاولة أو تدخل الموظف."],
-      ["المطابقة الآلية للدفعات", "الدفعات التي ربطها النظام بالفواتير دون تدخل الموظف."],
-      ["الالتزام بخطط السداد", "الخطط المنتظمة في دفع الأقساط والفواتير الجديدة."],
-      ["مدة قرار التظلم", "الوقت بين اكتمال الطلب وإرسال القرار المسبب."],
-      ["مدة إعادة التعامل", "الوقت بين زوال سبب الإيقاف وإعادة التعامل."]
-    ];
-
-    const WAVES = [
-      {
-        number: "المرحلة الأولى",
-        title: "الفاتورة والدفع والتسوية",
-        items: ["إصدار الفاتورة مباشرة وإتاحة التصحيح بعد الإصدار.", "تطوير بوابة الدفع والتسوية الإلكترونية لعدة فواتير.", "إضافة مرجع للتحويل البنكي وتجربة الخصم المباشر."]
-      },
-      {
-        number: "المرحلة الثانية",
-        title: "الطلبات ومعالجة الحالات",
-        items: ["ملف موحد للفواتير والدفعات والطلبات.", "خطط السداد وإجراء التظلم إلكترونياً.", "تجربة الذكاء الاصطناعي في القراءة والتلخيص وصياغة الرسائل."]
-      },
-      {
-        number: "المرحلة الثالثة",
-        title: "التكامل والتوسع",
-        items: ["توسيع الخصم المباشر ليشمل بنوكاً أخرى.", "تطبيق المقاصة والإيقاف المتدرج بعد الاعتماد.", "ترتيب قوائم المهام بالذكاء الاصطناعي بعد إثبات دقته."]
-      }
-    ];
-
-    const LAW_URL = "https://mjla.gov.om/laws/ar/1/show/198";
-    const REGULATION_URL = "https://www.mjla.gov.om/decisions/ar/1159/show/1830";
-
-    const LEGAL_ITEMS = [
-      ["موعد سداد الاشتراكات", "المادة 58 من القانون", LAW_URL, "direct", "السداد خلال أول خمسة عشر يوماً من الشهر التالي.", "تطبيق الموعد المنصوص عليه في القانون."],
-      ["المبلغ الإضافي عند التأخر", "المادة 155 من القانون", LAW_URL, "direct", "مبلغ إضافي بنسبة 5.5% سنوياً على الاشتراكات والمبالغ الإضافية السابقة طوال مدة التأخر.", "استخدام مصطلح «المبلغ الإضافي» الوارد في القانون."],
-      ["التحويل البنكي وطرق السداد الأخرى", "المادة 32 من اللائحة", REGULATION_URL, "direct", "تجيز التحويل إلى حسابات الصندوق المعتمدة وتسمح بتحديد طرق أخرى.", "اعتماد كل طريقة وتحديد آلية ربط الدفعة بالفاتورة."],
-      ["الخصم المباشر ورمز الدفع", "المادة 32 من اللائحة", REGULATION_URL, "partial", "تسمح بطرق سداد أخرى، ولا تحدد تفاصيل الخصم أو بيانات الرمز.", "اعتماد القواعد المصرفية والتقنية والعقود اللازمة."],
-      ["الاعتراض على أجر الاشتراك", "المادة 34 من اللائحة", REGULATION_URL, "direct", "مهلة تسعين يوماً لجهة العمل والمؤمن عليه للاعتراض على الأجر المسجل.", "قصر التطبيق على الاعتراض على أجر الاشتراك."],
-      ["تأجيل السداد أثناء اعتراض محدد", "المادة 35 من اللائحة", REGULATION_URL, "direct", "تسمح بالتأجيل مدة لا تتجاوز تسعين يوماً في حالتين محددتين.", "الالتزام بالحالتين والمدة الواردة في المادة."],
-      ["اقتراح خطة سداد أو تعديلها", "لا يوجد نص مباشر في المواد المرتبطة", REGULATION_URL, "none", "استقبال الطلب إلكترونياً لا يعني الموافقة عليه.", "تأكيد الأساس القانوني واعتماد السياسة والمعايير والصلاحيات."],
-      ["الإعفاء من المبلغ الإضافي", "المادة 155 من القانون", LAW_URL, "partial", "تستثني الأسباب القاهرة وفق قواعد المجلس، ولا تقر إعفاءً عاماً.", "تحديد الحالات والقواعد وصلاحية الاعتماد."],
-      ["طلب إيقاف التعامل", "المادة 116 من اللائحة", REGULATION_URL, "partial", "تسمح بالطلب في حالات محددة، ولا تحدد مستويات الإيقاف أو مددها.", "اعتماد الدليل والمدد والاتفاق مع الجهات المنفذة."],
-      ["المقاصة الحكومية", "المادة 9 من القانون", LAW_URL, "partial", "تعطي دين الصندوق أولوية في السداد، ولا تنشئ إجراءً للمقاصة التلقائية.", "مراجعة المقترح قانونياً والاتفاق مع وزارة المالية والجهات المعنية."],
-      ["إجراء التظلم", "لا يوجد نص عام مباشر في المواد المرتبطة", REGULATION_URL, "none", "تنظم المواد أنواعاً محددة من الاعتراض ولا تغطي الإجراء المقترح كاملاً.", "تحديد المسؤوليات والمدد وأثر التظلم واعتماد الإجراء."]
-    ];
-
-    const RISKS = [
-      ["إجراء على مبلغ غير مؤكد", "يمنع النظام الإجراء حتى تكتمل المطابقة ويفصل المبلغ محل التظلم."],
-      ["عدم نجاح الخصم أو خصم مبلغ غير صحيح", "إشعار مسبق وحد أعلى للخصم وتوضيح سبب الفشل وآلية سريعة للاسترداد."],
-      ["دفعة غير مرتبطة بفاتورة", "مرجع موحد وقائمة عمل لفريق المطابقة المالية."],
-      ["خطة سداد غير قابلة للتنفيذ", "تقييم القدرة على السداد ومتابعة الأقساط والفواتير الجديدة."],
-      ["اختلاف القرارات", "شروط موحدة وصلاحيات واضحة وسجل للقرارات السابقة."],
-      ["تأخر إعادة التعامل", "طلب آلي ومتابعة مدة التنفيذ حتى تأكيد الإعادة."],
-      ["الوصول غير المصرح إلى البيانات", "صلاحيات محددة وتشفير وسجل للاطلاع والتعديل."],
-      ["تعطل طريقة دفع", "طرق بديلة وخطة لاستمرار الخدمة وتوسع تدريجي مع البنوك."],
-      ["إيقاف التعامل يضعف قدرة المنشأة على السداد", "قياس أثر الإيقاف على المنشآت الصغيرة، وتفضيل خطة السداد عليه متى كانت الجهة مستجيبة."],
-      ["الخصم المباشر يحمّل جهة العمل عبء سيولة", "إشعار مسبق كافٍ وحد أعلى للخصم وإتاحة الانسحاب من الخدمة."],
-      ["تكلفة التكامل مع البنوك تتجاوز عائدها", "البدء ببنك واحد وقياس نسبة التحصيل عبره قبل التوسع."],
-      ["عدم اكتمال ترتيبات المقاصة الحكومية", "الاتفاق مع وزارة المالية على الآلية قبل إدراج المقاصة في مسار التحصيل."]
-    ];
-  </script>
-
+  <footer>صندوق الحماية الاجتماعية · دائرة الاشتراكات · إطار رفع كفاءة آليات التحصيل</footer>
   <script src="collection-framework-v1.js"></script>
 </body>
-
 </html>
