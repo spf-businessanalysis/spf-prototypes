@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الوكالات - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="staff">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>الوكالات المسجلة على حسابات الادخار</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">الوكالات</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge staff">موظف الصندوق</span>
+            </div>
+        </div>
+
+        <div class="filter-panel mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">الرقم المدني للمدخر</label>
+                    <input type="text" class="form-control" placeholder="12345678">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">الرقم المدني للوكيل</label>
+                    <input type="text" class="form-control" placeholder="88776655">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">الحالة</label>
+                    <select class="form-select">
+                        <option>الكل</option>
+                        <option>نشط</option>
+                        <option>بانتظار موافقة الوكيل</option>
+                        <option>معلق</option>
+                        <option>ملغى</option>
+                        <option>منتهي</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">طريقة التسجيل</label>
+                    <select class="form-select">
+                        <option>الكل</option>
+                        <option>من المدخر</option>
+                        <option>من موظف الصندوق</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex gap-2">
+                    <button class="btn btn-spf w-100" title="بحث"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-spf-gold w-100 text-nowrap" onclick="openNew()" title="تسجيل وكالة">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">
+                <span>الوكالات المسجلة</span>
+                <button class="btn btn-sm btn-spf" onclick="openNew()">
+                    <i class="fas fa-plus me-1"></i> تسجيل وكالة في حالة استثنائية
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="spf-table">
+                        <thead>
+                            <tr>
+                                <th>المدخر</th>
+                                <th>الوكيل</th>
+                                <th>الصلاحيات</th>
+                                <th>المدة</th>
+                                <th>سُجِّلت بواسطة</th>
+                                <th>المستند</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-700">أحمد بن سالم البوسعيدي<div class="small text-muted">12345678</div></td>
+                                <td>سالم بن خميس الحارثي<div class="small text-muted">88776655</div></td>
+                                <td class="small">الاطلاع، الإيداع</td>
+                                <td class="small">محددة — حتى 31/12/2026</td>
+                                <td class="small">المدخر</td>
+                                <td class="small text-muted">—</td>
+                                <td><span class="badge-status success">نشط</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-spf-outline py-0" onclick="viewLog('سالم بن خميس الحارثي')">السجل</button>
+                                    <button class="btn btn-sm btn-outline-danger py-0" onclick="suspend('أحمد بن سالم البوسعيدي')">تعليق</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">راجيش كومار<div class="small text-muted">44556677</div></td>
+                                <td>عبدالله بن حمد الغافري<div class="small text-muted">99001122</div></td>
+                                <td class="small">الاطلاع، طلب الصرف</td>
+                                <td class="small">محددة — حتى 30/06/2026</td>
+                                <td class="small">موظف الصندوق<div class="small text-muted">وجود المدخر خارج السلطنة</div></td>
+                                <td class="small"><a href="#" class="text-spf"><i class="fas fa-paperclip"></i> وكالة قنصلية</a></td>
+                                <td><span class="badge-status success">نشط</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-spf-outline py-0" onclick="viewLog('عبدالله بن حمد الغافري')">السجل</button>
+                                    <button class="btn btn-sm btn-outline-danger py-0" onclick="suspend('راجيش كومار')">تعليق</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">مريم بنت علي البلوشية<div class="small text-muted">33221100</div></td>
+                                <td>سعاد بنت راشد الكندية<div class="small text-muted">77889900</div></td>
+                                <td class="small">الاطلاع، سداد الالتزامات</td>
+                                <td class="small">مفتوحة — سارية حتى الإلغاء</td>
+                                <td class="small">موظف الصندوق<div class="small text-muted">تعذر الدخول الرقمي</div></td>
+                                <td class="small"><a href="#" class="text-spf"><i class="fas fa-paperclip"></i> وكالة كاتب بالعدل</a></td>
+                                <td><span class="badge-status success">نشط</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-spf-outline py-0" onclick="viewLog('سعاد بنت راشد الكندية')">السجل</button>
+                                    <button class="btn btn-sm btn-outline-danger py-0" onclick="suspend('مريم بنت علي البلوشية')">تعليق</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">سعيد بن راشد المعمري<div class="small text-muted">88223344</div></td>
+                                <td>خالد بن سعيد المعمري<div class="small text-muted">55443322</div></td>
+                                <td class="small">طلب الصرف فقط</td>
+                                <td class="small">محددة — حتى 31/08/2026</td>
+                                <td class="small">موظف الصندوق<div class="small text-muted">تمثيل الورثة الشرعيين</div></td>
+                                <td class="small"><a href="#" class="text-spf"><i class="fas fa-paperclip"></i> شهادة وفاة + حصر إرث</a></td>
+                                <td><span class="badge-status info">تمثيل ورثة</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-spf-outline py-0" onclick="viewLog('خالد بن سعيد المعمري')">السجل</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">أحمد بن سالم البوسعيدي<div class="small text-muted">12345678</div></td>
+                                <td>خالد بن ناصر الرواحي<div class="small text-muted">66554433</div></td>
+                                <td class="small">الاطلاع</td>
+                                <td class="small">محددة — انتهت 01/02/2026</td>
+                                <td class="small">المدخر</td>
+                                <td class="small text-muted">—</td>
+                                <td><span class="badge-status danger">منتهي</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-spf-outline py-0" onclick="viewLog('خالد بن ناصر الرواحي')">السجل</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="spf-card">
+            <div class="card-header-custom">الحالات التي يجوز فيها تسجيل الوكالة عن طريق موظف الصندوق</div>
+            <div class="card-body">
+                <table class="spf-table">
+                    <thead>
+                        <tr><th>الحالة</th><th>متى تُستخدم</th><th>المستند المطلوب</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="fw-700">وجود المدخر خارج السلطنة</td><td>يتعذر عليه الدخول أو التصرف في حسابه وهو خارج سلطنة عُمان.</td><td>وكالة موثقة من السفارة أو القنصلية العمانية</td></tr>
+                        <tr><td class="fw-700">تعذر الدخول الرقمي</td><td>لا يملك هوية رقمية فعّالة أو لا يستطيع استخدامها.</td><td>وكالة موثقة من كاتب بالعدل</td></tr>
+                        <tr><td class="fw-700">الحالة الصحية</td><td>حالة صحية تمنعه من إدارة حسابه بنفسه مع بقاء أهليته.</td><td>وكالة موثقة، وتقرير طبي عند الاقتضاء</td></tr>
+                        <tr><td class="fw-700">فقد الأهلية</td><td>صدور حكم بفقد الأهلية فيتولى الحساب الولي أو الوصي.</td><td>قرار الولاية أو الوصاية</td></tr>
+                        <tr><td class="fw-700">المدخر قاصر</td><td>صاحب الحساب قاصر فيتولاه وليه الشرعي إلى حين بلوغه.</td><td>ما يثبت الولاية الشرعية</td></tr>
+                        <tr><td class="fw-700">الحرمان من التصرف</td><td>وضع يمنع المدخر من التصرف كالحبس أو التوقيف.</td><td>وكالة موثقة أو مستند من الجهة المختصة</td></tr>
+                        <tr><td class="fw-700">وفاة المدخر</td><td>تُوقف الوكالات القائمة ويُسجَّل ممثل الورثة بصلاحية طلب الصرف ومتابعته فقط.</td><td>شهادة الوفاة وحصر الإرث الشرعي</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- تسجيل وكالة -->
+    <div class="modal fade" id="newModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تسجيل وكالة في حالة استثنائية</h5>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label fw-700">الحالة <span class="text-danger">*</span></label>
+                        <select class="form-select" id="caseType" onchange="onCase()">
+                            <option value="" disabled selected>اختر الحالة...</option>
+                            <option value="abroad">وجود المدخر خارج السلطنة</option>
+                            <option value="digital">تعذر الدخول الرقمي</option>
+                            <option value="health">الحالة الصحية</option>
+                            <option value="capacity">فقد الأهلية</option>
+                            <option value="minor">المدخر قاصر</option>
+                            <option value="restricted">الحرمان من التصرف</option>
+                            <option value="death">وفاة المدخر (تمثيل الورثة الشرعيين)</option>
+                        </select>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-700">الرقم المدني للمدخر</label>
+                            <input type="text" class="form-control" id="pId" placeholder="12345678">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-700">الرقم المدني للوكيل</label>
+                            <input type="text" class="form-control" id="aId" placeholder="88776655">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-700">الصلاحيات</label>
+                        <div class="p-3 border rounded" id="scopeBox">
+                            <div class="form-check form-check-inline"><input class="form-check-input sc" type="checkbox" id="a1"><label class="form-check-label ms-1" for="a1">الاطلاع على الحساب</label></div>
+                            <div class="form-check form-check-inline"><input class="form-check-input sc" type="checkbox" id="a2"><label class="form-check-label ms-1" for="a2">الإيداع</label></div>
+                            <div class="form-check form-check-inline"><input class="form-check-input sc" type="checkbox" id="a3"><label class="form-check-label ms-1" for="a3">سداد الالتزامات</label></div>
+                            <div class="form-check form-check-inline"><input class="form-check-input sc" type="checkbox" id="a4"><label class="form-check-label ms-1" for="a4">طلب الصرف</label></div>
+                        </div>
+                        <div class="form-text d-none" id="deathHint">
+                            في حالة الوفاة تقتصر الصلاحية على <strong>طلب الصرف ومتابعته ورفع المستندات</strong>، وتُصرف المدخرات للورثة الشرعيين لا لممثلهم.
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label fw-700">مدة الوكالة</label>
+                            <select class="form-select" id="period" onchange="onPeriod()">
+                                <option value="fixed">محددة المدة</option>
+                                <option value="open">مفتوحة (حتى الإلغاء)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-700">تاريخ البداية</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="col-md-4" id="endWrap">
+                            <label class="form-label fw-700">تاريخ الانتهاء</label>
+                            <input type="date" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-700">المستند المطلوب <span class="text-danger">*</span></label>
+                        <div class="p-2 mb-2 bg-spf-light rounded small" id="docHint">اختر الحالة أولاً ليظهر المستند المطلوب.</div>
+                        <input type="file" class="form-control">
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label fw-700">سبب التسجيل عن طريق الموظف <span class="text-danger">*</span></label>
+                        <textarea class="form-control" rows="2" id="reason" placeholder="وضّح سبب تعذر إنشاء التوكيل من المدخر نفسه..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-spf-outline px-4" data-bs-dismiss="modal">إلغاء</button>
+                    <button class="btn btn-spf px-4" onclick="saveNew()">تسجيل الوكالة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- سجل العمليات -->
+    <div class="modal fade" id="logModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">العمليات المنفذة بالوكالة — <span id="logName"></span></h5>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="notes-panel">
+                        <div class="note-item">
+                            <div>إيداع اختياري بمبلغ 150.000 ر.ع</div>
+                            <div class="note-meta">18/02/2026 - 10:22</div>
+                        </div>
+                        <div class="note-item">
+                            <div>الاطلاع على كشف الحساب</div>
+                            <div class="note-meta">12/02/2026 - 08:05</div>
+                        </div>
+                        <div class="note-item">
+                            <div>قبول الوكالة وبدء سريانها</div>
+                            <div class="note-meta">05/01/2026 - 13:40</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        const DOCS = {
+            abroad:     'وكالة موثقة من السفارة أو القنصلية العمانية في بلد إقامة المدخر.',
+            digital:    'وكالة رسمية موثقة من كاتب بالعدل.',
+            health:     'وكالة رسمية موثقة، مع تقرير طبي عند الاقتضاء.',
+            capacity:   'قرار الولاية أو الوصاية الصادر من الجهة القضائية المختصة.',
+            minor:      'ما يثبت الولاية الشرعية على القاصر.',
+            restricted: 'وكالة رسمية موثقة أو مستند من الجهة المختصة.',
+            death:      'شهادة الوفاة وحصر الإرث الشرعي.'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'staff';
+            if (role !== 'staff') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-danger">عذراً، هذه الشاشة مخصصة لموظفي الصندوق فقط.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function openNew() {
+            new bootstrap.Modal(document.getElementById('newModal')).show();
+        }
+
+        function onCase() {
+            const c = document.getElementById('caseType').value;
+            document.getElementById('docHint').innerText = DOCS[c] || 'اختر الحالة أولاً ليظهر المستند المطلوب.';
+
+            const isDeath = (c === 'death');
+            document.getElementById('deathHint').classList.toggle('d-none', !isDeath);
+            ['a1','a2','a3'].forEach(id => {
+                const el = document.getElementById(id);
+                el.checked = false;
+                el.disabled = isDeath;
+            });
+            if (isDeath) document.getElementById('a4').checked = true;
+        }
+
+        function onPeriod() {
+            document.getElementById('endWrap').classList.toggle('d-none', document.getElementById('period').value === 'open');
+        }
+
+        function saveNew() {
+            if (!document.getElementById('caseType').value) {
+                spf.showError('يرجى اختيار الحالة الاستثنائية.');
+                return;
+            }
+            if (!document.getElementById('pId').value.trim() || !document.getElementById('aId').value.trim()) {
+                spf.showError('يرجى إدخال الرقم المدني للمدخر وللوكيل.');
+                return;
+            }
+            if (!document.querySelectorAll('.sc:checked').length) {
+                spf.showError('يرجى تحديد صلاحية واحدة على الأقل.');
+                return;
+            }
+            if (!document.getElementById('reason').value.trim()) {
+                spf.showError('يرجى توثيق سبب التسجيل عن طريق الموظف.');
+                return;
+            }
+            bootstrap.Modal.getInstance(document.getElementById('newModal')).hide();
+            spf.showSuccess('تم تسجيل الوكالة وحفظ الحالة والمستند وسبب التسجيل في السجل. تم إشعار المدخر والوكيل.');
+        }
+
+        function viewLog(name) {
+            document.getElementById('logName').innerText = name;
+            new bootstrap.Modal(document.getElementById('logModal')).show();
+        }
+
+        function suspend(name) {
+            spf.showSuccess('تم تعليق الوكالة على حساب ' + name + '. يجب توثيق سبب التعليق، وقد تم إشعار المدخر والوكيل.');
+        }
+    </script>
+</body>
+</html>

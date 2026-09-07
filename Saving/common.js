@@ -84,6 +84,7 @@ function initLayout() {
             <li class="nav-staff sidebar-category-header mt-3">قسم النظم التكميلية</li>
             <li class="nav-employer nav-staff"><a href="03-registered-workers.html" id="link-03"><i class="fas fa-users"></i> العمال المسجلين</a></li>
             <li class="nav-saver nav-employer nav-staff"><a href="04-account-details.html" id="link-04"><i class="fas fa-info-circle"></i> تفاصيل الحساب</a></li>
+            <li class="nav-staff"><a href="18-delegations-admin.html" id="link-18"><i class="fas fa-user-shield"></i> الوكالات</a></li>
             <li class="nav-staff"><a href="14-transaction-history.html" id="link-14-staff"><i class="fas fa-history"></i> سجل العمليات</a></li>
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الصرف</li>
@@ -99,6 +100,8 @@ function initLayout() {
             <li class="nav-saver"><a href="06-obligations.html" id="link-06"><i class="fas fa-file-invoice-dollar"></i> سداد الالتزامات</a></li>
             <li class="nav-staff"><a href="09-mandatory-saving.html" id="link-09"><i class="fas fa-piggy-bank"></i> الادخار الإلزامي</a></li>
             <li class="nav-staff"><a href="11-optional-saving-inquiries.html" id="link-11"><i class="fas fa-circle-question"></i> استفسارات الادخار الاختياري</a></li>
+            <li class="nav-saver"><a href="16-delegation.html" id="link-16"><i class="fas fa-user-shield"></i> الوكالات</a></li>
+            <li class="nav-saver"><a href="17-international-transfer.html" id="link-17"><i class="fas fa-globe"></i> بيانات التحويل الدولي</a></li>
             <li class="nav-saver"><a href="13-exit-system.html" id="link-13"><i class="fas fa-user-times"></i> الخروج من النظام</a></li>
             <li class="nav-saver nav-employer" id="li-14-saver"><a href="14-transaction-history.html" id="link-14"><i class="fas fa-history"></i> سجل المعاملات</a></li>
             <li class="nav-staff"><a href="15-reports.html" id="link-15"><i class="fas fa-chart-pie"></i> التقارير والتحليل</a></li>

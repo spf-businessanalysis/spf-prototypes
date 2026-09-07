@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الوكالات - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="saver">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>الوكالات</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">الوكالات</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge saver">المدخر</span>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs mb-4" id="delegTabs">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabMine" type="button">
+                    <i class="fas fa-user-shield me-1"></i> وكلائي على حسابي
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAsAgent" type="button">
+                    <i class="fas fa-handshake me-1"></i> توكيلات أنا وكيل فيها
+                    <span class="badge rounded-pill bg-danger ms-1">1</span>
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!-- ============ التبويب الأول: وكلائي ============ -->
+            <div class="tab-pane fade show active" id="tabMine">
+
+                <div class="alert-spf alert-info mb-4">
+                    <i class="fas fa-user-shield"></i>
+                    <div>
+                        يمكنك تسجيل شخص آخر ليتصرف في حساب الادخار الخاص بك نيابةً عنك، ضمن الصلاحيات والمدة التي تحددها أنت.
+                        لا يملك الوكيل إلا ما تختاره له، ويمكنك إلغاء التوكيل في أي وقت.
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="spf-card">
+                            <div class="card-header-custom">إضافة وكيل جديد</div>
+                            <div class="card-body">
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-8">
+                                        <label class="form-label fw-700">الرقم المدني للوكيل</label>
+                                        <input type="text" class="form-control" id="agentId" placeholder="مثال: 12345678">
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-end">
+                                        <button class="btn btn-spf-outline w-100" onclick="verifyAgent()">
+                                            <i class="fas fa-magnifying-glass me-1"></i> تحقق
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 border rounded bg-light mb-4 d-none" id="agentResult">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="fw-800" id="agentName">—</div>
+                                            <div class="small text-muted">تم التحقق من الرقم المدني</div>
+                                        </div>
+                                        <span class="badge-status success">تم التحقق</span>
+                                    </div>
+                                </div>
+
+                                <label class="form-label fw-700">الصلاحيات الممنوحة للوكيل</label>
+                                <div class="p-3 border rounded mb-4">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input scope" type="checkbox" id="sc1">
+                                        <label class="form-check-label ms-2" for="sc1">
+                                            <span class="fw-700">الاطلاع على الحساب</span>
+                                            <div class="small text-muted">عرض الرصيد وسجل المعاملات وكشف الحساب فقط، دون تنفيذ أي عملية.</div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input scope" type="checkbox" id="sc2">
+                                        <label class="form-check-label ms-2" for="sc2">
+                                            <span class="fw-700">الإيداع</span>
+                                            <div class="small text-muted">إنشاء فواتير الإيداع الاختياري ومتابعتها وسدادها.</div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input scope" type="checkbox" id="sc3">
+                                        <label class="form-check-label ms-2" for="sc3">
+                                            <span class="fw-700">سداد الالتزامات</span>
+                                            <div class="small text-muted">سداد الالتزامات المالية المستحقة عليك من رصيدك.</div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input scope" type="checkbox" id="sc4" onchange="togglePoa()">
+                                        <label class="form-check-label ms-2" for="sc4">
+                                            <span class="fw-700">طلب الصرف</span>
+                                            <span class="badge-status warning ms-1">تستلزم وكالة رسمية</span>
+                                            <div class="small text-muted">تقديم طلب صرف المدخرات ومتابعته ورفع المستندات المطلوبة.</div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <label class="form-label fw-700">مدة التوكيل</label>
+                                <div class="p-3 border rounded mb-4">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="period" id="pFixed" checked onchange="togglePeriod()">
+                                        <label class="form-check-label ms-2" for="pFixed">
+                                            <span class="fw-700">محددة المدة</span>
+                                            <div class="small text-muted">ينتهي التوكيل تلقائياً في التاريخ الذي تحدده.</div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="radio" name="period" id="pOpen" onchange="togglePeriod()">
+                                        <label class="form-check-label ms-2" for="pOpen">
+                                            <span class="fw-700">مفتوحة</span>
+                                            <div class="small text-muted">يظل التوكيل سارياً حتى تقوم بإلغائه، ويصلك تذكير دوري لمراجعته.</div>
+                                        </label>
+                                    </div>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-700">تاريخ البداية</label>
+                                            <input type="date" class="form-control">
+                                        </div>
+                                        <div class="col-md-6" id="endDateWrap">
+                                            <label class="form-label small fw-700">تاريخ الانتهاء</label>
+                                            <input type="date" class="form-control">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 border rounded mb-4 d-none" id="poaBlock">
+                                    <h6 class="fw-800 text-spf-dark mb-3"><i class="fas fa-file-contract me-2"></i> الوكالة الرسمية الموثقة</h6>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-700">رقم الوكالة</label>
+                                            <input type="text" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small fw-700">الجهة المصدرة</label>
+                                            <input type="text" class="form-control form-control-sm" placeholder="مثال: كاتب بالعدل">
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label small fw-700">إرفاق صورة الوكالة</label>
+                                            <input type="file" class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-spf-light rounded small mb-4">
+                                    <div class="mb-2"><i class="fas fa-circle-info me-1 text-spf"></i> <strong>ما يجب أن تعرفه قبل التأكيد:</strong></div>
+                                    <ul class="mb-0 ps-3">
+                                        <li>يصل الطلب إلى الوكيل، ولن يبدأ التوكيل إلا بعد قبوله له.</li>
+                                        <li>إذا لم يرد الوكيل خلال المهلة المحددة، ينتهي الطلب تلقائياً ويصلك إشعار.</li>
+                                        <li>يبقى تحويل أي مبلغ صرف إلى حسابك البنكي أنت، ولا يُحوَّل إلى حساب الوكيل.</li>
+                                        <li>يصلك إشعار بكل عملية ينفذها الوكيل، وتظهر في سجل المعاملات باسمه.</li>
+                                        <li>لا يستطيع الوكيل توكيل شخص آخر ولا تعديل بياناتك الشخصية.</li>
+                                        <li>يمكنك إلغاء التوكيل في أي وقت وبشكل فوري.</li>
+                                    </ul>
+                                </div>
+
+                                <div class="text-start">
+                                    <button class="btn btn-spf px-5" onclick="submitDelegation()">إرسال طلب التوكيل</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="spf-card mb-4">
+                            <div class="card-header-custom">الوكلاء المسجلون</div>
+                            <div class="card-body">
+                                <table class="spf-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الوكيل</th>
+                                            <th>الصلاحيات</th>
+                                            <th>المدة</th>
+                                            <th>الحالة</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-700">سالم بن خميس الحارثي</td>
+                                            <td class="small">الاطلاع، الإيداع</td>
+                                            <td class="small">حتى 31/12/2026</td>
+                                            <td><span class="badge-status success">نشط</span></td>
+                                            <td><button class="btn btn-sm btn-outline-danger py-0" onclick="revoke('سالم بن خميس الحارثي')">إلغاء</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-700">مريم بنت علي البلوشية</td>
+                                            <td class="small">الاطلاع، طلب الصرف</td>
+                                            <td class="small">حتى 30/06/2026</td>
+                                            <td><span class="badge-status pending">بانتظار قبول الوكيل</span></td>
+                                            <td><button class="btn btn-sm btn-outline-danger py-0" onclick="revoke('مريم بنت علي البلوشية')">إلغاء</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-700">خالد بن ناصر الرواحي</td>
+                                            <td class="small">الاطلاع</td>
+                                            <td class="small">انتهى 01/02/2026</td>
+                                            <td><span class="badge-status danger">منتهي</span></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="spf-card">
+                            <div class="card-header-custom">آخر العمليات المنفذة بالوكالة</div>
+                            <div class="card-body">
+                                <div class="notes-panel">
+                                    <div class="note-item">
+                                        <div>إيداع اختياري بمبلغ 150.000 ر.ع</div>
+                                        <div class="note-meta">نُفِّذت بواسطة الوكيل: سالم بن خميس الحارثي | 18/02/2026 - 10:22</div>
+                                    </div>
+                                    <div class="note-item">
+                                        <div>الاطلاع على كشف الحساب</div>
+                                        <div class="note-meta">نُفِّذت بواسطة الوكيل: سالم بن خميس الحارثي | 12/02/2026 - 08:05</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ التبويب الثاني: توكيلات أنا وكيل فيها ============ -->
+            <div class="tab-pane fade" id="tabAsAgent">
+
+                <div class="alert-spf alert-info mb-4">
+                    <i class="fas fa-handshake"></i>
+                    <div>
+                        يعرض هذا التبويب الطلبات التي وُجّهت إليك لتكون وكيلاً عن غيرك، والتوكيلات التي قبلتها بالفعل.
+                        لن تكون وكيلاً عن أحد إلا بقبولك أنت، ويمكنك الانسحاب في أي وقت.
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-7">
+                        <div class="spf-card">
+                            <div class="card-header-custom">
+                                <span>طلبات التوكيل الواردة إليّ</span>
+                                <span class="badge rounded-pill bg-danger">1</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="p-3 border rounded" id="reqBox">
+                                    <div class="fw-800 mb-1">فاطمة بنت سعيد الحضرمية</div>
+                                    <div class="small text-muted mb-3">تطلب منك أن تكون وكيلاً عنها على حساب الادخار الخاص بها.</div>
+
+                                    <div class="row g-2 small mb-3">
+                                        <div class="col-md-6">
+                                            <span class="text-muted">الصلاحيات المطلوبة:</span>
+                                            <div class="fw-700">الاطلاع على الحساب، سداد الالتزامات</div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span class="text-muted">مدة التوكيل:</span>
+                                            <div class="fw-700">محددة — من 01/03/2026 حتى 28/02/2027</div>
+                                        </div>
+                                        <div class="col-12">
+                                            <span class="text-muted">مهلة الرد:</span>
+                                            <span class="fw-700 text-danger">متبقٍ 9 أيام</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="p-3 bg-spf-light rounded small mb-3">
+                                        <i class="fas fa-circle-info me-1 text-spf"></i>
+                                        <strong>بقبولك ستصبح مخوّلاً بـ:</strong> الاطلاع على رصيدها وسجل معاملاتها، وسداد الالتزامات المستحقة عليها من رصيدها.
+                                        <br>
+                                        <strong>لن تستطيع:</strong> الإيداع، ولا تقديم طلب صرف، ولن يُحوَّل إليك أي مبلغ.
+                                    </div>
+
+                                    <button class="btn btn-spf px-4" onclick="acceptReq()">قبول التوكيل</button>
+                                    <button class="btn btn-outline-danger px-4" onclick="rejectReq()">رفض الطلب</button>
+                                </div>
+                                <div class="small text-muted mt-3">
+                                    <i class="fas fa-clock me-1"></i>
+                                    إذا لم ترد خلال المهلة، ينتهي الطلب تلقائياً ويُشعَر صاحبه بذلك.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="spf-card mb-4">
+                            <div class="card-header-custom">توكيلات قبلتها</div>
+                            <div class="card-body">
+                                <table class="spf-table">
+                                    <thead>
+                                        <tr><th>الموكِّل</th><th>صلاحياتي</th><th>المدة</th><th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-700">ناصر بن حمد الشكيلي</td>
+                                            <td class="small">الاطلاع، الإيداع</td>
+                                            <td class="small">مفتوحة — حتى الإلغاء</td>
+                                            <td><button class="btn btn-sm btn-outline-danger py-0" onclick="withdraw('ناصر بن حمد الشكيلي')">انسحاب</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-700">زينب بنت محمد الزدجالية</td>
+                                            <td class="small">الاطلاع</td>
+                                            <td class="small">حتى 15/09/2026</td>
+                                            <td><button class="btn btn-sm btn-outline-danger py-0" onclick="withdraw('زينب بنت محمد الزدجالية')">انسحاب</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="spf-card">
+                            <div class="card-header-custom">سجل قراراتي على طلبات التوكيل</div>
+                            <div class="card-body">
+                                <div class="notes-panel">
+                                    <div class="note-item">
+                                        <div>قبول توكيل من: ناصر بن حمد الشكيلي</div>
+                                        <div class="note-meta">05/01/2026 - 13:40</div>
+                                    </div>
+                                    <div class="note-item">
+                                        <div>رفض توكيل من: سيف بن علي البادي</div>
+                                        <div class="note-meta">22/12/2025 - 09:15</div>
+                                    </div>
+                                    <div class="note-item">
+                                        <div>انتهاء مهلة الرد دون تصرف — طلب من: هدى بنت خالد العامرية</div>
+                                        <div class="note-meta">10/11/2025 - انتهت المهلة</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'saver';
+            if (role !== 'saver') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-warning">عذراً، هذه الشاشة متاحة للمدخرين الأفراد فقط.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        /* ===== التبويب الأول: وكلائي ===== */
+        function togglePeriod() {
+            document.getElementById('endDateWrap').classList.toggle('d-none', document.getElementById('pOpen').checked);
+        }
+
+        function togglePoa() {
+            document.getElementById('poaBlock').classList.toggle('d-none', !document.getElementById('sc4').checked);
+        }
+
+        function verifyAgent() {
+            const id = document.getElementById('agentId').value.trim();
+            if (!id) {
+                spf.showError('يرجى إدخال الرقم المدني للوكيل.');
+                return;
+            }
+            document.getElementById('agentName').innerText = 'سالم بن خميس الحارثي';
+            document.getElementById('agentResult').classList.remove('d-none');
+        }
+
+        function submitDelegation() {
+            if (document.getElementById('agentResult').classList.contains('d-none')) {
+                spf.showError('يرجى التحقق من الرقم المدني للوكيل أولاً.');
+                return;
+            }
+            if (!document.querySelectorAll('.scope:checked').length) {
+                spf.showError('يرجى اختيار صلاحية واحدة على الأقل للوكيل.');
+                return;
+            }
+            spf.showSuccess('تم إرسال طلب التوكيل إلى الوكيل. لن يبدأ التوكيل إلا بعد قبوله له، وسيصلك إشعار بقراره أو عند انتهاء مهلة الرد.');
+        }
+
+        function revoke(name) {
+            spf.showSuccess('تم إلغاء التوكيل الممنوح لـ ' + name + ' بشكل فوري. لن يتمكن من تنفيذ أي عملية بعد الآن، وتم إشعاره بذلك.');
+        }
+
+        /* ===== التبويب الثاني: أنا وكيل ===== */
+        function acceptReq() {
+            document.getElementById('reqBox').innerHTML =
+                '<div class="text-center py-4"><i class="fas fa-check-circle text-success mb-2" style="font-size:2rem"></i>'
+                + '<div class="fw-800">تم قبول التوكيل</div>'
+                + '<div class="small text-muted">أصبح التوكيل ساري المفعول، وتم إشعار الموكِّل بقبولك.</div></div>';
+            spf.showSuccess('تم قبول التوكيل. أصبح بإمكانك الاطلاع على الحساب وسداد الالتزامات نيابةً عن فاطمة بنت سعيد الحضرمية، وتم إشعارها بذلك.');
+        }
+
+        function rejectReq() {
+            document.getElementById('reqBox').innerHTML =
+                '<div class="text-center py-4"><i class="fas fa-circle-xmark text-danger mb-2" style="font-size:2rem"></i>'
+                + '<div class="fw-800">تم رفض الطلب</div>'
+                + '<div class="small text-muted">لم يُنشأ التوكيل، وتم إشعار صاحب الطلب بالرفض.</div></div>';
+            spf.showSuccess('تم رفض طلب التوكيل. لم يُنشأ أي توكيل، وتم إشعار صاحب الطلب بذلك.');
+        }
+
+        function withdraw(name) {
+            spf.showSuccess('تم انسحابك من التوكيل الممنوح لك من ' + name + '. انتهى التوكيل فوراً وتم إشعاره بذلك.');
+        }
+    </script>
+</body>
+</html>

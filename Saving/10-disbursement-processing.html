@@ -95,7 +95,7 @@
                                         <td>20/02/2026</td>
                                         <td><span class="badge-status pending">قيد المراجعة</span></td>
                                         <td>
-                                            <button class="btn btn-sm btn-spf-outline py-1" onclick="reviewRequest(' المعمري')">مراجعة</button>
+                                            <button class="btn btn-sm btn-spf-outline py-1" onclick="reviewRequest(' المعمري', false)">مراجعة</button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -106,7 +106,18 @@
                                         <td>18/02/2026</td>
                                         <td><span class="badge-status pending">قيد المراجعة</span></td>
                                         <td>
-                                            <button class="btn btn-sm btn-spf-outline py-1" onclick="reviewRequest(' الزدجالية')">مراجعة</button>
+                                            <button class="btn btn-sm btn-spf-outline py-1" onclick="reviewRequest(' الزدجالية', false)">مراجعة</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-700">راجيش كومار شارما</td>
+                                        <td>44556677</td>
+                                        <td>2,150.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                        <td>مغادرة السلطنة <span class="badge-status info ms-1">تحويل دولي</span></td>
+                                        <td>21/02/2026</td>
+                                        <td><span class="badge-status pending">قيد المراجعة</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-spf-outline py-1" onclick="reviewRequest(' شارما', true)">مراجعة</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -136,10 +147,29 @@
                             <div class="d-flex justify-content-between border-top pt-2"><span>الإجمالي:</span> <strong class="text-spf-dark">2,150.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
                         </div>
                         <div class="col-md-6">
-                            <h6 class="fw-800 text-spf mb-3">بيانات البنك</h6>
-                            <div class="mb-2"><span>البنك:</span> <strong>بنك مسقط</strong></div>
-                            <div class="mb-2"><span>رقم الحساب:</span> <strong>0412********9876</strong></div>
-                            <div class="mb-2"><span>الايبان:</span> <strong>OM67BMUS0000...</strong></div>
+                            <h6 class="fw-800 text-spf mb-3">
+                                بيانات التحويل
+                                <span class="badge-status info ms-1" id="trfType">محلي</span>
+                            </h6>
+
+                            <div id="localDetails">
+                                <div class="mb-2"><span>البنك:</span> <strong>بنك مسقط</strong></div>
+                                <div class="mb-2"><span>رقم الحساب:</span> <strong>0412********9876</strong></div>
+                                <div class="mb-2"><span>الايبان:</span> <strong>OM67BMUS0000...</strong></div>
+                            </div>
+
+                            <div id="intlDetails" class="d-none">
+                                <div class="mb-2"><span>الدولة:</span> <strong>الهند</strong></div>
+                                <div class="mb-2"><span>البنك:</span> <strong>State Bank of India — Mumbai</strong></div>
+                                <div class="mb-2"><span>رمز SWIFT:</span> <strong>SBININBB104</strong></div>
+                                <div class="mb-2"><span>رقم الحساب:</span> <strong>********4471</strong></div>
+                                <div class="mb-2"><span>اسم المستفيد:</span> <strong>RAJESH KUMAR SHARMA</strong></div>
+                                <div class="mb-2"><span>حالة البيانات:</span> <span class="badge-status success">تم التحقق</span></div>
+                                <hr>
+                                <div class="mb-2"><span>سعر الصرف:</span> <strong>1 ر.ع = 216.40 INR</strong></div>
+                                <div class="mb-2"><span>الرسوم:</span> <strong>8.000 ر.ع — على المستفيد</strong></div>
+                                <div class="mb-2"><span>صافي المبلغ:</span> <strong class="text-spf-dark">462,340 INR</strong></div>
+                            </div>
                         </div>
                     </div>
 
@@ -156,6 +186,52 @@
                         <div class="list-group-item d-flex justify-content-between align-items-center">
                             <span>عدم وجود التزامات مالية قائمة</span>
                             <i class="fas fa-exclamation-triangle text-warning" title="يوجد قسط متأخر"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>تطابق اسم المستفيد مع اسم العامل المسجل</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>صحة رقم الحساب ورمز البنك بحسب الدولة</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>اكتمال المستندات (الجواز وإثبات ملكية الحساب)</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                    </div>
+
+                    <div class="intl-check d-none">
+                        <h6 class="fw-800 text-spf mb-3">حالة أمر التحويل</h6>
+                        <div class="p-3 border rounded mb-4">
+                            <div class="row g-3 small">
+                                <div class="col-md-4">
+                                    <div class="text-muted">مرجع أمر التحويل</div>
+                                    <div class="fw-700">#TRF-2026-04128</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-muted">تاريخ الإصدار</div>
+                                    <div class="fw-700">21/02/2026</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-muted">الحالة</div>
+                                    <div><span class="badge-status pending">قيد التنفيذ لدى البنك</span></div>
+                                </div>
+                            </div>
+                            <div class="notes-panel mt-3 border-top pt-3">
+                                <div class="note-item">
+                                    <div>صدور أمر التحويل إلى البنك</div>
+                                    <div class="note-meta">21/02/2026 - 09:30</div>
+                                </div>
+                                <div class="note-item">
+                                    <div>اعتماد الطلب من موظف الصندوق</div>
+                                    <div class="note-meta">21/02/2026 - 09:05</div>
+                                </div>
+                            </div>
+                            <div class="small text-muted mt-2">
+                                <i class="fas fa-circle-info me-1"></i>
+                                عند ارتداد التحويل يُحفظ سبب الارتداد وتُعاد الحالة إلى تصحيح البيانات مع إشعار العامل.
+                            </div>
                         </div>
                     </div>
 
@@ -176,15 +252,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="common.js"></script>
     <script>
-        function reviewRequest(name) {
+        function reviewRequest(name, isIntl) {
             document.getElementById('requesterName').innerText = name;
+
+            // إظهار بيانات المسار الدولي أو المحلي بحسب نوع الطلب
+            document.getElementById('trfType').innerText = isIntl ? 'دولي — بعد المغادرة' : 'محلي';
+            document.getElementById('intlDetails').classList.toggle('d-none', !isIntl);
+            document.getElementById('localDetails').classList.toggle('d-none', isIntl);
+            document.querySelectorAll('.intl-check').forEach(function (el) {
+                el.classList.toggle('d-none', !isIntl);
+            });
+
             const modal = new bootstrap.Modal(document.getElementById('reviewModal'));
             modal.show();
         }
 
         function action(type) {
             bootstrap.Modal.getInstance(document.getElementById('reviewModal')).hide();
-            if (type === 'approve') spf.showSuccess('تم اعتماد طلب الصرف وجاري تحويل المبلغ للبنك.');
+            if (type === "approve") {
+                const isIntl = !document.getElementById("intlDetails").classList.contains("d-none");
+                spf.showSuccess(isIntl
+                    ? "تم اعتماد طلب الصرف وإصدار أمر التحويل الدولي إلى البنك. يمكن متابعة حالة أمر التحويل حتى وصوله، وعند الارتداد يُحفظ سبب الرفض وتُعاد الحالة إلى تصحيح البيانات."
+                    : "تم اعتماد طلب الصرف وجاري تحويل المبلغ للبنك.");
+            }
             if (type === 'reject') spf.showError('تم رفض الطلب كما طلبت. سيتم إشعار المدخر بذلك.');
             if (type === 'docs') spf.showSuccess('تم إرسال طلب للمدخر لتوفير المستندات المطلوبة.');
         }

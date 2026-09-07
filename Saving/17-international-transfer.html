@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بيانات التحويل الدولي - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="saver">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>بيانات التحويل الدولي</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">التحويل الدولي</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge saver">المدخر</span>
+            </div>
+        </div>
+
+        <div class="alert-spf alert-warning mb-4">
+            <i class="fas fa-plane-departure"></i>
+            <div>
+                <strong>مهمة مطلوبة قبل السفر.</strong>
+                استكمل بيانات التحويل والتحقق منها قبل مغادرتك سلطنة عُمان، فهي شرط لازم لمعالجة صرف مدخراتك بعد المغادرة.
+                <span class="fw-800 text-danger">متبقٍ 12 يوماً.</span>
+            </div>
+        </div>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabData" type="button">
+                    <i class="fas fa-building-columns me-1"></i> بيانات التحويل
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabAccess" type="button">
+                    <i class="fas fa-right-to-bracket me-1"></i> الدخول من خارج السلطنة
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <!-- ======= بيانات التحويل ======= -->
+            <div class="tab-pane fade show active" id="tabData">
+                <div class="row g-4">
+                    <div class="col-lg-8">
+                        <div class="spf-card mb-4">
+                            <div class="card-header-custom">
+                                <span>بيانات الحساب البنكي خارج السلطنة</span>
+                                <span class="badge-status success">تم التحقق</span>
+                            </div>
+                            <div class="card-body">
+
+                                <h6 class="fw-800 text-spf mb-3">بيانات المستفيد</h6>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-700">الاسم بالأحرف اللاتينية كما في جواز السفر</label>
+                                        <input type="text" class="form-control" value="RAJESH KUMAR SHARMA">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-700">رقم الجواز</label>
+                                        <input type="text" class="form-control" value="M8842107">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-700">الجنسية</label>
+                                        <input type="text" class="form-control" value="الهند">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-700">العنوان خارج السلطنة</label>
+                                        <input type="text" class="form-control" value="12 MG Road, Andheri East, Mumbai">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-700">رقم هاتف دولي</label>
+                                        <input type="text" class="form-control" value="+91 98200 12345">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-700">بريد إلكتروني</label>
+                                        <input type="email" class="form-control" value="r.sharma@example.com">
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-800 text-spf mb-3">بيانات البنك</h6>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-3">
+                                        <label class="form-label small fw-700">الدولة</label>
+                                        <select class="form-select" id="country" onchange="onCountry()">
+                                            <option value="IN" selected>الهند</option>
+                                            <option value="PK">باكستان</option>
+                                            <option value="BD">بنغلاديش</option>
+                                            <option value="PH">الفلبين</option>
+                                            <option value="EG">مصر</option>
+                                            <option value="GB">المملكة المتحدة</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label small fw-700">اسم البنك</label>
+                                        <select class="form-select">
+                                            <option>State Bank of India</option>
+                                            <option>HDFC Bank</option>
+                                            <option>ICICI Bank</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small fw-700">الفرع</label>
+                                        <input type="text" class="form-control" value="Mumbai Main Branch">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-700">رمز SWIFT</label>
+                                        <input type="text" class="form-control" value="SBININBB104">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-700" id="routingLabel">رمز التوجيه المحلي (IFSC)</label>
+                                        <input type="text" class="form-control" value="SBIN0000300">
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-800 text-spf mb-3">بيانات الحساب</h6>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-5">
+                                        <label class="form-label small fw-700">رقم الحساب / IBAN</label>
+                                        <input type="text" class="form-control" id="acc1" value="30012345674471">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="form-label small fw-700">إعادة الإدخال للتأكيد</label>
+                                        <input type="text" class="form-control" id="acc2" value="30012345674471">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label small fw-700">عملة الحساب</label>
+                                        <select class="form-select"><option>INR</option><option>USD</option></select>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="small text-muted">
+                                            <i class="fas fa-circle-info me-1"></i>
+                                            يجب أن يكون الحساب باسمك أنت. لا يمكن التحويل إلى حساب شخص آخر.
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6 class="fw-800 text-spf mb-3">المستندات</h6>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-700">صورة صفحة جواز السفر</label>
+                                        <input type="file" class="form-control">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-700">ما يثبت أن الحساب باسمك</label>
+                                        <input type="file" class="form-control">
+                                        <div class="form-text">كشف حساب حديث أو خطاب من البنك.</div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 bg-spf-light rounded small mb-4">
+                                    <i class="fas fa-circle-info me-1 text-spf"></i>
+                                    أي تعديل يعيد بياناتك إلى حالة <strong>بانتظار التحقق</strong>، ويصلك إشعار به على بريدك وهاتفك المسجلين.
+                                    ولا يمكن تعديل البيانات بعد اعتماد طلب الصرف ودخوله مرحلة التنفيذ.
+                                </div>
+
+                                <div class="text-start">
+                                    <button class="btn btn-spf px-5" onclick="saveData()">حفظ وإرسال للتحقق</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spf-card">
+                            <div class="card-header-custom">ملخص التحويل المتوقع عند الصرف</div>
+                            <div class="card-body">
+                                <div class="row g-3 small mb-3">
+                                    <div class="col-md-3">
+                                        <div class="text-muted">المبلغ المستحق</div>
+                                        <div class="fw-800">1,450.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-muted">سعر الصرف</div>
+                                        <div class="fw-800">1 ر.ع = 216.40 INR</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-muted">الرسوم ومن يتحملها</div>
+                                        <div class="fw-800">8.000 ر.ع — على المستفيد</div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="text-muted">صافي المبلغ المتوقع وصوله</div>
+                                        <div class="fw-800 text-spf">312,081 INR</div>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="ackFx">
+                                    <label class="form-check-label ms-2 small" for="ackFx">
+                                        أقر باطلاعي على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله، وأن رصيدي محفوظ بالريال العماني ويُحوَّل إلى العملة عند التنفيذ فقط.
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="spf-card mb-4">
+                            <div class="card-header-custom">حالة البيانات</div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">الحالة الحالية</span>
+                                    <span class="badge-status success">تم التحقق</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">آخر تحديث</span>
+                                    <span class="fw-700">15/01/2026</span>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-muted">آخر تأكيد منك</span>
+                                    <span class="fw-700">15/01/2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="spf-card">
+                            <div class="card-header-custom">سجل التعديلات</div>
+                            <div class="card-body">
+                                <div class="notes-panel mb-3">
+                                    <div class="note-item">
+                                        <div>تحديث رمز التوجيه المحلي</div>
+                                        <div class="note-meta">15/01/2026 — أعيد التحقق بنجاح</div>
+                                    </div>
+                                    <div class="note-item">
+                                        <div>إدخال بيانات التحويل لأول مرة</div>
+                                        <div class="note-meta">02/11/2025 — تم التحقق</div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-danger w-100" onclick="report()">
+                                    <i class="fas fa-flag me-1"></i> الإبلاغ عن تعديل لم أقم به
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======= الدخول من خارج السلطنة ======= -->
+            <div class="tab-pane fade" id="tabAccess">
+                <div class="row g-4">
+                    <div class="col-lg-5">
+                        <div class="spf-card">
+                            <div class="card-header-custom">جهّز دخولك قبل السفر</div>
+                            <div class="card-body">
+                                <div class="small text-muted mb-3">
+                                    استكمل هذه العناصر الآن لتتمكن من الدخول إلى حسابك بعد مغادرتك السلطنة.
+                                </div>
+                                <div class="list-group mb-3">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>بريد إلكتروني شخصي</span>
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>رقم هاتف دولي في بلدك</span>
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    </div>
+                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>رموز دخول احتياطية</span>
+                                        <i class="fas fa-exclamation-triangle text-warning" title="لم تُصدر بعد"></i>
+                                    </div>
+                                </div>
+                                <button class="btn btn-spf w-100" onclick="issueCodes()">
+                                    <i class="fas fa-key me-1"></i> إصدار رموز الدخول الاحتياطية
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-7">
+                        <div class="spf-card mb-4">
+                            <div class="card-header-custom">مسارات الدخول المتاحة لك من الخارج</div>
+                            <div class="card-body">
+                                <table class="spf-table">
+                                    <thead>
+                                        <tr><th>المسار</th><th>كيف يعمل</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-700">بوابة الهوية الرقمية</td>
+                                            <td class="small">إذا كانت هويتك الرقمية ما زالت سارية، تدخل عبرها كالمعتاد.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-700">المسار البديل</td>
+                                            <td class="small">برقم جوازك وجنسيتك وتاريخ ميلادك، مع رمز تحقق يصلك على بريدك وهاتفك الدولي المسجلين مسبقاً.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-700">عبر وكيل داخل السلطنة</td>
+                                            <td class="small">توكّل شخصاً لمتابعة طلبك من <a href="16-delegation.html" class="text-spf">شاشة الوكالات</a>، ويبقى التحويل إلى حسابك أنت.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-700">القناة المؤسسية</td>
+                                            <td class="small">تقديم طلبك ومستنداتك عبر القنوات الرسمية للصندوق.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="spf-card">
+                            <div class="card-header-custom">ماذا تستطيع فعله في المسار البديل</div>
+                            <div class="card-body">
+                                <div class="row g-3 small">
+                                    <div class="col-md-6">
+                                        <div class="fw-700 text-success mb-2"><i class="fas fa-check me-1"></i> متاح</div>
+                                        <ul class="ps-3 mb-0">
+                                            <li>عرض الرصيد وسجل المعاملات</li>
+                                            <li>تحديث بيانات التحويل</li>
+                                            <li>تقديم طلب الصرف ومتابعته</li>
+                                            <li>رفع المستندات المطلوبة</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="fw-700 text-danger mb-2"><i class="fas fa-xmark me-1"></i> غير متاح</div>
+                                        <ul class="ps-3 mb-0">
+                                            <li>تغيير بريدك الإلكتروني أو رقم هاتفك</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12 border-top pt-3 text-muted">
+                                        <i class="fas fa-shield-halved me-1"></i>
+                                        يُقفل حسابك مؤقتاً بعد عدد محدد من محاولات الدخول الفاشلة، ويصلك إشعار عند أي دخول من دولة جديدة،
+                                        وتظهر أرقام حسابك البنكي مخفية جزئياً.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        const ROUTING = {
+            IN: 'IFSC', PK: 'رمز الفرع', BD: 'Routing Number',
+            PH: 'رمز البنك المحلي', EG: 'رمز الفرع', GB: 'Sort Code'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'saver';
+            if (role !== 'saver') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-warning">عذراً، هذه الشاشة مخصصة للمدخرين الأفراد غير العمانيين.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function onCountry() {
+            const c = document.getElementById('country').value;
+            document.getElementById('routingLabel').innerText = 'رمز التوجيه المحلي (' + (ROUTING[c] || '—') + ')';
+        }
+
+        function saveData() {
+            const a1 = document.getElementById('acc1').value.trim();
+            const a2 = document.getElementById('acc2').value.trim();
+            if (!a1 || a1 !== a2) {
+                spf.showError('رقم الحساب وإعادة إدخاله غير متطابقين. يرجى التأكد من الرقم قبل الحفظ.');
+                return;
+            }
+            if (!document.getElementById('ackFx').checked) {
+                spf.showError('يرجى الإقرار بالاطلاع على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله.');
+                return;
+            }
+            spf.showSuccess('تم حفظ بياناتك وإرسالها للتحقق. الحالة الآن: بانتظار التحقق. سيصلك إشعار على بريدك وهاتفك المسجلين عند اكتمال التحقق.');
+        }
+
+        function report() {
+            spf.showError('تم تجميد حسابك فوراً وإحالة البلاغ إلى المراجعة. سيتم التواصل معك على وسائل تواصلك المسجلة.');
+        }
+
+        function issueCodes() {
+            spf.showSuccess('تم إصدار رموز الدخول الاحتياطية. احتفظ بها في مكان آمن، فستحتاجها للدخول إلى حسابك من خارج السلطنة.');
+        }
+    </script>
+</body>
+</html>
