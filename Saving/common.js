@@ -102,7 +102,7 @@ function initLayout() {
             <li class="nav-staff"><a href="11-optional-saving-inquiries.html" id="link-11"><i class="fas fa-circle-question"></i> استفسارات الادخار الاختياري</a></li>
             <li class="nav-saver"><a href="16-delegation.html" id="link-16"><i class="fas fa-user-shield"></i> الوكالات</a></li>
             <li class="nav-saver"><a href="17-international-transfer.html" id="link-17"><i class="fas fa-globe"></i> بيانات التحويل الدولي</a></li>
-            <li class="nav-saver"><a href="13-exit-system.html" id="link-13"><i class="fas fa-user-times"></i> الخروج من النظام</a></li>
+            <li class="nav-saver"><a href="13-exit-system.html" id="link-13"><i class="fas fa-circle-pause"></i> الخروج من الادخار الاختياري</a></li>
             <li class="nav-saver nav-employer" id="li-14-saver"><a href="14-transaction-history.html" id="link-14"><i class="fas fa-history"></i> سجل المعاملات</a></li>
             <li class="nav-staff"><a href="15-reports.html" id="link-15"><i class="fas fa-chart-pie"></i> التقارير والتحليل</a></li>
         </ul>

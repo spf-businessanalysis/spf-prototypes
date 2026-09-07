@@ -42,7 +42,7 @@
                     <div class="card-body">
                         <div class="text-center py-3 mb-3 border-bottom">
                             <h2 class="fw-800 text-spf mb-1">1,450.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></h2>
-                            <div class="text-muted small">إجمالي الرصيد القابل للصرف</div>
+                            <div class="text-muted small">إجمالي الرصيد في الحساب</div>
                         </div>
                         <div class="balance-details">
                             <div class="d-flex justify-content-between mb-2">
@@ -67,7 +67,7 @@
 
                 <div class="alert-spf alert-info mb-4">
                     <i class="fas fa-info-circle"></i>
-                    <div>يرجى ملاحظة أن صرف المدخرات يخضع للشروط القانونية المنظمة لنظام الادخار الاختياري.</div>
+                    <div><strong>لا يوجد صرف جزئي للمدخرات.</strong> لا تُصرف المدخرات إلا عند تحقق أحد شروط الاستحقاق المنصوص عليها في القانون واللائحة، ويكون الصرف عندها لكامل الرصيد المستحق.</div>
                 </div>
             </div>
 
@@ -77,39 +77,59 @@
                     <div class="card-body">
                         <form id="disbursementForm">
                             <div class="mb-4">
-                                <label class="form-label fw-700">سبب طلب الصرف</label>
+                                <label class="form-label fw-700">شرط استحقاق الصرف</label>
                                 <select class="form-select" id="disbursementReason" onchange="checkReason()">
-                                    <option value="" disabled selected>اختر السبب المسوغ للصرف...</option>
-                                    <!-- Omani Specific -->
-                                    <optgroup label="خيار المدخر العماني" id="omaniReasons">
-                                        <option value="3">استحقاق معاش تقاعدي</option>
-                                        <option value="4">سداد اشتراكات 180 شهراً</option>
+                                    <option value="" disabled selected>اختر الشرط المتحقق...</option>
+                                    <optgroup label="شروط تخص المدخر العماني" id="omaniReasons">
+                                        <option value="3">انتهاء الخدمة واستحقاق معاش (عدا معاش العجز المهني الجزئي الدائم) أو مكافأة فقد معاش</option>
+                                    </optgroup>
+                                    <optgroup label="شروط تخص العامل غير العماني" id="nonOmaniReasons">
+                                        <option value="1">انتهاء علاقة العمل ومغادرة سلطنة عُمان</option>
+                                        <option value="2">انتهاء علاقة العمل وانقضاء 3 أشهر مع البقاء في السلطنة دون عقد عمل آخر</option>
+                                    </optgroup>
+                                    <optgroup label="شروط عامة">
+                                        <option value="4">سداد اشتراكات أو إيداعات شهرية لمدة لا تقل عن 180 شهراً</option>
+                                        <option value="5">وفاة المدخر (يُقدَّم الطلب من الورثة الشرعيين)</option>
                                         <option value="6">العجز الدائم</option>
-                                        <option value="7">صرف فائض الاشتراكات السنوية</option>
                                     </optgroup>
-                                    <!-- Non-Omani Specific -->
-                                    <optgroup label="خيار المدخر غير العماني" id="nonOmaniReasons">
-                                        <option value="1">انتهاء علاقة العمل ومغادرة السلطنة</option>
-                                        <option value="2">انقضاء 3 أشهر على انتهاء العمل</option>
-                                    </optgroup>
-                                    <!-- General -->
-                                    <optgroup label="أسباب عامة">
-                                        <option value="8">الخروج النهائي من نظام الادخار</option>
+                                    <optgroup label="حالة خاصة" id="surplusGroup">
+                                        <option value="7">صرف فائض اشتراكات العام المنصرم 2025 (بقيمة الفائض فقط ودون عائد استثمار)</option>
                                     </optgroup>
                                 </select>
+                                <div class="form-text">
+                                    <i class="fas fa-circle-info me-1"></i>
+                                    هذه هي شروط استحقاق صرف المدخرات المنصوص عليها في القانون واللائحة، إضافةً إلى حالة صرف فائض الاشتراكات بضوابطها الخاصة. ولا يوجد سبب صرف غيرها.
+                                </div>
                             </div>
 
-                            <div class="row g-3 mb-4">
+                            <div class="mb-4">
+                                <label class="form-label fw-700">مبلغ الصرف</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control bg-light" id="amountValue" value="1,450.000" readonly disabled>
+                                    <span class="input-group-text" id="amountLabel">ر.ع — كامل الرصيد المستحق</span>
+                                </div>
+                                <div class="form-text text-danger" id="amountHint">
+                                    <i class="fas fa-lock me-1"></i>
+                                    لا يمكن إدخال المبلغ أو تعديله — لا يوجد صرف جزئي للمدخرات.
+                                </div>
+                                <div class="alert-spf alert-info mt-3 d-none" id="surplusNote">
+                                    <i class="fas fa-circle-info"></i>
+                                    <div>صرف فائض الاشتراكات حالة خاصة منصوص عليها في اللائحة: تُتاح <strong>في نهاية كل عام</strong> عن فائض ذلك العام فقط، و<strong>دون احتساب عائد استثمار عليه</strong>. ويبقى باقي رصيدك في حسابك حتى تحقق أحد شروط الاستحقاق. وإن لم تطلب صرف فائض عام في حينه، بقي ضمن رصيدك ولا يُصرف إلا مع كامل الرصيد.</div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4" id="payoutRow">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-700">طريقة الصرف</label>
+                                    <label class="form-label fw-700">طريقة سداد المبلغ الكامل</label>
                                     <select class="form-select" id="paymentMethod" onchange="toggleInstallments()">
-                                        <option value="full">دفعة واحدة (Full Amount)</option>
-                                        <option value="install">أقساط شهرية (Monthly Installments)</option>
+                                        <option value="full">دفعة واحدة</option>
+                                        <option value="install">أقساط شهرية أو سنوية</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 d-none" id="installmentCount">
                                     <label class="form-label fw-700">عدد الأقساط</label>
                                     <input type="number" class="form-control" placeholder="مثال: 12 شهر">
+                                    <div class="form-text">يُقسَّم كامل المبلغ بالتساوي، والتقسيط ليس صرفاً جزئياً.</div>
                                 </div>
                             </div>
 
@@ -204,6 +224,7 @@
             const isOmani = document.getElementById("natSim").value === "omani";
             document.getElementById("nonOmaniReasons").style.display = isOmani ? "none" : "";
             document.getElementById("omaniReasons").style.display = isOmani ? "" : "none";
+            document.getElementById("surplusGroup").style.display = isOmani ? "" : "none";
             document.getElementById("disbursementReason").value = "";
             document.getElementById("intlBankBlock").classList.add("d-none");
             document.getElementById("localBankBlock").classList.remove("d-none");
@@ -214,14 +235,26 @@
             document.getElementById('installmentCount').classList.toggle('d-none', method === 'full');
         }
 
+        const FULL_BALANCE = '1,450.000';
+        const SURPLUS_AMOUNT = '210.000';
+
         function checkReason() {
             const reason = document.getElementById('disbursementReason').value;
-            if (reason === '8') {
-                window.location.href = '13-exit-system.html';
-                return;
-            }
+
+            // حالة صرف فائض الاشتراكات: المبلغ بقيمة الفائض فقط
+            const isSurplus = (reason === '7');
+            document.getElementById('amountValue').value = isSurplus ? SURPLUS_AMOUNT : FULL_BALANCE;
+            document.getElementById('amountLabel').innerText = isSurplus
+                ? "ر.ع — فائض اشتراكات 2025"
+                : 'ر.ع — كامل الرصيد المستحق';
+            document.getElementById('amountHint').innerHTML = isSurplus
+                ? "<i class=\"fas fa-lock me-1\"></i> المبلغ محتسب آلياً بقيمة فائض العام المنصرم فقط، ولا يشمل بقية رصيدك الذي يبقى في حسابك."
+                : '<i class="fas fa-lock me-1"></i> لا يمكن إدخال المبلغ أو تعديله — لا يوجد صرف جزئي للمدخرات.';
+            document.getElementById('surplusNote').classList.toggle('d-none', !isSurplus);
+            document.getElementById('payoutRow').classList.toggle('d-none', isSurplus);
+
             // مسارا الصرف بعد انتهاء علاقة العمل لغير العماني يتمان عبر تحويل دولي
-            const isIntl = (reason === '1' || reason === '2');
+            const isIntl = (reason === "1" || reason === "2");
             document.getElementById('intlBankBlock').classList.toggle('d-none', !isIntl);
             document.getElementById('localBankBlock').classList.toggle('d-none', isIntl);
         }
@@ -232,14 +265,18 @@
                 spf.showError('يرجى اختيار سبب طلب الصرف للمتابعة.');
                 return;
             }
-            const isIntl = (reason === '1' || reason === '2');
-            if (isIntl && !document.getElementById('ackFx').checked) {
+            const isIntl = (reason === "1" || reason === "2");
+            if (isIntl && !document.getElementById("ackFx").checked) {
                 spf.showError('يرجى الإقرار بالاطلاع على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله.');
                 return;
             }
-            spf.showSuccess(isIntl
-                ? 'تم استلام طلب صرف المدخرات بنجاح. بعد اعتماد الطلب يصدر أمر التحويل إلى بنكك خارج السلطنة، ويمكنك متابعة حالة التحويل وسيصلك إشعار عند وصوله.'
-                : 'تم استلام طلب صرف المدخرات بنجاح. سيتم مراجعة الطلب من قبل الموظف المختص وإشعارك بالنتيجة.');
+            let msg = "تم استلام طلب صرف المدخرات بنجاح. سيتم مراجعة الطلب من قبل الموظف المختص وإشعارك بالنتيجة.";
+            if (reason === "7") {
+                msg = "تم استلام طلب صرف فائض اشتراكات عام 2025 بقيمة " + SURPLUS_AMOUNT + " ر.ع. يبقى باقي رصيدك في حسابك ولا يُصرف إلا عند تحقق أحد شروط الاستحقاق، ويمكنك تقديم طلب مماثل في نهاية كل عام عن فائض ذلك العام.";
+            } else if (isIntl) {
+                msg = "تم استلام طلب صرف المدخرات بنجاح. بعد اعتماد الطلب يصدر أمر التحويل إلى بنكك خارج السلطنة، ويمكنك متابعة حالة التحويل وسيصلك إشعار عند وصوله.";
+            }
+            spf.showSuccess(msg);
             setTimeout(() => {
                 window.location.href = '01-dashboard.html';
             }, 2500);
