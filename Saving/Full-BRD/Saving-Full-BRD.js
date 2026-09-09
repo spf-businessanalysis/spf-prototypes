@@ -272,10 +272,122 @@
     syncVisibility();
   }
 
+  /* ===== وضع العرض المبسط ===== */
+  var SIMPLE_KEY = 'spf-brd-simplified';
+  var REF_PAREN = /\s*\((?:FR|NFR|BR|US|KPI|DLG)-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:\s*[،,\/]\s*(?:(?:FR|NFR|BR|US|KPI|DLG)-)?[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)*\.?\)/g;
+  var REF_TAIL = /\s*[—–]\s*(?:FR|NFR|BR|US|KPI|DLG)-[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:\s*[،,\/]\s*(?:(?:FR|NFR|BR|US|KPI|DLG)-)?[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)*\s*$/;
+
+  function markInlineRefs(root) {
+    var skip = { PRE: 1, CODE: 1, SCRIPT: 1, STYLE: 1 };
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        var p = node.parentNode;
+        while (p && p !== root) {
+          if (skip[p.tagName] || (p.classList && p.classList.contains('tech-ref'))) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          p = p.parentNode;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    var targets = [];
+    var node;
+    while ((node = walker.nextNode())) {
+      REF_PAREN.lastIndex = 0;
+      if (REF_PAREN.test(node.nodeValue) || REF_TAIL.test(node.nodeValue)) targets.push(node);
+    }
+
+    targets.forEach(function (textNode) {
+      var text = textNode.nodeValue;
+      var frag = document.createDocumentFragment();
+      var last = 0;
+      var m;
+
+      REF_PAREN.lastIndex = 0;
+      while ((m = REF_PAREN.exec(text))) {
+        if (m.index > last) frag.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var span = document.createElement('span');
+        span.className = 'tech-ref';
+        span.textContent = m[0];
+        frag.appendChild(span);
+        last = m.index + m[0].length;
+      }
+
+      var rest = text.slice(last);
+      var tail = rest.match(REF_TAIL);
+      if (tail) {
+        if (tail.index > 0) frag.appendChild(document.createTextNode(rest.slice(0, tail.index)));
+        var tailSpan = document.createElement('span');
+        tailSpan.className = 'tech-ref';
+        tailSpan.textContent = tail[0];
+        frag.appendChild(tailSpan);
+      } else if (rest) {
+        frag.appendChild(document.createTextNode(rest));
+      }
+
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+
+  function markRefColumns(scope) {
+    if (!scope) return;
+    Array.from(scope.querySelectorAll('table')).forEach(function (table) {
+      var headRow = table.querySelector('thead tr');
+      if (!headRow) return;
+      var heads = Array.from(headRow.children);
+      var idx = heads.findIndex(function (th) { return th.textContent.trim() === 'المرجع'; });
+      if (idx < 0) return;
+      heads[idx].classList.add('tech-col');
+      Array.from(table.querySelectorAll('tbody tr')).forEach(function (tr) {
+        var cell = tr.children[idx];
+        if (cell) cell.classList.add('tech-col');
+      });
+    });
+  }
+
+  function initSimplifiedMode() {
+    var main = document.querySelector('main');
+    if (main) {
+      markInlineRefs(main);
+      markRefColumns(document.getElementById('kpis'));
+    }
+
+    /* إخفاء عناصر الفهرس التي تشير إلى الأقسام التقنية */
+    document.querySelectorAll('nav .toc-list a[href^="#"]').forEach(function (link) {
+      var target = document.getElementById(decodeURIComponent(link.getAttribute('href').slice(1)));
+      if (target && target.getAttribute('data-audience') === 'tech') {
+        var li = link.closest('li');
+        if (li) li.classList.add('tech-only');
+      }
+    });
+
+    var btn = document.getElementById('toggle-simplified');
+    if (!btn) return;
+
+    function apply(on) {
+      document.body.classList.toggle('simplified', on);
+      btn.classList.toggle('is-on', on);
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = on ? 'العرض الكامل' : 'العرض المبسط';
+      try { localStorage.setItem(SIMPLE_KEY, on ? '1' : '0'); } catch (e) {}
+    }
+
+    var saved = '0';
+    try { saved = localStorage.getItem(SIMPLE_KEY) || '0'; } catch (e) {}
+    apply(saved === '1' && !isExportMode);
+
+    btn.addEventListener('click', function () {
+      apply(!document.body.classList.contains('simplified'));
+    });
+  }
+
   /* Run after DOM ready */
   function init() {
     var sectionApi = initCollapsibleSections();
     initBackToTop();
+    initSimplifiedMode();
 
     var pres = Array.from(document.querySelectorAll('pre'));
     pres.filter(function(p){ return p.textContent.includes('@startuml'); })

@@ -106,3 +106,15 @@ margin-top:8px
             a,a:visited{color:inherit;text-decoration:none}
         }
     @media (max-width:720px){.hero,nav,main{padding-right:18px;padding-left:18px}nav ul{columns:1}.toc-header{flex-direction:column;align-items:flex-start}.hero h1{font-size:1.55rem}.hero-row{flex-direction:column;align-items:flex-start}.hero-logo{max-width:220px;width:100%}.hero-title-wrap{text-align:right;width:100%}}
+
+/* ===== وضع العرض المبسط (للعرض على فريق الأعمال) ===== */
+.toc-btn-toggle{border-color:#b58a2b;color:#7a5a12;background:#fdf7e8}
+.toc-btn-toggle:hover{border-color:#7a5a12;background:#f6ecd3}
+.toc-btn-toggle.is-on{background:#7a5a12;border-color:#7a5a12;color:#fff}
+.mode-banner{display:none}
+body.simplified .mode-banner{display:flex;align-items:center;gap:10px;margin:0 48px;padding:10px 16px;border:1px solid #e2c98a;background:#fdf7e8;color:#7a5a12;border-radius:14px;font-size:.92rem}
+body.simplified [data-audience="tech"],
+body.simplified .tech-only,
+body.simplified .tech-ref,
+body.simplified .tech-col{display:none !important}
+@media (max-width:720px){body.simplified .mode-banner{margin:0 18px}}

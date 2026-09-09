@@ -23,6 +23,7 @@
                 <h2>فهرس المحتويات</h2>
                 <div class="toc-actions">
                     <button type="button" id="export-pdf" class="toc-btn toc-btn-primary" style="display: none;">Export PDF</button>
+                    <button type="button" id="toggle-simplified" class="toc-btn toc-btn-toggle" aria-pressed="false">العرض المبسط</button>
                     <button type="button" id="expand-all-sections" class="toc-btn">Expand All</button>
                     <button type="button" id="collapse-all-sections" class="toc-btn">Collapse All</button>
                 </div>
@@ -62,6 +63,9 @@
                 <li><a href="#final-approval">الاعتماد النهائي</a></li>
             </ul>
         </nav>
+        <div class="mode-banner">
+            <span>وضع العرض المبسط مفعّل — تُعرض النقاط الرئيسية فقط، وأُخفيت الأقسام التقنية (المتطلبات الوظيفية وغير الوظيفية، قصص المستخدم، البيانات، التكامل، الرسوم، سجل النسخ).</span>
+        </div>
         <main>
             <section id="executive-summary">
                 <h2>الملخص التنفيذي</h2>
@@ -450,7 +454,7 @@
                     <li>الفاتورة الاختيارية الجماعية لا تقبل السداد الجزئي إطلاقًا، ولا يتم ترحيل أي مبالغ منها إلى حسابات العمال إلا بعد سداد كامل قيمة الفاتورة بنجاح.</li>
                     <li>قبل إتمام أي عملية سداد، يجب على النظام التحقق من صلاحية الفاتورة وحالتها الحالية.</li>
                     <li>قبل إلغاء أي فاتورة اختيارية، يجب على النظام التحقق من أنها غير مدفوعة بالكامل أو جزئيًا، ومن عدم وجود محاولة دفع جارية عليها وقت طلب الإلغاء.</li>
-                    <li>تبقى قواعد السداد الجزئي الخاصة بالفاتورة الشهرية للاشتراكات الإلزامية مستقلة ومطبقة وفق ما هو موثق في <code>FR-14C</code> و<code>BR-DEP-06</code>.</li>
+                    <li class="tech-only">تبقى قواعد السداد الجزئي الخاصة بالفاتورة الشهرية للاشتراكات الإلزامية مستقلة ومطبقة وفق ما هو موثق في <code>FR-14C</code> و<code>BR-DEP-06</code>.</li>
                 </ul>
 
                 <hr class="sec-sep">
@@ -942,7 +946,7 @@
                 <h3>سادساً: الحالات التي يتعذر فيها التنفيذ</h3>
                 <p>إذا لم تتوفر بيانات تحويل صحيحة بعد المغادرة، أو تعذر التحقق من هوية العامل، تُحال الحالة إلى معالجة يدوية موثقة لدى موظف الصندوق مع تحديد مدة للإنجاز، ويُشعَر العامل بحالة طلبه وبما هو مطلوب منه.</p>
             </section>
-            <section id="functional-requirements">
+            <section id="functional-requirements" data-audience="tech">
                 <h2>المتطلبات الوظيفية</h2>
                 <table>
                     <thead>
@@ -1379,7 +1383,7 @@
                 </table>
             </section>
 
-            <section id="user-stories">
+            <section id="user-stories" data-audience="tech">
                 <h2>قصص المستخدم ومعايير القبول</h2>
                 <p>يقدم هذا القسم قصص المستخدم بصيغة تشغيلية موحدة تتضمن الغرض، معايير القبول، وقواعد العمل المرتبطة لضمان قابلية التنفيذ والاختبار.</p>
 
@@ -1764,7 +1768,7 @@
                 <p>يجب على فريق الأعمال اعتماد <strong>طريقة واحدة</strong> من الطرق الثلاث أعلاه كقاعدة تشغيلية ورقمية موحدة للنظام. بعد الاختيار، يتم تثبيت الصياغة النهائية في المتطلبات الوظيفية، والواجهات، والتقارير، والرسومات، وآلية الاختبار المحاسبي.</p>
             </section>
 
-            <section id="non-functional-requirements">
+            <section id="non-functional-requirements" data-audience="tech">
                 <h2>المتطلبات غير الوظيفية</h2>
                 <table>
                     <thead>
@@ -1972,7 +1976,7 @@
                 </ul>
             </section>
 
-            <section id="ui-requirements">
+            <section id="ui-requirements" data-audience="tech">
                 <h2>متطلبات واجهة المستخدم</h2>
                 <ul>
                     <li>يجب أن تكون جميع الواجهات باللغتين العربية والانجليزية مع امكانية الترجمة للغات أخرى.</li>
@@ -2128,7 +2132,7 @@
                 <div class="note">يجب أن تدعم جميع التقارير، ضمن حدود الصلاحية، العرض على الشاشة، والبحث، والتصفية، والتصدير إلى الصيغ المعتمدة مثل Excel وPDF.</div>
             </section>
 
-            <section id="data-requirements">
+            <section id="data-requirements" data-audience="tech">
                 <h2>متطلبات البيانات</h2>
                 <table>
                     <thead>
@@ -2215,7 +2219,7 @@
                 <div class="success">يجب أن تبقى جميع المبالغ في الحساب الشخصي بالريال العماني، حتى مع وجود بيانات تحويل خارجية تستخدم لاحقًا لأغراض الصرف.</div>
             </section>
 
-            <section id="integration-requirements">
+            <section id="integration-requirements" data-audience="tech">
                 <h2>متطلبات التكامل</h2>
                 <table>
                     <thead>
@@ -2276,7 +2280,7 @@
                     <li>يجب أن يدعم التكامل مع نظام الاشتراكات ترحيل مبالغ الاشتراكات الإلزامية المحصلة والمسواة إلى نظام الادخار تلقائيًا، وإيداعها فورًا في حسابات المدخرين غير العمانيين دون تدخل يدوي.</li>
                 </ul>
             </section>
-            <section id="internal-integrations">
+            <section id="internal-integrations" data-audience="tech">
                 <h2>التكامل مع الأنظمة الداخلية الحالية في الصندوق</h2>
                 <p>يُعد هذا الجزء من النطاق الحالي للمشروع، ويجب توثيقه بشكل مستقل نظرًا لتأثيره المباشر على دورة حياة الادخار، وسلامة الأرصدة، ودقة الالتزامات، وجودة المعالجة التشغيلية. وبحسب الوضع الحالي، فإن الأنظمة الداخلية المؤكدة هي <strong>نظام المستحقات</strong>                    و<strong>نظام الاشتراكات</strong>، مع ضرورة تصميم التكامل بطريقة تستوعب إضافة أنظمة داخلية أخرى مستقبلًا عند الحاجة.</p>
                 <table>
@@ -2708,7 +2712,7 @@
                 </table>
             </section>
 
-            <section id="dependencies">
+            <section id="dependencies" data-audience="tech">
                 <h2>الاعتماديات</h2>
                 <h3>اعتماديات النظام</h3>
                 <ul>
@@ -2735,7 +2739,7 @@
                 </ul>
             </section>
 
-                        <section id="plantuml">
+                        <section id="plantuml" data-audience="tech">
                 <h2>الرسوم النصية PlantUML</h2>
 
                 <h3>1) رسم تسلسلي — الدخول عبر ثقة والتحقق من الهوية</h3>
@@ -3208,7 +3212,7 @@ stop
 
             </section>
 
-             <section id="version-history">
+             <section id="version-history" data-audience="tech">
                 <h2>سجل النسخ</h2>
                 <p>يوثق هذا القسم تاريخ إصدار الوثيقة وإعدادها.</p>
                 <table>
