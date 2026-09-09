@@ -10,207 +10,127 @@
     <style>
         .spf-navbar .user-toggle,
         .spf-navbar .notification-bell,
-        .spf-navbar .user-badge {
-            display: none !important;
-        }
+        .spf-navbar .user-badge { display: none !important; }
+        .spf-sidebar { display: none !important; }
+        .spf-main { max-width: 1120px; margin-inline: auto; }
 
-        .spf-sidebar {
-            display: none !important;
-        }
-
-        .intro-block {
-            margin-bottom: 20px;
-        }
-
-        .intro-block .card-body {
-            line-height: 2;
-        }
-
-        .intro-block .card-body p:last-child,
-        .intro-block .card-body ul:last-child {
-            margin-bottom: 0;
-        }
-
-        .intro-block ul {
-            padding-right: 18px;
-        }
-
-        .intro-block li {
-            margin-bottom: 8px;
-        }
-
-        .intro-highlight {
-            background: var(--spf-green-lighter);
-            border: 1px solid #cfe6d9;
-            border-radius: 12px;
-            padding: 14px 16px;
-            color: var(--spf-green-dark);
-            font-weight: 700;
-        }
-
-        .section-intro {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: var(--spf-green-dark);
-            font-weight: 800;
-        }
-
-        .section-intro i {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--spf-green-lighter);
-            color: var(--spf-green);
-            flex-shrink: 0;
-        }
-
-        .service-inquiry-card {
-            border: 1px solid var(--spf-border);
-            border-radius: var(--spf-radius);
-            background: #fff;
-            box-shadow: var(--spf-shadow);
-            margin-bottom: 16px;
+        /* ===== الترويسة ===== */
+        .exec-hero {
+            position: relative;
             overflow: hidden;
+            border-radius: 20px;
+            padding: 28px 32px;
+            margin-bottom: 26px;
+            color: #fff;
+            background: linear-gradient(120deg, #0f3d2a 0%, #14532d 55%, #1c6b3c 100%);
+            box-shadow: 0 22px 48px -30px rgba(15, 61, 42, .8);
         }
-
-        .service-inquiry-header {
-            background: var(--spf-green-lighter);
-            color: var(--spf-green-dark);
-            padding: 12px 16px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            cursor: pointer;
+        .exec-hero::after {
+            content: "";
+            position: absolute;
+            inset-block-start: -180px;
+            inset-inline-start: -110px;
+            width: 420px; height: 420px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 50%;
+            box-shadow: 0 0 0 58px rgba(255, 255, 255, .03);
         }
-
-        .service-inquiry-header i {
-            color: var(--spf-green);
+        .exec-hero-inner {
+            position: relative; z-index: 1;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 30px; flex-wrap: wrap;
         }
-
-        .service-inquiry-body {
-            padding: 16px 18px;
+        .exec-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: .82rem; font-weight: 700;
+            padding: 5px 12px; border-radius: 999px;
+            background: rgba(255, 255, 255, .14);
+            border: 1px solid rgba(255, 255, 255, .22);
         }
-
-        .service-inquiry-list {
-            margin: 0;
-            padding-right: 18px;
+        .exec-hero h3 { margin: 12px 0 8px; font-weight: 800; line-height: 1.5; }
+        .exec-hero p { margin: 0 0 16px; max-width: 640px; color: rgba(255, 255, 255, .84); line-height: 1.95; }
+        .hero-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            border: 1px solid rgba(255, 255, 255, .35);
+            background: rgba(255, 255, 255, .1);
+            color: #fff; border-radius: 11px;
+            padding: 8px 18px; font-size: .88rem; font-weight: 700;
+            font-family: inherit; cursor: pointer; transition: all .15s ease;
         }
-
-        .service-inquiry-list li {
-            margin-bottom: 10px;
-            line-height: 1.7;
-            border: 1px solid #eef1ee;
-            border-radius: 10px;
-            padding: 10px 12px;
-            background: #fcfdfc;
+        .hero-btn:hover { background: #fff; color: #14532d; border-color: #fff; }
+        .exec-ring {
+            display: grid; place-items: center;
+            width: 130px; height: 130px; border-radius: 50%;
+            background: conic-gradient(#d4a437 var(--pct, 0%), rgba(255, 255, 255, .16) 0);
+            flex: 0 0 auto;
         }
-
-        .service-inquiry-list li:last-child {
-            margin-bottom: 0;
+        .exec-ring span {
+            display: grid; place-items: center; line-height: 1.25;
+            width: 104px; height: 104px; border-radius: 50%;
+            background: #0f3d2a; text-align: center;
         }
+        .exec-ring b { font-size: 1.5rem; font-weight: 800; }
+        .exec-ring small { font-size: .71rem; color: rgba(255, 255, 255, .7); }
 
-        .inq-row {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
+        /* ===== المحاور ===== */
+        .theme-block { margin-bottom: 24px; }
+        .theme-head {
+            display: flex; align-items: center; gap: 11px;
+            padding: 12px 17px; border-radius: 13px;
+            background: #eef4f1; border: 1px solid #dce7e1;
+            font-weight: 800; color: #14532d; cursor: pointer;
         }
+        .theme-head .th-icon { color: #1c6b3c; }
+        .theme-head .th-count { margin-inline-start: auto; font-weight: 400; font-size: .84rem; color: #5c6f66; }
+        .theme-head .th-caret { transition: transform .2s ease; color: #5c6f66; }
+        .theme-block.collapsed .th-caret { transform: rotate(-90deg); }
+        .theme-block.collapsed .theme-body { display: none; }
+        .theme-body { padding-top: 12px; display: grid; gap: 11px; }
 
-        .inq-text {
-            flex: 1;
+        /* ===== بطاقة الاستفسار ===== */
+        .q-card {
+            background: #fff; border: 1px solid #e4ebe7; border-radius: 15px;
+            padding: 16px 18px 14px;
+            border-inline-start: 5px solid #cbd6d0;
         }
-
-        .inq-actions {
-            display: flex;
-            gap: 6px;
-            flex-shrink: 0;
+        .q-card.has-reply { border-inline-start-color: #1b7a45; }
+        .q-top { display: flex; gap: 13px; align-items: flex-start; }
+        .q-num {
+            flex: 0 0 auto; width: 34px; height: 34px; border-radius: 10px;
+            display: grid; place-items: center; font-weight: 800; font-size: .82rem;
+            background: #eef4f1; color: #14532d;
         }
-
-        .inq-status-btn {
-            border: 1px solid #d5ddd5;
-            background: #fff;
-            color: #4f5b4f;
-            border-radius: 999px;
-            font-size: 0.72rem;
-            padding: 3px 10px;
-            cursor: pointer;
+        .q-text { font-weight: 700; line-height: 2; margin: 0; color: #23342c; }
+        .q-badge {
+            flex: 0 0 auto; font-size: .76rem; font-weight: 700;
+            padding: 4px 12px; border-radius: 999px; white-space: nowrap;
+            background: #f1f3f5; color: #5c6771; border: 1px solid #dfe3e7;
         }
-
-        .inq-status-btn.active-answered {
-            background: #e9f8ef;
-            border-color: #7ac08f;
-            color: #1f7a3e;
-            font-weight: 700;
+        .q-card.has-reply .q-badge { background: #e2f4e9; color: #1b6f40; border-color: #bfe4cd; }
+        .q-tools { margin-top: 11px; }
+        .q-btn {
+            border: 1px solid #d8e3dd; background: #fff; color: #355044;
+            border-radius: 9px; padding: 4px 14px; font-size: .82rem; font-weight: 700; cursor: pointer;
         }
-
-        .inq-status-btn.active-deferred {
-            background: #fff6e8;
-            border-color: #efbf70;
-            color: #9a6500;
-            font-weight: 700;
+        .q-btn:hover { border-color: #14532d; background: #f2f8f4; }
+        .q-log { margin-top: 11px; display: grid; gap: 7px; }
+        .log-item {
+            background: #f7faf8; border: 1px solid #e6eeea; border-radius: 10px;
+            padding: 9px 12px; font-size: .88rem; line-height: 1.85;
         }
+        .log-meta { font-size: .76rem; color: #7b8b83; margin-top: 4px; }
 
-        .inq-item.deferred .inq-text {
-            opacity: 0.85;
+        @media print {
+            .spf-navbar, .q-tools, .hero-btn, .no-print { display: none !important; }
+            .q-card, .exec-hero { break-inside: avoid; }
+            .theme-block.collapsed .theme-body { display: grid !important; }
+            .exec-hero { color: #000; background: none; border: 1px solid #ccc; }
+            .exec-hero p, .exec-ring small { color: #333; }
         }
-
-        .inq-item.answered .inq-text {
-            font-weight: 600;
-        }
-
-        .inquiry-section-title {
-            margin: 18px 0 12px;
-            font-weight: 800;
-            color: var(--spf-green-dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .inquiry-section-title .badge {
-            font-size: 0.75rem;
-        }
-
-        .inquiry-summary {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 14px;
-        }
-
-        .summary-pill {
-            border: 1px solid var(--spf-border);
-            border-radius: 999px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
-            background: #fff;
-        }
-
-        .summary-pill strong {
-            margin-right: 5px;
-        }
-
-        .inquiries-anchor {
-            scroll-margin-top: 90px;
-        }
-
-        @media (max-width: 768px) {
-            .inq-row {
-                flex-direction: column;
-            }
-
-            .inq-actions {
-                width: 100%;
-                justify-content: flex-start;
-                flex-wrap: wrap;
-            }
+        @media (max-width: 767px) {
+            .exec-hero { padding: 22px 20px; }
+            .exec-ring { width: 108px; height: 108px; }
+            .exec-ring span { width: 86px; height: 86px; }
         }
     </style>
 </head>
@@ -218,500 +138,260 @@
     <div id="navbarPlaceholder"></div>
     <div id="sidebarPlaceholder"></div>
 
-    <main class="spf-main no-sidebar">
-        <div class="page-header">
-            <div>
-                <h4>استفسارات نظام الادخار</h4>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسية</a></li>
-                        <li class="breadcrumb-item active">الاستفسارات</li>
-                    </ol>
-                </nav>
-            </div>
-            <div class="user-info-badge">
-                <span class="current-role-badge badge user-type-badge saver">المدخر</span>
-            </div>
-        </div>
+    <main class="spf-main">
 
-        <div class="spf-card intro-block">
-            <div class="card-header-custom">تمهيد حول نظام الادخار</div>
-            <div class="card-body">
-                <p>استحدث قانون الحماية الاجتماعية الصادر بالمرسوم السلطاني رقم (52 / 2023) نظاما جديدا تحت مسمى نظام الادخار.</p>
-                <p>ويعد نظام الادخار نظاما محدد الاشتراكات، ويكون لكل مدخر حساب شخصي في نظام الادخار تودع فيه الاشتراكات المسددة عنه وأي مبالغ ادخار اختيارية تودع لصالحه، ويستحق المدخر مجموع الاشتراكات والمبالغ المودعة في حسابه الشخصي وعوائد استثمارها.</p>
-                <div class="intro-highlight">تسري أحكام نظام الادخار بصفة إلزامية على العمال غير العمانيين، كما تسري أحكامه بصفة اختيارية على الفئات المحددة في القانون.</div>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-lg-6">
-                <div class="spf-card intro-block h-100">
-                    <div class="card-header-custom">الادخار الإلزامي</div>
-                    <div class="card-body">
-                        <div class="section-intro">
-                            <i class="fas fa-landmark"></i>
-                            <span>نطاق التطبيق والتسجيل</span>
-                        </div>
-                        <p>تسري أحكام نظام الادخار بصفة إلزامية على العمال غير العمانيين في حدود مبلغ الادخار الإلزامي.</p>
-                        <ul>
-                            <li>تلتزم جهة العمل بتسجيل غير العمانيين من العاملين في سلطنة عمان في نظام الادخار خلال أجل أقصاه (30) يوما من تاريخ التحاقهم بالعمل.</li>
-                            <li>يكون التسجيل بشكل تلقائي بعد اعتماد عقود العمل لدى الجهة المختصة وغيرها من الجهات الأخرى.</li>
-                            <li>يحل نظام الادخار محل منحة أو مكافأة نهاية الخدمة التي تصرف من جهة العمل لغير العمانيين عن المدة اللاحقة لتطبيق النظام.</li>
-                        </ul>
-                    </div>
+        <section class="exec-hero">
+            <div class="exec-hero-inner">
+                <div>
+                    <span class="exec-eyebrow"><i class="fas fa-gavel"></i> نقاط مرفوعة لاتخاذ قرار</span>
+                    <h3>استفسارات نظام الادخار</h3>
+                    <p>
+                        النقاط التي يتوقف عليها استكمال تصميم النظام وبناؤه، مجمّعة في محاور رئيسية.
+                        يمكن تدوين الرد على كل نقطة أثناء الاجتماع، ويبقى محفوظاً بعد إغلاق المتصفح.
+                    </p>
+                    <button class="hero-btn" onclick="exportAnswers()">
+                        <i class="fas fa-download"></i> تنزيل ملف الردود
+                    </button>
+                </div>
+                <div class="exec-ring" id="pctRing" style="--pct: 0%">
+                    <span>
+                        <b id="pctValue">0%</b>
+                        <small>تم الرد عليها</small>
+                    </span>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="spf-card intro-block h-100">
-                    <div class="card-header-custom">الادخار الاختياري</div>
-                    <div class="card-body">
-                        <div class="section-intro">
-                            <i class="fas fa-hand-holding-heart"></i>
-                            <span>الفئات التي يشملها التسجيل</span>
-                        </div>
-                        <p>يكون التسجيل في نظام الادخار للفئات الاختيارية من خلال تقديم طلب تسجيل إلى الصندوق، ويعد التسجيل ساريا إلى حين وقفه.</p>
-                        <ul>
-                            <li>العمانيين المؤمن عليهم في فروع التأمين الاجتماعي.</li>
-                            <li>جهة العمل التي ترغب في سداد مبالغ ادخار عن العاملين لديها.</li>
-                            <li>العمال غير العمانيين للمدخرات التي تتجاوز الحد الإلزامي.</li>
-                            <li>العمانيين من غير المؤمن عليهم في فروع التأمين الاجتماعي.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
 
-        <div class="spf-card intro-block mt-3">
-            <div class="card-header-custom">الإطار العام للمعالجة في النظام</div>
-            <div class="card-body">
-                <div class="section-intro">
-                    <i class="fas fa-diagram-project"></i>
-                    <span>التسجيل والإيداع والعوائد والاستحقاق</span>
-                </div>
-                <ul>
-                    <li>التسجيل في نظام الادخار للفئات الاختيارية، والتسجيل التلقائي أو المباشر أو بأثر رجعي في الحالات التي تبينها اللائحة.</li>
-                    <li>إيداع الاشتراكات والمبالغ في الحساب الشخصي للمدخر.</li>
-                    <li>احتساب عائد الاستثمار السنوي على المدخرات بصفة شهرية، مع حد أدنى لعوائد استثمار أموال نظام الادخار بنسبة (2%) سنويا.</li>
-                    <li>صرف المدخرات دفعة واحدة أو تقسيط سنوي أو شهري، وفقا لحالات الاستحقاق المنصوص عليها في القانون واللائحة.</li>
-                    <li>استخدام المدخرات لسداد الاشتراكات أو أي التزام مالي يترتب على المدخر للصندوق في الحالات التي تبينها اللائحة.</li>
-                </ul>
-            </div>
-        </div>
-
-        <div id="inquiriesSection" class="inquiries-anchor inquiry-summary">
-            <span class="summary-pill"><strong>تمت الإجابة:</strong> <span id="sumAnswered">0</span></span>
-            <span class="summary-pill"><strong>مؤجل:</strong> <span id="sumDeferred">0</span></span>
-            <span class="summary-pill"><strong>قيد المتابعة:</strong> <span id="sumPending">0</span></span>
-            <span class="summary-pill"><strong>ردود مسجلة:</strong> <span id="sumReplies">0</span></span>
-        </div>
-
-        <div class="spf-card mb-4">
-            <div class="card-header-custom">توثيق الردود</div>
-            <div class="card-body">
-                <div class="row g-3 align-items-end mb-3">
-                    <div class="col-md-4">
-                        <label class="form-label fw-700">اسم من يدوّن الردود</label>
-                        <input type="text" class="form-control" id="answererName" placeholder="اكتب اسمك">
-                        <div class="form-text">يُحفظ مع كل رد تدوّنه.</div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="d-flex gap-2 flex-wrap">
-                            <button class="btn btn-spf" onclick="exportAnswers()">
-                                <i class="fas fa-download me-1"></i> تنزيل ملف الردود
-                            </button>
-                            <label class="btn btn-spf-outline mb-0">
-                                <i class="fas fa-upload me-1"></i> استيراد ملف ردود
-                                <input type="file" accept=".json" class="d-none" onchange="importAnswers(event)">
-                            </label>
-                            <button class="btn btn-spf-outline" onclick="copySummary()">
-                                <i class="fas fa-copy me-1"></i> نسخ ملخص الردود
-                            </button>
-                            <button class="btn btn-spf-outline" onclick="window.print()">
-                                <i class="fas fa-print me-1"></i> طباعة
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="alert-spf alert-info mb-0">
-                    <i class="fas fa-circle-info"></i>
-                    <div>
-                        تُحفظ الردود <strong>في متصفحك أنت</strong> فور تدوينها، فلا تضيع بإغلاق الصفحة.
-                        ولأن الموقع منشور بصفحات GitHub دون خادم، فإن مشاركة الردود مع البقية تتم بـ<strong>تنزيل ملف الردود</strong> بعد الاجتماع
-                        وإضافته إلى المستودع باسم <code>inquiry-answers.json</code> بجوار هذه الصفحة —
-                        عندها تظهر الردود لكل من يفتح الشاشة. ويمكن كذلك استيراد ملف ردود جاهز.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="groupedInquiries"></div>
+        <div id="themesHost"></div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="common.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const STORAGE_KEY = 'spf-inquiry-decisions-v1';
+    (function () {
+        'use strict';
 
-            const commonGroups = [
-                {
-                    service: "استفسارات عامة",
-                    inquiries: [
-                        "ما هي آلية احتساب وتوزيع عائد الاستثمار السنوي على المدخرات؟",
-                        "هل يبدأ احتساب عائد الاستثمار من تاريخ الإيداع أم من دورة شهرية محددة؟",
-                        "في حالة كان الاحتساب شهريا، كيف يتم احتساب العوائد فى حال تأخر المجلس عن إقرار نسبة العائد للعام الحالي الى نهاية الربع الاول؟",
-                        "على أي رصيد يحتسب عائد الاستثمار في حساب الادخار، وهل يشمل جميع مصادر الإيداع والعوائد المضافة سابقاً؟",
-                        "هل يتم تحديد عائد الاستثمار لكل مصدر من مصادر الادخار على حدة أم يطبق عائد موحد على جميع المصادر؟",
-                        "هل يلزم تسوية الاستحقاقات والالتزامات القائمة على المدخر قبل صرف المدخرات، وما ترتيب الأولوية عند تعددها؟",
-                        "ما هي الدورة المستندية لمعالجة طلبات صرف المدخرات؟",
-                        "ما هي الأدوار المعنية بمعالجة طلبات الادخار الاختياري بما أنه طلب يتم تقديمه للصندوق؟	",
-                        "هل يوجد تاريخ محدد لإطلاق نظام الادخار الاختياري؟"
-                    ]
-                },
-            ];
+        var REPLIES_KEY = 'spf-saving-inq-replies-v3';
 
-            const optionalGroups = [
-                {
-                    service: "الادخار الاختياري",
-                    inquiries: [
-                        "هل يجوز للعامل غير العماني الإيداع في الادخار الاختياري بنفسه، أم يقتصر الإيداع على جهة العمل، وذلك بالنسبة للمدخرات التي تتجاوز الحد الإلزامي؟ ",
-                        "ما الأثر المترتب على التسجيل المباشر في نظام الادخار في الحالات المنصوص عليها في المادة (99)؟ كل مؤمن عليه تتجاوز اشتراكاته المسددة في فرع تأمين كبار السن والعجز والوفاة الاشتراكات المحتسبة على سقف أجر الاشتراك.",
-                        "تم التأكيد على أن فائض الاشتراك يكون فقط في حالة تعدد العقود ولا توجد أي حالات أخرى.",
-                        "ما هي آلية التعاقد مع أصحاب العمل بما يتيح الإيداع الشهري التلقائي في حسابات الادخار (الاتفاقيات)؟",
-                        "هل تخضع مبالغ الادخار المسددة من جهة العمل، سواء بموجب اتفاقية أم لا، للحد الأدنى وحد السقف المسموح به؟",
-                        "من يتحمل رسوم الدفع الإلكتروني عند سداد مبالغ الادخار، خاصة في الحالات ذات المبالغ الكبيرة؟",
-                        "عند استخدام المدخرات لسداد الالتزامات إذا كان الالتزام بسداد الاشتراكات على المؤمن عليه، هل يتم الخصم من مصادر معينه تخص الادخار الاختياري فقط أم أنه يمكنه الخصم من المدخرات الإلزامية أيضا حيث إنه لا يملك الحق في التصرف فيها في هذا الوقت ؟ ",
-                        "هل يطبق السقف السنوي على كل مصدر من مصادر الإيداع على حدة أم على الحساب ككل؟",
-                        "ما هي ضوابط الخروج من نظام الادخار  حيث يلتزم المدخر بإخطار الصندوق بتاريخ خروجه من نظام الادخار أو فقدانه أي شرط من شروط أحكامه وطلب سحب مدخراته خلال مدة أقصاها شهر من ذلك التاريخ"
-                    ]
-                }
-            ];
+        var THEMES = [
+            { id: 'roi',    name: 'العائد من الاستثمار',                 icon: 'fa-chart-line' },
+            { id: 'payout', name: 'الاستحقاق والصرف وسداد الالتزامات',   icon: 'fa-money-check-dollar' },
+            { id: 'intl',   name: 'المغادرة والتحويل الدولي والتوكيل',    icon: 'fa-earth-americas' },
+            { id: 'saving', name: 'الادخار الإلزامي والاختياري',          icon: 'fa-hand-holding-dollar' }
+        ];
 
-            const mandatoryGroups = [
-                {
-                    service: "الادخار الإلزامي",
-                    inquiries: [
-                        "ما هي الجهات المعتمدة لتسجيل واعتماد عقود العمل لغير العمانيين في الحالات التي لا تكون فيها وزارة العمل هي الجهة المختصة؟",
-                        "هل يتطلب التسجيل في الادخار الإلزامي أي تدخل أو تأكيد من جهة العمل؟",
-                        "هل يطبق التسجيل في الادخار الإلزامي على جميع القطاعات وجهات العمل أم توجد استثناءات محددة؟",
-                        "هل للصندوق اي صفة رقابية ف التأكيد من استلام العامل لمستحقاته السابقة او لا وكيف آلية هذه الصفه الرقابية هل فقط بتوفير استعلام أم يتعدى إلى إنشاء بلاغ للصندوق ومن ثم تحويله للتفتيش او اي جهة ذات علاقه",
-                        "كيف يتم احتساب المبلغ الإضافي بنسبة (8%) سنوياً، وهل يطبق على اشتراكات العامل محل التظلم فقط أم على إجمالي الاشتراكات المستحقة؟",
-                        "ما الإجراء المتبع إذا أثبتت جهة العمل عدم صحة الاعتراض، ومن الجهة المختصة بمعالجة الطلب؟",
-                        "ما هي آلية تحويل أو صرف المدخرات عند مغادرة العامل سلطنة عمان، وهل يتطلب ذلك موافقة العامل؟",
-                        "في حالة صرف المدخرات على أقساط، هل يتم احتساب العوائد على الرصيد المتبقي؟",
-                        "هل توجد مهلة زمنية ملزمة للتسوية من خلال أصحاب العمل، وما الإجراء عند تعذر التسوية؟",
-                        "هل يوجد مسار اعتراض على الغرامات أو المبالغ الإضافية المفروضة؟",
-                        "ما هي الإجراءات المتبعة عند عدم سداد الاشتراكات المستحقة؟"
-                    ]
-                }
-            ];
+        var INQUIRIES = [
 
-            function encodeKey(text) {
-                return btoa(unescape(encodeURIComponent(text)));
-            }
+            /* ---------- العائد من الاستثمار ---------- */
+            { id: 'ROI-01', theme: 'roi',
+              q: 'ما آلية توزيع العائد من الاستثمار على المدخرات الإلزامية والاختيارية بشكل شهري، وآلية التطبيق على المبالغ المخصومة من الحساب عند سداد الالتزامات؟' },
+            { id: 'ROI-02', theme: 'roi',
+              q: 'هل يُحتسب العائد على المبالغ المتوقع تحصيلها إلزامياً (نسبة 9%) أم على ما تم تحصيله فعلياً؟' },
 
-            function loadDecisions() {
-                try {
-                    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-                } catch (e) {
-                    return {};
-                }
-            }
-            function saveDecisions(state) {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-            }
+            /* ---------- الاستحقاق والصرف وسداد الالتزامات ---------- */
+            { id: 'PAY-01', theme: 'payout',
+              q: 'هل يقتصر الصرف على حالات الاستحقاق المنصوص عليها دون أي صرف جزئي؟' },
+            { id: 'PAY-02', theme: 'payout',
+              q: 'هل توجد مدة تقادم لاستحقاق المدخرات التي لم يُقدَّم طلب صرف بشأنها، وما أثر ذلك على استمرار العوائد وعلى الإشعارات ومعالجة الرصيد؟' },
+            { id: 'PAY-03', theme: 'payout',
+              q: 'كيف تُعالَج مدخرات المدخر المتوفى: تحديد الورثة الفعليين، وآلية التواصل والتحقق، وطريقة تقديم الطلب ومعالجته؟' },
+            { id: 'PAY-04', theme: 'payout',
+              q: 'هل تتم تسوية الالتزامات القائمة على المدخر قبل الصرف وبأي ترتيب أولوية عند تعددها؟' },
+            { id: 'PAY-05', theme: 'payout',
+              q: 'ما ضوابط الخصم التلقائي من حساب الادخار لسداد الالتزامات: مصدر الخصم (الرصيد الاختياري أم الإلزامي أيضاً)، والحد الأدنى للمبلغ القابل للخصم، وقبول السداد الجزئي من عدمه؟' },
 
-            /* ===== سجل الردود ===== */
-            const REPLIES_KEY = 'spf-inquiry-replies-v1';
-            let replies = {};
-            const questionText = {};
+            /* ---------- المغادرة والتحويل الدولي والتوكيل ---------- */
+            { id: 'INT-01', theme: 'intl',
+              q: 'ما آلية تحويل المدخرات للعامل بعد مغادرته السلطنة: القناة البنكية المعتمدة، وعملة التحويل ومعامل الصرف، ومن يتحمل رسوم التحويل والوساطة، ومدة التنفيذ، وإجراء التعامل مع ارتداد الحوالة؟' },
+            { id: 'INT-02', theme: 'intl',
+              q: 'ما ضوابط توكيل الأشخاص للتعامل مع حساب الادخار: توثيق التوكيل والجهة المعتمدة له، والتحقق منه إذا كان الموكِّل خارج السلطنة، ومصير التوكيل بعد وفاة الموكِّل؟' },
 
-            function loadReplies() {
-                try {
-                    return JSON.parse(localStorage.getItem(REPLIES_KEY) || '{}');
-                } catch (e) {
-                    return {};
-                }
-            }
-            function saveReplies() {
-                localStorage.setItem(REPLIES_KEY, JSON.stringify(replies));
-            }
+            /* ---------- الادخار الإلزامي والاختياري ---------- */
+            { id: 'SAV-01', theme: 'saving',
+              q: 'هل يجوز للعامل غير العماني الإيداع في الادخار الاختياري بنفسه فيما يتجاوز الحد الإلزامي أم يقتصر الإيداع على جهة العمل؟' },
+            { id: 'SAV-02', theme: 'saving',
+              q: 'كيف يُطبق السقف السنوي والحد الأدنى للإيداع: على كل مصدر إيداع على حدة أم على الحساب ككل؟' },
+            { id: 'SAV-03', theme: 'saving',
+              q: 'كيف يُحتسب المبلغ الإضافي بنسبة (8%) سنوياً؟ (يفرض على كل جهة عمل لم تؤد الاشتراكات المقررة على أساس الأجور الحقيقية لغير العمانيين، أو امتنعت عن سداد الاشتراكات المستحقة للصندوق خلال الأجل المنصوص عليه في المادة (١٠١) من هذه اللائحة، مبلغ إضافي يقدر بنسبة (٨٪) ثمانية في المائة سنويا من إجمالي الاشتراكات الواجب سدادها للصندوق، ما لم تكن هناك أسباب قهرية محددة لدى جهة العمل لذلك وفقا للضوابط التي يضعها المجلس في هذا الشأن، ويتم حساب المبالغ الإضافية تراكميا عن المدة الواقعة بين تاريخ استحقاق الصندوق للاشتراكات وتاريخ سدادها.)' },
+            { id: 'SAV-04', theme: 'saving',
+              q: 'ما ضوابط الخروج من نظام الادخار الاختياري وأثره على الرصيد القائم، وهل يجوز إعادة التسجيل بعد الخروج؟' }
+        ];
 
-            function nowStamp() {
-                const d = new Date();
-                const p = n => String(n).padStart(2, '0');
-                return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear()
-                     + ' - ' + p(d.getHours()) + ':' + p(d.getMinutes());
-            }
+        /* ================= التخزين ================= */
+        var replies = {};
+        try { replies = JSON.parse(localStorage.getItem(REPLIES_KEY) || '{}'); } catch (e) { replies = {}; }
+        function saveReplies() { try { localStorage.setItem(REPLIES_KEY, JSON.stringify(replies)); } catch (e) {} }
 
-            function escapeText(t) {
-                return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            }
+        function nowStamp() {
+            var d = new Date();
+            var p = function (n) { return String(n).padStart(2, '0'); };
+            return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear()
+                 + ' - ' + p(d.getHours()) + ':' + p(d.getMinutes());
+        }
+        function esc(t) {
+            return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        function hasReply(id) { return !!(replies[id] && replies[id].length); }
 
-            function renderReplies(key) {
-                const list = replies[key] || [];
-                if (!list.length) {
-                    return '<div class="small text-muted">لا توجد ردود مسجلة بعد.</div>';
-                }
-                return list.map(function (r, i) {
-                    return '<div class="p-2 mb-2 bg-light rounded">'
-                         + '<div class="small">' + escapeText(r.text) + '</div>'
-                         + '<div class="small text-muted mt-1">'
-                         + escapeText(r.by || 'غير محدد') + ' — ' + escapeText(r.at)
-                         + ' <a href="#" class="text-danger ms-2" data-del="' + key + '|' + i + '">حذف</a>'
-                         + '</div></div>';
-                }).join('');
-            }
+        function countLabel(n) {
+            if (n === 1) return 'نقطة واحدة';
+            if (n === 2) return 'نقطتان';
+            if (n <= 10) return n + ' نقاط';
+            return n + ' نقطة';
+        }
 
-            function refreshRepliesBox(key) {
-                const box = document.querySelector('[data-replies-for="' + key + '"]');
-                if (box) box.innerHTML = renderReplies(key);
-            }
+        /* ================= العرض ================= */
+        function renderLog(id) {
+            var list = replies[id] || [];
+            if (!list.length) return '';
+            return list.map(function (r, i) {
+                return '<div class="log-item"><div>' + esc(r.text) + '</div>'
+                     + '<div class="log-meta">' + esc(r.at)
+                     + ' <a href="#" class="text-danger ms-2" data-del="' + id + '|' + i + '">حذف</a>'
+                     + '</div></div>';
+            }).join('');
+        }
 
-            function renderInquiryItem(sectionTitle, serviceName, question, state) {
-                const key = encodeKey(`${sectionTitle}||${serviceName}||${question}`);
-                questionText[key] = { section: sectionTitle, service: serviceName, question: question };
-                const status = state[key] || '';
-                const liClass = status === 'answered' ? 'inq-item answered'
-                    : status === 'deferred' ? 'inq-item deferred'
-                    : 'inq-item';
+        function renderCard(inq, index) {
+            var answered = hasReply(inq.id);
+            return ''
+              + '<article class="q-card' + (answered ? ' has-reply' : '') + '" data-id="' + inq.id + '">'
+              +   '<div class="q-top">'
+              +     '<span class="q-num">' + String(index).padStart(2, '0') + '</span>'
+              +     '<p class="q-text flex-grow-1">' + esc(inq.q) + '</p>'
+              +     '<span class="q-badge">' + (answered ? 'تم الرد' : 'بانتظار الرد') + '</span>'
+              +   '</div>'
+              +   '<div class="q-tools">'
+              +     '<button class="q-btn" data-act="reply"><i class="fas fa-pen me-1"></i>تدوين رد</button>'
+              +   '</div>'
+              +   '<div class="mt-2 d-none" data-box="' + inq.id + '">'
+              +     '<textarea class="form-control mb-2" rows="3" placeholder="اكتب الرد على هذه النقطة..."></textarea>'
+              +     '<button class="btn btn-sm btn-spf" data-act="save">حفظ الرد</button> '
+              +     '<button class="btn btn-sm btn-spf-outline" data-act="cancel">إلغاء</button>'
+              +   '</div>'
+              +   '<div class="q-log" data-log="' + inq.id + '">' + renderLog(inq.id) + '</div>'
+              + '</article>';
+        }
 
-                return `
-                    <li class="${liClass}" data-inquiry-key="${key}">
-                        <div class="inq-row">
-                            <span class="inq-text">${question}</span>
-                            <span class="inq-actions">
-                                <button type="button" class="inq-status-btn ${status === 'answered' ? 'active-answered' : ''}" data-action="answered">تمت الإجابة</button>
-                                <button type="button" class="inq-status-btn ${status === 'deferred' ? 'active-deferred' : ''}" data-action="deferred">مؤجل</button>
-                                <button type="button" class="inq-status-btn" data-action="reply">تدوين رد</button>
-                            </span>
-                        </div>
-                        <div class="mt-2 d-none" data-reply-box="${key}">
-                            <textarea class="form-control mb-2" rows="2" data-reply-input="${key}" placeholder="اكتب الرد على هذا الاستفسار..."></textarea>
-                            <button type="button" class="btn btn-sm btn-spf" data-action="save-reply">حفظ الرد</button>
-                            <button type="button" class="btn btn-sm btn-spf-outline" data-action="cancel-reply">إلغاء</button>
-                        </div>
-                        <div class="mt-2" data-replies-for="${key}">${renderReplies(key)}</div>
-                    </li>`;
-            }
+        function renderAll() {
+            var counter = 0;
+            document.getElementById('themesHost').innerHTML = THEMES.map(function (theme) {
+                var items = INQUIRIES.filter(function (i) { return i.theme === theme.id; });
+                if (!items.length) return '';
+                var cards = items.map(function (inq) { counter++; return renderCard(inq, counter); }).join('');
+                return ''
+                  + '<section class="theme-block" data-theme="' + theme.id + '">'
+                  +   '<div class="theme-head">'
+                  +     '<i class="fas ' + theme.icon + ' th-icon"></i>'
+                  +     '<span>' + theme.name + '</span>'
+                  +     '<span class="th-count">' + countLabel(items.length) + '</span>'
+                  +     '<i class="fas fa-chevron-down th-caret"></i>'
+                  +   '</div>'
+                  +   '<div class="theme-body">' + cards + '</div>'
+                  + '</section>';
+            }).join('');
+            updateRing();
+        }
 
-            function renderSection(title, badgeClass, groups, prefix, state) {
-                return `
-                    <div class="inquiry-section-title" style="display: none;">
-                        <i class="fas fa-layer-group"></i>
-                        <span>${title}</span>
-                        <span class="badge ${badgeClass}">${groups.length} مجموعة</span>
-                    </div>
-                    ${groups.map((group, idx) => {
-                        const collapseId = `${prefix}InqGroup${idx + 1}`;
-                        return `
-                            <div class="service-inquiry-card">
-                                <div class="service-inquiry-header" data-bs-toggle="collapse"
-                                     data-bs-target="#${collapseId}" aria-expanded="${idx === 0 ? 'true' : 'false'}">
-                                    <span><i class="fas fa-folder-open me-2"></i>${group.service}</span>
-                                    <span class="badge text-bg-light">${group.inquiries.length}</span>
-                                </div>
-                                <div id="${collapseId}" class="collapse ${idx === 0 ? 'show' : ''}">
-                                    <div class="service-inquiry-body">
-                                        <ol class="service-inquiry-list">
-                                            ${group.inquiries.map(q => renderInquiryItem(title, group.service, q, state)).join('')}
-                                        </ol>
-                                    </div>
-                                </div>
-                            </div>`;
-                    }).join('')}`;
-            }
+        function updateRing() {
+            var total = INQUIRIES.length;
+            var done = INQUIRIES.filter(function (i) { return hasReply(i.id); }).length;
+            var pct = total ? Math.round(done * 100 / total) : 0;
+            document.getElementById('pctValue').textContent = pct + '%';
+            document.getElementById('pctRing').style.setProperty('--pct', pct + '%');
+        }
 
-            const state = loadDecisions();
-            replies = loadReplies();
-            const container = document.getElementById('groupedInquiries');
+        function refreshCard(card, id) {
+            if (!card) return;
+            var answered = hasReply(id);
+            card.classList.toggle('has-reply', answered);
+            card.querySelector('.q-badge').textContent = answered ? 'تم الرد' : 'بانتظار الرد';
+            card.querySelector('[data-log="' + id + '"]').innerHTML = renderLog(id);
+            updateRing();
+        }
 
-            function updateSummary() {
-                const all = container.querySelectorAll('[data-inquiry-key]').length;
-                const answered = container.querySelectorAll('.inq-item.answered').length;
-                const deferred = container.querySelectorAll('.inq-item.deferred').length;
-                let count = 0;
-                Object.keys(replies).forEach(function (k) { count += (replies[k] || []).length; });
-                document.getElementById('sumAnswered').textContent = answered;
-                document.getElementById('sumDeferred').textContent = deferred;
-                document.getElementById('sumPending').textContent = all - answered - deferred;
-                document.getElementById('sumReplies').textContent = count;
-            }
+        /* ================= التفاعل ================= */
+        document.addEventListener('click', function (e) {
+            var head = e.target.closest('.theme-head');
+            if (head) { head.parentElement.classList.toggle('collapsed'); return; }
 
-            function renderAll() {
-                container.innerHTML =
-                    renderSection("استفسارات الادخار الاختياري", "text-bg-success", optionalGroups, "optional", state) +
-                    renderSection("استفسارات مشتركة", "text-bg-primary", commonGroups, "common", state) +
-                    renderSection("استفسارات الادخار الإلزامي", "text-bg-warning", mandatoryGroups, "mandatory", state);
-                updateSummary();
-            }
-
-            renderAll();
-
-            /* تحميل ملف الردود المنشور مع الموقع إن وُجد، ودمج ردود المتصفح فوقه */
-            fetch('inquiry-answers.json', { cache: 'no-store' })
-                .then(function (r) { return r.ok ? r.json() : null; })
-                .then(function (data) {
-                    if (!data || !data.replies) return;
-                    let merged = false;
-                    Object.keys(data.replies).forEach(function (k) {
-                        const local = replies[k] || [];
-                        const pub = data.replies[k] || [];
-                        pub.forEach(function (r) {
-                            const dup = local.some(function (x) { return x.text === r.text && x.at === r.at; });
-                            if (!dup) { local.push(r); merged = true; }
-                        });
-                        replies[k] = local;
-                    });
-                    if (merged) { saveReplies(); renderAll(); }
-                })
-                .catch(function () { /* لا يوجد ملف منشور — تُستخدم ردود المتصفح فقط */ });
-
-            container.addEventListener('click', function (e) {
-                /* حذف رد مسجَّل */
-                const del = e.target.closest('[data-del]');
-                if (del) {
-                    e.preventDefault();
-                    const parts = del.getAttribute('data-del').split('|');
-                    const k = parts[0], i = parseInt(parts[1], 10);
-                    if (replies[k]) {
-                        replies[k].splice(i, 1);
-                        if (!replies[k].length) delete replies[k];
-                        saveReplies();
-                        refreshRepliesBox(k);
-                        updateSummary();
-                    }
-                    return;
-                }
-
-                const btn = e.target.closest('.inq-status-btn, [data-action="save-reply"], [data-action="cancel-reply"]');
-                if (!btn) return;
-
-                const li = btn.closest('[data-inquiry-key]');
-                if (!li) return;
-
-                const key = li.getAttribute('data-inquiry-key');
-                const action = btn.getAttribute('data-action');
-                const box = li.querySelector('[data-reply-box="' + key + '"]');
-
-                if (action === 'reply') {
-                    box.classList.toggle('d-none');
-                    if (!box.classList.contains('d-none')) box.querySelector('textarea').focus();
-                    return;
-                }
-
-                if (action === 'cancel-reply') {
-                    box.querySelector('textarea').value = '';
-                    box.classList.add('d-none');
-                    return;
-                }
-
-                if (action === 'save-reply') {
-                    const ta = box.querySelector('textarea');
-                    const text = ta.value.trim();
-                    if (!text) { alert('يرجى كتابة الرد أولاً.'); return; }
-                    const by = (document.getElementById('answererName').value || '').trim();
-                    if (!replies[key]) replies[key] = [];
-                    replies[key].push({ text: text, by: by, at: nowStamp() });
+            var del = e.target.closest('[data-del]');
+            if (del) {
+                e.preventDefault();
+                var parts = del.getAttribute('data-del').split('|');
+                var did = parts[0], idx = parseInt(parts[1], 10);
+                if (replies[did]) {
+                    replies[did].splice(idx, 1);
+                    if (!replies[did].length) delete replies[did];
                     saveReplies();
-                    ta.value = '';
-                    box.classList.add('d-none');
-                    refreshRepliesBox(key);
-
-                    /* تدوين رد يعني ضمناً أن الاستفسار تمت الإجابة عليه */
-                    state[key] = 'answered';
-                    saveDecisions(state);
-                    li.querySelector('[data-action="answered"]').classList.add('active-answered');
-                    li.querySelector('[data-action="deferred"]').classList.remove('active-deferred');
-                    li.classList.add('answered');
-                    li.classList.remove('deferred');
-                    updateSummary();
-                    return;
+                    refreshCard(document.querySelector('.q-card[data-id="' + did + '"]'), did);
                 }
+                return;
+            }
 
-                state[key] = state[key] === action ? '' : action;
-                saveDecisions(state);
-                li.querySelector('[data-action="answered"]').classList.toggle('active-answered', state[key] === 'answered');
-                li.querySelector('[data-action="deferred"]').classList.toggle('active-deferred', state[key] === 'deferred');
-                li.classList.toggle('answered', state[key] === 'answered');
-                li.classList.toggle('deferred', state[key] === 'deferred');
-                updateSummary();
-            });
+            var btn = e.target.closest('[data-act]');
+            if (!btn) return;
+            var card = btn.closest('.q-card');
+            if (!card) return;
+            var id = card.getAttribute('data-id');
+            var act = btn.getAttribute('data-act');
+            var box = card.querySelector('[data-box="' + id + '"]');
 
-            /* ===== تنزيل / استيراد / نسخ ===== */
-            window.exportAnswers = function () {
-                const payload = {
-                    generatedAt: nowStamp(),
-                    decisions: state,
-                    replies: replies,
-                    questions: questionText
-                };
-                const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'inquiry-answers.json';
-                a.click();
-                URL.revokeObjectURL(a.href);
-            };
-
-            window.importAnswers = function (ev) {
-                const file = ev.target.files && ev.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = function () {
-                    try {
-                        const data = JSON.parse(reader.result);
-                        if (data.decisions) {
-                            Object.keys(data.decisions).forEach(function (k) { state[k] = data.decisions[k]; });
-                            saveDecisions(state);
-                        }
-                        if (data.replies) {
-                            Object.keys(data.replies).forEach(function (k) {
-                                const local = replies[k] || [];
-                                (data.replies[k] || []).forEach(function (r) {
-                                    const dup = local.some(function (x) { return x.text === r.text && x.at === r.at; });
-                                    if (!dup) local.push(r);
-                                });
-                                replies[k] = local;
-                            });
-                            saveReplies();
-                        }
-                        renderAll();
-                        alert('تم استيراد الردود ودمجها مع ما لديك.');
-                    } catch (err) {
-                        alert('تعذر قراءة الملف. تأكد أنه ملف ردود صحيح.');
-                    }
-                    ev.target.value = '';
-                };
-                reader.readAsText(file, 'utf-8');
-            };
-
-            window.copySummary = function () {
-                let out = 'ملخص الردود على استفسارات نظام الادخار — ' + nowStamp() + '\n\n';
-                let n = 0;
-                Object.keys(replies).forEach(function (k) {
-                    const q = questionText[k];
-                    if (!q || !replies[k] || !replies[k].length) return;
-                    n++;
-                    out += n + ') [' + q.section + ' — ' + q.service + ']\n';
-                    out += 'الاستفسار: ' + q.question + '\n';
-                    replies[k].forEach(function (r) {
-                        out += '  • ' + r.text + '  (' + (r.by || 'غير محدد') + ' — ' + r.at + ')\n';
-                    });
-                    out += '\n';
-                });
-                if (!n) { alert('لا توجد ردود مسجلة بعد.'); return; }
-
-                const ta = document.createElement('textarea');
-                ta.value = out;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                alert('تم نسخ ملخص الردود (' + n + ' استفسار).');
-            };
+            if (act === 'reply') {
+                box.classList.toggle('d-none');
+                if (!box.classList.contains('d-none')) box.querySelector('textarea').focus();
+                return;
+            }
+            if (act === 'cancel') {
+                box.querySelector('textarea').value = '';
+                box.classList.add('d-none');
+                return;
+            }
+            if (act === 'save') {
+                var ta = box.querySelector('textarea');
+                var text = ta.value.trim();
+                if (!text) { alert('يرجى كتابة الرد أولاً.'); return; }
+                if (!replies[id]) replies[id] = [];
+                replies[id].push({ text: text, at: nowStamp() });
+                saveReplies();
+                ta.value = '';
+                box.classList.add('d-none');
+                refreshCard(card, id);
+            }
         });
+
+        /* ================= تنزيل الردود ================= */
+        window.exportAnswers = function () {
+            var payload = { generatedAt: nowStamp(), version: 3, replies: replies };
+            var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'inquiry-answers.json';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        };
+
+        function mergePayload(data) {
+            if (!data || !data.replies) return;
+            Object.keys(data.replies).forEach(function (k) {
+                var local = replies[k] || [];
+                (data.replies[k] || []).forEach(function (r) {
+                    var dup = local.some(function (x) { return x.text === r.text && x.at === r.at; });
+                    if (!dup) local.push(r);
+                });
+                replies[k] = local;
+            });
+            saveReplies();
+        }
+
+        /* ================= التشغيل ================= */
+        renderAll();
+
+        fetch('inquiry-answers.json', { cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) { if (data) { mergePayload(data); renderAll(); } })
+            .catch(function () {});
+    })();
     </script>
 </body>
 </html>
