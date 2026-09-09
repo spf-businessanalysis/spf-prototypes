@@ -219,29 +219,23 @@
 
     <section class="showcase" aria-label="الأنظمة والنماذج المتاحة">
       <div class="showcase-tabs" role="tablist" aria-label="اختيار النظام" aria-orientation="vertical">
-        <!-- <button class="showcase-tab" id="tab-collection" type="button" role="tab" aria-selected="true" aria-controls="panel-collection" data-tone="collection">
-          <span class="tab-number">01</span><span class="tab-copy"><strong>رفع كفاءة التحصيل</strong><span>دائرة الاشتراكات</span></span>
-        </button> -->
-        <button class="showcase-tab" id="tab-saving" type="button" role="tab" aria-selected="false" aria-controls="panel-saving" tabindex="-1" data-tone="saving">
-          <span class="tab-number">02</span><span class="tab-copy"><strong>نظام الادخار</strong><span>دائرة النظم التكميلية والادخار</span></span>
+        <button class="showcase-tab" id="tab-saving" type="button" role="tab" aria-selected="false" aria-controls="panel-saving"  data-tone="saving">
+          <span class="tab-number">01</span><span class="tab-copy"><strong>نظام الادخار</strong><span>دائرة النظم التكميلية والادخار</span></span>
         </button>
         <button class="showcase-tab" id="tab-injuries" type="button" role="tab" aria-selected="false" aria-controls="panel-injuries" tabindex="-1" data-tone="injuries">
-          <span class="tab-number">03</span><span class="tab-copy"><strong>إصابات العمل</strong><span>مديرية إصابات العمل والأمراض المهنية والشؤون الطبية</span></span>
+          <span class="tab-number">02</span><span class="tab-copy"><strong>إصابات العمل</strong><span>مديرية إصابات العمل والأمراض المهنية والشؤون الطبية</span></span>
         </button>
         <button class="showcase-tab" id="tab-inspection" type="button" role="tab" aria-selected="false" aria-controls="panel-inspection" tabindex="-1" data-tone="inspection">
-          <span class="tab-number">04</span><span class="tab-copy"><strong>نظام التفتيش</strong><span>دائرة التفتيش</span></span>
+          <span class="tab-number">03</span><span class="tab-copy"><strong>نظام التفتيش</strong><span>دائرة التفتيش</span></span>
         </button>
+        <!-- مخفي مؤقتاً — يظهر كرابع نظام عند التفعيل
+        <button class="showcase-tab" id="tab-collection" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-collection" data-tone="collection">
+          <span class="tab-number">04</span><span class="tab-copy"><strong>رفع كفاءة التحصيل</strong><span>دائرة الاشتراكات</span></span>
+        </button> -->
       </div>
 
       <div class="showcase-stage">
-        <!-- <div class="showcase-panel" id="panel-collection" role="tabpanel" aria-labelledby="tab-collection">
-          <a class="feature-card" href="Collection-Methods/collection-framework-v1.html" data-tone="collection">
-            <div class="feature-content"><span class="feature-owner">دائرة الاشتراكات</span><h2>إطار رفع كفاءة آليات التحصيل</h2><p>إطار عملي لدائرة الاشتراكات ينظم معالجة المتأخرات، وتصنيف جهات العمل، والتصعيد والحظر التدريجي، ومتابعة نتائج التحسين.</p><span class="open-action">استعراض الإطار <i aria-hidden="true">←</i></span></div>
-            <div class="feature-visual" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="34" y="22" width="132" height="156" rx="22"/><path d="M66 62h68M66 88h40M66 138l24-27 18 15 30-38"/><circle cx="66" cy="138" r="7" fill="currentColor" stroke="none"/><circle cx="90" cy="111" r="7" fill="currentColor" stroke="none"/><circle cx="108" cy="126" r="7" fill="currentColor" stroke="none"/><circle cx="138" cy="88" r="7" fill="currentColor" stroke="none"/></svg></div>
-          </a>
-        </div> -->
-
-        <div class="showcase-panel" id="panel-saving" role="tabpanel" aria-labelledby="tab-saving" hidden>
+        <div class="showcase-panel" id="panel-saving" role="tabpanel" aria-labelledby="tab-saving">
           <a class="feature-card" href="Saving/01-dashboard.html" data-tone="saving">
             <div class="feature-content"><span class="feature-owner">دائرة النظم التكميلية والادخار</span><h2>نظام الادخار</h2><p>إدارة مساهمات وتحويلات نظام الادخار للمؤمن عليهم، ومتابعة العمليات والحسابات المرتبطة بها ضمن تجربة رقمية موحدة.</p><span class="open-action">استعراض النظام <i aria-hidden="true">←</i></span></div>
             <div class="feature-visual" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="26" y="34" width="148" height="122" rx="16"/><path d="M50 156v14M150 156v14"/><circle cx="96" cy="95" r="34"/><circle cx="96" cy="95" r="11"/><path d="M96 61v13M96 116v13M62 95h13M117 95h13M148 74v42"/></svg></div>
@@ -261,6 +255,14 @@
             <div class="feature-visual" aria-hidden="true"><svg viewBox="0 0 200 200"><circle cx="84" cy="82" r="48"/><path d="m120 118 50 50M68 82l13 13 27-31"/></svg></div>
           </a>
         </div>
+
+        <!-- مخفي مؤقتاً — لوحة رفع كفاءة التحصيل
+        <div class="showcase-panel" id="panel-collection" role="tabpanel" aria-labelledby="tab-collection" hidden>
+          <a class="feature-card" href="Collection-Methods/collection-framework-v1.html" data-tone="collection">
+            <div class="feature-content"><span class="feature-owner">دائرة الاشتراكات</span><h2>إطار رفع كفاءة آليات التحصيل</h2><p>إطار عملي لدائرة الاشتراكات ينظم معالجة المتأخرات، وتصنيف جهات العمل، والتصعيد والحظر التدريجي، ومتابعة نتائج التحسين.</p><span class="open-action">استعراض الإطار <i aria-hidden="true">←</i></span></div>
+            <div class="feature-visual" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="34" y="22" width="132" height="156" rx="22"/><path d="M66 62h68M66 88h40M66 138l24-27 18 15 30-38"/><circle cx="66" cy="138" r="7" fill="currentColor" stroke="none"/><circle cx="90" cy="111" r="7" fill="currentColor" stroke="none"/><circle cx="108" cy="126" r="7" fill="currentColor" stroke="none"/><circle cx="138" cy="88" r="7" fill="currentColor" stroke="none"/></svg></div>
+          </a>
+        </div> -->
       </div>
     </section>
   </main>
