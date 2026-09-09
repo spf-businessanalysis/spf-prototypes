@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تمهيد حول نظام الادخار - نظام الادخار</title>
+    <title>استفسارات نظام الادخار</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -221,11 +221,11 @@
     <main class="spf-main no-sidebar">
         <div class="page-header">
             <div>
-                <h4>تمهيد حول نظام الادخار</h4>
+                <h4>استفسارات نظام الادخار</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">الصفحة الرئيسية</a></li>
-                        <li class="breadcrumb-item active">تمهيد حول نظام الادخار</li>
+                        <li class="breadcrumb-item active">الاستفسارات</li>
                     </ol>
                 </nav>
             </div>
@@ -302,6 +302,47 @@
             <span class="summary-pill"><strong>تمت الإجابة:</strong> <span id="sumAnswered">0</span></span>
             <span class="summary-pill"><strong>مؤجل:</strong> <span id="sumDeferred">0</span></span>
             <span class="summary-pill"><strong>قيد المتابعة:</strong> <span id="sumPending">0</span></span>
+            <span class="summary-pill"><strong>ردود مسجلة:</strong> <span id="sumReplies">0</span></span>
+        </div>
+
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">توثيق الردود</div>
+            <div class="card-body">
+                <div class="row g-3 align-items-end mb-3">
+                    <div class="col-md-4">
+                        <label class="form-label fw-700">اسم من يدوّن الردود</label>
+                        <input type="text" class="form-control" id="answererName" placeholder="اكتب اسمك">
+                        <div class="form-text">يُحفظ مع كل رد تدوّنه.</div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn btn-spf" onclick="exportAnswers()">
+                                <i class="fas fa-download me-1"></i> تنزيل ملف الردود
+                            </button>
+                            <label class="btn btn-spf-outline mb-0">
+                                <i class="fas fa-upload me-1"></i> استيراد ملف ردود
+                                <input type="file" accept=".json" class="d-none" onchange="importAnswers(event)">
+                            </label>
+                            <button class="btn btn-spf-outline" onclick="copySummary()">
+                                <i class="fas fa-copy me-1"></i> نسخ ملخص الردود
+                            </button>
+                            <button class="btn btn-spf-outline" onclick="window.print()">
+                                <i class="fas fa-print me-1"></i> طباعة
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-spf alert-info mb-0">
+                    <i class="fas fa-circle-info"></i>
+                    <div>
+                        تُحفظ الردود <strong>في متصفحك أنت</strong> فور تدوينها، فلا تضيع بإغلاق الصفحة.
+                        ولأن الموقع منشور بصفحات GitHub دون خادم، فإن مشاركة الردود مع البقية تتم بـ<strong>تنزيل ملف الردود</strong> بعد الاجتماع
+                        وإضافته إلى المستودع باسم <code>inquiry-answers.json</code> بجوار هذه الصفحة —
+                        عندها تظهر الردود لكل من يفتح الشاشة. ويمكن كذلك استيراد ملف ردود جاهز.
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="groupedInquiries"></div>
@@ -377,13 +418,60 @@
                     return {};
                 }
             }
-
             function saveDecisions(state) {
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
             }
 
+            /* ===== سجل الردود ===== */
+            const REPLIES_KEY = 'spf-inquiry-replies-v1';
+            let replies = {};
+            const questionText = {};
+
+            function loadReplies() {
+                try {
+                    return JSON.parse(localStorage.getItem(REPLIES_KEY) || '{}');
+                } catch (e) {
+                    return {};
+                }
+            }
+            function saveReplies() {
+                localStorage.setItem(REPLIES_KEY, JSON.stringify(replies));
+            }
+
+            function nowStamp() {
+                const d = new Date();
+                const p = n => String(n).padStart(2, '0');
+                return p(d.getDate()) + '/' + p(d.getMonth() + 1) + '/' + d.getFullYear()
+                     + ' - ' + p(d.getHours()) + ':' + p(d.getMinutes());
+            }
+
+            function escapeText(t) {
+                return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            }
+
+            function renderReplies(key) {
+                const list = replies[key] || [];
+                if (!list.length) {
+                    return '<div class="small text-muted">لا توجد ردود مسجلة بعد.</div>';
+                }
+                return list.map(function (r, i) {
+                    return '<div class="p-2 mb-2 bg-light rounded">'
+                         + '<div class="small">' + escapeText(r.text) + '</div>'
+                         + '<div class="small text-muted mt-1">'
+                         + escapeText(r.by || 'غير محدد') + ' — ' + escapeText(r.at)
+                         + ' <a href="#" class="text-danger ms-2" data-del="' + key + '|' + i + '">حذف</a>'
+                         + '</div></div>';
+                }).join('');
+            }
+
+            function refreshRepliesBox(key) {
+                const box = document.querySelector('[data-replies-for="' + key + '"]');
+                if (box) box.innerHTML = renderReplies(key);
+            }
+
             function renderInquiryItem(sectionTitle, serviceName, question, state) {
                 const key = encodeKey(`${sectionTitle}||${serviceName}||${question}`);
+                questionText[key] = { section: sectionTitle, service: serviceName, question: question };
                 const status = state[key] || '';
                 const liClass = status === 'answered' ? 'inq-item answered'
                     : status === 'deferred' ? 'inq-item deferred'
@@ -396,8 +484,15 @@
                             <span class="inq-actions">
                                 <button type="button" class="inq-status-btn ${status === 'answered' ? 'active-answered' : ''}" data-action="answered">تمت الإجابة</button>
                                 <button type="button" class="inq-status-btn ${status === 'deferred' ? 'active-deferred' : ''}" data-action="deferred">مؤجل</button>
+                                <button type="button" class="inq-status-btn" data-action="reply">تدوين رد</button>
                             </span>
                         </div>
+                        <div class="mt-2 d-none" data-reply-box="${key}">
+                            <textarea class="form-control mb-2" rows="2" data-reply-input="${key}" placeholder="اكتب الرد على هذا الاستفسار..."></textarea>
+                            <button type="button" class="btn btn-sm btn-spf" data-action="save-reply">حفظ الرد</button>
+                            <button type="button" class="btn btn-sm btn-spf-outline" data-action="cancel-reply">إلغاء</button>
+                        </div>
+                        <div class="mt-2" data-replies-for="${key}">${renderReplies(key)}</div>
                     </li>`;
             }
 
@@ -429,26 +524,68 @@
             }
 
             const state = loadDecisions();
+            replies = loadReplies();
             const container = document.getElementById('groupedInquiries');
 
             function updateSummary() {
                 const all = container.querySelectorAll('[data-inquiry-key]').length;
                 const answered = container.querySelectorAll('.inq-item.answered').length;
                 const deferred = container.querySelectorAll('.inq-item.deferred').length;
+                let count = 0;
+                Object.keys(replies).forEach(function (k) { count += (replies[k] || []).length; });
                 document.getElementById('sumAnswered').textContent = answered;
                 document.getElementById('sumDeferred').textContent = deferred;
                 document.getElementById('sumPending').textContent = all - answered - deferred;
+                document.getElementById('sumReplies').textContent = count;
             }
 
-            container.innerHTML =
-                renderSection("استفسارات الادخار الاختياري", "text-bg-success", optionalGroups, "optional", state) +
-                renderSection("استفسارات مشتركة", "text-bg-primary", commonGroups, "common", state) +
-                renderSection("استفسارات الادخار الإلزامي", "text-bg-warning", mandatoryGroups, "mandatory", state);
+            function renderAll() {
+                container.innerHTML =
+                    renderSection("استفسارات الادخار الاختياري", "text-bg-success", optionalGroups, "optional", state) +
+                    renderSection("استفسارات مشتركة", "text-bg-primary", commonGroups, "common", state) +
+                    renderSection("استفسارات الادخار الإلزامي", "text-bg-warning", mandatoryGroups, "mandatory", state);
+                updateSummary();
+            }
 
-            updateSummary();
+            renderAll();
+
+            /* تحميل ملف الردود المنشور مع الموقع إن وُجد، ودمج ردود المتصفح فوقه */
+            fetch('inquiry-answers.json', { cache: 'no-store' })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (data) {
+                    if (!data || !data.replies) return;
+                    let merged = false;
+                    Object.keys(data.replies).forEach(function (k) {
+                        const local = replies[k] || [];
+                        const pub = data.replies[k] || [];
+                        pub.forEach(function (r) {
+                            const dup = local.some(function (x) { return x.text === r.text && x.at === r.at; });
+                            if (!dup) { local.push(r); merged = true; }
+                        });
+                        replies[k] = local;
+                    });
+                    if (merged) { saveReplies(); renderAll(); }
+                })
+                .catch(function () { /* لا يوجد ملف منشور — تُستخدم ردود المتصفح فقط */ });
 
             container.addEventListener('click', function (e) {
-                const btn = e.target.closest('.inq-status-btn');
+                /* حذف رد مسجَّل */
+                const del = e.target.closest('[data-del]');
+                if (del) {
+                    e.preventDefault();
+                    const parts = del.getAttribute('data-del').split('|');
+                    const k = parts[0], i = parseInt(parts[1], 10);
+                    if (replies[k]) {
+                        replies[k].splice(i, 1);
+                        if (!replies[k].length) delete replies[k];
+                        saveReplies();
+                        refreshRepliesBox(k);
+                        updateSummary();
+                    }
+                    return;
+                }
+
+                const btn = e.target.closest('.inq-status-btn, [data-action="save-reply"], [data-action="cancel-reply"]');
                 if (!btn) return;
 
                 const li = btn.closest('[data-inquiry-key]');
@@ -456,15 +593,124 @@
 
                 const key = li.getAttribute('data-inquiry-key');
                 const action = btn.getAttribute('data-action');
+                const box = li.querySelector('[data-reply-box="' + key + '"]');
+
+                if (action === 'reply') {
+                    box.classList.toggle('d-none');
+                    if (!box.classList.contains('d-none')) box.querySelector('textarea').focus();
+                    return;
+                }
+
+                if (action === 'cancel-reply') {
+                    box.querySelector('textarea').value = '';
+                    box.classList.add('d-none');
+                    return;
+                }
+
+                if (action === 'save-reply') {
+                    const ta = box.querySelector('textarea');
+                    const text = ta.value.trim();
+                    if (!text) { alert('يرجى كتابة الرد أولاً.'); return; }
+                    const by = (document.getElementById('answererName').value || '').trim();
+                    if (!replies[key]) replies[key] = [];
+                    replies[key].push({ text: text, by: by, at: nowStamp() });
+                    saveReplies();
+                    ta.value = '';
+                    box.classList.add('d-none');
+                    refreshRepliesBox(key);
+
+                    /* تدوين رد يعني ضمناً أن الاستفسار تمت الإجابة عليه */
+                    state[key] = 'answered';
+                    saveDecisions(state);
+                    li.querySelector('[data-action="answered"]').classList.add('active-answered');
+                    li.querySelector('[data-action="deferred"]').classList.remove('active-deferred');
+                    li.classList.add('answered');
+                    li.classList.remove('deferred');
+                    updateSummary();
+                    return;
+                }
+
                 state[key] = state[key] === action ? '' : action;
                 saveDecisions(state);
-
                 li.querySelector('[data-action="answered"]').classList.toggle('active-answered', state[key] === 'answered');
                 li.querySelector('[data-action="deferred"]').classList.toggle('active-deferred', state[key] === 'deferred');
                 li.classList.toggle('answered', state[key] === 'answered');
                 li.classList.toggle('deferred', state[key] === 'deferred');
                 updateSummary();
             });
+
+            /* ===== تنزيل / استيراد / نسخ ===== */
+            window.exportAnswers = function () {
+                const payload = {
+                    generatedAt: nowStamp(),
+                    decisions: state,
+                    replies: replies,
+                    questions: questionText
+                };
+                const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'inquiry-answers.json';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            };
+
+            window.importAnswers = function (ev) {
+                const file = ev.target.files && ev.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function () {
+                    try {
+                        const data = JSON.parse(reader.result);
+                        if (data.decisions) {
+                            Object.keys(data.decisions).forEach(function (k) { state[k] = data.decisions[k]; });
+                            saveDecisions(state);
+                        }
+                        if (data.replies) {
+                            Object.keys(data.replies).forEach(function (k) {
+                                const local = replies[k] || [];
+                                (data.replies[k] || []).forEach(function (r) {
+                                    const dup = local.some(function (x) { return x.text === r.text && x.at === r.at; });
+                                    if (!dup) local.push(r);
+                                });
+                                replies[k] = local;
+                            });
+                            saveReplies();
+                        }
+                        renderAll();
+                        alert('تم استيراد الردود ودمجها مع ما لديك.');
+                    } catch (err) {
+                        alert('تعذر قراءة الملف. تأكد أنه ملف ردود صحيح.');
+                    }
+                    ev.target.value = '';
+                };
+                reader.readAsText(file, 'utf-8');
+            };
+
+            window.copySummary = function () {
+                let out = 'ملخص الردود على استفسارات نظام الادخار — ' + nowStamp() + '\n\n';
+                let n = 0;
+                Object.keys(replies).forEach(function (k) {
+                    const q = questionText[k];
+                    if (!q || !replies[k] || !replies[k].length) return;
+                    n++;
+                    out += n + ') [' + q.section + ' — ' + q.service + ']\n';
+                    out += 'الاستفسار: ' + q.question + '\n';
+                    replies[k].forEach(function (r) {
+                        out += '  • ' + r.text + '  (' + (r.by || 'غير محدد') + ' — ' + r.at + ')\n';
+                    });
+                    out += '\n';
+                });
+                if (!n) { alert('لا توجد ردود مسجلة بعد.'); return; }
+
+                const ta = document.createElement('textarea');
+                ta.value = out;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                alert('تم نسخ ملخص الردود (' + n + ' استفسار).');
+            };
         });
     </script>
 </body>

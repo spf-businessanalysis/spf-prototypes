@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>معالجة تظلمات الأجر - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="staff">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>معالجة تظلمات الأجر الأساسي</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">تظلمات الأجر</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge staff">موظف الصندوق</span>
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon blue"><i class="fas fa-file-signature"></i></div>
+                    <div class="insight-value">18</div>
+                    <div class="insight-label">إجمالي التظلمات</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon red"><i class="fas fa-hourglass-half"></i></div>
+                    <div class="insight-value">6</div>
+                    <div class="insight-label">قيد رد جهة العمل</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon gold"><i class="fas fa-gavel"></i></div>
+                    <div class="insight-value">3</div>
+                    <div class="insight-label">بانتظار نتيجة الشكوى</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon purple"><i class="fas fa-user-check"></i></div>
+                    <div class="insight-value">4</div>
+                    <div class="insight-label">قيد مراجعة الصندوق</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-panel mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">الرقم المدني للعامل</label>
+                    <input type="text" class="form-control" placeholder="33445566">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">جهة العمل</label>
+                    <input type="text" class="form-control" placeholder="السجل التجاري">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">الحالة</label>
+                    <select class="form-select">
+                        <option>الكل</option>
+                        <option>تم تقديم الطلب</option>
+                        <option>تم إشعار جهة العمل</option>
+                        <option>قيد الرد</option>
+                        <option>مقبول من جهة العمل</option>
+                        <option>مرفوض من جهة العمل</option>
+                        <option>مقبول حكماً</option>
+                        <option>بانتظار نتيجة الشكوى العمالية</option>
+                        <option>قيد مراجعة الصندوق</option>
+                        <option>مغلق</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-spf w-100" title="بحث"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="spf-card">
+            <div class="card-header-custom">التظلمات المسجلة</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="spf-table">
+                        <thead>
+                            <tr>
+                                <th>العامل</th>
+                                <th>جهة العمل</th>
+                                <th>الأجر المسجل</th>
+                                <th>الأجر المقترح</th>
+                                <th>تاريخ التظلم</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-700">محمد أنور حسين<div class="small text-muted">33445566</div></td>
+                                <td>شركة أوكيو</td>
+                                <td>280.000</td>
+                                <td class="fw-800 text-spf">350.000</td>
+                                <td>20/08/2026</td>
+                                <td><span class="badge-status info">قيد مراجعة الصندوق</span><div class="small text-muted">وردت نتيجة شكوى</div></td>
+                                <td><button class="btn btn-sm btn-spf py-1" onclick="openCase('محمد أنور حسين', true)">معالجة</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">راجيش كومار شارما<div class="small text-muted">44556677</div></td>
+                                <td>شركة أوكيو</td>
+                                <td>320.000</td>
+                                <td class="fw-800 text-spf">380.000</td>
+                                <td>30/08/2026</td>
+                                <td><span class="badge-status pending">قيد الرد</span><div class="small text-muted">متبقٍ 14 يوماً</div></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="openCase('راجيش كومار شارما', false)">عرض</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">سونيل بابو<div class="small text-muted">11223344</div></td>
+                                <td>مؤسسة الخليج</td>
+                                <td>250.000</td>
+                                <td class="fw-800 text-spf">300.000</td>
+                                <td>05/07/2026</td>
+                                <td><span class="badge-status info">مقبول حكماً</span><div class="small text-muted">لعدم رد جهة العمل</div></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="openCase('سونيل بابو', false)">عرض</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">أحمد عبدالرحمن<div class="small text-muted">99887766</div></td>
+                                <td>شركة النهضة</td>
+                                <td>300.000</td>
+                                <td class="fw-800 text-spf">340.000</td>
+                                <td>18/07/2026</td>
+                                <td><span class="badge-status warning">بانتظار نتيجة الشكوى العمالية</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="openCase('أحمد عبدالرحمن', false)">عرض</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- معالجة التظلم -->
+    <div class="modal fade" id="caseModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تظلم — <span id="cName"></span></h5>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6 border-start">
+                            <h6 class="fw-800 text-spf mb-3">بيانات التظلم</h6>
+                            <div class="d-flex justify-content-between mb-2"><span>الأجر المسجل:</span> <strong>280.000 ر.ع</strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>الأجر المقترح:</span> <strong class="text-spf">350.000 ر.ع</strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>تاريخ بدء تقاضيه:</span> <strong>01/01/2026</strong></div>
+                            <div class="d-flex justify-content-between"><span>رد جهة العمل:</span> <span class="badge-status danger">مرفوض</span></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-800 text-spf mb-3">
+                                بيانات الشكوى العمالية
+                                <button class="btn btn-sm btn-spf-outline py-0 ms-2" onclick="fetchComplaint()">جلب من وزارة العمل</button>
+                            </h6>
+                            <div id="cmpData" class="small text-muted">اضغط «جلب من وزارة العمل» لعرض بيانات الشكوى المغلقة.</div>
+                        </div>
+                    </div>
+
+                    <div id="decisionBox" class="d-none">
+                        <h6 class="fw-800 text-spf mb-3">قرار الصندوق</h6>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-700">الأجر الأساسي المعتمد</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="finalWage" value="350">
+                                    <span class="input-group-text">ر.ع</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-700">تاريخ بدء تطبيقه (بأثر رجعي)</label>
+                                <input type="date" class="form-control" value="2026-01-01">
+                            </div>
+                        </div>
+
+                        <div class="p-3 border rounded mb-3">
+                            <label class="form-label fw-700">المبالغ الإضافية (8% سنوياً)</label>
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span class="text-muted">المبلغ المحتسب على جهة العمل عن فروق الاشتراكات</span>
+                                <strong>142.800 ر.ع</strong>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pen" id="penApply" checked>
+                                <label class="form-check-label ms-1" for="penApply">تطبيق المبلغ الإضافي</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="pen" id="penWaive">
+                                <label class="form-check-label ms-1" for="penWaive">التراجع عنه لسبب قهري موثق</label>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-700">مبررات القرار <span class="text-danger">*</span></label>
+                            <textarea class="form-control" rows="2" id="staffNote" placeholder="أدخل المبررات التي ستظهر للعامل وجهة العمل..."></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-spf-outline px-4" data-bs-dismiss="modal">إغلاق</button>
+                    <button class="btn btn-spf px-4 d-none" id="btnSave" onclick="saveDecision()">اعتماد القرار</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'staff';
+            if (role !== 'staff') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-danger">عذراً، هذه الشاشة مخصصة لموظفي الصندوق فقط.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function openCase(name, canDecide) {
+            document.getElementById('cName').innerText = name;
+            document.getElementById('cmpData').innerHTML = 'اضغط «جلب من وزارة العمل» لعرض بيانات الشكوى المغلقة.';
+            document.getElementById('decisionBox').classList.toggle('d-none', !canDecide);
+            document.getElementById('btnSave').classList.toggle('d-none', !canDecide);
+            new bootstrap.Modal(document.getElementById('caseModal')).show();
+        }
+
+        function fetchComplaint() {
+            document.getElementById('cmpData').innerHTML =
+                '<div class="mb-1"><span class="text-muted">رقم الشكوى:</span> <strong>CMP-2026-9931</strong></div>'
+              + '<div class="mb-1"><span class="text-muted">تاريخ التقديم:</span> <strong>05/09/2026</strong></div>'
+              + '<div class="mb-1"><span class="text-muted">تاريخ الإغلاق:</span> <strong>25/09/2026</strong></div>'
+              + '<div class="mb-1"><span class="text-muted">سبب الإغلاق:</span> <strong>تسوية لصالح العامل</strong></div>'
+              + '<div><a href="#" class="text-spf"><i class="fas fa-file-lines me-1"></i> محضر الإغلاق</a></div>';
+        }
+
+        function saveDecision() {
+            if (!document.getElementById('staffNote').value.trim()) {
+                spf.showError('يرجى إدخال مبررات القرار.');
+                return;
+            }
+            const waive = document.getElementById('penWaive').checked;
+            bootstrap.Modal.getInstance(document.getElementById('caseModal')).hide();
+            spf.showSuccess('تم اعتماد الأجر الأساسي بأثر رجعي وترحيل الأثر إلى الاشتراكات لإعادة الاحتساب'
+                + (waive ? '، مع التراجع عن المبلغ الإضافي لسبب قهري موثق.' : '، وتطبيق المبلغ الإضافي على جهة العمل.')
+                + ' وتم إشعار العامل وجهة العمل.');
+        }
+    </script>
+</body>
+</html>

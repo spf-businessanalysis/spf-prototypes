@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متابعة تسويات نهاية الخدمة - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="staff">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>متابعة تسويات مكافأة نهاية الخدمة</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">تسويات نهاية الخدمة</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge staff">موظف الصندوق</span>
+            </div>
+        </div>
+
+        <div class="filter-panel mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">السجل التجاري لجهة العمل</label>
+                    <input type="text" class="form-control" placeholder="1029384">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">الرقم المدني للعامل</label>
+                    <input type="text" class="form-control" placeholder="44556677">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">الحالة</label>
+                    <select class="form-select">
+                        <option>الكل</option>
+                        <option>قيد الاختيار من جهة العمل</option>
+                        <option>تم إشعار العامل</option>
+                        <option>قيد إقرار العامل</option>
+                        <option>مقبول من العامل</option>
+                        <option>غير مقبول من العامل</option>
+                        <option>فاتورة تسوية صادرة</option>
+                        <option>بانتظار السداد</option>
+                        <option>تم تخصيص المبلغ</option>
+                        <option>مغلق</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">الإجراء المتخذ</label>
+                    <select class="form-select">
+                        <option>الكل</option>
+                        <option>تسوية ودية</option>
+                        <option>ترحيل إلى الادخار</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-spf w-100" title="بحث"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-spf alert-warning mb-4">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>
+                <strong>3 حالات</strong> سجّل فيها العمال <strong>عدم موافقتهم</strong> على الإجراء المتخذ من جهة العمل وتحتاج مراجعة.
+            </div>
+        </div>
+
+        <div class="spf-card">
+            <div class="card-header-custom">التسويات المسجلة</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="spf-table">
+                        <thead>
+                            <tr>
+                                <th>العامل</th>
+                                <th>جهة العمل</th>
+                                <th>الإجراء المتخذ</th>
+                                <th>المبلغ</th>
+                                <th>الفاتورة</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-700">أحمد عبدالرحمن<div class="small text-muted">99887766</div></td>
+                                <td>شركة أوكيو</td>
+                                <td>تسوية ودية</td>
+                                <td>875.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small text-muted">—</td>
+                                <td><span class="badge-status danger">غير مقبول من العامل</span></td>
+                                <td><button class="btn btn-sm btn-spf py-1" onclick="review('أحمد عبدالرحمن', true)">مراجعة</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">راجيش كومار شارما<div class="small text-muted">44556677</div></td>
+                                <td>شركة أوكيو</td>
+                                <td>ترحيل إلى الادخار</td>
+                                <td>1,706.667 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">#INV-138-2026-0071</td>
+                                <td><span class="badge-status success">تم تخصيص المبلغ</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="review('راجيش كومار شارما', false)">عرض</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">سونيل بابو<div class="small text-muted">11223344</div></td>
+                                <td>مؤسسة الخليج</td>
+                                <td>ترحيل إلى الادخار</td>
+                                <td>819.444 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">#INV-138-2026-0068</td>
+                                <td><span class="badge-status pending">بانتظار السداد</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="review('سونيل بابو', false)">عرض</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">محمد أنور حسين<div class="small text-muted">33445566</div></td>
+                                <td>شركة أوكيو</td>
+                                <td class="small text-muted">لم يُحدَّد بعد</td>
+                                <td class="small text-muted">—</td>
+                                <td class="small text-muted">—</td>
+                                <td><span class="badge-status pending">قيد الاختيار من جهة العمل</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="review('محمد أنور حسين', false)">عرض</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- مراجعة -->
+    <div class="modal fade" id="revModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تفاصيل التسوية — <span id="rName"></span></h5>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6 border-start">
+                            <h6 class="fw-800 text-spf mb-3">بيانات الاحتساب</h6>
+                            <div class="d-flex justify-content-between mb-2"><span>تاريخ الالتحاق:</span> <strong>20/02/2022</strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>مدة الخدمة:</span> <strong>3 سنوات و6 أشهر</strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>آخر أجر أساسي:</span> <strong>300.000 ر.ع</strong></div>
+                            <div class="d-flex justify-content-between border-top pt-2"><span>مبلغ التسوية:</span> <strong class="text-spf-dark">875.000 ر.ع</strong></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-800 text-spf mb-3">قرار جهة العمل وإقرار العامل</h6>
+                            <div class="mb-2"><span>الإجراء:</span> <strong>تمت التسوية مع العامل ودياً</strong></div>
+                            <div class="mb-2"><span>تاريخ الاختيار:</span> <strong>28/08/2026</strong></div>
+                            <div class="mb-2"><span>منفذ الاختيار:</span> <strong>سالم الحارثي — مفوّض جهة العمل</strong></div>
+                            <div class="mb-2"><span>إقرار العامل:</span> <span class="badge-status danger">غير موافق</span></div>
+                        </div>
+                    </div>
+
+                    <div class="d-none" id="disputeBox">
+                        <h6 class="fw-800 text-spf mb-2">سبب عدم موافقة العامل</h6>
+                        <div class="p-3 border rounded mb-4 small">
+                            لم أستلم أي مبلغ من جهة العمل، والتسوية لم تتم فعلياً.
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-700">قرار الصندوق ومبرراته</label>
+                            <textarea class="form-control" rows="2" id="decision" placeholder="أدخل القرار والمبررات التي ستظهر للطرفين..."></textarea>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-800 text-spf mb-2">السجل التدقيقي</h6>
+                    <div class="notes-panel">
+                        <div class="note-item">
+                            <div>تسجيل عدم موافقة العامل</div>
+                            <div class="note-meta">01/09/2026 - 10:05</div>
+                        </div>
+                        <div class="note-item">
+                            <div>إشعار العامل بالإجراء المتخذ</div>
+                            <div class="note-meta">28/08/2026 - 12:30</div>
+                        </div>
+                        <div class="note-item">
+                            <div>تحديد جهة العمل للإجراء</div>
+                            <div class="note-meta">28/08/2026 - 12:15</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="revFooter">
+                    <button class="btn btn-spf-outline px-4" data-bs-dismiss="modal">إغلاق</button>
+                    <button class="btn btn-spf px-4 d-none" id="btnDecide" onclick="decide()">حفظ القرار وإشعار الطرفين</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'staff';
+            if (role !== 'staff') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-danger">عذراً، هذه الشاشة مخصصة لموظفي الصندوق فقط.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function review(name, isDispute) {
+            document.getElementById('rName').innerText = name;
+            document.getElementById('disputeBox').classList.toggle('d-none', !isDispute);
+            document.getElementById('btnDecide').classList.toggle('d-none', !isDispute);
+            new bootstrap.Modal(document.getElementById('revModal')).show();
+        }
+
+        function decide() {
+            if (!document.getElementById('decision').value.trim()) {
+                spf.showError('يرجى إدخال القرار ومبرراته.');
+                return;
+            }
+            bootstrap.Modal.getInstance(document.getElementById('revModal')).hide();
+            spf.showSuccess('تم حفظ القرار ومبرراته في السجل التدقيقي، وتم إشعار العامل وجهة العمل بالنتيجة.');
+        }
+    </script>
+</body>
+</html>

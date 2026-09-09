@@ -28,11 +28,16 @@
             </div>
         </div>
 
-        <div class="d-flex align-items-center gap-2 mb-3">
+        <div class="d-flex align-items-center gap-3 mb-3 flex-wrap">
             <span class="small text-muted">عرض الشاشة بصفة:</span>
             <select class="form-select form-select-sm w-auto" id="natSim" onchange="applyNationality()">
                 <option value="omani">مدخر عماني</option>
                 <option value="non-omani">عامل غير عماني</option>
+            </select>
+            <span class="small text-muted">مقدِّم الطلب:</span>
+            <select class="form-select form-select-sm w-auto" id="whoSim" onchange="applyWho()">
+                <option value="self">المدخر نفسه</option>
+                <option value="agent">وكيل عن المدخر</option>
             </select>
         </div>
         <div class="row g-4">
@@ -133,6 +138,49 @@
                                 </div>
                             </div>
 
+
+                            <div class="mb-4 d-none" id="path1Block">
+                                <div class="p-3 border rounded">
+                                    <h6 class="fw-800 text-spf mb-2"><i class="fas fa-plane-departure me-1"></i> مسار المغادرة</h6>
+                                    <p class="small text-muted mb-3">
+                                        قدّم طلبك قبل مغادرتك بفترة مناسبة وأنت ما زلت داخل السلطنة، وتأكد من بيانات التحويل الدولي وبقية بياناتك.
+                                        سيُحفظ الطلب بحالة <strong>مسودة</strong> ولا يمكن تعديله بعد ذلك.
+                                    </p>
+                                    <div class="p-2 bg-spf-light rounded small">
+                                        <i class="fas fa-arrows-rotate me-1 text-spf"></i>
+                                        يستقبل النظام تحديثات وزارة العمل يومياً. وعند تأكد تغيّر حالتك إلى <strong>ملغي</strong>،
+                                        يتحول طلبك تلقائياً إلى <strong>بانتظار معالجة الطلب</strong> وتبدأ الدورة المستندية.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4 d-none" id="path2Block">
+                                <div class="p-3 border rounded">
+                                    <h6 class="fw-800 text-spf mb-2"><i class="fas fa-house-user me-1"></i> مسار البقاء في السلطنة</h6>
+                                    <p class="small text-muted mb-3">
+                                        لا تُشترط المغادرة. يمكنك تقديم الطلب قبل تغيّر حالتك أو بعده، ولن ينتقل إلى
+                                        <strong>بانتظار معالجة الطلب</strong> إلا بعد استيفاء الضوابط التالية مجتمعة:
+                                    </p>
+                                    <div class="list-group">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                            <span class="small">حالتك في وزارة العمل <strong>ملغي</strong></span>
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                            <span class="small">مضي أكثر من 3 أشهر على تاريخ الإلغاء</span>
+                                            <span class="small fw-700 text-warning">مضى شهران — يكتمل في 12/11/2026</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                            <span class="small">نوع التأشيرة الحالية (الجوازات والإقامة)</span>
+                                            <span class="small fw-700">التحاق عائلي <i class="fas fa-check-circle text-success ms-1"></i></span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                            <span class="small">عدم الارتباط بعقد عمل آخر</span>
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="mb-4" id="localBankBlock">
                                 <label class="form-label fw-700">الحساب البنكي لتحويل المبلغ</label>
                                 <div class="p-3 border rounded">
@@ -147,6 +195,28 @@
                                 </div>
                             </div>
 
+
+                            <div class="mb-4 d-none" id="agentBankBlock">
+                                <label class="form-label fw-700">الحساب البنكي لتحويل المبلغ (طلب مقدَّم بالوكالة)</label>
+                                <div class="p-3 border rounded">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="agentBank" id="abPrincipal" checked>
+                                        <label class="form-check-label ms-2" for="abPrincipal">
+                                            حساب المدخر — بنك مسقط ****9876
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="agentBank" id="abAgent">
+                                        <label class="form-check-label ms-2" for="abAgent">
+                                            حساب الوكيل — بنك ظفار ****3312
+                                        </label>
+                                    </div>
+                                    <div class="small text-muted border-top pt-2 mt-2">
+                                        <i class="fas fa-circle-info me-1"></i>
+                                        يُسجَّل الحساب المختار في سجل الطلب ويصل إشعار به إلى المدخر.
+                                    </div>
+                                </div>
+                            </div>
                             <div class="mb-4 d-none" id="intlBankBlock">
                                 <label class="form-label fw-700">بيانات التحويل الدولي</label>
                                 <div class="p-3 border rounded">
@@ -160,17 +230,9 @@
                                     </div>
 
                                     <div class="row g-3 small border-top pt-3">
-                                        <div class="col-md-3">
-                                            <div class="text-muted">سعر الصرف</div>
-                                            <div class="fw-700">1 ر.ع = 216.40 INR</div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="text-muted">الرسوم ومن يتحملها</div>
-                                            <div class="fw-700">8.000 ر.ع — على المستفيد</div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="text-muted">صافي المبلغ المتوقع وصوله</div>
-                                            <div class="fw-700 text-spf">312,081 INR</div>
+                                        <div class="col-md-9">
+                                            <div class="text-muted">سعر الصرف والرسوم</div>
+                                            <div class="fw-700">يُحددان عند التنفيذ الفعلي من قسم المصروفات</div>
                                         </div>
                                         <div class="col-md-3 text-md-start">
                                             <a href="17-international-transfer.html" class="btn btn-sm btn-spf-outline">
@@ -182,7 +244,7 @@
                                     <div class="form-check mt-3 border-top pt-3">
                                         <input class="form-check-input" type="checkbox" id="ackFx">
                                         <label class="form-check-label ms-2 small" for="ackFx">
-                                            أقر باطلاعي على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله، وأن رصيدي محفوظ بالريال العماني ويُحوَّل إلى العملة عند التنفيذ فقط.
+                                            <strong>أقر</strong> بأن معامل تحويل العملة إلى عملة حسابي خاضع للقيمة السائدة وقت الصرف الفعلي، وأن أي قيمة تُعرض قبل ذلك استرشادية فقط، وأن الرسوم تُحدد كذلك عند التنفيذ من القسم المختص.
                                         </label>
                                     </div>
                                 </div>
@@ -226,8 +288,11 @@
             document.getElementById("omaniReasons").style.display = isOmani ? "" : "none";
             document.getElementById("surplusGroup").style.display = isOmani ? "" : "none";
             document.getElementById("disbursementReason").value = "";
-            document.getElementById("intlBankBlock").classList.add("d-none");
-            document.getElementById("localBankBlock").classList.remove("d-none");
+            document.getElementById("path1Block").classList.add("d-none");
+            document.getElementById("path2Block").classList.add("d-none");
+            document.getElementById("surplusNote").classList.add("d-none");
+            document.getElementById("payoutRow").classList.remove("d-none");
+            updateBankBlocks();
         }
 
         function toggleInstallments() {
@@ -237,6 +302,21 @@
 
         const FULL_BALANCE = '1,450.000';
         const SURPLUS_AMOUNT = '210.000';
+
+        function applyWho() {
+            // عند تقديم الطلب بالوكالة يختار الوكيل الحساب البنكي المحوَّل إليه
+            updateBankBlocks();
+        }
+
+        function updateBankBlocks() {
+            const reason = document.getElementById('disbursementReason').value;
+            const byAgent = document.getElementById('whoSim').value === 'agent';
+            const isIntl = (reason === "1");
+
+            document.getElementById('intlBankBlock').classList.toggle('d-none', !isIntl);
+            document.getElementById('agentBankBlock').classList.toggle('d-none', isIntl || !byAgent);
+            document.getElementById('localBankBlock').classList.toggle('d-none', isIntl || byAgent);
+        }
 
         function checkReason() {
             const reason = document.getElementById('disbursementReason').value;
@@ -253,10 +333,11 @@
             document.getElementById('surplusNote').classList.toggle('d-none', !isSurplus);
             document.getElementById('payoutRow').classList.toggle('d-none', isSurplus);
 
-            // مسارا الصرف بعد انتهاء علاقة العمل لغير العماني يتمان عبر تحويل دولي
-            const isIntl = (reason === "1" || reason === "2");
-            document.getElementById('intlBankBlock').classList.toggle('d-none', !isIntl);
-            document.getElementById('localBankBlock').classList.toggle('d-none', isIntl);
+            // مسارا العامل غير العماني: المغادرة أو البقاء في السلطنة
+            document.getElementById('path1Block').classList.toggle('d-none', reason !== '1');
+            document.getElementById('path2Block').classList.toggle('d-none', reason !== '2');
+
+            updateBankBlocks();
         }
 
         function submitDisbursement() {
@@ -265,16 +346,18 @@
                 spf.showError('يرجى اختيار سبب طلب الصرف للمتابعة.');
                 return;
             }
-            const isIntl = (reason === "1" || reason === "2");
+            const isIntl = (reason === "1");
             if (isIntl && !document.getElementById("ackFx").checked) {
-                spf.showError('يرجى الإقرار بالاطلاع على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله.');
+                spf.showError("لا يمكن تقديم الطلب دون الإقرار بأن معامل تحويل العملة خاضع للقيمة وقت الصرف الفعلي.");
                 return;
             }
             let msg = "تم استلام طلب صرف المدخرات بنجاح. سيتم مراجعة الطلب من قبل الموظف المختص وإشعارك بالنتيجة.";
             if (reason === "7") {
                 msg = "تم استلام طلب صرف فائض اشتراكات عام 2025 بقيمة " + SURPLUS_AMOUNT + " ر.ع. يبقى باقي رصيدك في حسابك ولا يُصرف إلا عند تحقق أحد شروط الاستحقاق، ويمكنك تقديم طلب مماثل في نهاية كل عام عن فائض ذلك العام.";
+            } else if (reason === "2") {
+                msg = "تم استلام طلب صرف المدخرات. لن ينتقل الطلب إلى (بانتظار معالجة الطلب) إلا بعد استيفاء ضوابط المسار: الإلغاء لدى وزارة العمل، ومضي أكثر من 3 أشهر عليه، ونوع التأشيرة، وعدم الارتباط بعقد عمل آخر.";
             } else if (isIntl) {
-                msg = "تم استلام طلب صرف المدخرات بنجاح. بعد اعتماد الطلب يصدر أمر التحويل إلى بنكك خارج السلطنة، ويمكنك متابعة حالة التحويل وسيصلك إشعار عند وصوله.";
+                msg = "تم حفظ طلب صرف المدخرات بحالة (مسودة) ولا يمكن تعديله. عند تأكد إلغاء علاقة عملك لدى وزارة العمل سيتحول تلقائياً إلى (بانتظار معالجة الطلب) وتبدأ الدورة المستندية، ويصلك إشعار بذلك.";
             }
             spf.showSuccess(msg);
             setTimeout(() => {

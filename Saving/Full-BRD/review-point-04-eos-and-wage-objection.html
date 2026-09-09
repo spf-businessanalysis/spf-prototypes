@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جدول مراجعة — تسوية نهاية الخدمة والتظلم على الأجر</title>
+<style>
+  :root{
+    --green:#0b6b45; --green-dark:#084f33; --green-light:#eaf4ef;
+    --gold:#b8973f; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --bg:#f7f8fa;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+       font-family:"Segoe UI",Tahoma,Arial,sans-serif;line-height:1.8;font-size:15px}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+  header{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;
+         padding:26px 28px;border-radius:12px;border-bottom:4px solid var(--gold);margin-bottom:22px}
+  header h1{margin:0 0 6px;font-size:1.5rem}
+  header p{margin:0;opacity:.9;font-size:.95rem}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+  .bar a{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 16px;
+         text-decoration:none;color:var(--green-dark);font-weight:700;font-size:.9rem;
+         box-shadow:0 1px 2px rgba(0,0,0,.04)}
+  .bar a:hover{background:var(--green-light);border-color:var(--green)}
+  h2{font-size:1.15rem;color:var(--green-dark);margin:30px 0 12px;padding-right:10px;
+     border-right:4px solid var(--gold)}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;
+        box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:10px}
+  th{background:var(--green);color:#fff;text-align:right;padding:11px 12px;font-size:.9rem;font-weight:700}
+  td{padding:11px 12px;border-top:1px solid var(--line);vertical-align:top;font-size:.92rem}
+  tbody tr:nth-child(even){background:#fafbfc}
+  td.num{width:38px;color:var(--muted);text-align:center}
+  .tag{display:inline-block;padding:2px 9px;border-radius:20px;font-size:.78rem;font-weight:700;white-space:nowrap}
+  .add{background:#dcfce7;color:#166534}
+  .edit{background:#fef3c7;color:#92400e}
+  .new{background:#dbeafe;color:#1e40af}
+  a.go{display:inline-block;background:var(--green-light);color:var(--green-dark);
+       text-decoration:none;padding:4px 11px;border-radius:6px;font-weight:700;
+       font-size:.85rem;white-space:nowrap;border:1px solid #cfe5da}
+  a.go:hover{background:var(--green);color:#fff}
+  code{background:#f1f5f9;padding:1px 6px;border-radius:4px;font-size:.86rem;
+       font-family:Consolas,monospace;direction:ltr;display:inline-block}
+  .note{background:#fff;border-right:4px solid var(--gold);padding:14px 16px;border-radius:8px;
+        margin:14px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .note strong{color:var(--green-dark)}
+  .sum{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+  .sum div{flex:1;min-width:150px;background:#fff;border:1px solid var(--line);
+           border-radius:10px;padding:14px 16px;text-align:center}
+  .sum b{display:block;font-size:1.6rem;color:var(--green);line-height:1.3}
+  .sum span{font-size:.85rem;color:var(--muted)}
+  footer{margin-top:34px;text-align:center;color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>جدول مراجعة — تسوية مكافأة نهاية الخدمة والتظلم على الأجر</h1>
+    <p>ست شاشات جديدة، وتوسعة شاشة الفائض، وإعادة صياغة وضع الدفع الإلكتروني المباشر في الوثيقة. الإصدار 1.3</p>
+  </header>
+
+  <div class="bar">
+    <a href="Saving-Full-BRD.html" target="_blank">📄 وثيقة متطلبات الأعمال</a>
+    <a href="../19-eos-settlement.html" target="_blank">🖥️ تسوية نهاية الخدمة — صاحب العمل</a>
+    <a href="../20-eos-acknowledgment.html" target="_blank">🖥️ إقرار التسوية — العامل</a>
+    <a href="../21-eos-monitoring.html" target="_blank">🖥️ متابعة التسويات — الصندوق</a>
+    <a href="../22-wage-objection.html" target="_blank">🖥️ التظلم — العامل</a>
+    <a href="../23-wage-objection-employer.html" target="_blank">🖥️ الرد على التظلم — صاحب العمل</a>
+    <a href="../24-wage-objection-staff.html" target="_blank">🖥️ معالجة التظلمات — الصندوق</a>
+    <a href="../12-surplus-transfers.html" target="_blank">🖥️ الفائض والإيداعات المباشرة</a>
+  </div>
+
+  <div class="sum">
+    <div><b>6</b><span>شاشات جديدة</span></div>
+    <div><b>1</b><span>شاشة موسَّعة</span></div>
+    <div><b>3</b><span>أدوار مغطاة</span></div>
+    <div><b>0</b><span>متطلبات جديدة</span></div>
+    <div><b>13</b><span>موضعاً عُدِّل</span></div>
+  </div>
+
+  <div class="note">
+    <strong>ملاحظة مهمة:</strong> لم تُضَف أي متطلبات وظيفية أو قواعد عمل جديدة — الشاشات الست <strong>تنفيذ لما هو موثق أصلاً</strong>
+    في <code>FR-37</code> حتى <code>FR-39</code> و<code>FR-16</code> و<code>FR-26A</code> حتى <code>FR-26H</code> و<code>US-04</code> و<code>US-08</code> و<code>US-19</code>
+    وحالات دورة العمليات. والتعديل الوحيد على الوثيقة هو إضافة هذه الشاشات إلى قوائم الواجهات الدنيا لكل دور.
+  </div>
+
+  <h2>أولاً: شاشات تسوية مكافأة نهاية الخدمة السابقة</h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th>
+        <th style="width:20%">الشاشة</th>
+        <th style="width:10%">الدور</th>
+        <th>ما تعرضه ويمكن عمله فيها</th>
+        <th style="width:8%">الرابط</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">1</td>
+        <td><code>19-eos-settlement.html</code><br>تسوية مكافأة نهاية الخدمة</td>
+        <td>صاحب العمل</td>
+        <td>
+          أربع بطاقات مؤشرات (الإجمالي، بانتظار التحديد، ودياً، مُرحَّلة) &nbsp;•&nbsp;
+          جدول العمال بتاريخ الالتحاق ومدة الخدمة وآخر أجر ومبلغ التسوية التقديري &nbsp;•&nbsp;
+          زر <strong>استعلام لجميع العمال</strong> &nbsp;•&nbsp;
+          نافذة <strong>تحديد الإجراء</strong> بخيارين فقط، ويظهر حقل المبلغ عند اختيار الترحيل، مع تنبيه بعدم إمكانية التعديل بعد الحفظ &nbsp;•&nbsp;
+          نافذة <strong>الترحيل عبر ملف</strong> مع معاينة ونتيجة تحقق (سجلات صحيحة/بها أخطاء) قبل الاعتماد &nbsp;•&nbsp;
+          بطاقة فاتورة التسوية الأخيرة بحالتها وعدد عمالها.
+        </td>
+        <td><a class="go" href="../19-eos-settlement.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">2</td>
+        <td><code>20-eos-acknowledgment.html</code><br>إشعار وإقرار التسوية</td>
+        <td>العامل</td>
+        <td>
+          الإجراء الذي اتخذته جهة العمل وتاريخه والمبلغ المعتمد &nbsp;•&nbsp;
+          حالة الفاتورة وحالة تخصيص المبلغ في حسابه وتاريخه &nbsp;•&nbsp;
+          البيانات التي بُني عليها الاحتساب (الالتحاق، مدة الخدمة، آخر أجر) &nbsp;•&nbsp;
+          خيارا <strong>إقرار</strong> أو <strong>عدم موافقة</strong> مع سبب إلزامي &nbsp;•&nbsp;
+          سجل الإجراءات بالتواريخ &nbsp;•&nbsp;
+          رابط إلى شاشة التظلم إن كان الأجر المسجل غير صحيح.
+        </td>
+        <td><a class="go" href="../20-eos-acknowledgment.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">3</td>
+        <td><code>21-eos-monitoring.html</code><br>متابعة التسويات</td>
+        <td>موظف الصندوق</td>
+        <td>
+          بحث بالسجل التجاري والرقم المدني والحالة والإجراء المتخذ &nbsp;•&nbsp;
+          تنبيه بعدد حالات <strong>عدم موافقة العامل</strong> &nbsp;•&nbsp;
+          جدول التسويات بحالاتها وفواتيرها &nbsp;•&nbsp;
+          نافذة تفصيلية ببيانات الاحتساب وقرار جهة العمل وإقرار العامل والسجل التدقيقي &nbsp;•&nbsp;
+          في حالات النزاع فقط: سبب عدم موافقة العامل وحقل <strong>قرار الصندوق ومبرراته</strong> مع إشعار الطرفين.
+        </td>
+        <td><a class="go" href="../21-eos-monitoring.html" target="_blank">فتح</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>ثانياً: شاشات التظلم على الأجر الأساسي</h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th>
+        <th style="width:20%">الشاشة</th>
+        <th style="width:10%">الدور</th>
+        <th>ما تعرضه ويمكن عمله فيها</th>
+        <th style="width:8%">الرابط</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">4</td>
+        <td><code>22-wage-objection.html</code><br>الأجر المسجل والتظلم</td>
+        <td>العامل</td>
+        <td>
+          الأجر المسجل وتاريخه ومصدره وآخر تعديل &nbsp;•&nbsp;
+          <strong>عدّاد مهلة الـ90 يوماً</strong> بشريط تقدم وتاريخ انتهائها &nbsp;•&nbsp;
+          سجل تعديلات الأجر &nbsp;•&nbsp;
+          نموذج التظلم: الأجر الصحيح، تاريخ بدء تقاضيه، المستندات &nbsp;•&nbsp;
+          تنبيه بأن عدم رد جهة العمل خلال 30 يوماً يعني اعتماد أجره تلقائياً &nbsp;•&nbsp;
+          خط زمني لحالة التظلم &nbsp;•&nbsp;
+          عند الرفض: بطاقة إرشاد الشكوى بالتصنيف والنوع الحرفيين، وحقول تحديث التظلم برقم الشكوى وتاريخها ونتيجتها.
+        </td>
+        <td><a class="go" href="../22-wage-objection.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">5</td>
+        <td><code>23-wage-objection-employer.html</code><br>الرد على التظلمات</td>
+        <td>صاحب العمل</td>
+        <td>
+          تنبيه بارز بأن انقضاء المهلة يعني <strong>القبول الحكمي</strong> &nbsp;•&nbsp;
+          جدول التظلمات مع <strong>المهلة المتبقية ملوَّنة</strong> بحسب قربها &nbsp;•&nbsp;
+          حالات: قيد الرد، مقبول من جهة العمل، مقبول حكماً &nbsp;•&nbsp;
+          نافذة المراجعة بمقارنة جنباً إلى جنب بين الأجر المسجل والمقترح &nbsp;•&nbsp;
+          المستندات المرفقة من العامل &nbsp;•&nbsp;
+          <strong>سبب القرار إلزامي</strong> قبل القبول أو الرفض، مع تنبيه بأثر القبول على فروق الاشتراكات.
+        </td>
+        <td><a class="go" href="../23-wage-objection-employer.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">6</td>
+        <td><code>24-wage-objection-staff.html</code><br>معالجة التظلمات</td>
+        <td>موظف الصندوق</td>
+        <td>
+          أربع بطاقات مؤشرات &nbsp;•&nbsp;
+          تصفية بالحالات التسع كاملة &nbsp;•&nbsp;
+          جدول التظلمات &nbsp;•&nbsp;
+          نافذة المعالجة: بيانات التظلم ورد جهة العمل، وزر <strong>جلب بيانات الشكوى المغلقة</strong> (رقمها وتواريخها وسبب الإغلاق ومحضره) &nbsp;•&nbsp;
+          اعتماد الأجر الأساسي <strong>بأثر رجعي</strong> وتاريخ بدء تطبيقه &nbsp;•&nbsp;
+          إدارة <strong>المبلغ الإضافي 8%</strong> تطبيقاً أو تراجعاً لسبب قهري &nbsp;•&nbsp;
+          مبررات القرار إلزامية مع إشعار الطرفين.
+        </td>
+        <td><a class="go" href="../24-wage-objection-staff.html" target="_blank">فتح</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>ثالثاً: التعديلات على الوثيقة والنماذج</h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="num">#</th>
+        <th style="width:24%">الموضع</th>
+        <th style="width:10%">النوع</th>
+        <th>ما تم</th>
+        <th style="width:8%">الرابط</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">7</td>
+        <td>متطلبات واجهة المستخدم — قوائم الواجهات الدنيا</td>
+        <td><span class="tag edit">تعديل</span></td>
+        <td>
+          أُضيفت «تسوية مكافأة نهاية الخدمة السابقة والإقرار عليها» إلى واجهات <strong>المدخر</strong> &nbsp;•&nbsp;
+          و«تسوية مكافأة نهاية الخدمة السابقة وإصدار فواتيرها» إلى واجهات <strong>صاحب العمل</strong> &nbsp;•&nbsp;
+          و«متابعة تسويات مكافأة نهاية الخدمة السابقة، معالجة تظلمات الأجر الأساسي» إلى واجهات <strong>موظف الصندوق</strong>.
+        </td>
+        <td><a class="go" href="Saving-Full-BRD.html#ui-requirements" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">8</td>
+        <td><code>common.js</code> — القائمة الجانبية</td>
+        <td><span class="tag edit">تعديل</span></td>
+        <td>
+          ستة روابط جديدة موزعة على الأدوار الثلاثة: للمدخر «تسوية نهاية الخدمة» و«التظلم على الأجر»،
+          ولصاحب العمل «تسوية نهاية الخدمة» و«تظلمات الأجر»،
+          ولموظف الصندوق «تسويات نهاية الخدمة» و«تظلمات الأجر».
+        </td>
+        <td><a class="go" href="../01-dashboard.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">9</td>
+        <td>الوثيقة — 10 مواضع</td>
+        <td><span class="tag edit">إعادة صياغة</span></td>
+        <td>
+          <strong>الدفع الإلكتروني المباشر والإيداع الذاتي الفوري:</strong> كانا موصوفين بأنهما <u>خارج نطاق الإصدار الحالي ومؤجَّلان لمرحلة لاحقة</u>،
+          فأصبحا <strong>من طرق الإيداع المتاحة</strong> التي يستخدمها المدخر عند توافرها إلى جانب مسار الفاتورة.
+          <br>
+          المواضع: <strong>حُذف</strong> بند «خارج النطاق» بالكامل &nbsp;•&nbsp;
+          الافتراضات &nbsp;•&nbsp; الملاحظة التشغيلية في العملية المقترحة &nbsp;•&nbsp;
+          <code>FR-13</code> (مسار الفاتورة) &nbsp;•&nbsp; <code>BR-DEP-05A</code> &nbsp;•&nbsp;
+          قواعد العمل في <code>US-01</code> و<code>US-16</code> &nbsp;•&nbsp;
+          متطلبات الواجهة &nbsp;•&nbsp; تكامل قنوات الدفع &nbsp;•&nbsp;
+          والخطر <code>RB-03B</code> أُعيدت صياغته من «خطر التأجيل» إلى «خطر عدم وضوح ضوابط كل طريقة إيداع».
+        </td>
+        <td><a class="go" href="Saving-Full-BRD.html#scope" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">10</td>
+        <td><code>12-surplus-transfers.html</code><br>الإيداعات المباشرة</td>
+        <td><span class="tag add">توسعة</span></td>
+        <td>
+          أُضيف تبويب <strong>«الإيداعات المباشرة الخاصة»</strong> إلى جانب تبويب الفائض القائم، يغطي ما كان ناقصاً في النماذج:
+          <strong>حالات فقد أو سحب أو إسقاط الجنسية</strong> وفق المعادلة المعتمدة، و<strong>نصيب العامل من البرنامج التكميلي عند إلغائه</strong>.
+          <br>
+          يتضمن: ثلاث بطاقات مؤشرات &nbsp;•&nbsp; تصفية بالرقم المدني ونوع الإيداع والحالة &nbsp;•&nbsp;
+          جدول بالمبالغ والمصدر المرجعي والحالة &nbsp;•&nbsp;
+          نافذة تفاصيل الاحتساب تختلف بحسب النوع &nbsp;•&nbsp;
+          وتنبيه بأن كل إيداع يظهر في حساب المدخر كمصدر مستقل.
+          وأُعيدت تسمية الشاشة إلى «الإيداعات المباشرة في حسابات الادخار».
+        </td>
+        <td><a class="go" href="../12-surplus-transfers.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">11</td>
+        <td>دورة الحالات + <code>FR-103</code> و<code>FR-104</code> + الشاشة</td>
+        <td><span class="tag edit">تصحيح</span></td>
+        <td>
+          <strong>لا مراجعة ولا اعتماد مسبق</strong> في تحويل الفائض ولا في الإيداعات المباشرة الخاصة — كلاهما تكامل آلي من نظام الاشتراكات.
+          <br>
+          <strong>في الوثيقة:</strong> <span class="tag edit">حُذفت</span> حالة <u>قيد المراجعة</u> من «إيداع من الصندوق إلى حساب الادخار»، واستُبدلت <u>فشل الإيداع</u> بـ <code>حدث خطأ أثناء الإيداع</code> &nbsp;•&nbsp;
+          وأُضيفت <code>حدث خطأ أثناء التحويل</code> إلى حالتَي الفائض (<code>محتسب</code>، <code>محول</code>) &nbsp;•&nbsp;
+          وأُعيدت كتابة ملاحظتَي الصفين للنص على الآلية التلقائية وأن حالة الخطأ <strong>معالجة فنية لا بوابة اعتماد</strong> &nbsp;•&nbsp;
+          وأُضيف <code>FR-103</code> (التحويل والإيداع تلقائيان دون مراجعة) و<code>FR-104</code> (وسم الخطأ وحفظ سببه وإتاحة إعادة المحاولة أو التصعيد).
+          <br>
+          <strong>في الشاشة:</strong> <span class="tag edit">دُمج</span> التبويبان في <strong>جدول واحد بعمود «نوع العملية» ومرشّح له</strong>، لأن المسارين صارا متطابقين سلوكياً بعد إلغاء المراجعة &nbsp;•&nbsp;
+          وُحِّدت حالات المسارين في الوثيقة في صف واحد باسم «الإيداعات المباشرة في حساب الادخار» بحالات <code>محتسب</code> ← <code>قيد التنفيذ</code> ← <code>تم الإيداع</code> / <code>حدث خطأ أثناء الإيداع</code> &nbsp;•&nbsp;
+          وأصبح زر تفاصيل الاحتساب <strong>بنص ظاهر «عرض الاحتساب»</strong> بدل أيقونة وحدها غير دالّة، ونافذته تعرض أساس الاحتساب المختلف بحسب النوع &nbsp;•&nbsp; <span class="tag edit">حُذف</span> مؤشر <u>«450 تحويلات قيد التدقيق الاستثنائي»</u> ومرشّحا <u>«قيد المعالجة»</u> و<u>«خطأ في الاحتساب»</u> — ولم تكن لها مقابل في الوثيقة &nbsp;•&nbsp;
+          وحلّ محلها مؤشر «حدث خطأ أثناء التحويل» ومرشّح بالحالات المنصوص عليها &nbsp;•&nbsp;
+          وأُضيف <strong>عمود الحالة</strong> إلى جدول الفائض مع صف يوضح حالة الخطأ &nbsp;•&nbsp;
+          و<strong>زر إعادة المحاولة</strong> على صفوف الخطأ في التبويبين &nbsp;•&nbsp;
+          وتنبيه يوضح أن الإيداع تلقائي دون مراجعة.
+        </td>
+        <td><a class="go" href="../12-surplus-transfers.html" target="_blank">فتح</a></td>
+      </tr>
+      <tr>
+        <td class="num">12</td>
+        <td>دورة الحالات + <code>FR-103</code>…<code>FR-105</code> + <code>BR-SUR-01</code> + الشاشة</td>
+        <td><span class="tag edit">تصحيح</span></td>
+        <td>
+          <strong>1) غياب حساب الادخار سبب للإنشاء لا للفشل.</strong> نُصّ على أن النظام يتحقق أولاً من وجود حساب ادخار نشط للمدخر،
+          فإن لم يكن موجوداً <strong>أنشأه ثم نفّذ الإيداع</strong> — أُضيف في <code>FR-104</code> وفي ملاحظة دورة الحالات
+          وفي خطوة العملية المقترحة وفي ضوابط التكامل وفي <code>BR-SUR-01</code>.
+          <br>
+          <strong>2) لا وجود لحالة تعذُّر في هذا المسار.</strong> مسؤولية إنشاء العملية وإعادة محاولتها عند أي خطأ تقع على
+          <strong>النظام المُنشئ لها</strong>، ولا يتولى نظام الادخار إعادة المحاولة ولا يحتفظ بحالة تعذُّر — نُصّ عليه في <code>FR-105</code>.
+          <br>
+          <span class="tag edit">حُذفت</span> حالتا <u>حدث خطأ أثناء التحويل</u> و<u>حدث خطأ أثناء الإيداع</u> اللتان أُضيفتا قبل قليل،
+          ثم <span class="tag edit">حُذفت</span> كذلك الحالتان الوسيطتان <u>محتسب</u> و<u>قيد التنفيذ</u> — لأن <strong>الاحتساب والمراجعة يتمان في النظام المُنشئ للعملية</strong>، ولا يسجل نظام الادخار إلا <strong>الإيداع المنفَّذ</strong>. فأصبحت الحالة واحدة: <code>تم الإيداع</code>.
+          <br>
+          <strong>في الشاشة:</strong> حُذف مؤشر الأخطاء وصفوف الخطأ و<u>زر إعادة المحاولة</u> ومرشّح حالة الخطأ،
+          وحلّ محلها مؤشر <strong>«حسابات أُنشئت تلقائياً قبل الإيداع»</strong>، وحُذف كذلك مرشّح الحالة لأن الحالة واحدة، وتنبيه يشرح القواعد الثلاث.
+        </td>
+        <td><a class="go" href="Saving-Full-BRD.html#request-lifecycle" target="_blank">فتح</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>قرارات افتراضية اتُّخذت — تحتاج تأكيدك:</strong>
+    <br>1) <strong>القبول الحكمي تلقائي</strong> عند انقضاء الـ30 يوماً دون رد، ويظهر في الشاشات كحالة قائمة بذاتها دون تدخل موظف. البديل أن يحتاج تأكيداً يدوياً.
+    <br>2) <strong>دائرة بيانات المشتركين</strong> دُمجت ضمن دور «موظف الصندوق» في النماذج بدل إضافة دور رابع إلى مبدّل الأدوار، تبسيطاً للمراجعة.
+    <br>3) <strong>معالجة «غير مقبول من العامل»</strong> في التسوية: افترضتُ أن موظف الصندوق هو من يراجع ويقرر ويشعر الطرفين — الوثيقة تذكر حالتَي «قيد المراجعة» و«معتمد» دون بيان الجهة.
+    <br>4) <strong>تم تأكيده:</strong> الاحتساب والمراجعة يتمان في النظام المُنشئ للعملية، ولا يسجل نظام الادخار إلا الإيداع المنفَّذ بحالة واحدة. ويُنشأ حساب الادخار أولاً إن لم يكن موجوداً، ولا توجد حالة تعذُّر لأن إعادة المحاولة مسؤولية النظام المُنشئ.
+    <br>5) الشاشات تعرض <strong>بيانات توضيحية</strong> لأغراض المراجعة فقط.
+  </div>
+
+  <footer>
+    وثيقة مساعدة للمراجعة — تسوية نهاية الخدمة والتظلم على الأجر &nbsp;|&nbsp; قسم تحليل الأعمال
+  </footer>
+
+</div>
+</body>
+</html>

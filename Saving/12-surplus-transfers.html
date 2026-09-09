@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحويلات فائض الاشتراكات - نظام الادخار</title>
+    <title>الإيداعات المباشرة في حسابات الادخار - نظام الادخار</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="styles.css">
@@ -15,11 +15,11 @@
     <main class="spf-main">
         <div class="page-header">
             <div>
-                <h4>مراقبة تحويلات فائض الاشتراكات السنوية</h4>
+                <h4>الإيداعات المباشرة في حسابات الادخار</h4>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
-                        <li class="breadcrumb-item active">تحويلات الفائض</li>
+                        <li class="breadcrumb-item active">الإيداعات المباشرة</li>
                     </ol>
                 </nav>
             </div>
@@ -28,113 +28,187 @@
             </div>
         </div>
 
-        <div class="row g-4 mb-4">
-            <div class="col-md-4">
+        <div class="alert-spf alert-info mb-4">
+            <i class="fas fa-circle-info"></i>
+            <div>
+                تعرض هذه الشاشة المبالغ التي يودعها الصندوق مباشرةً في حسابات الادخار: <strong>فائض الاشتراكات السنوي</strong>،
+                و<strong>صافي الاشتراكات عند فقد أو سحب أو إسقاط الجنسية</strong>، و<strong>نصيب العامل من البرنامج التكميلي عند إلغائه</strong>.
+                وتتم جميعها <strong>تلقائياً دون مراجعة أو اعتماد مسبق</strong>، ويظهر كل إيداع في حساب المدخر كمصدر إيداع مستقل.
+                وإذا لم يكن للمدخر حساب ادخار، <strong>يُنشأ الحساب أولاً ثم يُنفَّذ الإيداع</strong>.
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col">
                 <div class="insight-card">
                     <div class="insight-icon blue"><i class="fas fa-sync-alt"></i></div>
-                    <div class="insight-value">12,450</div>
-                    <div class="insight-label">إجمالي التحويلات الآلية (2025)</div>
+                    <div class="insight-value">12,614</div>
+                    <div class="insight-label">إجمالي الإيداعات المباشرة (2026)</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col">
                 <div class="insight-card">
                     <div class="insight-icon green"><i class="fas fa-coins"></i></div>
                     <div class="insight-value">4.2M <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></div>
-                    <div class="insight-label">إجمالي مبالغ الفائض المحولة</div>
+                    <div class="insight-label">إجمالي المبالغ المودعة</div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col">
                 <div class="insight-card">
-                    <div class="insight-icon gold"><i class="fas fa-spell-check"></i></div>
-                    <div class="insight-value">450</div>
-                    <div class="insight-label">تحويلات قيد التدقيق الاستثنائي</div>
+                    <div class="insight-icon purple"><i class="fas fa-passport"></i></div>
+                    <div class="insight-value">164</div>
+                    <div class="insight-label">حالات خاصة (جنسية + تكميلي)</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon gold"><i class="fas fa-user-plus"></i></div>
+                    <div class="insight-value">37</div>
+                    <div class="insight-label">حسابات أُنشئت تلقائياً قبل الإيداع</div>
                 </div>
             </div>
         </div>
 
         <div class="filter-panel mb-4">
             <div class="row g-3 align-items-end">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label">العام المالي</label>
                     <select class="form-select">
+                        <option>2026</option>
                         <option>2025</option>
                         <option>2024</option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">صاحب العمل</label>
-                    <input type="text" class="form-control" placeholder="اسم الشركة أو السجل التجاري">
+                <div class="col-md-2">
+                    <label class="form-label">الرقم المدني</label>
+                    <input type="text" class="form-control" placeholder="12345678">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">الحالة</label>
+                    <label class="form-label">نوع العملية</label>
                     <select class="form-select">
-                        <option>تم التحويل</option>
-                        <option>قيد المعالجة</option>
-                        <option>خطأ في الاحتساب</option>
+                        <option>الكل</option>
+                        <option>فائض الاشتراكات السنوي</option>
+                        <option>فقد الجنسية</option>
+                        <option>سحب الجنسية</option>
+                        <option>إسقاط الجنسية</option>
+                        <option>نصيب البرنامج التكميلي عند الإلغاء</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <button class="btn btn-spf w-100">فلترة السجلات</button>
+                                <div class="col-md-2">
+                    <label class="form-label">صاحب العمل</label>
+                    <input type="text" class="form-control" placeholder="السجل التجاري">
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-spf w-100" title="بحث"><i class="fas fa-search"></i></button>
                 </div>
             </div>
         </div>
 
         <div class="spf-card">
-            <div class="card-header-custom">سجل تحويلات الفائض السنوي (فوق 6,660 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">)</div>
+            <div class="card-header-custom">سجل الإيداعات المباشرة</div>
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="spf-table">
                         <thead>
                             <tr>
-                                <th>اسم العامل</th>
+                                <th>المدخر</th>
                                 <th>الرقم المدني</th>
-                                <th>إجمالي الاشتراكات</th>
-                                <th>قيمة الفائض المحول</th>
-                                <th>تاريخ التحويل</th>
-                                <th>الإشعار</th>
-                                <th>إجراء</th>
+                                <th>نوع العملية</th>
+                                <th>المبلغ المودع</th>
+                                <th>المصدر المرجعي</th>
+                                <th>تاريخ الإيداع</th>
+                                <th>الحالة</th>
+                                <th>تفاصيل الاحتساب</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="fw-700">هلال بن محمد الحارثي</td>
                                 <td>11002233</td>
-                                <td>7,160.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
-                                <td class="text-spf fw-800">500.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
+                                <td>فائض الاشتراكات السنوي</td>
+                                <td class="text-spf fw-800">500.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">نظام الاشتراكات</td>
                                 <td>01/01/2026</td>
-                                <td><span class="badge-status success">تم الإشعار (SMS)</span></td>
-                                <td><button class="btn btn-sm btn-spf-outline" onclick="showCalc()"><i class="fas fa-calculator"></i></button></td>
+                                <td><span class="badge-status success">تم الإيداع</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="showCalc('surplus')"><i class="fas fa-calculator me-1"></i> عرض الاحتساب</button></td>
                             </tr>
                             <tr>
                                 <td class="fw-700">عبدالله بن سالم الراشدي</td>
                                 <td>55660044</td>
-                                <td>8,000.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
-                                <td class="text-spf fw-800">1,340.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
+                                <td>فائض الاشتراكات السنوي</td>
+                                <td class="text-spf fw-800">1,340.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">نظام الاشتراكات</td>
                                 <td>01/01/2026</td>
-                                <td><span class="badge-status success">تم الإشعار (App)</span></td>
-                                <td><button class="btn btn-sm btn-spf-outline" onclick="showCalc()"><i class="fas fa-calculator"></i></button></td>
+                                <td><span class="badge-status success">تم الإيداع</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="showCalc('surplus')"><i class="fas fa-calculator me-1"></i> عرض الاحتساب</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">سعيد بن ناصر البادي</td>
+                                <td>77001122</td>
+                                <td>سحب الجنسية</td>
+                                <td class="text-spf fw-800">3,240.500 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">نظام الاشتراكات</td>
+                                <td>12/03/2026</td>
+                                <td><span class="badge-status success">تم الإيداع</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="showCalc('nationality')"><i class="fas fa-calculator me-1"></i> عرض الاحتساب</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">خالد بن حمد الغافري</td>
+                                <td>66112233</td>
+                                <td>نصيب البرنامج التكميلي عند الإلغاء</td>
+                                <td class="text-spf fw-800">1,875.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">البرنامج التكميلي</td>
+                                <td>05/02/2026</td>
+                                <td><span class="badge-status success">تم الإيداع</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="showCalc('program')"><i class="fas fa-calculator me-1"></i> عرض الاحتساب</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">منى بنت سيف الكندية</td>
+                                <td>44880099</td>
+                                <td>فقد الجنسية</td>
+                                <td class="text-spf fw-800">2,110.250 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">نظام الاشتراكات</td>
+                                <td>18/03/2026</td>
+                                <td>
+                                    <span class="badge-status success">تم الإيداع</span>
+                                </td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="showCalc('nationality')"><i class="fas fa-calculator me-1"></i> عرض الاحتساب</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">سالم بن عبدالله المعمري</td>
+                                <td>33445599</td>
+                                <td>فائض الاشتراكات السنوي</td>
+                                <td class="text-spf fw-800">740.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="small">نظام الاشتراكات</td>
+                                <td>01/01/2026</td>
+                                <td><span class="badge-status success">تم الإيداع</span></td>
+                                <td><button class="btn btn-sm btn-spf-outline py-1" onclick="showCalc('surplus')"><i class="fas fa-calculator me-1"></i> عرض الاحتساب</button></td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                <div class="small text-muted mt-3">
+                    <i class="fas fa-circle-info me-1"></i>
+                    يتم احتساب المبلغ ومراجعته في <strong>النظام المُنشئ للعملية</strong>، ولا يسجل نظام الادخار إلا <strong>الإيداع المنفَّذ</strong>.
+                    ويتحقق قبل التنفيذ من وجود <strong>حساب ادخار نشط</strong> للمدخر، فإن لم يكن موجوداً أنشأه أولاً ثم نفّذ الإيداع.
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Calculation Detail Modal -->
+    <!-- تفاصيل الاحتساب -->
     <div class="modal fade" id="calcModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">تفاصيل احتساب الفائض</h5>
+                    <h5 class="modal-title">تفاصيل الاحتساب — <span id="calcType"></span></h5>
                     <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="bg-light p-3 rounded mb-4">
-                        <div class="d-flex justify-content-between mb-2"><span>إجمالي اشتراكات العام (المؤمن عليه):</span> <strong>8,000.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
-                        <div class="d-flex justify-content-between mb-2"><span>سقف الاشتراك القانوني:</span> <strong>6,660.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-0"><span class="fw-800 text-spf">قيمة الفائض المحول:</span> <strong class="text-spf-dark fw-800">1,340.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
+                    <div class="bg-light p-3 rounded" id="calcBody"></div>
+                    <div class="small text-muted mt-3">
+                        <i class="fas fa-circle-info me-1"></i>
+                        يظهر المبلغ في حساب المدخر كمصدر إيداع مستقل مع مرجعه في سجل المعاملات.
                     </div>
                 </div>
             </div>
@@ -144,9 +218,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="common.js"></script>
     <script>
-        function showCalc() {
-            const modal = new bootstrap.Modal(document.getElementById('calcModal'));
-            modal.show();
+        const CALC = {
+            surplus: {
+                title: 'فائض الاشتراكات السنوي',
+                rows: [
+                    ['إجمالي اشتراكات العام للمؤمن عليه', '8,000.000 ر.ع'],
+                    ['سقف أجر الاشتراك القانوني', '6,660.000 ر.ع']
+                ],
+                result: ['قيمة الفائض المودع', '1,340.000 ر.ع']
+            },
+            nationality: {
+                title: 'حالة الجنسية',
+                rows: [
+                    ['إجمالي اشتراكات المؤمن عليه', '9,480.000 ر.ع'],
+                    ['يُخصم منها وفق المعادلة المعتمدة', '6,239.500 ر.ع']
+                ],
+                result: ['صافي الاشتراكات المودعة في حساب الادخار', '3,240.500 ر.ع']
+            },
+            program: {
+                title: 'نصيب البرنامج التكميلي',
+                rows: [
+                    ['رصيد العامل في البرنامج التكميلي عند الإلغاء', '1,875.000 ر.ع'],
+                    ['نصيب العامل المستحق منه', '1,875.000 ر.ع']
+                ],
+                result: ['المبلغ المودع في حساب الادخار', '1,875.000 ر.ع']
+            }
+        };
+
+        function showCalc(type) {
+            const c = CALC[type];
+            document.getElementById('calcType').innerText = c.title;
+            let html = '';
+            c.rows.forEach(function (r) {
+                html += '<div class="d-flex justify-content-between mb-2"><span>' + r[0] + ':</span> <strong>' + r[1] + '</strong></div>';
+            });
+            html += '<hr><div class="d-flex justify-content-between"><span class="fw-800 text-spf">' + c.result[0] + ':</span> <strong class="text-spf-dark fw-800">' + c.result[1] + '</strong></div>';
+            document.getElementById('calcBody').innerHTML = html;
+            new bootstrap.Modal(document.getElementById('calcModal')).show();
         }
 
         document.addEventListener('DOMContentLoaded', function() {

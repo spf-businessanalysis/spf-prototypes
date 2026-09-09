@@ -174,30 +174,26 @@
                         </div>
 
                         <div class="spf-card">
-                            <div class="card-header-custom">ملخص التحويل المتوقع عند الصرف</div>
+                            <div class="card-header-custom">ملخص التحويل عند الصرف</div>
                             <div class="card-body">
                                 <div class="row g-3 small mb-3">
                                     <div class="col-md-3">
                                         <div class="text-muted">المبلغ المستحق</div>
                                         <div class="fw-800">1,450.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="text-muted">سعر الصرف</div>
-                                        <div class="fw-800">1 ر.ع = 216.40 INR</div>
+                                    <div class="col-md-4">
+                                        <div class="text-muted">سعر الصرف والرسوم</div>
+                                        <div class="fw-800">يُحددان عند التنفيذ من قسم المصروفات</div>
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="text-muted">الرسوم ومن يتحملها</div>
-                                        <div class="fw-800">8.000 ر.ع — على المستفيد</div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="text-muted">صافي المبلغ المتوقع وصوله</div>
-                                        <div class="fw-800 text-spf">312,081 INR</div>
+                                    <div class="col-md-5">
+                                        <div class="text-muted">مسار التنفيذ</div>
+                                        <div class="fw-800">بعد الاعتماد تُدفع المعاملة إلى النظام المالي (Oracle) لينشئ قسم المصروفات التحويل الفعلي</div>
                                     </div>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="ackFx">
                                     <label class="form-check-label ms-2 small" for="ackFx">
-                                        أقر باطلاعي على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله، وأن رصيدي محفوظ بالريال العماني ويُحوَّل إلى العملة عند التنفيذ فقط.
+                                        <strong>أقر</strong> بأن معامل تحويل العملة إلى عملة حسابي خاضع للقيمة السائدة وقت الصرف الفعلي، وأن أي قيمة تُعرض قبل ذلك استرشادية فقط، وأن الرسوم تُحدد كذلك عند التنفيذ من القسم المختص.
                                     </label>
                                 </div>
                             </div>
@@ -368,7 +364,7 @@
                 return;
             }
             if (!document.getElementById('ackFx').checked) {
-                spf.showError('يرجى الإقرار بالاطلاع على سعر الصرف والرسوم وصافي المبلغ المتوقع وصوله.');
+                spf.showError("لا يمكن تقديم الطلب دون الإقرار بأن معامل تحويل العملة خاضع للقيمة وقت الصرف الفعلي.");
                 return;
             }
             spf.showSuccess('تم حفظ بياناتك وإرسالها للتحقق. الحالة الآن: بانتظار التحقق. سيصلك إشعار على بريدك وهاتفك المسجلين عند اكتمال التحقق.');

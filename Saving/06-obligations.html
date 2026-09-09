@@ -36,7 +36,7 @@
                         <h6 class="text-muted mb-2">رصيدك الحالي في نظام الادخار</h6>
                         <h2 class="fw-800 text-spf">1,450.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></h2>
                         <div class="mt-3 p-2 bg-spf-light rounded small text-spf-dark">
-                            <i class="fas fa-info-circle me-1"></i> يمكنك استخدام هذا الرصيد لسداد التزاماتك لدى الصندوق.
+                            <i class="fas fa-info-circle me-1"></i> السداد يتم من <strong>الرصيد الاختياري فقط</strong>. يمكنك استخدام هذا الرصيد لسداد التزاماتك لدى الصندوق.
                         </div>
                     </div>
                 </div>
@@ -60,15 +60,33 @@
                                         <th style="width: 50px;"></th>
                                         <th>وصف الالتزام</th>
                                         <th>الجهة / النوع</th>
+                                        <th>نوع الالتزام</th>
                                         <th>تاريخ الاستحقاق</th>
                                         <th>المبلغ</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
+                                        <td><input type="checkbox" class="ob-check" data-amount="120"></td>
+                                        <td>اشتراكات فرع كبار السن والعجز والوفاة</td>
+                                        <td>صندوق الحماية الاجتماعية</td>
+                                        <td class="small">اشتراكات</td>
+                                        <td>05/02/2026</td>
+                                        <td class="fw-700">120.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="ob-check" data-amount="35"></td>
+                                        <td>اشتراكات فرع تأمين إصابات العمل والأمراض المهنية</td>
+                                        <td>صندوق الحماية الاجتماعية</td>
+                                        <td class="small">اشتراكات</td>
+                                        <td>05/02/2026</td>
+                                        <td class="fw-700">35.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                    <tr>
+                                    </tr>
                                         <td><input type="checkbox" class="ob-check" data-amount="45.500"></td>
                                         <td>قسط متأخر - نظام الأمان الوظيفي</td>
                                         <td>صندوق الحماية الاجتماعية</td>
+                                        <td class="small">التزام مالي</td>
                                         <td>01/02/2026</td>
                                         <td class="fw-700">45.500 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
                                     </tr>
@@ -76,6 +94,7 @@
                                         <td><input type="checkbox" class="ob-check" data-amount="200.000"></td>
                                         <td>دفعة قسط - قرض سكني مدعوم</td>
                                         <td>برنامج الإسكان</td>
+                                        <td class="small">التزام مالي</td>
                                         <td>15/02/2026</td>
                                         <td class="fw-700">200.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
                                     </tr>
@@ -83,6 +102,7 @@
                                         <td><input type="checkbox" class="ob-check" data-amount="50.000"></td>
                                         <td>مساهمة شهرية - مبادرة سهم</td>
                                         <td>مبادرة سهم الخيرية</td>
+                                        <td class="small">التزام مالي</td>
                                         <td>20/02/2026</td>
                                         <td class="fw-700">50.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
                                     </tr>
@@ -90,6 +110,7 @@
                                         <td><input type="checkbox" class="ob-check" data-amount="15.000"></td>
                                         <td>رسوم إدارية - تحديث بيانات</td>
                                         <td>صندوق الحماية الاجتماعية</td>
+                                        <td class="small">التزام مالي</td>
                                         <td>10/02/2026</td>
                                         <td class="fw-700">15.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">
                                     </tr>
@@ -112,6 +133,46 @@
                                 <span>إجمالي المبلغ: <span id="totalOb">0.000</span> ر.ع</span>
                             </div>
                             <button class="btn btn-spf-gold px-5" id="confirmBtn" disabled onclick="confirmPayment()">سداد المبالغ المختارة</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spf-card mt-4">
+                    <div class="card-header-custom">خصومات نُفِّذت على رصيدك</div>
+                    <div class="card-body">
+                        <div class="alert-spf alert-info mb-3">
+                            <i class="fas fa-circle-info"></i>
+                            <div>
+                                إذا لم تُسدَّد التزاماتك في مواعيدها، يجوز للصندوق خصمها من رصيدك الاختياري.
+                                ويتولى <strong>النظام المسؤول عن تحصيل الالتزامات</strong> إشعارك قبل ذلك، وتظهر هنا الخصومات التي نُفِّذت.
+                            </div>
+                        </div>
+
+                        <div class="p-3 border rounded mb-3">
+                            <div class="fw-800 text-spf-dark mb-2">
+                                تم خصم مبلغ 45.500 ر.ع من رصيدك بتاريخ 12/09/2026 مقابل قسط متأخر - نظام الأمان الوظيفي
+                            </div>
+                            <div class="row g-3 small">
+                                <div class="col-md-3"><span class="text-muted">الرصيد قبل الخصم:</span> <strong>1,495.500 ر.ع</strong></div>
+                                <div class="col-md-3"><span class="text-muted">الرصيد بعد الخصم:</span> <strong>1,450.000 ر.ع</strong></div>
+                                <div class="col-md-3"><span class="text-muted">رقم العملية:</span> <strong>#DED-2026-0311</strong></div>
+                                <div class="col-md-3"><span class="text-muted">المبلغ المطلوب:</span> <strong>45.500 ر.ع</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 border rounded">
+                            <div class="fw-800 text-spf-dark mb-2">
+                                تم خصم مبلغ 120.000 ر.ع من رصيدك بتاريخ 03/08/2026 مقابل اشتراكات فرع كبار السن والعجز والوفاة
+                            </div>
+                            <div class="row g-3 small">
+                                <div class="col-md-3"><span class="text-muted">الرصيد قبل الخصم:</span> <strong>1,615.500 ر.ع</strong></div>
+                                <div class="col-md-3"><span class="text-muted">الرصيد بعد الخصم:</span> <strong>1,495.500 ر.ع</strong></div>
+                                <div class="col-md-3"><span class="text-muted">رقم العملية:</span> <strong>#DED-2026-0287</strong></div>
+                                <div class="col-md-3">
+                                    <span class="text-muted">المبلغ المطلوب:</span> <strong>180.000 ر.ع</strong>
+                                    <div class="text-warning">خُصم ما توفر من الرصيد</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

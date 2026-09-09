@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إشعار تسوية مكافأة نهاية الخدمة - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="saver">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>تسوية مكافأة نهاية الخدمة السابقة</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">تسوية مكافأة نهاية الخدمة</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge saver">المدخر</span>
+            </div>
+        </div>
+
+        <div class="alert-spf alert-warning mb-4">
+            <i class="fas fa-bell"></i>
+            <div>
+                حدّدت جهة عملك الإجراء المتخذ بشأن مكافأة نهاية خدمتك عن <strong>مدة الخدمة السابقة</strong>.
+                يرجى الاطلاع عليه ثم <strong>الإقرار بصحته</strong> أو <strong>تسجيل عدم موافقتك</strong>.
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-7">
+                <div class="spf-card mb-4">
+                    <div class="card-header-custom">
+                        <span>الإجراء الذي اتخذته جهة العمل</span>
+                        <span class="badge-status pending">بانتظار إقرارك</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="p-3 border rounded mb-3">
+                            <div class="text-muted small mb-1">الإجراء</div>
+                            <div class="h5 fw-800 text-spf-dark mb-0">
+                                <i class="fas fa-vault me-2"></i> تم ترحيلها إلى نظام الادخار
+                            </div>
+                        </div>
+
+                        <div class="row g-3 small">
+                            <div class="col-md-6">
+                                <div class="text-muted">جهة العمل</div>
+                                <div class="fw-700">شركة أوكيو (OQ)</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">تاريخ اتخاذ الإجراء</div>
+                                <div class="fw-700">02/09/2026</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">المبلغ المعتمد</div>
+                                <div class="fw-800 text-spf">1,706.667 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">حالة الفاتورة</div>
+                                <div><span class="badge-status success">مسددة</span></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">حالة تخصيص المبلغ في حسابك</div>
+                                <div><span class="badge-status success">تم التخصيص</span></div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">تاريخ التخصيص</div>
+                                <div class="fw-700">05/09/2026</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spf-card">
+                    <div class="card-header-custom">إقرارك على الإجراء</div>
+                    <div class="card-body">
+                        <div class="form-check mb-3 p-3 border rounded">
+                            <input class="form-check-input" type="radio" name="ack" id="ackYes" checked onchange="toggleReason()">
+                            <label class="form-check-label ms-2" for="ackYes">
+                                <span class="fw-700">أقر بصحة الإجراء المتخذ</span>
+                                <div class="small text-muted">تُغلق التسوية ويُحفظ إقرارك بتاريخه في السجل.</div>
+                            </label>
+                        </div>
+                        <div class="form-check mb-3 p-3 border rounded">
+                            <input class="form-check-input" type="radio" name="ack" id="ackNo" onchange="toggleReason()">
+                            <label class="form-check-label ms-2" for="ackNo">
+                                <span class="fw-700">لا أوافق على الإجراء المتخذ</span>
+                                <div class="small text-muted">تُحال الحالة إلى الصندوق للمراجعة، ويُحفظ سببك في السجل.</div>
+                            </label>
+                        </div>
+
+                        <div class="mb-3 d-none" id="reasonBox">
+                            <label class="form-label fw-700">سبب عدم الموافقة</label>
+                            <textarea class="form-control" rows="3" id="reasonText" placeholder="وضّح سبب عدم موافقتك..."></textarea>
+                        </div>
+
+                        <div class="text-start">
+                            <button class="btn btn-spf px-5" onclick="submitAck()">إرسال</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="spf-card mb-4">
+                    <div class="card-header-custom">البيانات التي بُني عليها الاحتساب</div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">تاريخ الالتحاق بالعمل</span><span class="fw-700">01/03/2019</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">مدة الخدمة المحتسبة</span><span class="fw-700">6 سنوات و5 أشهر</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">آخر أجر أساسي مسجل</span><span class="fw-700">320.000 ر.ع</span>
+                        </div>
+                        <div class="d-flex justify-content-between border-top pt-2">
+                            <span class="text-muted">مبلغ التسوية التقديري</span><span class="fw-800 text-spf">1,706.667 ر.ع</span>
+                        </div>
+                        <div class="small text-muted mt-3">
+                            <i class="fas fa-circle-info me-1"></i>
+                            إذا كان الأجر الأساسي المسجل غير صحيح، يمكنك تقديم تظلم من
+                            <a href="22-wage-objection.html" class="text-spf">شاشة التظلم على الأجر</a>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spf-card">
+                    <div class="card-header-custom">سجل الإجراءات</div>
+                    <div class="card-body">
+                        <div class="notes-panel">
+                            <div class="note-item">
+                                <div>تخصيص المبلغ في حسابك</div>
+                                <div class="note-meta">05/09/2026 - 11:20</div>
+                            </div>
+                            <div class="note-item">
+                                <div>سداد فاتورة التسوية من جهة العمل</div>
+                                <div class="note-meta">04/09/2026 - 09:45</div>
+                            </div>
+                            <div class="note-item">
+                                <div>إشعارك بالإجراء المتخذ</div>
+                                <div class="note-meta">02/09/2026 - 14:10</div>
+                            </div>
+                            <div class="note-item">
+                                <div>تحديد جهة العمل للإجراء</div>
+                                <div class="note-meta">02/09/2026 - 13:55</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'saver';
+            if (role !== 'saver') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-warning">عذراً، هذه الشاشة مخصصة للعمال المسجلين.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function toggleReason() {
+            document.getElementById('reasonBox').classList.toggle('d-none', !document.getElementById('ackNo').checked);
+        }
+
+        function submitAck() {
+            if (document.getElementById('ackNo').checked) {
+                if (!document.getElementById('reasonText').value.trim()) {
+                    spf.showError('يرجى توضيح سبب عدم موافقتك.');
+                    return;
+                }
+                spf.showSuccess('تم تسجيل عدم موافقتك وإحالة الحالة إلى الصندوق للمراجعة. سيتم إشعارك بالنتيجة.');
+                return;
+            }
+            spf.showSuccess('تم تسجيل إقرارك بصحة الإجراء. أُغلقت التسوية وحُفظ إقرارك بتاريخه في السجل.');
+        }
+    </script>
+</body>
+</html>

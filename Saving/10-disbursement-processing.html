@@ -50,9 +50,12 @@
                 <div class="col-md-2">
                     <label class="form-label">حالة الطلب</label>
                     <select class="form-select">
+                        <option>مسودة</option>
+                        <option>بانتظار معالجة الطلب</option>
                         <option>قيد المراجعة</option>
                         <option>تم الاعتماد</option>
                         <option>مرفوض</option>
+                        <option>قيد التحويل</option>
                     </select>
                 </div>
                 <div class="col-md-3">
@@ -188,6 +191,10 @@
                             <i class="fas fa-exclamation-triangle text-warning" title="يوجد قسط متأخر"></i>
                         </div>
                         <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>حالة العامل في وزارة العمل (تحديث يومي)</span>
+                            <span class="small fw-700 text-success">ملغي — 12/08/2026 <i class="fas fa-check-circle ms-1"></i></span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
                             <span>تطابق اسم المستفيد مع اسم العامل المسجل</span>
                             <i class="fas fa-check-circle text-success"></i>
                         </div>
@@ -202,25 +209,25 @@
                     </div>
 
                     <div class="intl-check d-none">
-                        <h6 class="fw-800 text-spf mb-3">حالة أمر التحويل</h6>
+                        <h6 class="fw-800 text-spf mb-3">حالة المعاملة في النظام المالي</h6>
                         <div class="p-3 border rounded mb-4">
                             <div class="row g-3 small">
                                 <div class="col-md-4">
-                                    <div class="text-muted">مرجع أمر التحويل</div>
-                                    <div class="fw-700">#TRF-2026-04128</div>
+                                    <div class="text-muted">مرجع المعاملة في Oracle</div>
+                                    <div class="fw-700">#ORA-2026-04128</div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="text-muted">تاريخ الإصدار</div>
+                                    <div class="text-muted">تاريخ الدفع إلى Oracle</div>
                                     <div class="fw-700">21/02/2026</div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="text-muted">الحالة</div>
-                                    <div><span class="badge-status pending">قيد التنفيذ لدى البنك</span></div>
+                                    <div><span class="badge-status pending">لدى قسم المصروفات</span></div>
                                 </div>
                             </div>
                             <div class="notes-panel mt-3 border-top pt-3">
                                 <div class="note-item">
-                                    <div>صدور أمر التحويل إلى البنك</div>
+                                    <div>دفع المعاملة إلى النظام المالي (Push) واستلام مرجعها</div>
                                     <div class="note-meta">21/02/2026 - 09:30</div>
                                 </div>
                                 <div class="note-item">
@@ -230,7 +237,7 @@
                             </div>
                             <div class="small text-muted mt-2">
                                 <i class="fas fa-circle-info me-1"></i>
-                                عند ارتداد التحويل يُحفظ سبب الارتداد وتُعاد الحالة إلى تصحيح البيانات مع إشعار العامل.
+                                ينشئ قسم المصروفات عملية التحويل الفعلية مع البنك ويحدد سعر الصرف والرسوم. وعند ارتداد العملية تُحفظ نتيجتها وسببها وتُعاد الحالة إلى تصحيح البيانات مع إشعار العامل.
                             </div>
                         </div>
                     </div>
@@ -272,7 +279,7 @@
             if (type === "approve") {
                 const isIntl = !document.getElementById("intlDetails").classList.contains("d-none");
                 spf.showSuccess(isIntl
-                    ? "تم اعتماد طلب الصرف وإصدار أمر التحويل الدولي إلى البنك. يمكن متابعة حالة أمر التحويل حتى وصوله، وعند الارتداد يُحفظ سبب الرفض وتُعاد الحالة إلى تصحيح البيانات."
+                    ? "تم اعتماد طلب الصرف ودفع المعاملة إلى النظام المالي (Oracle). يتولى قسم المصروفات إنشاء التحويل الفعلي، ويمكن متابعة حالة المعاملة حتى اكتمالها."
                     : "تم اعتماد طلب الصرف وجاري تحويل المبلغ للبنك.");
             }
             if (type === 'reject') spf.showError('تم رفض الطلب كما طلبت. سيتم إشعار المدخر بذلك.');

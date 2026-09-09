@@ -78,12 +78,18 @@ function initLayout() {
         <ul class="sidebar-nav">
             <li class="nav-saver nav-employer nav-staff"><a href="index.html" id="link-index"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
             <li class="nav-saver nav-employer nav-staff"><a href="01-dashboard.html" id="link-01"><i class="fas fa-th-large"></i> لوحة التحكم</a></li>
+            <li class="nav-staff"><a href="15-reports.html" id="link-15"><i class="fas fa-chart-pie"></i> التقارير والتحليل</a></li>
+            <li class="nav-staff"><a href="11-optional-saving-inquiries.html" id="link-11"><i class="fas fa-circle-question"></i> استفسارات نظام الادخار</a></li>
             <li class="nav-saver"><a href="02-registration.html" id="link-02"><i class="fas fa-user-plus"></i> التسجيل في النظام</a></li>
             
             <!-- Staff Specific Categories -->
             <li class="nav-staff sidebar-category-header mt-3">قسم النظم التكميلية</li>
+            <li class="nav-employer"><a href="19-eos-settlement.html" id="link-19"><i class="fas fa-award"></i> تسوية نهاية الخدمة</a></li>
+            <li class="nav-employer"><a href="23-wage-objection-employer.html" id="link-23"><i class="fas fa-scale-balanced"></i> تظلمات الأجر</a></li>
             <li class="nav-employer nav-staff"><a href="03-registered-workers.html" id="link-03"><i class="fas fa-users"></i> العمال المسجلين</a></li>
             <li class="nav-saver nav-employer nav-staff"><a href="04-account-details.html" id="link-04"><i class="fas fa-info-circle"></i> تفاصيل الحساب</a></li>
+            <li class="nav-staff"><a href="21-eos-monitoring.html" id="link-21"><i class="fas fa-award"></i> تسويات نهاية الخدمة</a></li>
+            <li class="nav-staff"><a href="24-wage-objection-staff.html" id="link-24"><i class="fas fa-scale-balanced"></i> تظلمات الأجر</a></li>
             <li class="nav-staff"><a href="18-delegations-admin.html" id="link-18"><i class="fas fa-user-shield"></i> الوكالات</a></li>
             <li class="nav-staff"><a href="14-transaction-history.html" id="link-14-staff"><i class="fas fa-history"></i> سجل العمليات</a></li>
 
@@ -92,19 +98,18 @@ function initLayout() {
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الاستثمار</li>
             <li class="nav-staff"><a href="07-investment-return.html" id="link-07"><i class="fas fa-chart-line"></i> عائد الاستثمار</a></li>
-            <li class="nav-staff"><a href="12-surplus-transfers.html" id="link-12"><i class="fas fa-exchange-alt"></i> تحويل الفائض</a></li>
+            <li class="nav-staff"><a href="12-surplus-transfers.html" id="link-12"><i class="fas fa-exchange-alt"></i> الإيداعات المباشرة</a></li>
 
-            <li class="nav-staff sidebar-category-header mt-3">روابط عامة</li>
             <li class="nav-saver nav-employer"><a href="05-deposit.html" id="link-05"><i class="fas fa-hand-holding-usd"></i> الإيداع الإلكتروني</a></li>
             <li class="nav-saver"><a href="08-disbursement.html" id="link-08"><i class="fas fa-money-check-alt"></i> طلبات الصرف (المدخر)</a></li>
             <li class="nav-saver"><a href="06-obligations.html" id="link-06"><i class="fas fa-file-invoice-dollar"></i> سداد الالتزامات</a></li>
-            <li class="nav-staff"><a href="09-mandatory-saving.html" id="link-09"><i class="fas fa-piggy-bank"></i> الادخار الإلزامي</a></li>
-            <li class="nav-staff"><a href="11-optional-saving-inquiries.html" id="link-11"><i class="fas fa-circle-question"></i> استفسارات الادخار الاختياري</a></li>
+            <!-- مخفي مؤقتاً: شاشة الادخار الإلزامي -->
+            <li class="nav-saver"><a href="20-eos-acknowledgment.html" id="link-20"><i class="fas fa-award"></i> تسوية نهاية الخدمة</a></li>
+            <li class="nav-saver"><a href="22-wage-objection.html" id="link-22"><i class="fas fa-scale-balanced"></i> التظلم على الأجر</a></li>
             <li class="nav-saver"><a href="16-delegation.html" id="link-16"><i class="fas fa-user-shield"></i> الوكالات</a></li>
             <li class="nav-saver"><a href="17-international-transfer.html" id="link-17"><i class="fas fa-globe"></i> بيانات التحويل الدولي</a></li>
             <li class="nav-saver"><a href="13-exit-system.html" id="link-13"><i class="fas fa-circle-pause"></i> الخروج من الادخار الاختياري</a></li>
             <li class="nav-saver nav-employer" id="li-14-saver"><a href="14-transaction-history.html" id="link-14"><i class="fas fa-history"></i> سجل المعاملات</a></li>
-            <li class="nav-staff"><a href="15-reports.html" id="link-15"><i class="fas fa-chart-pie"></i> التقارير والتحليل</a></li>
         </ul>
     </aside>`;
 

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسوية مكافأة نهاية الخدمة - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="employer">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>تسوية مكافأة نهاية الخدمة السابقة</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">تسوية مكافأة نهاية الخدمة</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge employer">صاحب العمل</span>
+            </div>
+        </div>
+
+        <div class="alert-spf alert-info mb-4">
+            <i class="fas fa-circle-info"></i>
+            <div>
+                يجب تحديد الإجراء المتخذ بشأن مكافأة نهاية الخدمة عن <strong>مدة الخدمة السابقة</strong> لكل عامل غير عماني،
+                باختيار واحد من خيارين: <strong>تمت التسوية مع العامل ودياً</strong> أو <strong>تم ترحيلها إلى نظام الادخار</strong>.
+                ولا يمكن تعديل الاختيار بعد حفظه.
+            </div>
+        </div>
+
+        <div class="row g-3 mb-4">
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon blue"><i class="fas fa-users"></i></div>
+                    <div class="insight-value">24</div>
+                    <div class="insight-label">إجمالي العمال</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon red"><i class="fas fa-hourglass-half"></i></div>
+                    <div class="insight-value">9</div>
+                    <div class="insight-label">بانتظار تحديد الإجراء</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon green"><i class="fas fa-handshake"></i></div>
+                    <div class="insight-value">10</div>
+                    <div class="insight-label">تمت التسوية ودياً</div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="insight-card">
+                    <div class="insight-icon gold"><i class="fas fa-vault"></i></div>
+                    <div class="insight-value">5</div>
+                    <div class="insight-label">مُرحَّلة إلى الادخار</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">
+                <span>قائمة العمال ومبلغ التسوية التقديري</span>
+                <div class="gap-8 d-flex">
+                    <button class="btn btn-sm btn-spf-outline" onclick="queryAll()">
+                        <i class="fas fa-calculator me-1"></i> استعلام لجميع العمال
+                    </button>
+                    <button class="btn btn-sm btn-spf-gold" onclick="openFile()">
+                        <i class="fas fa-file-arrow-up me-1"></i> ترحيل عبر ملف
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="spf-table">
+                        <thead>
+                            <tr>
+                                <th>العامل</th>
+                                <th>الرقم المدني</th>
+                                <th>تاريخ الالتحاق</th>
+                                <th>مدة الخدمة</th>
+                                <th>آخر أجر أساسي</th>
+                                <th>مبلغ التسوية التقديري</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-700">راجيش كومار شارما</td>
+                                <td>44556677</td>
+                                <td>01/03/2019</td>
+                                <td>6 سنوات و5 أشهر</td>
+                                <td>320.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="fw-800 text-spf">1,706.667 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status pending">بانتظار تحديد الإجراء</span></td>
+                                <td><button class="btn btn-sm btn-spf py-1" onclick="chooseAction('راجيش كومار شارما','1,706.667')">تحديد الإجراء</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">محمد أنور حسين</td>
+                                <td>33445566</td>
+                                <td>15/07/2020</td>
+                                <td>5 سنوات وشهر</td>
+                                <td>280.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="fw-800 text-spf">1,190.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status pending">بانتظار تحديد الإجراء</span></td>
+                                <td><button class="btn btn-sm btn-spf py-1" onclick="chooseAction('محمد أنور حسين','1,190.000')">تحديد الإجراء</button></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">جوزيف مانويل</td>
+                                <td>22334455</td>
+                                <td>10/01/2018</td>
+                                <td>7 سنوات و7 أشهر</td>
+                                <td>410.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="fw-800 text-spf">2,588.333 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status success">تمت التسوية ودياً</span><div class="small text-muted">أقر بها العامل</div></td>
+                                <td><span class="small text-muted">—</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">سونيل بابو</td>
+                                <td>11223344</td>
+                                <td>05/09/2021</td>
+                                <td>3 سنوات و11 شهراً</td>
+                                <td>250.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="fw-800 text-spf">819.444 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status info">مُرحَّلة إلى الادخار</span><div class="small text-muted">تم تخصيص المبلغ</div></td>
+                                <td><span class="small text-muted">—</span></td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">أحمد عبدالرحمن</td>
+                                <td>99887766</td>
+                                <td>20/02/2022</td>
+                                <td>3 سنوات و6 أشهر</td>
+                                <td>300.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td class="fw-800 text-spf">875.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status danger">غير مقبول من العامل</span><div class="small text-muted">أُحيل إلى الصندوق</div></td>
+                                <td><span class="small text-muted">—</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="spf-card">
+            <div class="card-header-custom">فاتورة التسوية الأخيرة</div>
+            <div class="card-body">
+                <div class="row g-3 small mb-3">
+                    <div class="col-md-3">
+                        <div class="text-muted">رقم الفاتورة</div>
+                        <div class="fw-800">#INV-138-2026-0071</div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted">عدد العمال</div>
+                        <div class="fw-800">5 عمال</div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted">إجمالي المبلغ</div>
+                        <div class="fw-800">6,420.500 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-muted">الحالة</div>
+                        <div><span class="badge-status success">مسددة — تم التخصيص</span></div>
+                    </div>
+                </div>
+                <div class="small text-muted border-top pt-2">
+                    <i class="fas fa-circle-info me-1"></i>
+                    لا يُخصص أي مبلغ في حسابات العمال إلا بعد تأكيد سداد الفاتورة بالكامل.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- تحديد الإجراء -->
+    <div class="modal fade" id="actionModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تحديد الإجراء — <span id="wName"></span></h5>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="p-3 bg-spf-light rounded mb-3 small">
+                        مبلغ التسوية التقديري: <strong id="wAmount"></strong> ر.ع
+                    </div>
+
+                    <div class="form-check mb-3 p-3 border rounded">
+                        <input class="form-check-input" type="radio" name="eosChoice" id="ch1" checked onchange="toggleAmount()">
+                        <label class="form-check-label ms-2" for="ch1">
+                            <span class="fw-700">تمت التسوية مع العامل ودياً</span>
+                            <div class="small text-muted">لا تُنشأ فاتورة، ويُوثَّق القرار ويُشعَر العامل للإقرار عليه.</div>
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-3 p-3 border rounded">
+                        <input class="form-check-input" type="radio" name="eosChoice" id="ch2" onchange="toggleAmount()">
+                        <label class="form-check-label ms-2" for="ch2">
+                            <span class="fw-700">تم ترحيلها إلى نظام الادخار</span>
+                            <div class="small text-muted">تُنشأ فاتورة عليك بالمبلغ، ويُخصص للعامل بعد السداد.</div>
+                        </label>
+                    </div>
+
+                    <div class="mb-3 d-none" id="amountBox">
+                        <label class="form-label fw-700">المبلغ المعتمد للترحيل</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="approvedAmount">
+                            <span class="input-group-text">ر.ع</span>
+                        </div>
+                    </div>
+
+                    <div class="alert-spf alert-warning">
+                        <i class="fas fa-triangle-exclamation"></i>
+                        <div>لا يمكن تعديل الاختيار بعد الحفظ. سيصل العامل إشعار به لإقراره أو تسجيل عدم موافقته.</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-spf-outline px-4" data-bs-dismiss="modal">إلغاء</button>
+                    <button class="btn btn-spf px-4" onclick="saveAction()">حفظ الاختيار</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ترحيل عبر ملف -->
+    <div class="modal fade" id="fileModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">ترحيل مبالغ التسوية عبر ملف</h5>
+                    <button type="button" class="btn-close ms-0 me-auto" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="small text-muted">
+                        يتضمن الملف عمودين: <strong>الرقم المدني</strong> و<strong>المبلغ المعتمد</strong> لكل عامل.
+                        يعرض النظام معاينة ونتيجة التحقق قبل الاعتماد.
+                    </p>
+                    <input type="file" class="form-control mb-3">
+                    <div class="p-3 border rounded small">
+                        <div class="d-flex justify-content-between mb-1"><span>عدد السجلات في الملف</span><strong>5</strong></div>
+                        <div class="d-flex justify-content-between mb-1"><span>سجلات صحيحة</span><strong class="text-success">4</strong></div>
+                        <div class="d-flex justify-content-between"><span>سجلات بها أخطاء</span><strong class="text-danger">1 — رقم مدني غير مسجل لديك</strong></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-spf-outline px-4" data-bs-dismiss="modal">إلغاء</button>
+                    <button class="btn btn-spf px-4" onclick="saveFile()">اعتماد وإنشاء الفاتورة</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'employer';
+            if (role !== 'employer') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-warning">عذراً، هذه الشاشة مخصصة لأصحاب العمل.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function chooseAction(name, amount) {
+            document.getElementById('wName').innerText = name;
+            document.getElementById('wAmount').innerText = amount;
+            document.getElementById('approvedAmount').value = amount;
+            document.getElementById('ch1').checked = true;
+            toggleAmount();
+            new bootstrap.Modal(document.getElementById('actionModal')).show();
+        }
+
+        function toggleAmount() {
+            document.getElementById('amountBox').classList.toggle('d-none', !document.getElementById('ch2').checked);
+        }
+
+        function saveAction() {
+            const toSaving = document.getElementById('ch2').checked;
+            bootstrap.Modal.getInstance(document.getElementById('actionModal')).hide();
+            spf.showSuccess(toSaving
+                ? 'تم حفظ الاختيار (تم ترحيلها إلى نظام الادخار) وإنشاء فاتورة بالمبلغ. سيُخصص المبلغ في حساب العامل بعد تأكيد السداد، وتم إشعار العامل.'
+                : 'تم حفظ الاختيار (تمت التسوية مع العامل ودياً) وتوثيقه. لم تُنشأ فاتورة، وتم إشعار العامل لإقراره على الاختيار.');
+        }
+
+        function openFile() {
+            new bootstrap.Modal(document.getElementById('fileModal')).show();
+        }
+
+        function saveFile() {
+            bootstrap.Modal.getInstance(document.getElementById('fileModal')).hide();
+            spf.showSuccess('تم اعتماد السجلات الصحيحة وإنشاء فاتورة التسوية. السجل الذي به خطأ لم يُدرج ويمكن تصحيحه وإعادة رفعه.');
+        }
+
+        function queryAll() {
+            spf.showSuccess('تم احتساب مبلغ التسوية التقديري لجميع عمالك بناءً على تاريخ الالتحاق ومدة الخدمة وآخر أجر أساسي مسجل.');
+        }
+    </script>
+</body>
+</html>

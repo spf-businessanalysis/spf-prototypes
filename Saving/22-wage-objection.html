@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التظلم على الأجر الأساسي - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-user-role="saver">
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>الأجر الأساسي المسجل والتظلم عليه</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">التظلم على الأجر</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge saver">المدخر</span>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <div class="spf-card mb-4">
+                    <div class="card-header-custom">الأجر الأساسي المسجل لديك</div>
+                    <div class="card-body">
+                        <div class="text-center py-3 mb-3 border-bottom">
+                            <h2 class="fw-800 text-spf mb-1">280.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></h2>
+                            <div class="text-muted small">الأجر الأساسي الشهري المسجل في الصندوق</div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">تاريخ تسجيل الأجر</span><span class="fw-700">15/07/2026</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-muted">مصدر الأجر</span><span class="fw-700">وزارة العمل</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">آخر تعديل</span><span class="fw-700">15/07/2026</span>
+                        </div>
+
+                        <div class="p-3 bg-spf-light rounded mt-3">
+                            <div class="d-flex justify-content-between small mb-2">
+                                <span class="fw-700">مهلة التظلم المتبقية</span>
+                                <span class="fw-800 text-spf">35 يوماً من أصل 90</span>
+                            </div>
+                            <div class="progress" style="height:8px">
+                                <div class="progress-bar bg-warning" style="width:61%"></div>
+                            </div>
+                            <div class="small text-muted mt-2">تنتهي المهلة في 13/10/2026، ولا يُقبل التظلم بعدها.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spf-card">
+                    <div class="card-header-custom">سجل تعديلات الأجر</div>
+                    <div class="card-body">
+                        <div class="notes-panel">
+                            <div class="note-item">
+                                <div>تسجيل الأجر 280.000 ر.ع</div>
+                                <div class="note-meta">15/07/2026 — وزارة العمل</div>
+                            </div>
+                            <div class="note-item">
+                                <div>تسجيل الأجر 260.000 ر.ع</div>
+                                <div class="note-meta">10/01/2025 — وزارة العمل</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7">
+                <div class="spf-card mb-4">
+                    <div class="card-header-custom">
+                        <span>تقديم تظلم على الأجر</span>
+                        <span class="badge-status pending">لديك تظلم قائم</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-700">الأجر الأساسي الصحيح</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="correctWage" value="350">
+                                    <span class="input-group-text">ر.ع</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-700">تاريخ بدء تقاضي هذا الأجر</label>
+                                <input type="date" class="form-control" id="wageDate" value="2026-01-01">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-700">المستندات الداعمة (اختياري)</label>
+                                <input type="file" class="form-control">
+                                <div class="form-text">مثل عقد العمل أو كشف الراتب أو ما يثبت الأجر الفعلي.</div>
+                            </div>
+                        </div>
+
+                        <div class="alert-spf alert-info mb-3">
+                            <i class="fas fa-circle-info"></i>
+                            <div>
+                                عند التقديم يصل إشعار فوري لجهة العمل ولديها <strong>30 يوماً</strong> للرد.
+                                فإذا لم ترد خلالها يُعتمد الأجر الذي حددته <strong>تلقائياً</strong>.
+                            </div>
+                        </div>
+
+                        <div class="text-start">
+                            <button class="btn btn-spf px-5" onclick="submitObjection()">تقديم التظلم</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spf-card mb-4">
+                    <div class="card-header-custom">حالة تظلمك الحالي</div>
+                    <div class="card-body">
+                        <div class="row g-3 small mb-3">
+                            <div class="col-md-4">
+                                <div class="text-muted">رقم التظلم</div><div class="fw-800">#OBJ-2026-0184</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-muted">تاريخ التقديم</div><div class="fw-800">20/08/2026</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="text-muted">الحالة</div>
+                                <div><span class="badge-status danger">مرفوض من جهة العمل</span></div>
+                            </div>
+                        </div>
+
+                        <div class="audit-timeline p-3 bg-white rounded border">
+                            <div class="timeline-item">
+                                <div class="time">20/08/2026 - 09:10</div>
+                                <div class="action"><i class="fas fa-paper-plane me-2 text-success"></i> تم تقديم التظلم</div>
+                                <div class="user">الأجر المقترح: 350.000 ر.ع — من 01/01/2026</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="time">20/08/2026 - 09:11</div>
+                                <div class="action"><i class="fas fa-bell me-2 text-primary"></i> تم إشعار جهة العمل</div>
+                                <div class="user">مهلة الرد: 30 يوماً</div>
+                            </div>
+                            <div class="timeline-item" style="border-right-color:#dc3545">
+                                <div class="time">02/09/2026 - 13:40</div>
+                                <div class="action"><i class="fas fa-circle-xmark me-2 text-danger"></i> رفض جهة العمل التظلم</div>
+                                <div class="user">السبب: الأجر المسجل مطابق للعقد الموقّع.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spf-card border-warning">
+                    <div class="card-header-custom">الخطوة التالية: الشكوى العمالية</div>
+                    <div class="card-body">
+                        <p class="small text-muted mb-3">
+                            بما أن جهة العمل رفضت تظلمك، يمكنك تقديم شكوى عمالية لدى وزارة العمل بالبيانات التالية:
+                        </p>
+                        <div class="row g-3 small mb-3">
+                            <div class="col-md-6">
+                                <div class="text-muted">تصنيف الشكوى</div>
+                                <div class="fw-800">شكاوى عقود العمل</div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-muted">نوع الشكوى</div>
+                                <div class="fw-800">عدم صحة الأجر الأساسي المسجل فى العقد</div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h6 class="fw-800 text-spf-dark mb-3">تحديث التظلم بنتيجة الشكوى</h6>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-700">رقم الشكوى</label>
+                                <input type="text" class="form-control form-control-sm" id="cmpNo">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-700">تاريخ تقديمها</label>
+                                <input type="date" class="form-control form-control-sm">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-700">نتيجة الشكوى أو حكم المحكمة</label>
+                                <input type="file" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="text-start">
+                            <button class="btn btn-spf-gold px-4" onclick="updateComplaint()">تحديث التظلم بالنتيجة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const role = localStorage.getItem('spf-user-role') || 'saver';
+            if (role !== 'saver') {
+                document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-warning">عذراً، هذه الشاشة مخصصة للعمال المسجلين.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+            }
+        });
+
+        function submitObjection() {
+            const wage = document.getElementById('correctWage').value;
+            if (!wage || Number(wage) <= 0) {
+                spf.showError('يرجى إدخال الأجر الأساسي الصحيح.');
+                return;
+            }
+            if (!document.getElementById('wageDate').value) {
+                spf.showError('يرجى تحديد تاريخ بدء تقاضي هذا الأجر.');
+                return;
+            }
+            spf.showSuccess('تم تقديم التظلم وإشعار جهة العمل فوراً. أمامها 30 يوماً للرد، وإذا لم ترد يُعتمد الأجر الذي حددته تلقائياً.');
+        }
+
+        function updateComplaint() {
+            if (!document.getElementById('cmpNo').value.trim()) {
+                spf.showError('يرجى إدخال رقم الشكوى العمالية.');
+                return;
+            }
+            spf.showSuccess('تم تحديث تظلمك بنتيجة الشكوى وإحالته إلى الصندوق للمراجعة وتعديل الأجر إن لزم.');
+        }
+    </script>
+</body>
+</html>

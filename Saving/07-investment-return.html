@@ -52,12 +52,50 @@
 
                         <form id="returnRateForm">
                             <div class="mb-4">
-                                <label class="form-label fw-700">نسبة عائد الاستثمار المقترحة (%)</label>
-                                <div class="input-group input-group-lg">
-                                    <input type="number" step="0.1" class="form-control" placeholder="0.0" min="2.0">
-                                    <span class="input-group-text">%</span>
+                                <label class="form-label fw-700">طريقة اعتماد النسبة</label>
+                                <div class="p-3 border rounded">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="radio" name="rateMode" id="rateSame" checked onchange="toggleRates()">
+                                        <label class="form-check-label ms-2" for="rateSame">
+                                            <span class="fw-700">نسبة واحدة للمسارين</span>
+                                            <div class="small text-muted">تُطبَّق النسبة نفسها على الادخار الإلزامي والاختياري.</div>
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="rateMode" id="rateDiff" onchange="toggleRates()">
+                                        <label class="form-check-label ms-2" for="rateDiff">
+                                            <span class="fw-700">نسبة مختلفة لكل مسار</span>
+                                            <div class="small text-muted">نسبة للادخار الإلزامي وأخرى للادخار الاختياري.</div>
+                                        </label>
+                                    </div>
                                 </div>
-                                <div class="form-text text-spf"><i class="fas fa-info-circle me-1"></i> الحد الأدنى القانوني للعائد هو 2% سنوياً.</div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6" id="boxUnified">
+                                    <label class="form-label fw-700">النسبة الموحدة للمسارين (%)</label>
+                                    <div class="input-group input-group-lg">
+                                        <input type="number" step="0.1" class="form-control" id="rateUnified" placeholder="0.0" min="2.0">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-none" id="boxMandatory">
+                                    <label class="form-label fw-700">نسبة الادخار <span class="text-spf">الإلزامي</span> (%)</label>
+                                    <div class="input-group input-group-lg">
+                                        <input type="number" step="0.1" class="form-control" id="rateMandatory" placeholder="0.0" min="2.0">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-none" id="boxOptional">
+                                    <label class="form-label fw-700">نسبة الادخار <span class="text-spf">الاختياري</span> (%)</label>
+                                    <div class="input-group input-group-lg">
+                                        <input type="number" step="0.1" class="form-control" id="rateOptional" placeholder="0.0" min="2.0">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-text text-spf"><i class="fas fa-info-circle me-1"></i> الحد الأدنى القانوني للعائد هو 2% سنوياً، ويسري على كل نسبة على حدة.</div>
+                                </div>
                             </div>
 
                             <div class="mb-4">
@@ -102,7 +140,8 @@
                             <thead>
                                 <tr>
                                     <th>العام</th>
-                                    <th>النسبة</th>
+                                    <th>الإلزامي</th>
+                                    <th>الاختياري</th>
                                     <th>الحالة</th>
                                     <th>التفاصيل</th>
                                 </tr>
@@ -111,23 +150,27 @@
                                 <tr>
                                     <td>2024</td>
                                     <td class="fw-700">3.5 %</td>
+                                    <td class="fw-700">3.5 %</td>
                                     <td><span class="badge-status success">تم التوزيع</span></td>
                                     <td><a href="09-approval-workflow.html" class="text-spf"><i class="fas fa-external-link-alt"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>2023</td>
                                     <td class="fw-700">3.2 %</td>
+                                    <td class="fw-700">3.4 %</td>
                                     <td><span class="badge-status success">تم التوزيع</span></td>
                                     <td><a href="09-approval-workflow.html" class="text-spf"><i class="fas fa-external-link-alt"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>2022</td>
                                     <td class="fw-700">2.8 %</td>
+                                    <td class="fw-700">2.8 %</td>
                                     <td><span class="badge-status success">تم التوزيع</span></td>
                                     <td><a href="09-approval-workflow.html" class="text-spf"><i class="fas fa-external-link-alt"></i></a></td>
                                 </tr>
                                 <tr>
                                     <td>2021</td>
+                                    <td class="fw-700">2.5 %</td>
                                     <td class="fw-700">2.5 %</td>
                                     <td><span class="badge-status success">تم التوزيع</span></td>
                                     <td><a href="09-approval-workflow.html" class="text-spf"><i class="fas fa-external-link-alt"></i></a></td>
@@ -143,13 +186,33 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="common.js"></script>
     <script>
+        function toggleRates() {
+            const diff = document.getElementById('rateDiff').checked;
+            document.getElementById('boxUnified').classList.toggle('d-none', diff);
+            document.getElementById('boxMandatory').classList.toggle('d-none', !diff);
+            document.getElementById('boxOptional').classList.toggle('d-none', !diff);
+        }
+
         function submitRate() {
-            const rate = document.querySelector('input[type="number"]').value;
-            if (!rate || rate < 2) {
-                spf.showError('يرجى إدخال نسبة صحيحة (لا تقل عن 2%)');
+            const diff = document.getElementById('rateDiff').checked;
+
+            if (!diff) {
+                const r = parseFloat(document.getElementById('rateUnified').value);
+                if (!r || r < 2) {
+                    spf.showError('يرجى إدخال نسبة صحيحة لا تقل عن 2%.');
+                    return;
+                }
+                spf.showSuccess('تم رفع مقترح نسبة عائد موحدة (' + r + '%) للادخار الإلزامي والاختياري إلى لجنة الاستثمار للاعتماد.');
                 return;
             }
-            spf.showSuccess('تم رفع مقترح نسبة العائد (' + rate + '%) بنجاح إلى لجنة الاستثمار للاعتماد النهائي.');
+
+            const rm = parseFloat(document.getElementById('rateMandatory').value);
+            const ro = parseFloat(document.getElementById('rateOptional').value);
+            if (!rm || rm < 2 || !ro || ro < 2) {
+                spf.showError('يرجى إدخال نسبة صحيحة لكل مسار، ولا تقل أي منها عن 2%.');
+                return;
+            }
+            spf.showSuccess('تم رفع مقترح نسبتي العائد (الإلزامي ' + rm + '% / الاختياري ' + ro + '%) إلى لجنة الاستثمار للاعتماد.');
         }
 
         document.addEventListener('DOMContentLoaded', function() {

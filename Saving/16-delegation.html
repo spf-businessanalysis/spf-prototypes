@@ -107,11 +107,10 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input scope" type="checkbox" id="sc4" onchange="togglePoa()">
+                                        <input class="form-check-input scope" type="checkbox" id="sc4">
                                         <label class="form-check-label ms-2" for="sc4">
                                             <span class="fw-700">طلب الصرف</span>
-                                            <span class="badge-status warning ms-1">تستلزم وكالة رسمية</span>
-                                            <div class="small text-muted">تقديم طلب صرف المدخرات ومتابعته ورفع المستندات المطلوبة.</div>
+                                            <div class="small text-muted">تقديم طلب صرف المدخرات ومتابعته ورفع المستندات، مع اختيار الحساب البنكي الذي يُحوَّل إليه المبلغ (حساب المدخر أو حساب الوكيل).</div>
                                         </label>
                                     </div>
                                 </div>
@@ -144,8 +143,8 @@
                                     </div>
                                 </div>
 
-                                <div class="p-3 border rounded mb-4 d-none" id="poaBlock">
-                                    <h6 class="fw-800 text-spf-dark mb-3"><i class="fas fa-file-contract me-2"></i> الوكالة الرسمية الموثقة</h6>
+                                <div class="p-3 border rounded mb-4" id="poaBlock">
+                                    <h6 class="fw-800 text-spf-dark mb-3"><i class="fas fa-file-contract me-2"></i> الوكالة الرسمية الموثقة <span class="badge-status danger ms-1">مطلوبة في جميع الحالات</span></h6>
                                     <div class="row g-3">
                                         <div class="col-md-6">
                                             <label class="form-label small fw-700">رقم الوكالة</label>
@@ -167,7 +166,7 @@
                                     <ul class="mb-0 ps-3">
                                         <li>يصل الطلب إلى الوكيل، ولن يبدأ التوكيل إلا بعد قبوله له.</li>
                                         <li>إذا لم يرد الوكيل خلال المهلة المحددة، ينتهي الطلب تلقائياً ويصلك إشعار.</li>
-                                        <li>يبقى تحويل أي مبلغ صرف إلى حسابك البنكي أنت، ولا يُحوَّل إلى حساب الوكيل.</li>
+                                        <li>عند تقديم الوكيل لطلب الصرف يختار الحساب البنكي الذي يُحوَّل إليه المبلغ — حسابك أو حسابه — ويصلك إشعار بالحساب المختار.</li>
                                         <li>يصلك إشعار بكل عملية ينفذها الوكيل، وتظهر في سجل المعاملات باسمه.</li>
                                         <li>لا يستطيع الوكيل توكيل شخص آخر ولا تعديل بياناتك الشخصية.</li>
                                         <li>يمكنك إلغاء التوكيل في أي وقت وبشكل فوري.</li>
@@ -283,7 +282,7 @@
                                         <i class="fas fa-circle-info me-1 text-spf"></i>
                                         <strong>بقبولك ستصبح مخوّلاً بـ:</strong> الاطلاع على رصيدها وسجل معاملاتها، وسداد الالتزامات المستحقة عليها من رصيدها.
                                         <br>
-                                        <strong>لن تستطيع:</strong> الإيداع، ولا تقديم طلب صرف، ولن يُحوَّل إليك أي مبلغ.
+                                        <strong>لن تستطيع:</strong> الإيداع، ولا تقديم طلب صرف.
                                     </div>
 
                                     <button class="btn btn-spf px-4" onclick="acceptReq()">قبول التوكيل</button>
@@ -362,10 +361,6 @@
         /* ===== التبويب الأول: وكلائي ===== */
         function togglePeriod() {
             document.getElementById('endDateWrap').classList.toggle('d-none', document.getElementById('pOpen').checked);
-        }
-
-        function togglePoa() {
-            document.getElementById('poaBlock').classList.toggle('d-none', !document.getElementById('sc4').checked);
         }
 
         function verifyAgent() {
