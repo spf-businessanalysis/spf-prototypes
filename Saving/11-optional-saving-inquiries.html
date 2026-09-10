@@ -119,6 +119,62 @@
             padding: 9px 12px; font-size: .88rem; line-height: 1.85;
         }
         .log-meta { font-size: .76rem; color: #7b8b83; margin-top: 4px; }
+        .q-btn.demo { border-color: #e0cb95; background: #fdf8ec; color: #7a5a12; }
+        .q-btn.demo:hover { border-color: #7a5a12; background: #f7edd6; }
+
+        /* ===== المثال التوضيحي للعائد ===== */
+        .calc-modal .modal-content { border: none; border-radius: 18px; overflow: hidden; }
+        .calc-modal .modal-header {
+            background: linear-gradient(120deg, #0f3d2a, #1c6b3c);
+            color: #fff; border: none; padding: 18px 24px;
+        }
+        .calc-modal .modal-header .btn-close { filter: invert(1) grayscale(1) brightness(2); }
+        .calc-modal .modal-body { padding: 22px 24px 26px; }
+        .calc-lead { color: #4f635a; line-height: 1.95; margin-bottom: 18px; }
+        .calc-formula {
+            text-align: center; padding: 20px 16px; border-radius: 14px;
+            background: #f0f8f3; border: 1px solid #cfe6d9; margin-bottom: 18px;
+        }
+        .calc-formula .fx { font-size: 1.12rem; font-weight: 800; color: #14532d; line-height: 2; }
+        .calc-formula .fx sup { font-size: .78rem; }
+        .calc-formula .fx-note { font-size: .8rem; color: #5f7268; margin-top: 6px; }
+        .rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 11px; margin-bottom: 22px; }
+        .rule-card {
+            background: #fff; border: 1px solid #e4ebe7; border-radius: 13px;
+            padding: 13px 15px; font-size: .87rem; line-height: 1.8; color: #3f544a;
+        }
+        .rule-card b { display: block; color: #14532d; margin-bottom: 3px; }
+        .calc-sec-title {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 800; color: #14532d; margin: 0 0 12px;
+        }
+        .ex-card { border: 1px solid #e4ebe7; border-radius: 14px; padding: 15px 17px; margin-bottom: 12px; }
+        .ex-card.pos { border-inline-start: 5px solid #1b7a45; }
+        .ex-card.neg { border-inline-start: 5px solid #b3261e; }
+        .ex-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+        .ex-head b { color: #23342c; }
+        .ex-tag { font-size: .75rem; font-weight: 700; padding: 3px 11px; border-radius: 999px; }
+        .ex-tag.pos { background: #e2f4e9; color: #1b6f40; border: 1px solid #bfe4cd; }
+        .ex-tag.neg { background: #fdeeee; color: #a8291f; border: 1px solid #f2cecb; }
+        .ex-line { font-size: .87rem; color: #4f635a; line-height: 1.9; }
+        .ex-calc {
+            margin-top: 9px; padding: 9px 13px; border-radius: 10px;
+            background: #f7faf8; border: 1px dashed #d9e5df;
+            font-weight: 700; color: #23342c; font-size: .9rem;
+        }
+        .mstrip { display: grid; grid-template-columns: repeat(12, 1fr); gap: 4px; margin-top: 11px; }
+        .mcell {
+            text-align: center; font-size: .66rem; padding: 6px 1px; border-radius: 7px;
+            background: #f4f6f5; border: 1px solid #e6ebe9; color: #7c8a83;
+        }
+        .mcell.exec { background: #eef4f1; border-color: #14532d; color: #14532d; font-weight: 800; }
+        .mcell.on { background: #e2f4e9; border-color: #bfe4cd; color: #1b6f40; font-weight: 700; }
+        .mcell.off { background: #fdeeee; border-color: #f2cecb; color: #a8291f; font-weight: 700; }
+        .calc-table { width: 100%; font-size: .87rem; border-collapse: collapse; margin-top: 4px; }
+        .calc-table th, .calc-table td { padding: 9px 11px; border-bottom: 1px solid #eaf0ed; text-align: start; }
+        .calc-table thead th { background: #f2f6f4; color: #14532d; font-weight: 800; font-size: .82rem; }
+        .calc-table tfoot td { font-weight: 800; color: #14532d; background: #f7faf8; border-bottom: none; }
+        .calc-table .neg { color: #a8291f; }
 
         @media print {
             .spf-navbar, .q-tools, .hero-btn, .no-print { display: none !important; }
@@ -132,6 +188,7 @@
             .exec-ring { width: 108px; height: 108px; }
             .exec-ring span { width: 86px; height: 86px; }
         }
+        .text-white{color: #fff !important;}
     </style>
 </head>
 <body data-user-role="saver">
@@ -143,12 +200,8 @@
         <section class="exec-hero">
             <div class="exec-hero-inner">
                 <div>
-                    <span class="exec-eyebrow"><i class="fas fa-gavel"></i> نقاط مرفوعة لاتخاذ قرار بشأنها</span>
                     <h3>استفسارات نظام الادخار</h3>
-                    <p>
-                        النقاط التي يتوقف عليها استكمال تصميم النظام وبناؤه، مجمّعة في محاور رئيسية.
-                        يمكن تدوين الرد على كل نقطة أثناء الاجتماع، ويبقى محفوظاً بعد إغلاق المتصفح.
-                    </p>
+                   
                     <button class="hero-btn" onclick="exportAnswers()">
                         <i class="fas fa-download"></i> تنزيل ملف الردود
                     </button>
@@ -164,6 +217,111 @@
 
         <div id="themesHost"></div>
     </main>
+
+    <!-- ===== المثال التوضيحي لآلية احتساب العائد ===== -->
+    <div class="modal fade calc-modal" id="roiCalcModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-900 text-white">
+              <i class="fas fa-calculator me-2 "></i> المقترح لآلية احتساب العائد على العمليات
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+          </div>
+          <div class="modal-body">
+
+            <p class="calc-lead">
+              يُقترح اعتماد <strong>معادلة واحدة</strong> لكل العمليات على الحساب، إيداعاً كانت أو سحباً.
+              فلا يوجد اختلاف في آلية الاحتساب بينهما؛ الاختلاف الوحيد أن الإيداع قيمة <strong>موجبة</strong> تُضاف إلى الحساب،
+              والسحب قيمة <strong>سالبة</strong> تُخصم منه. ولكل عملية عدد أشهر استفادة مستقل.
+            </p>
+
+            <div class="calc-formula">
+              <div class="fx">المبلغ × ( 1 + النسبة السنوية ÷ 12 ) <sup>عدد أشهر الاستفادة</sup></div>
+              <div class="fx-note">تُطبَّق المعادلة على كل عملية على حدة، ثم تُجمع النتائج للوصول إلى رصيد نهاية السنة.</div>
+            </div>
+
+            <h6 class="calc-sec-title"><i class="fas fa-lightbulb"></i> مثالان تطبيقيان — بافتراض نسبة عائد سنوية 6%</h6>
+
+            <div class="ex-card pos">
+              <div class="ex-head">
+                <b>المثال الأول — إيداع</b>
+                <span class="ex-tag pos">قيمة موجبة</span>
+              </div>
+              <div class="ex-line">
+                إيداع مبلغ <strong>1,000</strong> ريال في شهر <strong>يناير</strong>.
+                تبدأ الاستفادة من <strong>فبراير</strong>، فيكون عدد أشهر الاستفادة <strong>11 شهراً</strong>
+                (من فبراير حتى ديسمبر).
+              </div>
+              <div class="ex-calc">1,000 × ( 1 + 6% ÷ 12 ) <sup>11</sup> = 1,056.396 ريال</div>
+              <div class="mstrip">
+                <div class="mcell exec">يناير</div>
+                <div class="mcell on">فبراير</div><div class="mcell on">مارس</div><div class="mcell on">أبريل</div>
+                <div class="mcell on">مايو</div><div class="mcell on">يونيو</div><div class="mcell on">يوليو</div>
+                <div class="mcell on">أغسطس</div><div class="mcell on">سبتمبر</div><div class="mcell on">أكتوبر</div>
+                <div class="mcell on">نوفمبر</div><div class="mcell on">ديسمبر</div>
+              </div>
+            </div>
+
+            <div class="ex-card neg">
+              <div class="ex-head">
+                <b>المثال الثاني — سحب</b>
+                <span class="ex-tag neg">قيمة سالبة</span>
+              </div>
+              <div class="ex-line">
+                سحب مبلغ <strong>300</strong> ريال في شهر <strong>مايو</strong>.
+                يبدأ أثر السحب من <strong>يونيو</strong>، فيكون عدد الأشهر المتبقية <strong>7 أشهر</strong>.
+                وبذلك يُستبعد العائد الذي كان سيحققه هذا المبلغ من يونيو حتى ديسمبر.
+              </div>
+              <div class="ex-calc">− 300 × ( 1 + 6% ÷ 12 ) <sup>7</sup> = − 310.659 ريال</div>
+              <div class="mstrip">
+                <div class="mcell">يناير</div><div class="mcell">فبراير</div><div class="mcell">مارس</div>
+                <div class="mcell">أبريل</div>
+                <div class="mcell exec">مايو</div>
+                <div class="mcell off">يونيو</div><div class="mcell off">يوليو</div><div class="mcell off">أغسطس</div>
+                <div class="mcell off">سبتمبر</div><div class="mcell off">أكتوبر</div><div class="mcell off">نوفمبر</div>
+                <div class="mcell off">ديسمبر</div>
+              </div>
+            </div>
+
+            <h6 class="calc-sec-title mt-4"><i class="fas fa-table-list"></i> أثر المثالين مجتمعين على رصيد نهاية السنة</h6>
+            <div class="table-responsive">
+              <table class="calc-table">
+                <thead>
+                  <tr>
+                    <th>العملية</th>
+                    <th>شهر التنفيذ</th>
+                    <th>المبلغ</th>
+                    <th>أشهر الاستفادة</th>
+                    <th>القيمة في نهاية السنة</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>إيداع</td><td>يناير</td><td>1,000.000</td><td>11</td><td>1,056.396</td>
+                  </tr>
+                  <tr class="neg">
+                    <td>سحب</td><td>مايو</td><td>− 300.000</td><td>7</td><td>− 310.659</td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="2">رصيد نهاية السنة</td>
+                    <td>700.000</td>
+                    <td>—</td>
+                    <td>745.737</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">صافي العائد المحتسب</td>
+                    <td>45.737</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="common.js"></script>
@@ -183,7 +341,7 @@
         var INQUIRIES = [
 
             /* ---------- العائد من الاستثمار ---------- */
-            { id: 'ROI-01', theme: 'roi',
+            { id: 'ROI-01', theme: 'roi', demo: 'roiCalcModal',
               q: 'ما معادلة احتساب العائد من الاستثمار على المدخرات الإلزامية والاختيارية؟' },
             { id: 'ROI-02', theme: 'roi',
               q: 'هل يتم تطبيق نفس المعادلة السابقه على المبالغ المصروفة من الحساب أيضا؟' },
@@ -267,6 +425,7 @@
               +   '</div>'
               +   '<div class="q-tools">'
               +     '<button class="q-btn" data-act="reply"><i class="fas fa-pen me-1"></i>تدوين رد</button>'
+              +     (inq.demo ? ' <button class="q-btn demo" data-act="demo" data-modal="' + inq.demo + '"><i class="fas fa-calculator me-1"></i>مثال توضيحي</button>' : '')
               +   '</div>'
               +   '<div class="mt-2 d-none" data-box="' + inq.id + '">'
               +     '<textarea class="form-control mb-2" rows="3" placeholder="اكتب الرد على هذه النقطة..."></textarea>'
@@ -341,6 +500,11 @@
             var act = btn.getAttribute('data-act');
             var box = card.querySelector('[data-box="' + id + '"]');
 
+            if (act === 'demo') {
+                var target = document.getElementById(btn.getAttribute('data-modal'));
+                if (target && window.bootstrap) bootstrap.Modal.getOrCreateInstance(target).show();
+                return;
+            }
             if (act === 'reply') {
                 box.classList.toggle('d-none');
                 if (!box.classList.contains('d-none')) box.querySelector('textarea').focus();
