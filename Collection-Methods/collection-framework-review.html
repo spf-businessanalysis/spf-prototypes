@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مراجعة إطار كفاءة التحصيل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#F3F6F2;--surface:#FFFFFF;--surface-2:#E9EFE8;--line:#CFDACF;
+  --ink:#1B2620;--muted:#55665C;--accent:#0F4D3A;--accent-2:#2F6B4F;--accent-soft:#DCEBE1;
+  --sand:#C9A24D;--sand-soft:#F6EDD5;--risk:#9B3D2E;--risk-soft:#F5E3DF;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10201A;--surface:#17302A;--surface-2:#1E3A32;--line:#2F4A41;
+    --ink:#E4EDE7;--muted:#A6B8AE;--accent:#7FBFA0;--accent-2:#9CD1B7;--accent-soft:#1F4237;
+    --sand:#E0BE6A;--sand-soft:#3B3220;--risk:#E39A8B;--risk-soft:#3F2622;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10201A;--surface:#17302A;--surface-2:#1E3A32;--line:#2F4A41;
+  --ink:#E4EDE7;--muted:#A6B8AE;--accent:#7FBFA0;--accent-2:#9CD1B7;--accent-soft:#1F4237;
+  --sand:#E0BE6A;--sand-soft:#3B3220;--risk:#E39A8B;--risk-soft:#3F2622;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Tajawal",system-ui,"Segoe UI",Arial,sans-serif;font-size:16px;line-height:1.75;padding-inline:clamp(16px,4vw,40px);padding-block:0 64px}
+.wrap{max-width:920px;margin:0 auto}
+h1,h2,h3,h4{font-family:"Cairo","Tajawal",system-ui,sans-serif;color:var(--accent);line-height:1.35;margin:0;text-wrap:balance}
+h1{font-size:clamp(26px,4vw,36px);font-weight:800}
+h2{font-size:clamp(20px,3vw,26px);font-weight:700}
+h3{font-size:18px;font-weight:700;color:var(--ink)}
+h4{font-size:16px;font-weight:700;color:var(--ink)}
+p{margin:0 0 12px}
+.doc-head{border-bottom:3px solid var(--accent);padding-block:36px 20px;margin-bottom:8px}
+.kicker{font-size:13px;letter-spacing:.04em;color:var(--muted);font-weight:500;margin-bottom:6px}
+.doc-meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;color:var(--muted);margin-top:12px}
+.doc-meta b{color:var(--ink);font-weight:500}
+.status{display:inline-block;background:var(--sand-soft);color:var(--ink);border-inline-start:4px solid var(--sand);padding:8px 14px;border-radius:4px;font-size:14px;margin-top:14px}
+.toc{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;padding-block:14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+.toc a{color:var(--accent-2);text-decoration:none;font-weight:500}
+.toc a:hover,.toc a:focus-visible{text-decoration:underline;outline:none}
+section{padding-block:28px 8px;border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+.sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
+.sec-num{font-family:"Cairo",sans-serif;font-weight:800;font-size:14px;color:var(--surface);background:var(--accent);border-radius:4px;padding:2px 9px;flex:none}
+.gist{background:var(--accent-soft);border-radius:6px;padding:12px 16px;margin-bottom:18px;font-weight:500}
+.gist span{display:block;font-size:12px;letter-spacing:.05em;color:var(--accent-2);font-weight:700;margin-bottom:2px}
+ul,ol{margin:0 0 14px;padding-inline-start:22px}
+li{margin-bottom:6px}
+li::marker{color:var(--accent-2)}
+.table-wrap{overflow-x:auto;margin:14px 0 20px}
+table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.6}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;text-align:right}
+thead th{background:var(--surface-2);color:var(--accent);font-family:"Cairo",sans-serif;font-weight:700;font-size:13.5px;white-space:nowrap}
+tbody th{font-weight:700;color:var(--ink);width:1%;white-space:nowrap}
+td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar{display:inline-block;height:9px;background:var(--accent-2);border-radius:2px;vertical-align:middle;margin-inline-start:8px}
+.bar.heavy{background:var(--sand)}
+.tag{display:inline-block;font-size:12.5px;padding:1px 8px;border-radius:3px;background:var(--surface-2);color:var(--muted);white-space:nowrap;font-weight:500}
+.tag.content{background:var(--sand-soft);color:var(--ink)}
+.tag.structure{background:var(--accent-soft);color:var(--accent)}
+.tag.risk{background:var(--risk-soft);color:var(--risk)}
+.tag.ok{background:var(--accent-soft);color:var(--accent)}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:14px 0 20px}
+.note{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.note h4{margin-bottom:6px}
+.note.risk{border-inline-start:4px solid var(--risk)}
+.note.ok{border-inline-start:4px solid var(--accent-2)}
+.note.sand{border-inline-start:4px solid var(--sand)}
+.quote{border-inline-start:3px solid var(--line);padding:4px 14px;color:var(--muted);font-size:14.5px;margin:10px 0 16px}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0 18px}
+.verdict div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.verdict span{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.verdict b{font-family:"Cairo",sans-serif;font-size:17px;color:var(--accent)}
+.verdict b.mid{color:var(--sand)}
+.verdict b.low{color:var(--risk)}
+.calc{background:var(--surface-2);border-radius:6px;padding:12px 16px;font-variant-numeric:tabular-nums;margin:10px 0 16px}
+.outline{list-style:none;padding:0;margin:0 0 18px;display:grid;gap:8px}
+.outline li{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 14px;display:grid;grid-template-columns:auto 1fr;gap:12px;margin:0}
+.outline .n{font-family:"Cairo",sans-serif;font-weight:800;color:var(--accent);font-size:15px;min-width:22px}
+.outline .n.ap{color:var(--sand)}
+.outline b{font-weight:700}
+.outline small{display:block;color:var(--muted);font-size:14px}
+.rules{columns:2;column-gap:28px}
+@media (max-width:640px){.rules{columns:1}}
+.rules li{break-inside:avoid}
+footer{margin-top:36px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+a{color:var(--accent-2)}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header class="doc-head">
+  <div class="kicker">صندوق الحماية الاجتماعية · دائرة الاشتراكات · مسار التحليل</div>
+  <h1>مراجعة الإطار المقترح لرفع كفاءة التحصيل</h1>
+  <p style="margin-top:10px;max-width:70ch">تشخيص النسخة الأولى، ودراسة المقترحين الواردين من أصحاب المصلحة، والتصور المقترح للنسخة الثانية قبل البدء في أي تعديل.</p>
+  <div class="doc-meta"><span>الوثيقة محل المراجعة: <b>collection-framework-v1</b></span><span>التاريخ: <b>13 سبتمبر 2026</b></span><span>الغرض: <b>الاتفاق على التصور قبل إعادة الصياغة</b></span></div>
+  <div class="status">النسخة الأولى تبقى دون تعديل حتى الاتفاق على ما في هذه المراجعة.</div>
+</header>
+
+<nav class="toc" aria-label="محتويات المراجعة">
+  <a href="#s1">1 الخلاصة</a><a href="#s2">2 لماذا تبدو الوثيقة مشتتة؟</a><a href="#s3">3 سجل الفجوات</a><a href="#s4">4 دراسة المقترحين</a><a href="#s5">5 الممكنات المقترح إضافتها</a><a href="#s6">6 التصور الجديد للنسخة الثانية</a><a href="#s7">7 ما نحتاج الاتفاق عليه</a>
+</nav>
+
+<section id="s1">
+  <div class="sec-head"><span class="sec-num">1</span><h2>الخلاصة</h2></div>
+  <div class="gist"><span>الحكم العام</span>المحتوى الموضوعي للنسخة الأولى سليم في معظمه؛ المشكلة في التنظيم وتوازن الأقسام وتعدد الأشكال، لا في الأفكار. والوثيقة تفتقر إلى ممكّنَين جوهريين لا يمكن تجاهلهما: وصف نظام المهلة والغرامة، ومسار مستقل للقطاع الحكومي الذي يسجل أضعف الأرقام.</div>
+  <ul>
+    <li><b>سبب التشتت:</b> نحو 135 كتلة محتوى في 14 نمط بطاقة مختلفاً، من دون طبقة ملخص تجمع القصة في صفحة واحدة، ومع تكرار القواعد نفسها في أربعة مواضع.</li>
+    <li><b>اختلال التوازن:</b> قسم التنفيذ الإداري يشغل قرابة ربع الوثيقة، بينما رسالتها المعلنة أن الحظر والتنفيذ آخر المسار؛ والوقاية، وهي جوهر الإطار، لا تشغل إلا نحو 7%.</li>
+    <li><b>المقترح الأول (محرك الالتزامات التقديرية):</b> ذو قيمة عالية وتعقيد متوسط ومخاطر منخفضة. يُعتمد كممكّن أساسي في مرحلة الوقاية ويُبنى على محرك الاحتساب القائم نفسه.</li>
+    <li><b>المقترح الثاني (تمديد مهلة الـ15 يوماً):</b> فرضية وجيهة لكنها تحتاج بيانات قبل القرار؛ تمديد المهلة يرفع مؤشر السداد في الموعد حسابياً من 53.8% إلى نحو 70.6% دون أن يضيف ريالاً واحداً إلى التحصيل. توجد بدائل أقل كلفة قانونية تحقق الهدف نفسه.</li>
+    <li><b>النسخة الثانية:</b> تُعاد هيكلتها حول دورة حياة الفاتورة في ستة أقسام وملاحق، بصفحة ملخص تنفيذي، وبطاقة ممكّن موحدة، وجدول قرارات له مالك وموعد.</li>
+  </ul>
+</section>
+
+<section id="s2">
+  <div class="sec-head"><span class="sec-num">2</span><h2>لماذا تبدو الوثيقة مشتتة؟</h2></div>
+  <div class="gist"><span>الخلاصة</span>الصعوبة ليست في طول الجمل (متوسط الجملة 15 كلمة وهو مقبول)، بل في كثافة الكتل، وغياب الهرمية، وتبدل المصطلحات، وجُمل اسمية مجردة لا تصف فعلاً ملموساً.</div>
+
+  <h3>حصر المحتوى الحالي</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>القسم</th><th class="num">الكتل</th><th>الوزن النسبي</th><th>ملاحظة</th></tr></thead>
+    <tbody>
+      <tr><th>1 التمهيد والغاية</th><td class="num">10</td><td class="num">7% <i class="bar" style="width:21px"></i></td><td>يحمل رسالة الوثيقة الأساسية (الوقاية) بأقل وزن</td></tr>
+      <tr><th>2 الوضع الحالي والتحدي</th><td class="num">17</td><td class="num">13% <i class="bar" style="width:39px"></i></td><td>الأرقام لا تُستخدم لاحقاً لتبرير أي مبادرة</td></tr>
+      <tr><th>3 إطار المعالجة</th><td class="num">12</td><td class="num">9% <i class="bar" style="width:27px"></i></td><td>جوهر النموذج، ويستحق رسماً واحداً بدل بطاقات</td></tr>
+      <tr><th>4 تصنيف جهات العمل</th><td class="num">14</td><td class="num">10% <i class="bar" style="width:30px"></i></td><td>قابل للدمج مع سلّم التصعيد في جدول واحد</td></tr>
+      <tr><th>5 التصعيد والحظر</th><td class="num">13</td><td class="num">10% <i class="bar" style="width:30px"></i></td><td>السلّم التفاعلي جيد، والضوابط مكررة مع القسم 6</td></tr>
+      <tr><th>6 التنفيذ الإداري</th><td class="num">33</td><td class="num">24% <i class="bar heavy" style="width:72px"></i></td><td>تفصيل إجرائي وقانوني يناسب ملحقاً لا متناً</td></tr>
+      <tr><th>7 تحسينات ذات أولوية</th><td class="num">15</td><td class="num">11% <i class="bar" style="width:33px"></i></td><td>يخلط المبادرات وخطط السداد والممارسات الدولية</td></tr>
+      <tr><th>8 التنفيذ والقياس</th><td class="num">14</td><td class="num">10% <i class="bar" style="width:30px"></i></td><td>9 مؤشرات و3 مراحل؛ مناسب مع تقليص المؤشرات</td></tr>
+      <tr><th>9 القرارات المطلوبة</th><td class="num">9</td><td class="num">7% <i class="bar" style="width:21px"></i></td><td>بلا مالك ولا خيارات ولا موعد</td></tr>
+    </tbody>
+  </table></div>
+  <p class="quote">نحو 3,150 كلمة، 9 أقسام، 135 كتلة محتوى، 14 نمط بطاقة. للمقارنة: وثيقة إطار تُقرأ في جلسة واحدة تحتاج عادة إلى صفحة ملخص وخمسة إلى ستة أقسام لا تتجاوز 40 كتلة في المتن.</p>
+
+  <h3>سبعة أسباب محددة</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>السبب</th><th>أين يظهر في النسخة الأولى</th></tr></thead>
+    <tbody>
+      <tr><th>أ</th><td><b>لا توجد طبقة ملخص.</b> لا مكان يقرأ فيه المسؤول الفكرة كاملة في صفحة، فيضطر لتجميعها من تسعة أقسام.</td><td>أقرب شيء هو نتائج الـHero الثلاث، وهي شعارات لا ملخص.</td></tr>
+      <tr><th>ب</th><td><b>اختلال التوازن.</b> التفصيل الإجرائي يطغى على الرسالة.</td><td>القسم 6 وحده: شريط قانوني، مقارنة، قاعدة، 4 شروط دخول، 6 خطوات، 4 نتائج، جدول 6 أطراف، 6 ضوابط، 3 مراحل تجربة.</td></tr>
+      <tr><th>ج</th><td><b>التكرار.</b> القاعدة نفسها تُقال بصيغ مختلفة فيبدو أنها قواعد متعددة.</td><td>«لا تصعيد قبل التأكد من صحة المبلغ» في: القاعدة الحاكمة (3)، بوابات التصنيف (4)، ضوابط الحظر (5)، شروط دخول التنفيذ (6). والوقاية في: المبادئ، شريط النطاق، لوحة الجاهزية، المسار، المبادرة 01.</td></tr>
+      <tr><th>د</th><td><b>خلط مستويات الخطاب.</b> مبادئ استراتيجية بجوار مهلة سبعة أيام إجرائية.</td><td>القسم 7 يجمع 7 مبادرات + خطتي سداد + 6 ممارسات دولية؛ والقسم 1 يضم دراسة الأثر التشريعي وهي ممكّن لا تمهيد.</td></tr>
+      <tr><th>هـ</th><td><b>تعدد الأشكال.</b> كل قسم بنمط بطاقة مختلف، فلا يميز القارئ بين «وضع حالي» و«مقترح» و«قرار».</td><td>metric، baseline، route، factor، segment، restriction، admin-gate، admin-step، admin-outcome، initiative، plan، benchmark، wave، decision.</td></tr>
+      <tr><th>و</th><td><b>المصطلحات غير مستقرة.</b></td><td>«المعالجة» 22 مرة بثلاثة معانٍ (مسار المعالجة، معالجة الحالة، المعالجة القانونية). «الحظر» 27 و«التصعيد» 18 دون تعريف الفرق. «جهة العمل / صاحب العمل / المنشأة» تتبادل. ترقيم الأقسام بالأرقام الهندية (١، ٢) والمحتوى بالأرقام العربية (30، 60).</td></tr>
+      <tr><th>ز</th><td><b>الصياغة المجردة.</b> جمل اسمية تصف مفاهيم لا أفعالاً.</td><td>«يوجه الرصيد المتبقي إلى مسار المعالجة المناسب» بدل «يحوّل النظام ما تبقى إلى خطة سداد أو إنذار». فقرة دراسة الأثر جملة واحدة من نحو 70 كلمة. التحفظ المصدري «ولا يتوافر في المصادر الرسمية ما يؤكد…» داخل نص الممارسة الإماراتية بدل حاشية.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="s3">
+  <div class="sec-head"><span class="sec-num">3</span><h2>سجل الفجوات</h2></div>
+  <div class="gist"><span>الخلاصة</span>اثنتا عشرة فجوة: أربع منها في المحتوى الجوهري (ممكّنات مفقودة)، وخمس في التنظيم، وثلاث في التحرير. الفجوتان الأولى والثانية تغيّران استنتاجات الوثيقة، لا شكلها.</div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>الفجوة</th><th>النوع</th><th>الأثر</th><th>المعالجة المقترحة</th></tr></thead>
+    <tbody>
+      <tr><th>ف1</th><td>نظام المهلة (1–15) والغرامة غير موصوف إطلاقاً، رغم أنه الرافعة المالية الأولى ومحور ملاحظة أصحاب المصلحة.</td><td><span class="tag content">محتوى</span></td><td>الوثيقة تناقش التصعيد بالحظر وتتجاهل الأداة التي تعمل يومياً.</td><td>قسم «الجدول الزمني للفاتورة»: الاستحقاق، المهلة، بدء الغرامة وتدرجها، مستويات المتابعة، على خط زمني واحد.</td></tr>
+      <tr><th>ف2</th><td>القطاع الحكومي: 10.1% سداد في الموعد و55.3% سداد جزئي، ولا مبادرة واحدة تعالجه؛ يُذكر في تنبيه واحد فقط.</td><td><span class="tag content">محتوى</span></td><td>أسوأ الأرقام بلا معالجة؛ الحظر والتنفيذ الإداري لا يصلحان له أصلاً.</td><td>مسار حكومي مستقل: تنسيق الاعتمادات مع وزارة المالية قبل الموازنة، تسوية مركزية، مقاصة مع المستحقات.</td></tr>
+      <tr><th>ف3</th><td>لا خدمة ذاتية لجهة العمل: ملف المتابعة الموحد موجّه للموظف، ولا كشف حساب ولا تقدير استباقي ولا اعتراض رقمي.</td><td><span class="tag content">محتوى</span></td><td>جهة العمل تكتشف الالتزام عند الفاتورة أو عند صرف الرواتب.</td><td>البيان التقديري الاستباقي + كشف حساب موحد + اعتراض رقمي (القسم 4).</td></tr>
+      <tr><th>ف4</th><td>كل الأدوات عقابية؛ لا حوافز التزام (شهادة التزام سارية، إعفاء أول تأخر، أولوية خدمات).</td><td><span class="tag content">محتوى</span></td><td>الجهات الملتزمة لا ترى فرقاً بين الالتزام والتأخر البسيط.</td><td>حزمة حوافز ضمن مرحلة السداد.</td></tr>
+      <tr><th>ف5</th><td>التصنيف تفاعلي بعد التأخر؛ لا إنذار مبكر (انخفاض عدد العاملين، تغيّرات وزارة العمل، أول تأخر لجهة ملتزمة).</td><td><span class="tag content">محتوى</span></td><td>التدخل يبدأ بعد نشوء المتأخرات.</td><td>إشارات استباقية تُغذّي التصنيف قبل الاستحقاق.</td></tr>
+      <tr><th>ف6</th><td>الممكّنات التنظيمية غائبة: الأدوار، قدرات الفريق، اتفاقيات مستوى الخدمة، إدارة الحسابات الكبرى، التوعية.</td><td><span class="tag content">محتوى</span></td><td>الإطار يبدو حلاً تقنياً خالصاً.</td><td>قسم «الممكّنات التنظيمية» ضمن الممكّنات.</td></tr>
+      <tr><th>ف7</th><td>المتطلبات القانونية مبعثرة (المهلة، الغرامة، نطاق الحظر، التنفيذ الإداري، الخصم المباشر).</td><td><span class="tag structure">تنظيم</span></td><td>لا يعرف القارئ ما يحتاج تعديل لائحة وما يمكن تنفيذه غداً.</td><td>عمود «المتطلب القانوني» في بطاقة كل ممكّن + قائمة موحدة في القرارات.</td></tr>
+      <tr><th>ف8</th><td>أرقام القسم 2 لا تُربط بأي مبادرة.</td><td><span class="tag structure">تنظيم</span></td><td>المبادرات تبدو آراء لا استجابة لبيانات.</td><td>كل ممكّن يبدأ بالرقم الذي يبرره (مثال: 16.8% تأخر داخل الشهر ← المهلة والتذكير والخصم المباشر).</td></tr>
+      <tr><th>ف9</th><td>لا ملخص تنفيذي ولا رسم واحد للنموذج ولا مسرد.</td><td><span class="tag structure">تنظيم</span></td><td>السبب الأول للانطباع بالتشتت.</td><td>صفحة 0 في النسخة الثانية.</td></tr>
+      <tr><th>ف10</th><td>القرارات التسعة بلا مالك ولا خيارات ولا موعد.</td><td><span class="tag structure">تنظيم</span></td><td>لا تُنتج جلسة النقاش قراراً قابلاً للتتبع.</td><td>جدول: القرار / الخيارات / التوصية / المالك / الموعد.</td></tr>
+      <tr><th>ف11</th><td>التفصيل الإجرائي للتنفيذ الإداري والممارسات الدولية في المتن.</td><td><span class="tag structure">تنظيم</span></td><td>يقطع تسلسل القراءة.</td><td>ملاحق أ و ب، وصفحة واحدة لكل منهما في المتن.</td></tr>
+      <tr><th>ف12</th><td>مصطلحات متبدلة، ترقيم مختلط، تحفظات مصدرية داخل النص، جمل اسمية مجردة.</td><td><span class="tag">تحرير</span></td><td>صعوبة الصياغة التي أشارت إليها الملاحظات.</td><td>قواعد الكتابة في القسم 6 + مسرد بمصطلح واحد لكل مفهوم.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="s4">
+  <div class="sec-head"><span class="sec-num">4</span><h2>دراسة المقترحين</h2></div>
+  <div class="gist"><span>الخلاصة</span>المقترح الأول يُعتمد ويُدمج في مرحلة الوقاية. المقترح الثاني يُدرج كفرضية تحت الدراسة بخطة بيانات وتجربة محكومة، مع بدائل أقل كلفة قانونية تُعرض إلى جانبه.</div>
+
+  <h3>4.1 محرك الالتزامات التقديرية (البيان التقديري الاستباقي)</h3>
+  <p class="quote">كما ورد: محرك يعطي صاحب العمل الالتزامات المستحقة الدفع بناءً على تغييرات ينوي القيام بها (رفع أجور، تعديل عقد…)، ويكون بيانا تقديرياً مستقبلياً يوضح جميع الاشتراطات والإضافات، حتى لا يُفاجأ وقت صرف الرواتب أو خلال مهلة الـ15 يوماً، ويُستقبل من خلاله أي فجوة واردة.</p>
+  <h4>إعادة الصياغة المقترحة للممكّن</h4>
+  <p>خدمة ذاتية في بوابة جهة العمل تعرض أثر أي تغيير تنوي إجراءه (زيادة أجر، تعديل عقد، تعيين، إنهاء خدمة) على الاشتراك المستحق وموعده وأي فروقات بأثر رجعي، <b>قبل</b> أن يصل التغيير رسمياً عبر وزارة العمل. لا تعدّل الخدمة البيانات المعتمدة، بل تحاكي نتيجة التعديل باستخدام قواعد الاحتساب نفسها التي تصدر بها الفاتورة.</p>
+  <div class="verdict">
+    <div><span>القيمة</span><b>عالية</b></div>
+    <div><span>التعقيد</span><b class="mid">متوسط</b></div>
+    <div><span>المخاطر</span><b>منخفضة</b></div>
+    <div><span>تغيير قانوني</span><b>لا يلزم</b></div>
+    <div><span>التوصية</span><b>اعتماد</b></div>
+  </div>
+  <div class="grid-2">
+    <div class="note ok"><h4>لماذا تعمل</h4><ul><li>تعالج سبباً حقيقياً للتأخر: المفاجأة بالمبلغ عند الفاتورة، وهو ما يصنع جزءاً من الـ16.8% التي تسدد متأخرة داخل الشهر.</li><li>لا تمس مصدر الحقيقة؛ بيانات وزارة العمل تبقى المرجع، فلا تعارض مع ضوابط الصندوق.</li><li>تعيد استخدام محرك الاحتساب القائم (القدرة 01 في الوثيقة) على مدخلات افتراضية، فالتكلفة أساساً في الواجهة لا في القواعد.</li><li>«تلقي الفجوات» يتحقق تلقائياً: عندما يختلف التقدير عن توقع جهة العمل تُبلّغ عن الفرق قبل الفاتورة، وهذا يغذي مبادرة جودة البيانات (01).</li></ul></div>
+    <div class="note risk"><h4>المخاطر وكيف تُدار</h4><ul><li><b>اختلاف التقدير عن الفاتورة الفعلية</b> يهدم الثقة بسرعة. الحل: محرك واحد مشترك للتقدير والفوترة، بإصدارات موثقة للقواعد والنسب.</li><li><b>التعامل مع التقدير كإقرار</b> أو حجة عند النزاع. الحل: عبارة صريحة «تقدير غير ملزم» وحفظ السيناريو بتاريخه ونسخة القواعد.</li><li><b>بيانات أجور على مستوى الموظف</b> في واجهة خارجية. الحل: صلاحيات مقيدة بجهة العمل نفسها وسجل وصول.</li><li><b>حالات الأثر الرجعي</b> (زيادة أجر من تاريخ سابق) تحتاج قواعد واضحة قبل الإطلاق.</li></ul></div>
+  </div>
+  <h4>ثلاثة مستويات نضج</h4>
+  <div class="table-wrap"><table>
+    <thead><tr><th>المستوى</th><th>ما يقدمه</th><th>يعتمد على</th><th>المرحلة</th></tr></thead>
+    <tbody>
+      <tr><th>1 حاسبة سيناريوهات</th><td>جهة العمل تُدخل التغيير وتحصل فوراً على الاشتراك الجديد والفروقات والموعد.</td><td>محرك الاحتساب كخدمة + شاشة في البوابة.</td><td>المرحلة 2</td></tr>
+      <tr><th>2 سيناريو محفوظ ومطابَق</th><td>يُحفظ السيناريو، وعند وصول التغيير من وزارة العمل يقارن النظام التقدير بالفعلي ويعرض الفرق للطرفين مع قناة إبلاغ.</td><td>تكامل وزارة العمل + سجل السيناريوهات.</td><td>المرحلة 2–3</td></tr>
+      <tr><th>3 تنبيه استباقي يبدأه الصندوق</th><td>فور وصول أي تغيير من وزارة العمل يرسل الصندوق «بياناً تقديرياً» بأثره على الفاتورة القادمة قبل إصدارها.</td><td>المستوى 2 + قنوات الإشعار.</td><td>المرحلة 3</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>مؤشرات نجاحه:</b> انخفاض الفواتير المعدّلة بعد الإصدار، نسبة جهات العمل التي اطلعت على التقدير قبل الفاتورة، نسبة السداد في الموعد لدى مستخدمي الخدمة مقارنة بغيرهم، وعدد الفروقات المُبلّغة قبل الفاتورة.</p>
+  <p><b>موضعه في النسخة الثانية:</b> ممكّن رئيسي في مرحلة الوقاية، يُدمج مع المبادرة 01 (بيانات أدق) و03 (ملف موحد)، ويُقدَّم بوصفه «وجه جهة العمل» من الملف الموحد.</p>
+
+  <h3 style="margin-top:28px">4.2 تمديد مهلة السداد دون غرامة (1–15)</h3>
+  <p class="quote">كما ورد: مهلة الـ15 يوماً للسداد بلا غرامة إذا زيدت قليلاً قد تُدخل الفئات التي سددت خلال الشهر وترفع نسبة التحصيل، بدل أن تُفرض عليهم غرامات تتراكم تدريجياً فيحدث التعثر. تحتاج دراسة أوضاع القطاع الخاص وإن كانت هناك مواعيد أنسب من 1–15.</p>
+  <div class="verdict">
+    <div><span>الفرضية</span><b>وجيهة</b></div>
+    <div><span>الدليل الحالي</span><b class="low">غير كافٍ</b></div>
+    <div><span>تغيير قانوني</span><b class="mid">مرجّح</b></div>
+    <div><span>أثر على السيولة</span><b class="mid">سلبي مؤكد</b></div>
+    <div><span>التوصية</span><b class="mid">دراسة ثم تجربة</b></div>
+  </div>
+  <h4>ما تقوله أرقام الوثيقة نفسها</h4>
+  <div class="calc">16.8% من فواتير القطاع الخاص (نحو 84,000 فاتورة) سُددت بعد الموعد وخلال الشهر نفسه. لو امتدت المهلة إلى نهاية الشهر لارتفع مؤشر «السداد في الموعد» من 53.8% إلى نحو 70.6%. لكن هذه الفواتير كانت تُسدد أصلاً؛ التغيير هنا في <b>تعريف المؤشر</b> وفي <b>إيراد الغرامة</b>، لا في النقد المحصّل. ويبقى 27.5% غير مسدد هو المشكلة الفعلية، ولا نعرف بعد إن كان يبدأ بتأخر بسيط وغرامة أم أنه فئة مختلفة أصلاً.</div>
+  <h4>ستة أسئلة يجب أن تجيب عنها البيانات قبل القرار</h4>
+  <ol>
+    <li>توزيع يوم السداد داخل الشهر: هل يتجمع عند اليوم 15 (أثر الموعد النهائي) أم يمتد حتى آخر الشهر؟</li>
+    <li>هل الـ16.8% هي الجهات نفسها كل شهر (نمط دورة نقدية ثابت) أم جهات متغيرة (تأخر عرضي)؟</li>
+    <li>ما نسبة الغرامة إلى أصل الاشتراك لدى الجهات المتعثرة؟ هل تراكم الغرامة سبق التعثر فعلاً أم لحقه؟</li>
+    <li>ما العلاقة بين يوم السداد ويوم صرف الرواتب في المنشأة (يمكن استخلاصها من بيانات نظام حماية الأجور)؟</li>
+    <li>كم يكلف تأخير التدفق النقدي 15 يوماً لكل الجهات (تكلفة الفرصة الاستثمارية للصندوق) مقابل الغرامات المتنازل عنها؟</li>
+    <li>ما نسبة المتعثرين الحاليين الذين كانوا يسددون خلال الشهر قبل تعثرهم؟ هذا هو الاختبار المباشر لفرضية «الغرامة تصنع التعثر».</li>
+  </ol>
+  <div class="grid-2">
+    <div class="note risk"><h4>مخاطر التمديد المباشر</h4><ul><li><b>أثر الموعد النهائي:</b> السداد يتجمع قرب آخر يوم أياً كان؛ التمديد قد ينقل الذروة من اليوم 15 إلى اليوم 30 دون تحسين.</li><li><b>تأخير سيولة الجميع</b> لتصحيح سلوك جزء منهم.</li><li><b>ضعف الردع</b> وإرسال إشارة بأن المواعيد قابلة للتفاوض.</li><li><b>السند القانوني:</b> المهلة والغرامة غالباً منصوص عليهما في القانون أو اللائحة؛ يلزم التحقق من السند وصاحب صلاحية التعديل قبل طرحه كخيار.</li><li>لا يعالج القطاع الحكومي، وهو الأضعف.</li></ul></div>
+    <div class="note ok"><h4>ما يمكن تبنيه الآن دون انتظار</h4><ul><li>تذكير في اليومين 10 و14 يذكر مبلغ الغرامة المتوقعة إن تأخر السداد.</li><li>الخصم المباشر في اليوم 14 (المبادرة 04) يجعل المهلة غير ذات موضوع لمن يفعّله.</li><li>البيان التقديري الاستباقي (4.1) يزيل عنصر المفاجأة الذي يدفع للتأخر داخل الشهر.</li></ul></div>
+  </div>
+  <h4>بدائل تحقق الهدف نفسه بكلفة أقل</h4>
+  <div class="table-wrap"><table>
+    <thead><tr><th>البديل</th><th>كيف يعمل</th><th>الأثر المتوقع</th><th>المتطلب القانوني</th></tr></thead>
+    <tbody>
+      <tr><th>غرامة متدرجة</th><td>صفر أو رمزية للأيام 16–30، ثم تصاعد بعدها.</td><td>يخفف الضغط على المتأخر قليلاً دون تحريك الموعد.</td><td>تعديل جدول الغرامة</td></tr>
+      <tr><th>إعفاء أول تأخر</th><td>إعفاء تلقائي من غرامة أول تأخر خلال 12 شهراً للجهة الملتزمة (ممارسة شائعة لدى إدارات الضرائب).</td><td>يحمي الملتزمين من التعثر العرضي ويحافظ على الردع.</td><td>قرار بصلاحية الإعفاء</td></tr>
+      <tr><th>سقف للغرامة</th><td>لا تتجاوز الغرامة المتراكمة نسبة من الأصل.</td><td>يمنع تحوّل التأخر إلى تعثر بسبب التراكم.</td><td>تعديل جدول الغرامة</td></tr>
+      <tr><th>موعد استحقاق يختاره صاحب العمل</th><td>تختار الجهة يوماً ثابتاً داخل الشهر يوافق دورة رواتبها.</td><td>يوائم الموعد مع السيولة الفعلية لكل منشأة.</td><td>يلزم التحقق من مرونة النص</td></tr>
+      <tr><th>تمديد المهلة لشريحة كتجربة</th><td>إعفاء الأيام 16–30 لشريحة محددة لربع سنة، مع مجموعة مقارنة.</td><td>يقيس الأثر فعلياً قبل التعميم.</td><td>قرار مؤقت بصلاحية الإعفاء</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>التوصية:</b> لا يُدرج التمديد في النسخة الثانية قراراً، بل «فرضية تحت الدراسة» في ممكّن اسمه «إعادة تصميم المهلة والغرامة»، مع دراسة بيانات (4–6 أسابيع) تجيب عن الأسئلة الستة، ثم تجربة محكومة تقيس السداد والسيولة والتعثر بعد 90 يوماً. وتُعرض البدائل الخمسة إلى جانبه ليكون القرار مقارنة لا قبولاً أو رفضاً.</p>
+</section>
+
+<section id="s5">
+  <div class="sec-head"><span class="sec-num">5</span><h2>الممكنات المقترح إضافتها</h2></div>
+  <div class="gist"><span>الخلاصة</span>تسعة ممكّنات تسد فجوات المحتوى، مرتبة حسب مرحلة دورة حياة الفاتورة، مع جاهزية كل منها وما إذا كان يحتاج قراراً قانونياً.</div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>الممكّن</th><th>المرحلة</th><th>الجاهزية</th><th>قرار قانوني؟</th><th>يعالج</th></tr></thead>
+    <tbody>
+      <tr><th>البيان التقديري الاستباقي</th><td>الوقاية</td><td><span class="tag">جديد</span></td><td>لا</td><td>ف3، المفاجأة بالمبلغ</td></tr>
+      <tr><th>كشف حساب وخدمة ذاتية لجهة العمل</th><td>الوقاية / السداد</td><td><span class="tag ok">تطوير لقائم</span></td><td>لا</td><td>ف3، الاعتراض الرقمي</td></tr>
+      <tr><th>إعادة تصميم المهلة والغرامة</th><td>السداد</td><td><span class="tag content">دراسة</span></td><td>نعم</td><td>ف1، المقترح الثاني</td></tr>
+      <tr><th>حوافز الالتزام</th><td>السداد</td><td><span class="tag">جديد</span></td><td>جزئياً</td><td>ف4</td></tr>
+      <tr><th>الإنذار المبكر بإشارات استباقية</th><td>المعالجة</td><td><span class="tag">جديد</span></td><td>لا</td><td>ف5</td></tr>
+      <tr><th>مسار القطاع الحكومي</th><td>المعالجة</td><td><span class="tag">جديد</span></td><td>اتفاق مع وزارة المالية</td><td>ف2</td></tr>
+      <tr><th>إدارة الحسابات الكبرى وخطة التواصل</th><td>تنظيمي</td><td><span class="tag">جديد</span></td><td>لا</td><td>ف6</td></tr>
+      <tr><th>حوكمة التحصيل: أدوار، اتفاقيات مستوى خدمة، لوحة متابعة</th><td>تنظيمي</td><td><span class="tag ok">تطوير لقائم</span></td><td>لا</td><td>ف6</td></tr>
+      <tr><th>حزمة الممكّنات القانونية في قائمة واحدة</th><td>تشريعي</td><td><span class="tag ok">إعادة تنظيم</span></td><td>—</td><td>ف7</td></tr>
+    </tbody>
+  </table></div>
+  <p>يُحتفظ بالمبادرات السبع الحالية كما هي من حيث الجوهر، وتُعاد صياغتها في بطاقة الممكّن الموحدة نفسها، فيصبح مجموع الممكّنات نحو ستة عشر، موزعة على أربع مراحل ومحور تنظيمي واحد.</p>
+</section>
+
+<section id="s6">
+  <div class="sec-head"><span class="sec-num">6</span><h2>التصور الجديد للنسخة الثانية</h2></div>
+  <div class="gist"><span>المبدأ</span>صفحة واحدة تروي القصة كاملة، والمتن يتبع دورة حياة الفاتورة، وكل ما هو إجرائي أو مرجعي ينتقل إلى الملاحق. المستهدف: متن لا يتجاوز 60% من حجم النسخة الأولى.</div>
+  <h3>الهيكل المقترح</h3>
+  <ol class="outline">
+    <li><span class="n">0</span><div><b>الملخص التنفيذي (صفحة واحدة)</b><small>المشكلة في ثلاثة أرقام، النموذج في رسم واحد، الممكّنات في قائمة، القرارات المطلوبة.</small></div></li>
+    <li><span class="n">1</span><div><b>أين نقف اليوم</b><small>نتائج الاثني عشر شهراً للقطاعين، والجدول الزمني للفاتورة اليوم (الاستحقاق، المهلة، الغرامة، الحظر)، وأين تتسرب الكفاءة. يدمج القسمين 2 و1 الحاليين.</small></div></li>
+    <li><span class="n">2</span><div><b>نموذج التحصيل المستهدف</b><small>رسم واحد بأربع مراحل: الوقاية، السداد، المعالجة، التصعيد. القاعدة الحاكمة تُقال هنا مرة واحدة فقط. يدمج القسم 3 وأجزاء من 4 و5.</small></div></li>
+    <li><span class="n">3</span><div><b>الممكّنات</b><small>نحو ستة عشر ممكّناً في بطاقة موحدة: الرقم الذي يبرره، المشكلة، التغيير، الأثر المتوقع، الجاهزية، المتطلب القانوني. مرتبة حسب المرحلة ثم المحور التنظيمي.</small></div></li>
+    <li><span class="n">4</span><div><b>قواعد التصعيد</b><small>التصنيف وسلّم المستويات في جدول واحد، والتنفيذ الإداري في صفحة واحدة تُحيل إلى الملحق أ. يدمج القسمين 5 و6 بعد تقليصهما.</small></div></li>
+    <li><span class="n">5</span><div><b>خارطة الطريق والقياس</b><small>ثلاث مراحل وثمانية مؤشرات بخط أساس ومستهدف. القسم 8 الحالي مع تقليص المؤشرات.</small></div></li>
+    <li><span class="n">6</span><div><b>القرارات المطلوبة</b><small>جدول: القرار، الخيارات، التوصية، المالك، الموعد. يستوعب القسم 9 ودراسة الأثر التشريعي.</small></div></li>
+    <li><span class="n ap">أ</span><div><b>ملحق: مسار التنفيذ الإداري تفصيلاً</b><small>شروط الدخول، الخطوات الست، النتائج، الأطراف، الضوابط، مراحل التجربة، كما هي الآن.</small></div></li>
+    <li><span class="n ap">ب</span><div><b>ملحق: الممارسات الدولية</b><small>الممارسات الست مع التحفظات المصدرية في حواشٍ.</small></div></li>
+    <li><span class="n ap">ج</span><div><b>ملحق: المسرد</b><small>مصطلح واحد لكل مفهوم: جهة العمل، التقييد (بدل الحظر)، التصعيد، مسار المعالجة، التنفيذ الإداري.</small></div></li>
+    <li><span class="n ap">د</span><div><b>ملحق: دراسة المهلة والغرامة</b><small>الأسئلة الستة، مصادر البيانات، تصميم التجربة، ومعايير القرار.</small></div></li>
+  </ol>
+
+  <h3>قواعد الكتابة في النسخة الثانية</h3>
+  <ul class="rules">
+    <li>كل قسم يبدأ بسطر «الخلاصة» يمكن قراءته وحده.</li>
+    <li>مصطلح واحد لكل مفهوم، والمسرد هو المرجع عند الشك.</li>
+    <li>ثلاثة أنماط بطاقات فقط: ممكّن، قرار، مرحلة. كل ما عداها جدول أو فقرة.</li>
+    <li>كل ممكّن يبدأ بالرقم الذي يبرره من القسم 1.</li>
+    <li>جملة فعلية واحدة لكل فكرة: من يفعل ماذا ومتى.</li>
+    <li>القاعدة تُقال مرة واحدة في موضعها، ويُحال إليها بعد ذلك.</li>
+    <li>ترقيم موحد بالأرقام العربية (1، 2، 3) في العناوين والمتن.</li>
+    <li>التفاصيل الإجرائية والقانونية والمرجعية في الملاحق دائماً.</li>
+    <li>التحفظات المصدرية في حواشٍ لا في نص الممارسة.</li>
+    <li>الأرقام الهندية والعربية لا تختلطان في الصفحة نفسها.</li>
+  </ul>
+</section>
+
+<section id="s7">
+  <div class="sec-head"><span class="sec-num">7</span><h2>ما نحتاج الاتفاق عليه قبل أي تعديل</h2></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>القرار</th><th>التوصية</th><th>أثره على العمل</th></tr></thead>
+    <tbody>
+      <tr><th>1</th><td>اعتماد هيكل النسخة الثانية (ستة أقسام وأربعة ملاحق).</td><td>اعتماد</td><td>يبدأ إعادة البناء على الهيكل نفسه دون إعادة كتابة المحتوى السليم.</td></tr>
+      <tr><th>2</th><td>اعتماد البيان التقديري الاستباقي ممكّناً في مرحلة الوقاية.</td><td>اعتماد، بالمستوى 1 في المرحلة 2</td><td>يُضاف إلى الممكّنات ويُربط بالمبادرتين 01 و03.</td></tr>
+      <tr><th>3</th><td>معاملة تمديد المهلة فرضية تحت الدراسة لا قراراً.</td><td>اعتماد، مع طلب بيانات الأسئلة الستة من فريق البيانات</td><td>تُضاف كممكّن «إعادة تصميم المهلة والغرامة» مع البدائل والملحق د.</td></tr>
+      <tr><th>4</th><td>إضافة مسار القطاع الحكومي ممكّناً مستقلاً.</td><td>اعتماد</td><td>يحتاج جلسة مع الجهة المسؤولة عن العلاقة مع وزارة المالية لتحديد آلية الاعتمادات والمقاصة.</td></tr>
+      <tr><th>5</th><td>نقل التنفيذ الإداري والممارسات الدولية إلى الملاحق.</td><td>اعتماد</td><td>يقلص المتن بنحو ثلث حجمه دون فقد أي محتوى.</td></tr>
+      <tr><th>6</th><td>اعتماد المسرد ومصطلح «التقييد» بدل «الحظر».</td><td>للنقاش</td><td>يؤثر في الصياغة كلها؛ يُحسم قبل البدء.</td></tr>
+    </tbody>
+  </table></div>
+  <p>بعد الاتفاق، تُبنى النسخة الثانية ملفاً جديداً بجوار النسخة الأولى، وتبقى الأولى مرجعاً للمقارنة حتى الاعتماد.</p>
+</section>
+
+<footer>مراجعة أعدت لدائرة الاشتراكات · صندوق الحماية الاجتماعية · تستند إلى محتوى النسخة الأولى وأرقامها كما وردت فيها · الأرقام الحسابية (70.6%) مشتقة من أرقام الوثيقة ولا تمثل بيانات جديدة.</footer>
+</div>
+
+</body>
+</html>

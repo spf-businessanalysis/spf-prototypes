@@ -119,6 +119,8 @@
     .showcase-tab[data-tone="saving"] { --tab-accent: #9b7136; }
     .showcase-tab[data-tone="injuries"] { --tab-accent: var(--blue); }
     .showcase-tab[data-tone="inspection"] { --tab-accent: var(--plum); }
+    .showcase-tab[data-tone="collection"] { --tab-accent: #b06a2c; }
+    .showcase-tab[data-tone="housing"] { --tab-accent: #2f7d6b; }
     .showcase-tab:hover { border-color: color-mix(in srgb, var(--tab-accent) 45%, var(--border)); transform: translateX(-3px); }
     .showcase-tab[aria-selected="true"] { border-color: var(--tab-accent); color: var(--ink); background: color-mix(in srgb, var(--tab-accent) 8%, white); }
     .showcase-tab[aria-selected="true"]::after { position: absolute; inset-inline-start: 0; inset-block-end: 0; width: 100%; height: 3px; background: var(--tab-accent); content: ""; transform-origin: right; animation: tab-progress 5s linear; }
@@ -151,6 +153,8 @@
     .feature-card[data-tone="saving"] { --panel-start: #5b4020; --panel-end: #9b7136; --panel-art: #efd8b2; }
     .feature-card[data-tone="injuries"] { --panel-start: #173f56; --panel-end: #326b8d; --panel-art: #b9deef; }
     .feature-card[data-tone="inspection"] { --panel-start: #463752; --panel-end: #765f8e; --panel-art: #ddcfea; }
+    .feature-card[data-tone="collection"] { --panel-start: #5a3315; --panel-end: #b06a2c; --panel-art: #f4d9bd; }
+    .feature-card[data-tone="housing"] { --panel-start: #14453b; --panel-end: #2f7d6b; --panel-art: #bfe6da; }
     .feature-card::after { position: absolute; inset-block-start: -170px; inset-inline-start: -120px; width: 430px; height: 430px; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; box-shadow: 0 0 0 60px rgba(255,255,255,.025), 0 0 0 120px rgba(255,255,255,.02); content: ""; }
     .feature-content { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; padding: clamp(28px, 5vw, 48px); }
     .feature-owner { display: inline-flex; margin-bottom: 10px; padding: 4px 9px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; color: rgba(255,255,255,.78); background: rgba(255,255,255,.07); font-size: 9px; font-weight: 600; }
@@ -170,7 +174,7 @@
     @media (max-width: 900px) {
       .intro { grid-template-columns: 1fr; }
       .showcase { grid-template-columns: 1fr; }
-      .showcase-tabs { grid-template-columns: repeat(4, minmax(150px, 1fr)); overflow-x: auto; padding-bottom: 5px; }
+      .showcase-tabs { grid-template-columns: repeat(5, minmax(140px, 1fr)); overflow-x: auto; padding-bottom: 5px; }
       .showcase-tab { min-height: 72px; }
     }
     @media (max-width: 620px) {
@@ -228,10 +232,12 @@
         <button class="showcase-tab" id="tab-inspection" type="button" role="tab" aria-selected="false" aria-controls="panel-inspection" tabindex="-1" data-tone="inspection">
           <span class="tab-number">03</span><span class="tab-copy"><strong>نظام التفتيش</strong><span>دائرة التفتيش</span></span>
         </button>
-        <!-- مخفي مؤقتاً — يظهر كرابع نظام عند التفعيل
         <button class="showcase-tab" id="tab-collection" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-collection" data-tone="collection">
           <span class="tab-number">04</span><span class="tab-copy"><strong>رفع كفاءة التحصيل</strong><span>دائرة الاشتراكات</span></span>
-        </button> -->
+        </button>
+        <button class="showcase-tab" id="tab-housing" type="button" role="tab" aria-selected="false" tabindex="-1" aria-controls="panel-housing" data-tone="housing">
+          <span class="tab-number">05</span><span class="tab-copy"><strong>الإسكان الاجتماعي</strong><span>دائرة السياسات</span></span>
+        </button>
       </div>
 
       <div class="showcase-stage">
@@ -256,13 +262,19 @@
           </a>
         </div>
 
-        <!-- مخفي مؤقتاً — لوحة رفع كفاءة التحصيل
         <div class="showcase-panel" id="panel-collection" role="tabpanel" aria-labelledby="tab-collection" hidden>
           <a class="feature-card" href="Collection-Methods/collection-framework-v1.html" data-tone="collection">
             <div class="feature-content"><span class="feature-owner">دائرة الاشتراكات</span><h2>إطار رفع كفاءة آليات التحصيل</h2><p>إطار عملي لدائرة الاشتراكات ينظم معالجة المتأخرات، وتصنيف جهات العمل، والتصعيد والحظر التدريجي، ومتابعة نتائج التحسين.</p><span class="open-action">استعراض الإطار <i aria-hidden="true">←</i></span></div>
             <div class="feature-visual" aria-hidden="true"><svg viewBox="0 0 200 200"><rect x="34" y="22" width="132" height="156" rx="22"/><path d="M66 62h68M66 88h40M66 138l24-27 18 15 30-38"/><circle cx="66" cy="138" r="7" fill="currentColor" stroke="none"/><circle cx="90" cy="111" r="7" fill="currentColor" stroke="none"/><circle cx="108" cy="126" r="7" fill="currentColor" stroke="none"/><circle cx="138" cy="88" r="7" fill="currentColor" stroke="none"/></svg></div>
           </a>
-        </div> -->
+        </div>
+
+        <div class="showcase-panel" id="panel-housing" role="tabpanel" aria-labelledby="tab-housing" hidden>
+          <a class="feature-card" href="Social-Housing/social-housing-ba-perspective-v1.html" data-tone="housing">
+            <div class="feature-content"><span class="feature-owner">دائرة السياسات</span><h2>الإسكان الاجتماعي</h2><p>مرئيات تحليل الأعمال بشأن نقل ملف الإسكان الاجتماعي إلى الصندوق، وتحويل مقترح السياسات إلى حالة عمل قابلة للتنفيذ.</p><span class="open-action">استعراض المرئيات <i aria-hidden="true">←</i></span></div>
+            <div class="feature-visual" aria-hidden="true"><svg viewBox="0 0 200 200"><path d="M30 92 100 38l70 54"/><path d="M48 86v74h104V86"/><path d="M84 160v-42h32v42"/><path d="M64 104h20M116 104h20"/></svg></div>
+          </a>
+        </div>
       </div>
     </section>
   </main>
