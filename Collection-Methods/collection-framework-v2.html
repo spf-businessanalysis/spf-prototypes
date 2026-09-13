@@ -111,9 +111,10 @@
             <div class="outcome-title"><strong>القطاع الخاص</strong></div>
             <div class="outcome-bar" role="img"
               aria-label="القطاع الخاص: في الموعد 53.8%، بعد الموعد داخل الشهر 16.8%، في شهر لاحق 0.02%، سداد جزئي 1.9%، لم يُسدد 27.5%">
-              <i class="outcome-segment segment-1" style="width:53.8%"></i><i class="outcome-segment segment-2"
-                style="width:16.8%"></i><i class="outcome-segment segment-3" style="width:0.02%"></i><i
-                class="outcome-segment segment-4" style="width:1.9%"></i><i class="outcome-segment segment-5"
+              <i class="outcome-segment segment-1 has-label" data-label="53.8%" style="width:53.8%"></i><i
+                class="outcome-segment segment-2 has-label" data-label="16.8%" style="width:16.8%"></i><i
+                class="outcome-segment segment-3" style="width:0.02%"></i><i class="outcome-segment segment-4"
+                style="width:1.9%"></i><i class="outcome-segment segment-5 has-label" data-label="27.5%"
                 style="width:27.5%"></i></div>
             <div class="outcome-legend"><span class="legend-1">في الموعد <b>53.8%</b></span><span class="legend-2">بعد
                 الموعد داخل الشهر <b>16.8%</b></span><span class="legend-3">في شهر لاحق <b>0.02%</b></span><span
@@ -123,10 +124,11 @@
             <div class="outcome-title"><strong>القطاع الحكومي</strong></div>
             <div class="outcome-bar" role="img"
               aria-label="القطاع الحكومي: في الموعد 10.1%، بعد الموعد داخل الشهر 9.3%، في شهر لاحق 0.8%، سداد جزئي 55.3%، لم يُسدد 24.5%">
-              <i class="outcome-segment segment-1" style="width:10.1%"></i><i class="outcome-segment segment-2"
-                style="width:9.3%"></i><i class="outcome-segment segment-3" style="width:0.8%"></i><i
-                class="outcome-segment segment-4" style="width:55.3%"></i><i class="outcome-segment segment-5"
-                style="width:24.5%"></i></div>
+              <i class="outcome-segment segment-1 has-label" data-label="10.1%" style="width:10.1%"></i><i
+                class="outcome-segment segment-2 has-label" data-label="9.3%" style="width:9.3%"></i><i
+                class="outcome-segment segment-3" style="width:0.8%"></i><i
+                class="outcome-segment segment-4 has-label" data-label="55.3%" style="width:55.3%"></i><i
+                class="outcome-segment segment-5 has-label" data-label="24.5%" style="width:24.5%"></i></div>
             <div class="outcome-legend"><span class="legend-1">في الموعد <b>10.1%</b></span><span class="legend-2">بعد
                 الموعد داخل الشهر <b>9.3%</b></span><span class="legend-3">في شهر لاحق <b>0.8%</b></span><span
                 class="legend-4">سداد جزئي <b>55.3%</b></span><span class="legend-5">لم يُسدد <b>24.5%</b></span></div>
@@ -356,8 +358,8 @@
             </tbody>
           </table>
         </div>
-        <div class="responsibility-split">
-          <article><span>النظام</span>
+        <div class="responsibility-split" aria-label="توزيع العمل بين النظام والموظف">
+          <article class="system-role"><span class="role-label">النظام الإلكتروني</span>
                     <h4>ينفذ النظام الأعمال المتكررة</h4>
             <ul>
               <li>يحسب المبالغ ويربط الدفعات ويرسل الإشعارات.</li>
@@ -365,7 +367,7 @@
               <li>يضع الحالات التي تحتاج تدخلاً في قائمة مهام الموظف ويتابع المهل.</li>
             </ul>
           </article>
-          <article><span>الموظف وصاحب الصلاحية</span>
+          <article class="human-role"><span class="role-label">الموظف وصاحب الصلاحية</span>
                     <h4>يراجع الموظف الحالة ويعتمد صاحب الصلاحية القرار</h4>
             <ul>
               <li>يراجع الموظف خطط السداد والتظلمات والحالات التي تحتاج تقديراً.</li>
@@ -390,7 +392,16 @@
                         تطوير</span><span class="tag" data-state="new">متطلب جديد</span><span class="tag"
                         data-state="study">يتطلب دراسة البيانات أو مراجعة الدائرة القانونية قبل اتخاذ قرار بشأنه</span></div>
 
-        <div class="stage-title" data-stage="1">
+        <div class="enabler-map" role="img"
+          aria-label="توزيع متطلبات تنفيذ النموذج: أربعة متطلبات للوقاية، وخمسة للسداد، وأربعة للمعالجة، وثلاثة للتصعيد، ومتطلب واحد للفريق وطريقة العمل">
+          <article data-stage="1"><span class="map-count">4</span><strong>الوقاية</strong><small>01–04</small></article>
+          <article data-stage="2"><span class="map-count">5</span><strong>السداد</strong><small>05–09</small></article>
+          <article data-stage="3"><span class="map-count">4</span><strong>المعالجة</strong><small>10–13</small></article>
+          <article data-stage="4"><span class="map-count">3</span><strong>التصعيد</strong><small>14–16</small></article>
+          <article><span class="map-count">1</span><strong>الفريق وطريقة العمل</strong><small>17</small></article>
+        </div>
+
+        <div class="stage-title" id="stage-prevention" data-stage="1">
           <h3>المرحلة 1 · الوقاية</h3><span>قبل إصدار الفاتورة</span>
         </div>
         <div class="enabler-grid">
@@ -483,8 +494,32 @@
           </article>
         </div>
 
-        <div class="stage-title" data-stage="2">
+        <div class="stage-title" id="stage-payment" data-stage="2">
           <h3>المرحلة 2 · السداد</h3><span>من إصدار الفاتورة إلى نهاية المهلة</span>
+        </div>
+        <div class="payment-hub" role="img"
+          aria-label="قنوات السداد المقترحة: التحويل البنكي، والخصم المباشر، ورمز الدفع السريع، وسداد عدة فواتير في عملية واحدة، ويربط النظام كل عملية بالفواتير إلكترونياً">
+          <div class="payment-center">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10l3 3v15H7zM17 3v4h4M10 11h7M10 15h7M10 19h5"/></svg>
+            <strong>الفاتورة</strong><span>مرجع دفع موحد</span>
+          </div>
+          <div class="payment-channel channel-bank">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M3 18h18M12 3l9 5H3z"/></svg>
+            <strong>التحويل البنكي</strong><span>مع مرجع الفاتورة</span>
+          </div>
+          <div class="payment-channel channel-debit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h13M4 12h16M4 17h9M17 4l3 3-3 3M16 14l-3 3 3 3"/></svg>
+            <strong>الخصم المباشر</strong><span>بعد إشعار جهة العمل</span>
+          </div>
+          <div class="payment-channel channel-qr">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v6h-6v-2M16 18h2"/></svg>
+            <strong>رمز دفع سريع</strong><span>يحمل بيانات الفاتورة</span>
+          </div>
+          <div class="payment-channel channel-multi">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10v4H7zM5 7h14v5H5zM3 12h18v8H3zM7 16h10"/></svg>
+            <strong>عدة فواتير</strong><span>في عملية إلكترونية واحدة</span>
+          </div>
+          <p>يتولى النظام ربط عملية السداد بالفاتورة أو الفواتير وتسوية الحالات المطابقة للقواعد المعتمدة.</p>
         </div>
         <div class="enabler-grid">
           <article class="enabler">
@@ -603,7 +638,7 @@
           </article>
         </div>
 
-        <div class="stage-title" data-stage="3">
+        <div class="stage-title" id="stage-treatment" data-stage="3">
           <h3>المرحلة 3 · المعالجة</h3><span>عند وجود عائق يمنع السداد الكامل</span>
         </div>
         <div class="enabler-grid">
@@ -696,7 +731,19 @@
           </article>
         </div>
 
-        <div class="stage-title" data-stage="4">
+        <div class="government-flow" role="img"
+          aria-label="المسار الحكومي المقترح: يصدر الصندوق الفاتورة، وتحدد الجهة الحكومية الاعتماد، وتنسق وزارة المالية السداد أو المقاصة، ثم يطابق النظام المبلغ ويغلق الحالة">
+          <div class="flow-title"><span>مسار مخصص</span><strong>تحصيل اشتراكات الجهات الحكومية</strong></div>
+          <ol>
+            <li><span>1</span><strong>إصدار الفاتورة</strong><small>الصندوق</small></li>
+            <li><span>2</span><strong>تحديد الاعتماد</strong><small>الجهة الحكومية</small></li>
+            <li><span>3</span><strong>تنسيق السداد</strong><small>وزارة المالية</small></li>
+            <li><span>4</span><strong>السداد أو المقاصة</strong><small>وفق الآلية المعتمدة</small></li>
+            <li><span>5</span><strong>المطابقة والإغلاق</strong><small>نظام الصندوق</small></li>
+          </ol>
+        </div>
+
+        <div class="stage-title" id="stage-escalation" data-stage="4">
           <h3>المرحلة 4 · التصعيد</h3><span>عند عدم الاستجابة بعد المعالجة</span>
         </div>
         <div class="enabler-grid">
@@ -765,7 +812,7 @@
           </article>
         </div>
 
-        <div class="stage-title">
+        <div class="stage-title" id="stage-team">
           <h3>في كل المراحل</h3><span>الفريق وطريقة العمل</span>
         </div>
         <div class="enabler-grid">
@@ -804,6 +851,14 @@
           <p>يتحقق النظام أولاً من استيفاء الحالة لشروط التصعيد، ثم يعرض نتيجة تقييم العوامل المعتمدة، وبعد ذلك يحدد
             مستوى التصعيد المناسب ليراجعه الموظف عند الحاجة. ويمثل التنفيذ الإداري مساراً مستقلاً لتحصيل المبلغ، ولا
             يعد مستوى من مستويات الحظر.</p>
+        </div>
+        <div class="decision-flow" role="img"
+          aria-label="مسار قرار التصعيد: التحقق من صلاحية المبلغ، ثم استبعاد الحالات التي تحتاج إلى معالجة، ثم تقييم حالة جهة العمل، ثم اختيار الإجراء المتناسب ومتابعة نتيجته">
+          <article><span>1</span><strong>التحقق من المبلغ</strong><small>صحة الفاتورة وربط الدفعات</small></article>
+          <article><span>2</span><strong>استبعاد حالات المعالجة</strong><small>تظلم مفتوح أو خطة ملتزم بها</small></article>
+          <article><span>3</span><strong>تقييم حالة الجهة</strong><small>الالتزام والمبلغ والاستجابة والأثر</small></article>
+          <article><span>4</span><strong>اختيار الإجراء</strong><small>مساعدة أو إنذار أو حظر متدرج</small></article>
+          <article class="decision-result"><span>5</span><strong>متابعة النتيجة</strong><small>إيقاف التصعيد عند زوال السبب</small></article>
         </div>
 
         <h3>أولاً: هل الحالة صالحة للتصعيد أصلاً؟</h3>
@@ -1240,6 +1295,23 @@
           <h2>ملحق ب · تجارب أخرى وكيفية الاستفادة منها في الصندوق</h2><span class="toggle">اضغط للعرض</span>
         </summary>
         <div class="appendix-body">
+          <div class="benchmark-map" role="img"
+            aria-label="مصادر التجارب المقارنة موزعة بين دول مجلس التعاون، وآسيا، والمراجع الدولية">
+            <div class="benchmark-center"><strong>التجارب المقارنة</strong><span>مصادر رسمية</span></div>
+            <div class="benchmark-cluster gcc"><span>دول مجلس التعاون</span>
+              <div><b>السعودية</b><small>قناة دفع موحدة</small></div>
+              <div><b>الإمارات</b><small>حماية الأجور</small></div>
+              <div><b>البحرين</b><small>الخصم المباشر</small></div>
+            </div>
+            <div class="benchmark-cluster asia"><span>آسيا</span>
+              <div><b>ماليزيا</b><small>الرواتب والاشتراكات</small></div>
+              <div><b>سنغافورة</b><small>تقديم وسداد موحد</small></div>
+            </div>
+            <div class="benchmark-cluster global"><span>مراجع دولية</span>
+              <div><b>منظمة التعاون الاقتصادي والتنمية</b><small>الوقاية والتصنيف</small></div>
+              <div><b>المملكة المتحدة</b><small>المعالجة حسب الحالة</small></div>
+            </div>
+          </div>
           <div class="table-wrap">
             <table>
               <thead>
