@@ -1,0 +1,1276 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="إطار عملي لرفع كفاءة تحصيل الاشتراكات في صندوق الحماية الاجتماعية.">
+  <title>إطار رفع كفاءة التحصيل</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="collection-framework-v3.css">
+</head>
+
+<body data-view="session">
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="#top" aria-label="العودة إلى بداية الوثيقة">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none">
+            <path d="M5 18V9m7 9V5m7 13v-6M3 20h18"></path>
+          </svg></span>
+        <span>الإطار المقترح لرفع كفاءة آليات التحصيل</span>
+      </a>
+      <span class="document-owner">دائرة الاشتراكات · صندوق الحماية الاجتماعية</span>
+      <div class="view-switch" role="group" aria-label="طريقة عرض الوثيقة">
+        <button type="button" class="active" data-view="session" aria-pressed="true">عرض الجلسة</button>
+        <button type="button" data-view="detail" aria-pressed="false">عرض التفاصيل</button>
+      </div>
+      <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <div class="page-shell" id="top">
+    <aside class="side-nav" aria-label="محتويات الوثيقة">
+      <p class="side-title">محتويات الإطار</p>
+      <ol id="toc"></ol>
+    </aside>
+    <main>
+      <details class="mobile-toc">
+        <summary>محتويات الإطار</summary>
+        <ol id="mobileToc"></ol>
+      </details>
+
+      <header class="hero">
+        <div class="hero-kicker">صندوق الحماية الاجتماعية · دائرة الاشتراكات</div>
+        <h1>الإطار المقترح لرفع كفاءة آليات التحصيل</h1>
+        <p class="hero-lead">يقدم هذا الإطار آليات تسهّل على جهات العمل سداد الاشتراكات، وترفع دقة التحصيل لدى الصندوق،
+          وتساعد على معالجة أسباب التأخر قبل تراكم المستحقات.</p>
+        <div class="hero-meta"><span>نسخة عمل للنقاش</span><span>سبتمبر 2026</span></div>
+        <div class="hero-outcomes">
+          <article><strong>الوقاية</strong><span>إصدار الفاتورة من البيانات المعتمدة، وتوفير تقدير مسبق لقيمة الاشتراك،
+              وإرسال تنبيه إلى جهة العمل قبل موعد الاستحقاق</span></article>
+          <article><strong>السداد</strong><span>مرجع دفع واحد، وخصم مباشر، وكشف حساب إلكتروني</span></article>
+          <article><strong>المعالجة</strong><span>يعالج الصندوق سبب عدم السداد قبل نقل الحالة إلى إجراءات التصعيد</span>
+          </article>
+          <article><strong>التصعيد</strong><span>يطبق الصندوق الحظر بصورة متدرجة وفق حالة جهة العمل واستجابتها، ولا
+              يعتمد على مدة التأخر وحدها</span></article>
+        </div>
+      </header>
+
+      <section id="summary" data-title="الملخص" data-number="1">
+        <div class="section-heading"><span class="section-number">1</span>
+          <div><span class="section-eyebrow"></span>
+            <h2>الملخص</h2>
+          </div>
+        </div>
+        <h3>الوضع الحالي بالأرقام</h3>
+        <div class="metric-grid">
+          <article class="metric-card"><span>القطاع الخاص</span><strong>53.8%</strong>
+            <p>نسبة فواتير القطاع الخاص التي سددتها جهات العمل كاملة في الموعد</p>
+          </article>
+          <article class="metric-card"><span>القطاع الخاص</span><strong>27.5%</strong>
+            <p>نسبة فواتير القطاع الخاص التي لم تسددها جهات العمل خلال الفترة محل التحليل</p>
+          </article>
+          <article class="metric-card"><span>القطاع الحكومي</span><strong>10.1%</strong>
+            <p>سددت الجهات الحكومية 10.1% من الفواتير كاملة في الموعد، بينما سددت 55.3% من الفواتير بصورة
+              جزئية</p>
+          </article>
+        </div>
+        <p class="prose detail-only">خلال اثني عشر شهراً، سددت جهات العمل الخاصة نصف فواتيرها في الموعد، وتأخر سدس آخر لأيام قليلة
+          داخل الشهر نفسه، وبقي ربع دون سداد. أما الجهات الحكومية فنمطها مختلف: أغلبها يسدد جزءاً من الفاتورة ولا
+          يكملها. لذلك لا يصلح إجراء واحد للجميع.</p>
+        <div class="detail-only">
+          <h3>التصور المقترح لتطوير التحصيل</h3>
+          <p class="prose">يقسم الإطار أعمال التحصيل إلى أربع مراحل تبدأ بإصدار الفاتورة، ثم تسهيل السداد، ثم معالجة
+            أسباب عدم اكتمال السداد، وتنتهي بالتصعيد عند استمرار عدم الاستجابة. وتتضمن كل مرحلة مجموعة من التحسينات،
+            أهمها:</p>
+          <ul>
+            <li>يصدر النظام الفاتورة من البيانات المعتمدة، كما يتيح لجهة العمل احتساب قيمة تقديرية للاشتراك قبل
+              صدور الفاتورة للاستعداد للسداد.</li>
+            <li>سداد أسهل: مرجع دفع واحد، وخصم مباشر لمن يرغب، وكشف حساب إلكتروني.</li>
+            <li>ملف واحد لكل جهة عمل يجمع الفواتير والدفعات والتظلمات وخطط السداد.</li>
+            <li>مسار خاص للقطاع الحكومي بالتنسيق مع وزارة المالية.</li>
+            <li>حظر متدرج يرتبط بحالة جهة العمل واستجابتها، لا بمرور الوقت وحده.</li>
+            <li>دراسة مهلة السداد والمبلغ الإضافي بالاعتماد على البيانات قبل اقتراح أي تغيير فيهما.</li>
+          </ul>
+        </div>
+        <div class="framework-rule"><span>القاعدة الأساسية قبل بدء التصعيد</span><strong>لا يبدأ أي تصعيد قبل التأكد من
+            صحة المبلغ، وربط
+            الدفعات، وفصل المبلغ محل التظلم، وإعطاء جهة العمل فرصة واضحة للسداد أو طلب المعالجة.</strong></div>
+      </section>
+
+      <section id="current" data-title="الوضع الحالي" data-number="2">
+        <div class="section-heading"><span class="section-number">2</span>
+          <div><span class="section-eyebrow">نقطة الانطلاق</span>
+            <h2>الوضع الحالي</h2>
+          </div>
+        </div>
+        <div class="reading-panel"><span>الخلاصة</span>
+          <p>يحسب النظام الاشتراكات، ويرسل الإشعارات، ويطبق الحظر آلياً. ويتولى الموظفون حالياً معالجة الأخطاء
+            والحالات الاستثنائية يدوياً. كما يحتاج اختلاف نمط السداد في القطاع الحكومي إلى مسار معالجة خاص.</p>
+        </div>
+
+        <div class="figure-card">
+          <div class="figure-heading"><span class="section-eyebrow">نتائج الفواتير الشهرية</span>
+            <h3>كيف سددت جهات العمل خلال اثني عشر شهراً؟</h3>
+          </div>
+          <div class="outcome-row">
+            <div class="outcome-title"><strong>القطاع الخاص</strong></div>
+            <div class="outcome-bar" role="img"
+              aria-label="القطاع الخاص: في الموعد 53.8%، بعد الموعد داخل الشهر 16.8%، في شهر لاحق 0.02%، سداد جزئي 1.9%، لم يُسدد 27.5%">
+              <i class="outcome-segment segment-1 has-label" data-label="53.8%" style="width:53.8%"></i><i
+                class="outcome-segment segment-2 has-label" data-label="16.8%" style="width:16.8%"></i><i
+                class="outcome-segment segment-3" style="width:0.02%"></i><i class="outcome-segment segment-4"
+                style="width:1.9%"></i><i class="outcome-segment segment-5 has-label" data-label="27.5%"
+                style="width:27.5%"></i>
+            </div>
+            <div class="outcome-legend"><span class="legend-1">في الموعد <b>53.8%</b></span><span class="legend-2">بعد
+                الموعد داخل الشهر <b>16.8%</b></span><span class="legend-3">في شهر لاحق <b>0.02%</b></span><span
+                class="legend-4">سداد جزئي <b>1.9%</b></span><span class="legend-5">لم يُسدد <b>27.5%</b></span></div>
+          </div>
+          <div class="outcome-row">
+            <div class="outcome-title"><strong>القطاع الحكومي</strong></div>
+            <div class="outcome-bar" role="img"
+              aria-label="القطاع الحكومي: في الموعد 10.1%، بعد الموعد داخل الشهر 9.3%، في شهر لاحق 0.8%، سداد جزئي 55.3%، لم يُسدد 24.5%">
+              <i class="outcome-segment segment-1 has-label" data-label="10.1%" style="width:10.1%"></i><i
+                class="outcome-segment segment-2 has-label" data-label="9.3%" style="width:9.3%"></i><i
+                class="outcome-segment segment-3" style="width:0.8%"></i><i class="outcome-segment segment-4 has-label"
+                data-label="55.3%" style="width:55.3%"></i><i class="outcome-segment segment-5 has-label"
+                data-label="24.5%" style="width:24.5%"></i>
+            </div>
+            <div class="outcome-legend"><span class="legend-1">في الموعد <b>10.1%</b></span><span class="legend-2">بعد
+                الموعد داخل الشهر <b>9.3%</b></span><span class="legend-3">في شهر لاحق <b>0.8%</b></span><span
+                class="legend-4">سداد جزئي <b>55.3%</b></span><span class="legend-5">لم يُسدد <b>24.5%</b></span></div>
+          </div>
+        </div>
+        <details class="inline-details">
+          <summary>عرض الأعداد التفصيلية وقراءة النتائج</summary>
+          <div class="table-wrap">
+            <table>
+            <thead>
+              <tr>
+                <th scope="col">النتيجة</th>
+                <th scope="col">القطاع الخاص</th>
+                <th scope="col">القطاع الحكومي</th>
+                <th scope="col">ماذا تعني؟</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">في الموعد</th>
+                <td class="num">53.8% (269,807 فاتورة)</td>
+                <td class="num">10.1% (161)</td>
+                <td>تمثل هذه النسبة مستوى السداد الحالي الذي يستهدف الإطار رفعه.</td>
+              </tr>
+              <tr>
+                <th scope="row">بعد الموعد داخل الشهر</th>
+                <td class="num">16.8% (84,000)</td>
+                <td class="num">9.3% (147)</td>
+                <td>تشمل هذه الفئة جهات العمل التي تسدد بعد الموعد بأيام قليلة، ويمكن خفض تأخرها من خلال
+                  التذكير المبكر وتوفير وسائل سداد أسهل.</td>
+              </tr>
+              <tr>
+                <th scope="row">سداد جزئي</th>
+                <td class="num">1.9% (9,454)</td>
+                <td class="num">55.3% (878)</td>
+                <td>يمثل السداد الجزئي النمط الأبرز لدى الجهات الحكومية. ويحتاج الصندوق إلى التحقق من ارتباط
+                  هذا النمط بالاعتمادات المالية ودورة إعداد الموازنة قبل تحديد المعالجة المناسبة.</td>
+              </tr>
+              <tr>
+                <th scope="row">لم يُسدد</th>
+                <td class="num">27.5% (137,809)</td>
+                <td class="num">24.5% (390)</td>
+                <td>تحتاج الفواتير غير المسددة إلى تحديد سبب عدم السداد، والتمييز بين وجود خطأ في الفاتورة،
+                  أو تعثر جهة العمل، أو عدم استجابتها.</td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+        </details>
+
+        <h3>رحلة الفاتورة اليوم</h3>
+        <div class="timeline">
+          <article><strong>إصدار الفاتورة</strong>
+            <p>يحسبها النظام من بيانات وزارة العمل ويرسل الإشعار.</p>
+          </article>
+          <article><strong>الأيام 1–15</strong>
+            <p>تستطيع جهة العمل سداد الفاتورة خلال هذه المهلة دون احتساب مبلغ إضافي.</p>
+          </article>
+          <article data-tone="warn"><strong>بعد اليوم 15</strong>
+            <p>يبدأ النظام احتساب المبلغ الإضافي المقرر للتأخر، وتزداد قيمته وفق المدة والضوابط المعتمدة.</p>
+          </article>
+          <article data-tone="warn"><strong>بعد 30 يوماً</strong>
+            <p>يبدأ الصندوق إجراءات المتابعة الرسمية بعد مرور ثلاثين يوماً دون اكتمال السداد.</p>
+          </article>
+          <article data-tone="hard"><strong>بعد مدة محددة</strong>
+            <p>يطبق النظام الحظر آلياً على الخدمات المحددة بعد انقضاء المدة المعتمدة واستيفاء شروط الحظر.</p>
+          </article>
+        </div>
+        <p class="prose">تطبق الإجراءات الحالية التسلسل الزمني نفسه على جميع جهات العمل، حتى عندما تختلف أسباب عدم
+          السداد من حالة إلى أخرى، مثل وجود خطأ في الفاتورة، أو التأخر لأيام قليلة، أو استمرار عدم السداد لعدة أشهر.
+          ويعالج الإطار هذا الاختلاف من خلال تخصيص الإجراء وفق سبب كل حالة.</p>
+
+        <div class="current-strengths">
+          <strong>الإجراءات القائمة التي يبني عليها الإطار</strong>
+          <span>احتساب الاشتراكات وإصدار الإشعار آلياً</span>
+          <span>السداد عبر القنوات المتاحة</span>
+          <span>خدمة تقسيط بضوابط معتمدة</span>
+        </div>
+
+        <h3>ما أسباب انخفاض كفاءة التحصيل؟</h3>
+        <div class="issue-grid">
+          <article><span>01</span><strong>تأخر تحديث البيانات</strong><p>قد تصدر الفاتورة ثم تحتاج إلى تعديل، وقد تبدأ متابعة مبلغ غير صحيح.</p></article>
+          <article><span>02</span><strong>نقص بيانات التواصل</strong><p>قد لا تصل الإشعارات، ويضطر الموظف إلى اتصالات فردية يصعب توثيقها.</p></article>
+          <article><span>03</span><strong>دفعات غير مرتبطة</strong><p>يتأخر تحديث الرصيد، وقد تبدأ متابعة مبلغ سبق سداده.</p></article>
+          <article><span>04</span><strong>إجراءات يدوية</strong><p>تحتاج الشيكات وخطط السداد إلى وقت أطول وتزيد احتمالات الخطأ.</p></article>
+          <article><span>05</span><strong>حظر يعتمد على الوقت</strong><p>تتلقى الحالات المختلفة الإجراء نفسه رغم اختلاف أسباب عدم السداد.</p></article>
+          <article><span>06</span><strong>غياب المسار الحكومي</strong><p>يستمر السداد الجزئي دون معالجة تناسب دورة الاعتمادات المالية.</p></article>
+          <article><span>07</span><strong>عدم قياس النتائج</strong><p>يسجل النظام تنفيذ الإجراء دون قياس أثره في السداد أو مدة التأخر.</p></article>
+        </div>
+      </section>
+
+      <section id="model" data-title="النموذج المستهدف" data-number="3">
+        <div class="section-heading"><span class="section-number">3</span>
+          <div><span class="section-eyebrow">أربع مراحل تتبع رحلة الفاتورة</span>
+            <h2>النموذج المستهدف</h2>
+          </div>
+        </div>
+        <div class="reading-panel"><span>الخلاصة</span>
+          <p>ينفذ النظام الأعمال المتكررة آلياً، مثل احتساب المبالغ وإرسال الإشعارات وربط الدفعات. ويتولى الموظف
+            دراسة الحالات الاستثنائية واتخاذ الإجراء المناسب، ولا يبدأ التصعيد قبل معالجة أسباب عدم السداد.</p>
+        </div>
+        <div class="model-grid">
+          <article class="model-card" data-stage="1"><span>المرحلة 1 · قبل الفاتورة</span>
+            <h4>الوقاية</h4>
+            <p>تهدف مرحلة الوقاية إلى إصدار الفاتورة من البيانات المعتمدة، وإتاحة تقدير مسبق لقيمة الاشتراك حتى
+              تستعد جهة العمل للسداد.</p>
+            <ul>
+              <li>بيانات صحيحة قبل الإصدار</li>
+              <li>بيان تقديري لصاحب العمل</li>
+              <li>تنبيه مبكر لمن يُتوقع تأخره</li>
+            </ul>
+          </article>
+          <article class="model-card" data-stage="2"><span>المرحلة 2 · خلال المهلة</span>
+            <h4>السداد</h4>
+            <p>توفر مرحلة السداد وسائل إلكترونية واضحة تساعد جهة العمل على سداد الفاتورة خلال المهلة بأقل عدد ممكن
+              من الخطوات.</p>
+            <ul>
+              <li>مرجع دفع واحد وربط آلي</li>
+              <li>خصم مباشر لمن يرغب</li>
+              <li>كشف حساب وتذكير وحوافز</li>
+            </ul>
+          </article>
+          <article class="model-card" data-stage="3"><span>المرحلة 3 · عند وجود عائق</span>
+            <h4>المعالجة</h4>
+            <p>يحدد الصندوق سبب عدم اكتمال السداد ويعالجه قبل نقل الحالة إلى إجراءات التصعيد.</p>
+            <ul>
+              <li>تصحيح الفاتورة أو ربط الدفعة</li>
+              <li>خطة سداد أو تظلم</li>
+              <li>شيك مرتجع · مسار حكومي</li>
+            </ul>
+          </article>
+          <article class="model-card" data-stage="4"><span>المرحلة 4 · عند عدم الاستجابة</span>
+            <h4>التصعيد</h4>
+            <p>يحدد الصندوق مستوى التصعيد وفق حالة جهة العمل واستجابتها، ولا ينقل الحالة إلى مستوى أعلى بسبب مرور
+              الوقت وحده.</p>
+            <ul>
+              <li>إنذار رسمي</li>
+              <li>حظر محدود ثم موسع</li>
+              <li>تنفيذ إداري أو مسار قانوني</li>
+            </ul>
+          </article>
+        </div>
+        <p class="note">تنطبق القاعدة الأساسية الواردة في الملخص عند الانتقال من أي مرحلة إلى مرحلة التصعيد.</p>
+
+        <h3>كيف يحدد النظام مسار معالجة كل حالة؟</h3>
+        <p class="prose">عندما لا تُسدد الفاتورة كاملة في موعدها، ينظر النظام في السبب قبل الإجراء:</p>
+        <div class="case-router" data-case-router>
+          <div class="case-tabs" role="tablist" aria-label="اختيار سبب عدم اكتمال السداد">
+            <button type="button" role="tab" aria-selected="true" data-case="invoice">خطأ في الفاتورة</button>
+            <button type="button" role="tab" aria-selected="false" data-case="payment">دفعة غير مرتبطة</button>
+            <button type="button" role="tab" aria-selected="false" data-case="difficulty">صعوبة مالية</button>
+            <button type="button" role="tab" aria-selected="false" data-case="appeal">اعتراض أو تظلم</button>
+            <button type="button" role="tab" aria-selected="false" data-case="cheque">شيك مرتجع أو سداد جزئي</button>
+            <button type="button" role="tab" aria-selected="false" data-case="government">جهة حكومية</button>
+            <button type="button" role="tab" aria-selected="false" data-case="no-response">عدم استجابة</button>
+          </div>
+          <div class="case-panels">
+            <article data-case-panel="invoice"><h4>وجود خطأ مؤثر في بيانات الفاتورة أو قيمتها</h4><div><span>الإجراء المطلوب</span><p>تصحيح البيانات وإعادة الاحتساب قبل أي متابعة.</p></div><div><span>توزيع المسؤوليات</span><p>يراجع الموظف المختص البيانات ويصححها، ثم يعيد النظام احتساب الفاتورة وتحديث الرصيد.</p></div></article>
+            <article data-case-panel="payment" hidden><h4>وصول دفعة لا يستطيع النظام ربطها بالفاتورة الصحيحة</h4><div><span>الإجراء المطلوب</span><p>مطابقة الدفعة بالفاتورة وتحديث الرصيد.</p></div><div><span>توزيع المسؤوليات</span><p>يربط النظام الدفعة آلياً عند تطابق البيانات، ويتولى فريق المطابقة المالية الحالات المتبقية.</p></div></article>
+            <article data-case-panel="difficulty" hidden><h4>وجود صعوبة مالية مؤقتة</h4><div><span>الإجراء المطلوب</span><p>دراسة خطة سداد تراعي الأقساط والفواتير الجديدة.</p></div><div><span>توزيع المسؤوليات</span><p>يدرس الموظف الطلب، ثم يحيله إلى صاحب الصلاحية لاعتماده وفق الضوابط.</p></div></article>
+            <article data-case-panel="appeal" hidden><h4>تقديم اعتراض أو تظلم على مبلغ الفاتورة أو جزء منه</h4><div><span>الإجراء المطلوب</span><p>فصل المبلغ محل الاعتراض والاستمرار في تحصيل الجزء غير المعترض عليه.</p></div><div><span>توزيع المسؤوليات</span><p>يدرس الموظف الطلب، وتراجع الدائرة القانونية ما يحتاج إلى تفسير قانوني، ثم يعتمد صاحب الصلاحية القرار.</p></div></article>
+            <article data-case-panel="cheque" hidden><h4>رجوع الشيك أو سداد جزء من قيمة الفاتورة</h4><div><span>الإجراء المطلوب</span><p>تسجيل نتيجة البنك أو السداد الجزئي وتحديد الإجراء التالي.</p></div><div><span>توزيع المسؤوليات</span><p>يسجل النظام النتيجة، ويتولى فريق المطابقة المالية مراجعة الحالة وتحديد الإجراء.</p></div></article>
+            <article data-case-panel="government" hidden><h4>فاتورة مستحقة على جهة حكومية</h4><div><span>الإجراء المطلوب</span><p>تنسيق الاعتمادات والتسوية مع وزارة المالية من خلال المسار الحكومي.</p></div><div><span>توزيع المسؤوليات</span><p>يتولى فريق الجهات الحكومية التنسيق، ويسجل النظام نتيجة المتابعة والتسوية.</p></div></article>
+            <article data-case-panel="no-response" hidden><h4>استمرار عدم استجابة جهة العمل</h4><div><span>الإجراء المطلوب</span><p>نقل الحالة إلى مسار التصعيد بعد استيفاء الشروط المعتمدة.</p></div><div><span>توزيع المسؤوليات</span><p>يطبق النظام القواعد، ويراجع الموظف الاستثناءات، ويعتمد صاحب الصلاحية قرار الاستبعاد عند وجود سبب.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="enablers" data-title="متطلبات تنفيذ النموذج" data-number="4">
+        <div class="section-heading"><span class="section-number">4</span>
+          <div><span class="section-eyebrow">التغييرات العملية التي تجعل النموذج يعمل</span>
+            <h2>متطلبات تنفيذ النموذج</h2>
+          </div>
+        </div>
+        <div class="reading-panel"><span>الخلاصة</span>
+          <p>تتضمن الوثيقة سبعة عشر متطلباً لتنفيذ النموذج، موزعة على مراحل التحصيل. ويوضح كل متطلب سبب الحاجة
+            إليه، والتغيير المقترح، والفائدة المتوقعة، ووضعه الحالي.</p>
+        </div>
+
+        <div class="enabler-map" aria-label="تصفية متطلبات تنفيذ النموذج حسب المرحلة">
+          <button type="button" class="active" aria-pressed="true" data-stage="1" data-stage-filter="1"><span class="map-count">4</span><strong>الوقاية</strong><small>01–04</small></button>
+          <button type="button" data-stage="2" data-stage-filter="2"><span class="map-count">5</span><strong>السداد</strong><small>05–09</small></button>
+          <button type="button" data-stage="3" data-stage-filter="3"><span class="map-count">4</span><strong>المعالجة</strong><small>10–13</small></button>
+          <button type="button" data-stage="4" data-stage-filter="4"><span class="map-count">3</span><strong>التصعيد</strong><small>14–16</small></button>
+          <button type="button" data-stage-filter="team"><span class="map-count">1</span><strong>الفريق وطريقة العمل</strong><small>17</small></button>
+        </div>
+        <div class="enabler-status-filters" role="group" aria-label="تصفية المتطلبات حسب حالتها">
+          <button type="button" class="active" data-status-filter="all">كل الحالات</button>
+          <button type="button" data-status-filter="existing">مطبق ويحتاج تطويراً</button>
+          <button type="button" data-status-filter="new">متطلب جديد</button>
+          <button type="button" data-status-filter="study">يحتاج إلى دراسة</button>
+        </div>
+        <p class="enabler-empty" id="enablerEmpty" hidden>لا توجد متطلبات تجمع بين المرحلة والحالة المحددتين.</p>
+
+        <div class="stage-title" id="stage-prevention" data-stage="1">
+          <h3>المرحلة 1 · الوقاية</h3><span>قبل إصدار الفاتورة</span>
+        </div>
+        <div class="enabler-grid">
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">01</span>
+              <h4>إصدار الفاتورة من البيانات المعتمدة</h4>
+            </div>
+            <p class="why">بيانات الأجور وانتهاء الخدمة والسجل التجاري تصل متأخرة أحياناً، فتصدر فاتورة ثم تُعدّل.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يصدر النظام الفاتورة في موعدها من البيانات المعتمدة المتاحة، ويستقبل التحديثات من مصادرها، ثم
+                  يعرض حالات التعارض على الموظف لمعالجتها دون تأخير إصدار الفاتورة.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يقلل هذا التغيير عدد الفواتير التي تحتاج إلى تعديل، ويمنع بدء متابعة مبالغ ثبت عدم صحتها.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="existing">مطبق حالياً ويحتاج إلى تطوير</span><span
+                class="tag">لا
+                يحتاج قراراً قانونياً</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">03</span>
+              <h4>إرسال تنبيه مبكر عند ظهور مؤشرات تدل على احتمال التأخر</h4>
+            </div>
+            <p class="why">قد تظهر قبل موعد الاستحقاق مؤشرات تساعد الصندوق على اكتشاف احتمال التأخر، مثل انخفاض
+              عدد العاملين أو تكرار تغييرات العقود أو تسجيل أول حالة تأخر لجهة ملتزمة.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يرصد النظام هذه الإشارات ويرسل تذكيراً مبكراً أو يعرض الحالة على الموظف قبل موعد الاستحقاق.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يساعد التنبيه المبكر الموظف على التواصل مع جهة العمل ومعالجة المشكلة قبل تراكم المستحقات.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">لا يحتاج قراراً
+                قانونياً</span></div>
+          </article>
+          <article class="enabler wide">
+            <div class="enabler-head"><span class="enabler-number">02</span>
+              <h4>البيان التقديري لصاحب العمل</h4>
+            </div>
+            <p class="why">صاحب العمل لا يستطيع تعديل بيانات العلاقة العمالية بنفسه لأنها تصل عبر وزارة العمل، فيُفاجأ
+              بالمبلغ عند صرف الرواتب أو خلال مهلة السداد.</p>
+            <dl>
+              <div class="full">
+                <dt>ماذا سيتغير؟</dt>
+                <dd>خدمة في بوابة جهة العمل: يُدخل صاحب العمل التغيير الذي ينوي إجراءه (زيادة أجر، تعديل عقد، تعيين،
+                  إنهاء خدمة) فيعرض له النظام الاشتراك المتوقع وموعده وأي فروقات، باستخدام قواعد الحساب نفسها التي تصدر
+                  بها الفاتورة. البيان تقديري ولا يغيّر البيانات المعتمدة. وإذا اختلف التقدير عما يتوقعه صاحب العمل،
+                  يبلّغ عن الفرق من الشاشة نفسها قبل صدور الفاتورة.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يوضح البيان لجهة العمل قيمة الاشتراك المتوقعة، ويساعدها على اكتشاف الفروق مبكراً، مما يزيد
+                  قدرتها على الاستعداد للسداد ويرفع الثقة في قيمة الفاتورة.</dd>
+              </div>
+              <div>
+                <dt>على مراحل</dt>
+                <dd>أولاً حاسبة فورية، ثم حفظ التقدير ومقارنته بالفاتورة الفعلية، ثم تنبيه يرسله الصندوق فور وصول أي
+                  تغيير من وزارة العمل.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">لا يحتاج قراراً
+                قانونياً</span></div>
+          </article>
+          <article class="enabler wide">
+            <div class="enabler-head"><span class="enabler-number">04</span>
+              <h4>دراسة أثر أي اشتراك جديد قبل تطبيقه</h4>
+            </div>
+            <p class="why">قد يؤدي تطبيق اشتراك جديد أو تعديل قيمة الاشتراك دون استعداد جهات العمل إلى زيادة حالات
+              التأخر في السداد.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>قبل إقرار أي اشتراك جديد أو تعديله، يقدّر الصندوق مع الجهات المختصة أثره على فئات المنشآت وقدرتها
+                  على السداد وجاهزية أنظمتها، ويحدد توقيت التطبيق وفترته الانتقالية بناءً على ذلك.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>تساعد الدراسة على اختيار موعد تطبيق مناسب، وإتاحة فترة انتقالية، وتقليل احتمال تراكم المستحقات
+                  بعد بدء التطبيق.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">يحتاج اعتماد نطاق
+                الدراسة ومسؤولها</span></div>
+          </article>
+        </div>
+
+        <div class="stage-title" id="stage-payment" data-stage="2">
+          <h3>المرحلة 2 · السداد</h3><span>من إصدار الفاتورة إلى نهاية المهلة</span>
+        </div>
+        <!-- <div class="payment-hub" role="img"
+          aria-label="قنوات السداد المقترحة: التحويل البنكي، والخصم المباشر، ورمز الدفع السريع، وسداد عدة فواتير في عملية واحدة، ويربط النظام كل عملية بالفواتير إلكترونياً">
+          <div class="payment-center">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3h10l3 3v15H7zM17 3v4h4M10 11h7M10 15h7M10 19h5" />
+            </svg>
+            <strong>الفاتورة</strong><span>مرجع دفع موحد</span>
+          </div>
+          <div class="payment-channel channel-bank">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M3 18h18M12 3l9 5H3z" />
+            </svg>
+            <strong>التحويل البنكي</strong><span>مع مرجع الفاتورة</span>
+          </div>
+          <div class="payment-channel channel-debit">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h13M4 12h16M4 17h9M17 4l3 3-3 3M16 14l-3 3 3 3" />
+            </svg>
+            <strong>الخصم المباشر</strong><span>بعد إشعار جهة العمل</span>
+          </div>
+          <div class="payment-channel channel-qr">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v6h-6v-2M16 18h2" />
+            </svg>
+            <strong>رمز دفع سريع</strong><span>يحمل بيانات الفاتورة</span>
+          </div>
+          <div class="payment-channel channel-multi">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3h10v4H7zM5 7h14v5H5zM3 12h18v8H3zM7 16h10" />
+            </svg>
+            <strong>عدة فواتير</strong><span>في عملية إلكترونية واحدة</span>
+          </div>
+          <p>يتولى النظام ربط عملية السداد بالفاتورة أو الفواتير وتسوية الحالات المطابقة للقواعد المعتمدة.</p>
+        </div> -->
+        <div class="enabler-grid">
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">05</span>
+              <h4>مرجع دفع واحد وربط الدفعات آلياً</h4>
+            </div>
+            <p class="why">تصل بعض الدفعات ببيانات غير مكتملة أو بمرجع دفع لا يطابق الفاتورة، مما يمنع النظام من
+              ربطها آلياً.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يستخدم النظام مرجع دفع واحداً لكل فاتورة في جميع القنوات، ويربط الدفعة بالفاتورة عند وصولها،
+                  ويحدث الرصيد. كما يسوي الحالات التي تنطبق عليها قواعد مالية معتمدة، ويحيل بقية الحالات إلى
+                  فريق المطابقة المالية.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يحدث النظام رصيد جهة العمل فور وصول الدفعة، ويمنع الموظفين من متابعة مبالغ سبق سدادها.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="existing">مطبق حالياً ويحتاج إلى تطوير</span><span
+                class="tag">لا
+                يحتاج قراراً قانونياً</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">06</span>
+              <h4>الخصم المباشر بإشعار مسبق</h4>
+            </div>
+            <p class="why">يتطلب السداد حالياً أن تنفذ جهة العمل عملية الدفع كل شهر، وقد يؤدي الاعتماد على هذا
+              الإجراء اليدوي إلى التأخر عن السداد دون قصد.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>تفوّض جهة العمل البنك بخصم الفاتورة أو القسط في موعده. يرسل الصندوق إشعاراً بالمبلغ والتاريخ قبل
+                  الخصم، ويحدد ما يحدث إذا تعذر الخصم.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يزيد الخصم المباشر احتمال السداد في الموعد، ويقلل عدد التذكيرات وحالات المتابعة التي يتولاها
+                  الموظفون.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">يحتاج اتفاقاً مع
+                البنوك وضوابط معتمدة</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">07</span>
+              <h4>كشف حساب وخدمة ذاتية لجهة العمل</h4>
+            </div>
+            <p class="why">لا تتيح القنوات الحالية لجهة العمل عرض الرصيد والفواتير والدفعات في شاشة واحدة، كما تقدم
+              الجهة اعتراضاتها من خلال مراسلات منفصلة.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>شاشة واحدة في البوابة تعرض الرصيد والفواتير والدفعات والغرامات وخطة السداد، وتتيح تقديم اعتراض أو
+                  طلب خطة سداد إلكترونياً، وتحميل شهادة الالتزام.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>توفر الشاشة لجهة العمل معلومات أوضح عن التزاماتها، وتوثق طلبات الاعتراض، وتقلل الحاجة إلى
+                  المراسلات المنفصلة.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="existing">مطبق حالياً ويحتاج إلى تطوير</span><span
+                class="tag">لا
+                يحتاج قراراً قانونياً</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">09</span>
+              <h4>حوافز للجهات الملتزمة</h4>
+            </div>
+            <p class="why">تركز الإجراءات الحالية على المتابعة والتصعيد، ولا تقدم مزايا واضحة لجهة العمل التي تحافظ
+              على السداد في الموعد.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يصدر النظام شهادة التزام سارية آلياً، ويمنح أولوية في الخدمات. كما يمكن دراسة إعفاء الجهة الملتزمة
+                  من
+                  المبلغ الإضافي عند أول تأخر خلال السنة إذا سمحت الضوابط القانونية واعتمد صاحب الصلاحية ذلك ضمن المتطلب
+                  رقم 08.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>تمنح الحوافز جهة العمل فائدة واضحة مقابل استمرارها في السداد في الموعد.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">بعض الحوافز يحتاج
+                قراراً</span></div>
+          </article>
+          <article class="enabler wide">
+            <div class="enabler-head"><span class="enabler-number">08</span>
+              <h4>مراجعة مهلة السداد والمبلغ الإضافي</h4>
+            </div>
+            <p class="why">تسدد جهات العمل 16.8% من فواتير القطاع الخاص بعد اليوم الخامس عشر وداخل الشهر نفسه.
+              وتحتاج الدراسة إلى التحقق مما إذا كان تراكم المبلغ الإضافي على الجهات التي تتأخر أياماً قليلة يزيد
+              احتمال استمرار تعثرها، وما إذا كانت هناك مواعيد استحقاق أنسب لدورة عمل القطاع الخاص.</p>
+            <dl>
+              <div class="full">
+                <dt>ماذا سيتغير؟</dt>
+                <dd>لا يقترح الصندوق تغيير المهلة قبل استكمال الدراسة. ويحلل أولاً مواعيد السداد الفعلية، والجهات التي
+                  يتكرر تأخرها، وعلاقة المبلغ الإضافي ببدء التعثر أو استمراره. ثم يقارن تمديد المهلة ببدائل أخرى، مثل
+                  تدرج المبلغ الإضافي، أو إعفاء الجهة الملتزمة عند أول تأخر خلال السنة، أو وضع سقف للمبلغ الإضافي، أو
+                  إتاحة موعد استحقاق يتناسب مع دورة الرواتب. وبعد ذلك يختبر الفريق البديل الذي تدعمه البيانات على مجموعة
+                  محددة من جهات العمل قبل التعميم.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>توفر الدراسة بيانات تساعد صاحب الصلاحية على اختيار البديل الذي يساند الجهات الملتزمة، ويحافظ
+                  في الوقت نفسه على انتظام التدفقات المالية للصندوق.</dd>
+              </div>
+              <div>
+                <dt>ملاحظة</dt>
+                <dd>تمديد المهلة إلى نهاية الشهر يرفع نسبة «السداد في الموعد» حسابياً إلى نحو 70% دون أن يزيد المبلغ
+                  المحصّل. تفاصيل الدراسة في الملحق د.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="study">يحتاج دراسة</span><span class="tag">قد يحتاج
+                تعديل المهلة أو المبلغ الإضافي إلى تعديل اللائحة أو قرار من صاحب الصلاحية</span></div>
+          </article>
+        </div>
+
+        <div class="stage-title" id="stage-treatment" data-stage="3">
+          <h3>المرحلة 3 · المعالجة</h3><span>عند وجود عائق يمنع السداد الكامل</span>
+        </div>
+        <div class="enabler-grid">
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">10</span>
+              <h4>ملف واحد لكل جهة عمل</h4>
+            </div>
+            <p class="why">تتوزع معلومات المتابعة حالياً بين التقارير والاتصالات والرسائل والملفات، مما يصعّب على
+              الموظف تحديد آخر إجراء والخطوة التالية.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>سجل زمني واحد يجمع الفواتير والدفعات والتظلمات وخطط السداد والإشعارات والقرارات. ولكل موظف قائمة
+                  بالحالات المطلوبة منه وموعد كل إجراء. وتعرض البوابة لجهة العمل المعلومات المخصصة لها من السجل
+                  نفسه، بينما يعرض النظام للموظف البيانات والإجراءات اللازمة للمتابعة.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يساعد الملف الموحد الموظف على معرفة آخر إجراء والخطوة التالية، ويقلل تكرار التواصل مع جهة العمل
+                  ومدة معالجة الحالة.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">لا يحتاج قراراً
+                قانونياً</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">11</span>
+              <h4>التقسيط والشيكات في مسار إلكتروني واحد</h4>
+            </div>
+            <p class="why">يسجل الموظفون بيانات الشيكات يدوياً، ويفرزون الشيكات المرتجعة، ويعدون الخطابات، ويتابعون
+              كل حالة من خلال أكثر من سجل.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يجمع النظام طلب التقسيط واعتماده وبيانات كل شيك ونتيجة البنك والخطابات، ويحدث حالة القسط والخطة
+                  والحظر من السجل نفسه. ويوفر النظام نوعين من خطط السداد. يطبق النوع الأول شروطاً موحدة على المبالغ
+                  الواقعة ضمن حد معتمد، بينما يخصص النوع الثاني للحالات التي تحتاج إلى دراسة القدرة على السداد
+                  واعتماد من مستوى صلاحية أعلى.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>أخطاء أقل، ولا ملفات ورقية، ومعالجة أسرع للشيك المرتجع.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="existing">مطبق حالياً ويحتاج إلى تطوير</span><span
+                class="tag">يحتاج
+                اعتماد حدود الخطتين</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">12</span>
+              <h4>بديل إلكتروني للشيكات تدريجياً</h4>
+            </div>
+            <p class="why">يستخدم الصندوق الشيك كضمان للسداد، لكنه يتطلب إجراءات يدوية للاستلام والحفظ والإيداع
+              ومعالجة الشيكات المرتجعة ومتابعتها.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يعتمد الصندوق للحالات المؤهلة خطة سداد إلكترونية مرتبطة بتفويض للخصم المباشر بدلاً من الشيكات.
+                  وإذا لم تلتزم جهة العمل بالخطة، يستأنف النظام إجراءات المتابعة التي أوقفها عند اعتماد الخطة. كما
+                  تحدد التجربة الحالات التي تحتاج إلى ضمان إضافي.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>اعتماد أقل على الشيكات مع بقاء ضمان واضح.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="study">يحتاج دراسة</span><span class="tag">يحتاج
+                ضوابط قانونية ومصرفية</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">13</span>
+              <h4>مسار خاص للقطاع الحكومي</h4>
+            </div>
+            <p class="why">سددت الجهات الحكومية 55.3% من فواتيرها بصورة جزئية، وسددت 10.1% فقط كاملة في الموعد. وقد
+              يرتبط ذلك بالاعتمادات المالية ودورة إعداد الموازنة، ويحتاج الصندوق إلى التحقق من هذا الارتباط. كما
+              أن حظر الخدمات لا يمثل أداة مناسبة لمعالجة جميع الحالات الحكومية.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>فريق مخصص يتابع الجهات الحكومية، وينسق مع وزارة المالية قبل إعداد الموازنة لتخصيص اعتمادات
+                  الاشتراكات كاملة، ويعالج المتأخرات القائمة بتسوية مركزية أو مقاصة مع المستحقات وفق ما يُتفق عليه.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يساعد التنسيق مع وزارة المالية على معالجة أسباب السداد الجزئي على مستوى الاعتمادات والتسويات،
+                  بدلاً من متابعة كل فاتورة حكومية بصورة منفصلة.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">يحتاج اتفاقاً مع
+                وزارة المالية</span></div>
+          </article>
+        </div>
+
+        <div class="government-flow" role="img"
+          aria-label="المسار الحكومي المقترح: يصدر الصندوق الفاتورة، وتحدد الجهة الحكومية الاعتماد، وتنسق وزارة المالية السداد أو المقاصة، ثم يطابق النظام المبلغ ويغلق الحالة">
+          <div class="flow-title"><span>مسار مخصص</span><strong>تحصيل اشتراكات الجهات الحكومية</strong></div>
+          <ol>
+            <li><span>1</span><strong>إصدار الفاتورة</strong><small>الصندوق</small></li>
+            <li><span>2</span><strong>تحديد الاعتماد</strong><small>الجهة الحكومية</small></li>
+            <li><span>3</span><strong>تنسيق السداد</strong><small>وزارة المالية</small></li>
+            <li><span>4</span><strong>السداد أو المقاصة</strong><small>وفق الآلية المعتمدة</small></li>
+            <li><span>5</span><strong>المطابقة والإغلاق</strong><small>نظام الصندوق</small></li>
+          </ol>
+        </div>
+
+        <div class="stage-title" id="stage-escalation" data-stage="4">
+          <h3>المرحلة 4 · التصعيد</h3><span>عند عدم الاستجابة بعد المعالجة</span>
+        </div>
+        <div class="enabler-grid">
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">14</span>
+              <h4>حظر متدرج يرتبط بالحالة لا بالوقت وحده</h4>
+            </div>
+            <p class="why">الحظر اليوم يُطبق آلياً بعد مدة محددة، فتتلقى الحالات المختلفة الإجراء نفسه.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>قبل أي حظر، يتأكد النظام من صحة المبلغ وربط الدفعات وعدم وجود تظلم أو خطة ملتزم بها. ثم يصنف الحالة
+                  بخمسة عوامل واضحة، ويختار مستوى الحظر المناسب لها، ويرفعه فور زوال السبب. التفاصيل في القسم 5.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يتيح التصنيف تطبيق مستوى حظر يتناسب مع حالة جهة العمل، ويقلل أثر الحظر على المؤمن عليهم وعلى
+                  استمرار الخدمات الأساسية.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="existing">مطبق حالياً ويحتاج إلى تطوير</span><span
+                class="tag">يحتاج
+                اعتماد نطاق كل مستوى</span></div>
+          </article>
+          <article class="enabler">
+            <div class="enabler-head"><span class="enabler-number">15</span>
+              <h4>التحصيل بالتنفيذ الإداري</h4>
+            </div>
+            <p class="why">الحظر يدفع الجهة إلى السداد، لكنه لا يحصّل المبلغ. قانون تحصيل مستحقات الدولة يتيح للصندوق
+              تحصيله من أموال جهة العمل أو من مستحقاتها لدى وزارة المالية والجهات الأخرى.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>مسار مستقل عن الحظر: تنبيه رسمي بمهلة سبعة أيام، ثم قرار تنفيذ، ثم حجز ما يكون مستحقاً لجهة العمل
+                  لدى الجهات الحكومية وتخصيصه للصندوق. يبدأ بتجربة يدوية موثقة على حالات محدودة قبل أي أتمتة. ملخصه في
+                  القسم 5 وتفاصيله في الملحق أ.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>يتيح التنفيذ الإداري تحصيل المبالغ في الحالات التي لا يؤدي فيها حظر الخدمات إلى استجابة جهة
+                  العمل أو سداد المستحقات.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">يحتاج تأكيد
+                الدائرة القانونية وصلاحيات ونماذج معتمدة</span></div>
+          </article>
+          <article class="enabler wide">
+            <div class="enabler-head"><span class="enabler-number">16</span>
+              <h4>تكامل منظم مع الجهات الحكومية</h4>
+            </div>
+            <p class="why">تتأخر تحديثات السجل التجاري وحالات الحظر ورفعه، ولا تحدد الاتفاقيات الحالية بصورة موحدة
+              البيانات التي يتبادلها الصندوق مع كل جهة، ومصدر كل بيان، وموعد تحديثه.
+            </p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>يحدد الصندوق مع كل جهة البيانات المطلوبة، ومصدر كل بيان، ومدة تحديثه، والخدمات التي يشملها كل مستوى
+                  حظر، وآلية رفع الحظر. ثم يختبر الفريق الربط وتبادل البيانات قبل التوسع في التطبيق.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>بيانات أحدث، وحظر أدق، ورفع أسرع.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="existing">مطبق حالياً ويحتاج إلى تطوير</span><span
+                class="tag">يحتاج
+                اتفاقيات مع الجهات</span></div>
+          </article>
+        </div>
+
+        <div class="stage-title" id="stage-team">
+          <h3>في كل المراحل</h3><span>الفريق وطريقة العمل</span>
+        </div>
+        <div class="enabler-grid">
+          <article class="enabler wide">
+            <div class="enabler-head"><span class="enabler-number">17</span>
+              <h4>فريق التحصيل وطريقة عمله</h4>
+            </div>
+            <p class="why">يتطلب تنفيذ الإطار تحديد الأدوار والمسؤوليات إلى جانب تطوير الأنظمة التقنية، ووضع مدد
+              محددة للرد، وتوفير متابعة خاصة للجهات الكبيرة، وتنفيذ برامج توعية مستمرة.</p>
+            <dl>
+              <div>
+                <dt>ماذا سيتغير؟</dt>
+                <dd>تحديد الموظف أو الوحدة المسؤولة عن تنفيذ كل خطوة، وصاحب الصلاحية الذي يعتمد القرار عند الحاجة،
+                  مع تحديد مدة قصوى للرد على كل طلب، وموظف مسؤول عن متابعة كل جهة عمل كبيرة، وخطة تواصل توضح
+                  لجهات العمل التغييرات وموعد تطبيقها.</dd>
+              </div>
+              <div>
+                <dt>الفائدة</dt>
+                <dd>تعرف جهة العمل قناة التواصل المناسبة لكل طلب، ويعرف كل موظف الحالات والإجراءات المسؤول عن
+                  متابعتها.</dd>
+              </div>
+            </dl>
+            <div class="enabler-tags"><span class="tag" data-state="new">جديد</span><span class="tag">قرار تنظيمي
+                داخلي</span></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="escalation" data-title="قواعد التصعيد والحظر" data-number="5">
+        <div class="section-heading"><span class="section-number">5</span>
+          <div><span class="section-eyebrow">الحظر آخر المسار لا أوله</span>
+            <h2>قواعد التصعيد والحظر</h2>
+          </div>
+        </div>
+        <div class="reading-panel"><span>الخلاصة</span>
+          <p>يتحقق النظام أولاً من استيفاء الحالة لشروط التصعيد، ثم يعرض نتيجة تقييم العوامل المعتمدة، وبعد ذلك يحدد
+            مستوى التصعيد المناسب ليراجعه الموظف عند الحاجة. ويمثل التنفيذ الإداري مساراً مستقلاً لتحصيل المبلغ، ولا
+            يعد مستوى من مستويات الحظر.</p>
+        </div>
+        <div class="decision-flow" role="img"
+          aria-label="مسار قرار التصعيد: التحقق من صلاحية المبلغ، ثم استبعاد الحالات التي تحتاج إلى معالجة، ثم تقييم حالة جهة العمل، ثم اختيار الإجراء المتناسب ومتابعة نتيجته">
+          <article><span>1</span><strong>التحقق من المبلغ</strong><small>صحة الفاتورة وربط الدفعات</small></article>
+          <article><span>2</span><strong>استبعاد حالات المعالجة</strong><small>تظلم مفتوح أو خطة ملتزم بها</small>
+          </article>
+          <article><span>3</span><strong>تقييم حالة الجهة</strong><small>الالتزام والمبلغ والاستجابة والأثر</small>
+          </article>
+          <article><span>4</span><strong>اختيار الإجراء</strong><small>مساعدة أو إنذار أو حظر متدرج</small></article>
+          <article class="decision-result"><span>5</span><strong>متابعة النتيجة</strong><small>إيقاف التصعيد عند زوال
+              السبب</small></article>
+        </div>
+
+        <h3>أولاً: هل الحالة صالحة للتصعيد أصلاً؟</h3>
+        <p class="prose">يستبعد النظام من التصعيد مؤقتاً أي حالة ينطبق عليها واحد مما يلي: خطأ مؤثر في الفاتورة، أو دفعة
+          لم تُربط بعد، أو تظلم مفتوح على المبلغ، أو خطة سداد ملتزم بها.</p>
+
+        <h3>ثانياً: كيف يحدد النظام مستوى خطورة الحالة؟</h3>
+        <p class="prose">يقيّم النظام الحالة باستخدام خمسة عوامل معتمدة، ويعرض للموظف نتيجة كل عامل والبيانات التي أدت
+          إليها:</p>
+        <div class="factor-chart" aria-label="عوامل تقييم حالة جهة العمل وأوزانها">
+          <article style="--weight:100%"><div><strong>الالتزام في آخر 6 أشهر</strong><span>30</span></div><p>نسبة الفواتير المسددة كاملة وفي موعدها.</p><i></i></article>
+          <article style="--weight:83.33%"><div><strong>عمر المبالغ المستحقة</strong><span>25</span></div><p>عمر أقدم مبلغ مؤكد بعد استبعاد محل التظلم.</p><i></i></article>
+          <article style="--weight:66.67%"><div><strong>حجم المبالغ المستحقة</strong><span>20</span></div><p>المبلغ مقارنة بمتوسط الاشتراك الشهري.</p><i></i></article>
+          <article style="--weight:50%"><div><strong>الاستجابة</strong><span>15</span></div><p>الرد على الإشعارات والالتزام بخطط سابقة.</p><i></i></article>
+          <article style="--weight:33.33%"><div><strong>حجم المنشأة والأثر</strong><span>10</span></div><p>عدد العاملين وأثر الحظر على المؤمن عليهم.</p><i></i></article>
+        </div>
+        <div class="risk-bands" aria-label="نطاقات درجة الحالة">
+          <article data-risk="low"><strong>منخفضة</strong><span>0–24</span><small>تذكير آلي ومتابعة السداد</small></article>
+          <article data-risk="medium"><strong>متوسطة</strong><span>25–49</span><small>تواصل مباشر ودراسة المعالجة</small></article>
+          <article data-risk="high"><strong>مرتفعة</strong><span>50–74</span><small>إنذار رسمي ومراجعة الموظف</small></article>
+          <article data-risk="critical"><strong>حرجة</strong><span>75–100</span><small>تحديد مستوى الحظر المناسب</small></article>
+        </div>
+        <div class="callout"><strong>نوع القطاع يحدد المسار ولا يرفع الدرجة بذاته.</strong> أدوات المتابعة المتاحة مع
+          الجهات الحكومية تختلف عن الخاصة، فيُستخدم نوع القطاع لتوجيه الحالة إلى مسارها، لا للحكم على التزامها.</div>
+
+        <h3>ثالثاً: مستويات التصعيد</h3>
+        <p class="prose">مرور الوقت وحده لا يكفي للانتقال بين المستويات؛ تنتقل الحالة بدرجتها واستجابتها.</p>
+        <div class="escalation-ladder" data-level-router>
+          <div class="level-tabs" role="tablist" aria-label="مستويات التصعيد">
+            <button type="button" class="active" data-level="1" aria-selected="true"><span>1</span>تذكير ومساعدة</button>
+            <button type="button" data-level="2" aria-selected="false"><span>2</span>إنذار رسمي</button>
+            <button type="button" data-level="3" aria-selected="false"><span>3</span>حظر محدود</button>
+            <button type="button" data-level="4" aria-selected="false"><span>4</span>حظر موسع</button>
+            <button type="button" data-level="5" aria-selected="false"><span>5</span>مسار قانوني</button>
+          </div>
+          <div class="level-panels">
+            <article data-level-panel="1"><div><span>متى يبدأ؟</span><p>قبل الاستحقاق وحتى ثلاثين يوماً بعده.</p></div><div><span>الإجراء</span><p>إشعار ورابط سداد وتوجيه الأخطاء وطلبات المساعدة دون حظر.</p></div><div><span>متى يتوقف؟</span><p>عند السداد أو قبول طلب معالجة يبرر الإيقاف المؤقت.</p></div></article>
+            <article data-level-panel="2" hidden><div><span>متى يبدأ؟</span><p>بعد ثلاثين يوماً عندما يكون المبلغ مؤكداً ولا يوجد تظلم أو خطة.</p></div><div><span>الإجراء</span><p>إنذار يوضح المبلغ والمهلة والخيارات والخطوة التالية، دون حظر خلال المهلة.</p></div><div><span>متى يتوقف؟</span><p>عند السداد أو اعتماد خطة أو ثبوت سبب يستبعد التصعيد.</p></div></article>
+            <article data-level-panel="3" hidden><div><span>متى يبدأ؟</span><p>بعد ستين يوماً للحالة المرتفعة أو الحرجة وبعد انتهاء مهلة الإنذار.</p></div><div><span>الإجراء</span><p>حظر آلي محدود على معاملات غير ضرورية، بأضيق نطاق يحقق الغرض.</p></div><div><span>متى يتوقف؟</span><p>يرفعه النظام عند السداد أو اعتماد الخطة خلال مدة الخدمة المحددة.</p></div></article>
+            <article data-level-panel="4" hidden><div><span>متى يبدأ؟</span><p>بعد مراجعة أثر الحظر المحدود واستمرار عدم الاستجابة.</p></div><div><span>الإجراء</span><p>يوسع صاحب الصلاحية نطاق الحظر إلى خدمات إضافية محددة مسبقاً.</p></div><div><span>متى يتوقف؟</span><p>عند السداد أو التسوية، مع متابعة اكتمال رفع الحظر لدى الجهات.</p></div></article>
+            <article data-level-panel="5" hidden><div><span>متى يبدأ؟</span><p>عند وجود شيك مرتجع أو إفلاس أو نزاع أو حالة لا يعالجها الحظر.</p></div><div><span>الإجراء</span><p>تراجع الدائرة القانونية الملف وتحدد الإجراء الذي يسمح به القانون.</p></div><div><span>متى يتوقف؟</span><p>عند تنفيذ القرار القانوني أو اعتماد تسوية.</p></div></article>
+          </div>
+        </div>
+
+        <h3>التحصيل بالتنفيذ الإداري باختصار</h3>
+        <div class="path-contrast">
+          <article><span>الحظر</span>
+            <h4>يوقف خدمات محددة</h4>
+            <p>يدفع جهة العمل إلى معالجة التأخر، ويتدرج مع الحالة.</p>
+          </article>
+          <article><span>التنفيذ الإداري</span>
+            <h4>يحصّل المبلغ نفسه</h4>
+            <p>من أموال جهة العمل أو مستحقاتها لدى الجهات الحكومية، وفق المرسوم السلطاني رقم 77/2025. مسار مستقل، وقد
+              يسير بتوقيت مختلف عن الحظر.</p>
+          </article>
+        </div>
+        <p class="prose"><b>متى تدخل الحالة هذا المسار؟</b> عندما يكون المبلغ مؤكداً ومحدد القيمة وحلّ موعده، واكتملت
+          المطابقة ولا تظلم يؤثر في قيمته، ولا إفلاس ولا مانع نظامي، وأكدت الدائرة القانونية انطباق القانون وصاحب صلاحية
+          القرار.</p>
+        <a class="appendix-link" href="#appendix-a">عرض شروط التنفيذ الإداري وخطواته وضوابطه في الملحق أ</a>
+      </section>
+
+      <section id="roadmap" data-title="خارطة الطريق والقياس" data-number="6">
+        <div class="section-heading"><span class="section-number">6</span>
+          <div><span class="section-eyebrow">يبدأ التنفيذ بتحديد الأساس ثم يتوسع تدريجياً</span>
+            <h2>خارطة الطريق والقياس</h2>
+          </div>
+        </div>
+        <div class="reading-panel"><span>الخلاصة</span>
+          <p>تتكون خارطة الطريق من ثلاث مراحل: تحديد آليات التحصيل المعتمدة، ثم تطوير الأنظمة التقنية الداعمة واختبارها،
+            ثم التطبيق الفعلي والتوسع. ويقيس الصندوق النتائج بعد كل مرحلة للتحقق من الفعالية والكفاءة.</p>
+        </div>
+        <div class="wave-grid">
+          <article class="wave-card"><span>المرحلة 1</span>
+            <h4>تثبيت الأساس</h4>
+            <ul>
+              <li>خط الأساس ومصادر البيانات.</li>
+              <li>توحيد حالات الفاتورة والدفعة والخطة والشيك.</li>
+              <li>تصحيح بيانات التواصل.</li>
+              <li>اعتماد شروط الاستبعاد وعوامل التصنيف.</li>
+              <li>بدء دراسة مهلة السداد (الملحق د).</li>
+            </ul>
+          </article>
+          <article class="wave-card"><span>المرحلة 2</span>
+            <h4>الرقمنة والتجربة</h4>
+            <ul>
+              <li>ربط الدفعات آلياً وملف جهة العمل الواحد.</li>
+              <li>البيان التقديري (حاسبة فورية) وكشف الحساب.</li>
+              <li>مسار التقسيط والشيكات الإلكتروني.</li>
+              <li>اختبار التصنيف على بيانات حقيقية دون أثر على جهات العمل.</li>
+              <li>تجربة التنفيذ الإداري يدوياً على عينة.</li>
+            </ul>
+          </article>
+          <article class="wave-card"><span>المرحلة 3</span>
+            <h4>التطبيق والتوسع</h4>
+            <ul>
+              <li>مستويات الحظر بعد اعتماد نطاق كل مستوى.</li>
+              <li>الخصم المباشر والمسار الحكومي.</li>
+              <li>البيان التقديري بمراحله التالية.</li>
+              <li>ما تثبت جدواه من التكاملات وبدائل الشيكات.</li>
+              <li>مراجعة النتائج كل ستة أشهر.</li>
+            </ul>
+          </article>
+        </div>
+        <h3>كيف يقيس الصندوق فعالية الإطار وكفاءة تطبيقه؟</h3>
+        <div class="indicator-dashboard">
+          <article><span>نتائج التحصيل</span><strong>3 مؤشرات</strong><small>السداد في الموعد، والفواتير غير المسددة، والمتأخرات المحصلة</small></article>
+          <article><span>دقة العمليات</span><strong>3 مؤشرات</strong><small>ربط الدفعات، وتعديل الفواتير، ومعالجة الشيك المرتجع</small></article>
+          <article><span>استدامة المعالجة</span><strong>مؤشران</strong><small>انتظام خطط السداد، ونتيجة كل مستوى تصعيد</small></article>
+          <article class="baseline"><span>خط الأساس المتاح</span><strong>53.8% خاص</strong><small>10.1% حكومي سداد كامل في الموعد</small></article>
+        </div>
+        <details class="inline-details">
+          <summary>عرض تعريف المؤشرات وخطوط الأساس</summary>
+          <div class="table-wrap">
+            <table>
+            <thead>
+              <tr>
+                <th scope="col">المؤشر</th>
+                <th scope="col">ما الذي يقيسه؟</th>
+                <th scope="col">خط الأساس</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">السداد الكامل في الموعد</th>
+                <td>الفواتير المسددة كاملة قبل الاستحقاق من إجمالي الفواتير.</td>
+                <td class="num">53.8% خاص · 10.1% حكومي</td>
+              </tr>
+              <tr>
+                <th scope="row">الفواتير غير المسددة</th>
+                <td>الفواتير التي لم تُسدد خلال الفترة.</td>
+                <td class="num">27.5% خاص · 24.5% حكومي</td>
+              </tr>
+              <tr>
+                <th scope="row">المتأخرات المحصّلة</th>
+                <td>ما حُصّل خلال الفترة من المتأخرات القائمة في بدايتها.</td>
+                <td>يُحدد في المرحلة 1</td>
+              </tr>
+              <tr>
+                <th scope="row">الدفعات المربوطة آلياً</th>
+                <td>الدفعات التي ربطها النظام بفاتورتها دون تدخل.</td>
+                <td>يُحدد في المرحلة 1</td>
+              </tr>
+              <tr>
+                <th scope="row">الفواتير المعدّلة بعد الإصدار</th>
+                <td>الفواتير التي احتاجت تعديلاً بعد صدورها.</td>
+                <td>يُحدد في المرحلة 1</td>
+              </tr>
+              <tr>
+                <th scope="row">زمن معالجة الشيك المرتجع</th>
+                <td>من استلام نتيجة البنك حتى السداد أو الإجراء التالي.</td>
+                <td>يُحدد في المرحلة 1</td>
+              </tr>
+              <tr>
+                <th scope="row">خطط السداد المنتظمة</th>
+                <td>الخطط التي سُددت أقساطها وفواتيرها الجديدة في مواعيدها.</td>
+                <td>يُحدد في المرحلة 1</td>
+              </tr>
+              <tr>
+                <th scope="row">السداد بعد كل مستوى تصعيد</th>
+                <td>الجهات التي سددت بعد كل مستوى، ومدة رفع الحظر بعد السداد.</td>
+                <td>يُحدد في المرحلة 1</td>
+              </tr>
+            </tbody>
+            </table>
+          </div>
+        </details>
+      </section>
+
+      <details class="appendix" id="appendix-a" data-title="التنفيذ الإداري تفصيلاً" data-number="أ">
+        <summary><span class="section-number appendix">أ</span>
+          <h2>ملحق أ · التحصيل بالتنفيذ الإداري تفصيلاً</h2><span class="toggle">اضغط للعرض</span>
+        </summary>
+        <div class="appendix-body">
+          <p class="prose">السند: المرسوم السلطاني رقم 77/2025 بإصدار قانون تحصيل مستحقات الدولة (<a
+              href="https://qanoon.om/p/2025/rd2025077/" target="_blank" rel="noopener noreferrer">نص القانون</a>). يطبق
+            الصندوق المسار بعد اعتماد انطباقه والصلاحيات والنماذج والإجراءات التنفيذية.</p>
+          <h3>شروط الدخول</h3>
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">مبلغ مستوفٍ لشروط التنفيذ الإداري</th>
+                  <td>المبلغ قائم ومحدد القيمة، وموعد سداده قد حلّ.</td>
+                </tr>
+                <tr>
+                  <th scope="row">اكتمال المطابقة والتسويات ومعالجة الاعتراضات المؤثرة في المبلغ</th>
+                  <td>لا دفعات غير مربوطة، ولا تسويات ناقصة، ولا تظلم يؤثر في قيمة المبلغ.</td>
+                </tr>
+                <tr>
+                  <th scope="row">جهة مؤهلة</th>
+                  <td>لا إفلاس، والتحقق من نسبة الملكية الحكومية وأي مانع نظامي آخر.</td>
+                </tr>
+                <tr>
+                  <th scope="row">اكتمال المتطلبات القانونية والإجرائية</th>
+                  <td>تأكيد الدائرة القانونية لانطباق القانون واللائحة السارية وصاحب الصلاحية والنماذج.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>الخطوات والمهل</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">الخطوة</th>
+                  <th scope="col">المهلة</th>
+                  <th scope="col">التفصيل</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>تثبيت المبلغ</td>
+                  <td>قبل بدء المسار</td>
+                  <td>تعتمد دائرة الاشتراكات كشفاً بأصل المبلغ والفترات وتاريخ الاستحقاق والسند، بعد المطابقة والتسوية.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>التنبيه بوجوب الأداء</td>
+                  <td>7 أيام</td>
+                  <td>تنبيه رسمي لجهة العمل مع إثبات تاريخ التبليغ ونسخة لوزارة المالية وفق الإجراء المعتمد. ليس رسالة
+                    تذكير عادية.</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>تحديد المستحقات</td>
+                  <td>رد الجهات خلال 30 يوماً عند طلب البيانات</td>
+                  <td>تحدد الجهات المعنية المبالغ المستحقة لجهة العمل لديها، تمهيداً لتخصيص المبلغ الذي يسمح به القرار
+                    لسداد دين الصندوق.</td>
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>إصدار قرار التنفيذ</td>
+                  <td>بعد انتهاء مهلة التنبيه دون سداد</td>
+                  <td>قرار من صاحب الصلاحية يتضمن بيانات جهة العمل وقيمة المبلغ ونوعه وتواريخ استحقاقه وسنده.</td>
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>الحجز والتخصيص</td>
+                  <td>في حدود المبلغ المطلوب</td>
+                  <td>تحجز الجهة المعنية ما لديها لجهة العمل وتخصص المبلغ لحساب الصندوق.</td>
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>التسوية والإغلاق</td>
+                  <td>فور ورود نتيجة التحصيل</td>
+                  <td>تطابق الدائرة المالية المبلغ، وتعدل الجهة صاحبة الصلاحية القرار عند السداد الجزئي أو تلغيه عند
+                    السداد الكامل. وتخطر الجهة التي أصدرت قرار الحجز الطرف المعني برفعه خلال ثلاثة أيام من اكتمال
+                    السداد.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>كيف تنتهي الحالة؟</h3>
+          <ul>
+            <li><b>سداد كامل:</b> إغلاق الحالة وإلغاء القرار، أو عدم إصداره إذا تم السداد خلال مهلة التنبيه.</li>
+            <li><b>سداد جزئي:</b> تحديث الرصيد وتعديل القرار ليقتصر على المتبقي.</li>
+            <li><b>تقسيط معتمد:</b> إيقاف التنفيذ وفق الصلاحية، واستئنافه إذا تخلفت الجهة عن قسط.</li>
+            <li><b>لا مستحقات لدى الجهات:</b> بقاء الحالة تحت المتابعة أو اختيار إجراء آخر بعد مراجعة الدائرة القانونية.
+            </li>
+          </ul>
+          <h3>من يفعل ماذا؟</h3>
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">دائرة الاشتراكات</th>
+                  <td>تثبت المبلغ، وتفحص شروط الدخول، وتعد الملف، وتتابع النتيجة.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الدائرة القانونية</th>
+                  <td>تؤكد انطباق القانون واللائحة، وتراجع النماذج والموانع والمنازعات.</td>
+                </tr>
+                <tr>
+                  <th scope="row">صاحب الصلاحية</th>
+                  <td>يصدر قرار التنفيذ بعد اكتمال الملف وفق التفويض.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الدائرة المالية</th>
+                  <td>تطابق المبالغ الواردة وتسجلها وتؤكد الرصيد المتبقي.</td>
+                </tr>
+                <tr>
+                  <th scope="row">وزارة المالية والجهات المعنية</th>
+                  <td>توفر البيانات، وتحجز المستحق، وتخصصه لحساب الصندوق وفق القرار.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الحلول الرقمية</th>
+                  <td>سجل الحالة والمهل والمستندات والصلاحيات والتكاملات بعد نجاح التجربة.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>ضوابط لا يجوز تجاوزها</h3>
+          <ul>
+            <li>لا يفرض الصندوق أكثر من مبلغ إضافي عن واقعة التأخر نفسها.</li>
+            <li>لا يتجاوز الحجز قيمة المستحقات والمصروفات التي يسمح بها القانون.</li>
+            <li>الفصل بين إعداد الملف ومراجعته وإصدار القرار وتأكيد التحصيل.</li>
+            <li>بعد صدور القرار لا يُوقف أو يُلغى إلا في الحالات التي يسمح بها القانون.</li>
+            <li>يحتفظ النظام بسجل يوثق كل مبلغ وتنبيه وقرار وإخطار وتحويل، مع تاريخ الإجراء واسم المسؤول عنه.</li>
+            <li>بيانات الأموال والتراخيص تُستخدم لغرض التحصيل فقط وبحسب الصلاحيات.</li>
+          </ul>
+          <h3>مراحل التجربة</h3>
+          <ol>
+            <li><b>الجاهزية:</b> الرأي القانوني والصلاحيات والنماذج وقناة العمل مع وزارة المالية.</li>
+            <li><b>اختبار الخطوات دون تنفيذ فعلي:</b> يختبر الفريق جميع خطوات المسار على عينة صغيرة من الحالات من دون
+              إصدار قرارات تنفيذ فعلية، للتأكد من اكتمال البيانات والمستندات.</li>
+            <li><b>تطبيق محدود:</b> حالات مؤهلة، وقياس السداد بعد التنبيه، والتحصيل من الجهات، وزمن الإغلاق.</li>
+          </ol>
+        </div>
+      </details>
+
+      <details class="appendix" id="appendix-b" data-title="تجارب أخرى" data-number="ب">
+        <summary><span class="section-number appendix">ب</span>
+          <h2>ملحق ب · تجارب أخرى</h2><span class="toggle">اضغط للعرض</span>
+        </summary>
+        <div class="appendix-body">
+          <div class="benchmark-cards">
+            <article><span>مرجع دولي</span><h3>الوقاية والتدخل المبكر</h3><p>تبدأ إدارة المستحقات قبل تراكمها من خلال فاتورة صحيحة وتذكير وتواصل مستمر.</p><a href="https://www.oecd.org/en/publications/successful-tax-debt-management_e8fdb816-en.html" target="_blank" rel="noopener noreferrer">منظمة التعاون الاقتصادي والتنمية</a></article>
+            <article><span>المملكة المتحدة</span><h3>المعالجة حسب القدرة والسلوك</h3><p>تختلف معالجة التعثر المؤقت عن معالجة عدم الاستجابة لإجراءات المتابعة.</p><a href="https://www.gov.uk/hmrc-internal-manuals/debt-management-and-banking/dmbm800050" target="_blank" rel="noopener noreferrer">هيئة الإيرادات والجمارك البريطانية</a></article>
+            <article><span>مرجع دولي</span><h3>الإجراء حسب حالة الجهة</h3><p>يُختار الإجراء وفق سجل السداد وعمر المستحقات وحجمها والاستجابة.</p><a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2014/10/working-smarter-in-tax-debt-management_g1g496ee/9789264223257-en.pdf" target="_blank" rel="noopener noreferrer">منظمة التعاون الاقتصادي والتنمية</a></article>
+            <article><span>السعودية</span><h3>قناة دفع موحدة</h3><p>تتيح المؤسسة سداد الاشتراكات عبر نظام سداد من القنوات البنكية.</p><a href="https://www.gosi.gov.sa/GOSIOnline/E-Services_Channels?locale=en_US" target="_blank" rel="noopener noreferrer">المؤسسة العامة للتأمينات الاجتماعية</a></article>
+            <article><span>الإمارات</span><h3>حماية الأجور</h3><p>يربط النظام بيانات المنشآت بجهات مالية معتمدة لتنفيذ تحويلات الرواتب ومتابعتها.</p><a href="https://www.mohre.gov.ae/ar/media-center/news/10/12/2025/mohre-launches-new-update-for-the-wage-protection-system" target="_blank" rel="noopener noreferrer">وزارة الموارد البشرية والتوطين</a></article>
+            <article><span>البحرين</span><h3>الخصم المباشر</h3><p>يمكن لصاحب العمل طلب خصم فاتورة الاشتراكات مباشرة من حسابه البنكي.</p><a href="https://www.sio.gov.bh/en/direct-debit-installment" target="_blank" rel="noopener noreferrer">الهيئة العامة للتأمين الاجتماعي</a></article>
+            <article><span>ماليزيا</span><h3>ربط الرواتب بالاشتراكات</h3><p>تدير المنشآت الصغيرة بيانات الرواتب وتحتسب الاشتراكات وتسددها من خلال خدمة إلكترونية واحدة.</p><a href="https://www.kwsp.gov.my/en/employer/online-platform/e-payroll" target="_blank" rel="noopener noreferrer">صندوق ادخار الموظفين</a></article>
+            <article><span>سنغافورة</span><h3>تقديم وسداد موحد</h3><p>تحتسب الخدمة الاشتراكات وتتيح سدادها بالخصم المباشر أو رمز دفع سريع، مع أمر شهري للحالات المستقرة.</p><a href="https://www.cpf.gov.sg/employer/making-cpf-contributions/submitting-cpf-contributions-via-cpf-ezpay" target="_blank" rel="noopener noreferrer">مجلس صندوق الادخار المركزي</a></article>
+          </div>
+        </div>
+      </details>
+
+      <details class="appendix" id="appendix-c" data-title="المصطلحات" data-number="ج">
+        <summary><span class="section-number appendix">ج</span>
+          <h2>ملحق ج · المصطلحات كما تُستخدم في هذه الوثيقة</h2><span class="toggle">اضغط للعرض</span>
+        </summary>
+        <div class="appendix-body">
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">جهة العمل</th>
+                  <td>المنشأة أو الجهة الحكومية المسجلة في الصندوق والملزمة بسداد الاشتراكات. ويستخدم مصطلح «صاحب العمل»
+                    عند الإشارة إلى الشخص المفوض بالتعامل مع بوابة جهة العمل.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الفاتورة</th>
+                  <td>إشعار السداد الشهري الذي يصدره النظام بالمبلغ المستحق وموعده.</td>
+                </tr>
+                <tr>
+                  <th scope="row">مهلة السداد</th>
+                  <td>الفترة من اليوم الأول إلى اليوم الخامس عشر بعد الاستحقاق، ويمكن لجهة العمل خلالها السداد دون
+                    احتساب
+                    مبلغ إضافي.</td>
+                </tr>
+                <tr>
+                  <th scope="row">المبلغ الإضافي للتأخر</th>
+                  <td>المبلغ الإضافي الذي يُحتسب على الفاتورة بعد انتهاء المهلة وفق النسبة المقررة.</td>
+                </tr>
+                <tr>
+                  <th scope="row">المطابقة</th>
+                  <td>ربط الدفعة الواردة بالفاتورة الصحيحة وتحديث الرصيد.</td>
+                </tr>
+                <tr>
+                  <th scope="row">التظلم</th>
+                  <td>طلب تقدمه جهة العمل للاعتراض على قيمة الفاتورة أو جزء منها، ويسجل النظام الطلب والمستندات والقرار
+                    الصادر بشأنه.</td>
+                </tr>
+                <tr>
+                  <th scope="row">خطة السداد</th>
+                  <td>تقسيط المتأخرات على دفعات معتمدة مع استمرار سداد الفواتير الجديدة.</td>
+                </tr>
+                <tr>
+                  <th scope="row">المعالجة</th>
+                  <td>الإجراءات التي ينفذها النظام أو الموظف لمعالجة سبب عدم السداد قبل بدء التصعيد، وتشمل تصحيح
+                    الفاتورة،
+                    أو ربط الدفعة، أو دراسة خطة السداد، أو البت في التظلم.</td>
+                </tr>
+                <tr>
+                  <th scope="row">التصعيد</th>
+                  <td>الإجراءات التي تبدأ عند عدم الاستجابة: الإنذار، ثم الحظر، ثم التنفيذ الإداري أو المسار القانوني.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">الحظر</th>
+                  <td>إيقاف خدمات محددة عن جهة العمل حتى تعالج حالتها. <b>محدود</b> على معاملات غير ضرورية، أو
+                    <b>موسع</b> على خدمات إضافية بقرار من صاحب الصلاحية.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">التنفيذ الإداري</th>
+                  <td>تحصيل المبلغ من أموال جهة العمل أو مستحقاتها لدى الجهات الحكومية وفق قانون تحصيل مستحقات الدولة.
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">التنبيه بوجوب الأداء</th>
+                  <td>التنبيه الرسمي الذي يسبق قرار التنفيذ الإداري، بمهلة سبعة أيام.</td>
+                </tr>
+                <tr>
+                  <th scope="row">البيان التقديري</th>
+                  <td>تقدير غير ملزم يعرض لصاحب العمل أثر تغيير ينوي إجراءه على اشتراكه قبل صدور الفاتورة.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الخصم المباشر</th>
+                  <td>تفويض من جهة العمل للبنك بخصم الفاتورة أو القسط في موعده.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الدرجة</th>
+                  <td>نتيجة من 100 تحسبها عوامل التصنيف الخمسة وتحدد مستوى التصعيد.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+
+      <details class="appendix" id="appendix-d" data-title="دراسة مهلة السداد" data-number="د">
+        <summary><span class="section-number appendix">د</span>
+          <h2>ملحق د · دراسة مهلة السداد والمبلغ الإضافي</h2><span class="toggle">اضغط للعرض</span>
+        </summary>
+        <div class="appendix-body">
+          <p class="prose">تهدف الدراسة إلى التحقق مما إذا كان المبلغ الإضافي يسهم في استمرار تعثر بعض جهات العمل،
+            وتحديد البديل الذي يساند الجهات الملتزمة من دون التأثير سلباً في التدفقات المالية للصندوق.</p>
+          <h3>الأسئلة التي يجب أن تجيب عنها البيانات</h3>
+          <ol class="study-questions">
+            <li>في أي يوم من الشهر تسدد الجهات فعلاً؟ هل تتجمع المدفوعات عند اليوم 15 أم تمتد حتى آخره؟</li>
+            <li>هل تتكرر حالات التأخر لدى نسبة 16.8% من جهات العمل نفسها كل شهر، أم تحدث لدى جهات مختلفة لأسباب مؤقتة؟
+            </li>
+            <li>ما نسبة المبلغ الإضافي إلى أصل الاشتراك لدى الجهات المتعثرة؟ وهل بدأ تراكمه قبل ظهور التعثر المالي أم
+              بعده؟</li>
+            <li>ما العلاقة بين يوم السداد ويوم صرف الرواتب في المنشأة؟ (بيانات نظام حماية الأجور تساعد هنا)</li>
+            <li>كم يكلف الصندوق تأخير التحصيل 15 يوماً عن كل الجهات، مقارنة بالغرامات التي سيتنازل عنها؟</li>
+            <li>كم عدد الجهات المتعثرة حالياً التي كانت تسدد داخل الشهر قبل تعثرها؟ تساعد الإجابة عن هذا السؤال على
+              التحقق من العلاقة بين التأخر القصير وبدء التعثر المالي.</li>
+          </ol>
+          <h3>الخيارات التي تُقارن</h3>
+          <div class="study-options">
+            <article><span>01</span><h4>تمديد المهلة</h4><dl><div><dt>طريقة العمل</dt><dd>تمتد المهلة إلى نهاية الشهر بدلاً من اليوم الخامس عشر.</dd></div><div><dt>الأثر المتوقع</dt><dd>يرتفع مؤشر السداد في الموعد إلى نحو 70% دون زيادة المبلغ المحصل، مع احتمال تأخير التدفقات المالية.</dd></div><div><dt>المتطلب</dt><dd>تعديل اللائحة أو قرار من صاحب الصلاحية.</dd></div></dl></article>
+            <article><span>02</span><h4>مبلغ إضافي متدرج</h4><dl><div><dt>طريقة العمل</dt><dd>يحتسب مبلغ محدود خلال الأيام من 16 إلى 30، ثم يزيد تدريجياً.</dd></div><div><dt>الأثر المتوقع</dt><dd>يخفف العبء عن الجهة التي تتأخر أياماً قليلة دون تغيير موعد الاستحقاق.</dd></div><div><dt>المتطلب</dt><dd>تعديل جدول المبلغ الإضافي.</dd></div></dl></article>
+            <article><span>03</span><h4>إعفاء أول تأخر</h4><dl><div><dt>طريقة العمل</dt><dd>تعفى الجهة الملتزمة من المبلغ الإضافي عند أول تأخر خلال اثني عشر شهراً.</dd></div><div><dt>الأثر المتوقع</dt><dd>يساعد الجهات الملتزمة عند حدوث تأخر مؤقت مع استمرار تشجيع السداد في الموعد.</dd></div><div><dt>المتطلب</dt><dd>سماح الضوابط القانونية واعتماد صاحب الصلاحية.</dd></div></dl></article>
+            <article><span>04</span><h4>سقف للمبلغ الإضافي</h4><dl><div><dt>طريقة العمل</dt><dd>لا يتجاوز المبلغ المتراكم نسبة محددة من أصل الاشتراك.</dd></div><div><dt>الأثر المتوقع</dt><dd>يحد من تحول التأخر إلى تعثر بسبب تراكم المبلغ الإضافي.</dd></div><div><dt>المتطلب</dt><dd>تعديل جدول المبلغ الإضافي.</dd></div></dl></article>
+            <article><span>05</span><h4>موعد تختاره الجهة</h4><dl><div><dt>طريقة العمل</dt><dd>تختار الجهة يوم استحقاق ثابتاً يتوافق مع دورة رواتبها.</dd></div><div><dt>الأثر المتوقع</dt><dd>يوائم موعد السداد مع التدفقات المالية لكل منشأة.</dd></div><div><dt>المتطلب</dt><dd>مراجعة الدائرة القانونية لمدى سماح النص بذلك.</dd></div></dl></article>
+          </div>
+          <h3>كيف ينفذ الصندوق التجربة؟</h3>
+          <p class="prose">يختار فريق الدراسة البديل الذي تدعمه البيانات، ويطبقه لمدة ثلاثة أشهر على مجموعة محددة من
+            جهات العمل، ويقارن نتائجها بمجموعة مشابهة لا يشملها التطبيق. ويقيس الفريق نسبة السداد في الموعد، والمبلغ
+            المحصل، وعدد الجهات التي تعثرت بعد تسعين يوماً، والأثر في التدفقات المالية للصندوق. ثم يحدد ما إذا كان
+            البديل يحتاج إلى تعميم أو تعديل أو إيقاف.</p>
+          <p class="prose"><b>المدة المقترحة للدراسة:</b> تستغرق الدراسة من أربعة إلى ستة أسابيع تبدأ بعد توفير البيانات
+            المطلوبة والتحقق من جودتها. <b>المسؤول:</b> دائرة
+            الاشتراكات مع الدائرة المالية، ورأي الدائرة القانونية في الخيارات التي تحتاج تعديلاً.</p>
+        </div>
+      </details>
+
+    </main>
+  </div>
+
+  <footer>صندوق الحماية الاجتماعية · دائرة الاشتراكات · إطار رفع كفاءة التحصيل</footer>
+
+  <script src="collection-framework-v3.js"></script>
+</body>
+
+</html>
