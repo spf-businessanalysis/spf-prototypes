@@ -98,6 +98,7 @@ section { margin-top: 30px; padding: clamp(24px, 4vw, 42px); border: 1px solid v
 table { width: 100%; min-width: 700px; border-collapse: collapse; background: white; }
 th, td { padding: 12px 14px; border-bottom: 1px solid var(--border-soft); text-align: start; vertical-align: top; font-size: 12px; }
 thead th { color: var(--green-900); background: var(--surface-soft); font-size: 11px; }
+.problem-column { width: 30%; }
 tbody th { width: 17%; color: var(--ink); }
 tbody td { color: var(--ink-soft); }
 tbody tr:last-child > * { border-bottom: 0; }
