@@ -80,6 +80,7 @@ function initLayout() {
             <li class="nav-saver nav-employer nav-staff"><a href="01-dashboard.html" id="link-01"><i class="fas fa-th-large"></i> لوحة التحكم</a></li>
             <li class="nav-staff"><a href="15-reports.html" id="link-15"><i class="fas fa-chart-pie"></i> التقارير والتحليل</a></li>
             <li class="nav-staff"><a href="11-optional-saving-inquiries.html" id="link-11"><i class="fas fa-circle-question"></i> استفسارات نظام الادخار</a></li>
+            <li class="nav-saver nav-employer nav-staff"><a href="25-invoice-simulation.html" id="link-25"><i class="fas fa-file-invoice-dollar"></i> محاكاة الفواتير والتسوية</a></li>
             <li class="nav-saver"><a href="02-registration.html" id="link-02"><i class="fas fa-user-plus"></i> التسجيل في النظام</a></li>
             
             <!-- Staff Specific Categories -->

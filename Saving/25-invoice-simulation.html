@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاكاة إصدار وتسوية الفواتير الشهرية - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ===== كتل الإدخال المضغوطة ===== */
+        .input-block {
+            border: 1px solid var(--spf-border);
+            border-radius: var(--spf-radius-sm);
+            padding: 12px 14px;
+            background: #fcfdfc;
+        }
+        .ib-head {
+            display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+            font-weight: 800; font-size: .88rem;
+            color: var(--spf-green-dark);
+            margin-bottom: 10px;
+        }
+        .ib-head i { color: var(--spf-green); }
+        .ib-head .req, .ib-head .opt {
+            margin-inline-start: auto;
+            font-size: .68rem; font-weight: 700;
+            border-radius: 999px; padding: 2px 9px;
+        }
+        .ib-head .req { background: var(--spf-green-lighter); color: var(--spf-green-dark); border: 1px solid #cfe6d9; }
+        .ib-head .opt { background: #f1f3f5; color: #5c6771; border: 1px solid #dfe3e7; }
+
+        /* ===== تلميحات شرح الاحتساب ===== */
+        .has-tip { cursor: help; }
+        td.has-tip { position: relative; }
+        td.has-tip::after {
+            content: ""; position: absolute; inset-block-end: 2px; inset-inline-end: 3px;
+            width: 4px; height: 4px; border-radius: 50%; background: #bcccc4;
+        }
+        .tooltip-inner { max-width: 320px; font-size: .78rem; line-height: 1.85; text-align: start; }
+
+        /* ===== الحالة الفارغة ===== */
+        .empty-state {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; gap: 5px;
+            padding: 22px 14px;
+            border: 1px dashed var(--spf-border);
+            border-radius: var(--spf-radius-sm);
+            background: #fff;
+            color: var(--spf-text-muted);
+            font-size: .84rem;
+        }
+        .empty-state i { font-size: 1.5rem; color: #c8d5cf; margin-bottom: 2px; }
+        .empty-state small { font-size: .74rem; line-height: 1.75; max-width: 340px; }
+
+        /* ===== جدول نسب الاشتراك والغرامة — مضغوط ===== */
+        .rate-table { margin-bottom: 0; font-size: .74rem; line-height: 1.4; }
+        .rate-table th {
+            padding: 4px 5px !important;
+            font-size: .7rem;
+            white-space: nowrap;
+        }
+        .rate-table td {
+            padding: 1px 5px !important;
+            vertical-align: middle;
+            border-bottom-width: 1px;
+        }
+        .rate-table tr:hover td { background: transparent; }
+        .rate-table input {
+            width: 100%;
+            min-width: 48px;
+            height: 24px;
+            border: 1px solid var(--spf-border);
+            border-radius: 5px;
+            padding: 0 4px;
+            font-family: inherit;
+            font-size: .74rem;
+            text-align: center;
+        }
+
+        /* ===== صفوف الإدخال الديناميكية ===== */
+        /* ===== جدول تظلّمات الأجر ===== */
+        .obj-table { margin-bottom: 0; }
+        .obj-table th { font-size: .78rem; }
+        .obj-table td { padding: 6px 8px; vertical-align: middle; }
+        .rate-total {
+            margin-top: 6px; padding: 4px 8px; border-radius: 7px;
+            background: var(--spf-green-lighter); border: 1px solid #cfe6d9;
+            font-size: .78rem; color: var(--spf-green-dark); text-align: center;
+        }
+
+        /* ===== خلايا التسوية ===== */
+        .sim-table td.cell {
+            transition: background .25s ease, color .25s ease;
+            font-weight: 600;
+        }
+        .sim-table td.paid    { background: #e2f4e9; color: #1b6f40; font-weight: 800; }
+        .sim-table td.partial { background: #fdf6e6; color: #86651a; font-weight: 800; }
+        .sim-table td.unpaid  { background: #fdeeee; color: #a8291f; }
+        .sim-table td.na      { color: #b7c2bc; }
+        .sim-table tr.settling { outline: 2px solid var(--spf-gold); outline-offset: -2px; }
+        .sim-table th.savings-col { background: var(--spf-gold-light) !important; color: #6b5010 !important; }
+        .stopbadge {
+            display: inline-block; margin-inline-start: 6px;
+            font-size: .7rem; font-weight: 800;
+            background: #a8291f; color: #fff;
+            border-radius: 999px; padding: 2px 8px;
+        }
+        .tag-corr {
+            display: inline-block; margin-inline-end: 6px;
+            font-size: .68rem; font-weight: 800;
+            background: var(--spf-gold-light); color: #6b5010;
+            border: 1px solid #e6cf9c; border-radius: 999px; padding: 1px 8px;
+        }
+        .pill {
+            display: inline-block; font-size: .72rem; font-weight: 700;
+            border-radius: 999px; padding: 2px 10px;
+        }
+        .pill-g    { background: var(--spf-green-lighter); color: var(--spf-green-dark); border: 1px solid #cfe6d9; }
+        .pill-gold { background: var(--spf-gold-light); color: #6b5010; border: 1px solid #e6cf9c; }
+
+        /* ===== وسيلة الإيضاح ===== */
+        .sim-legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: .82rem; color: var(--spf-text-muted); margin-bottom: 12px; }
+        .sim-legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .sim-legend i { width: 15px; height: 15px; border-radius: 4px; display: inline-block; }
+
+        /* ===== لوحة المبالغ ===== */
+        .meter {
+            display: flex; flex-wrap: wrap; gap: 22px; justify-content: space-between;
+            background: var(--spf-green-lighter); border: 1px solid #cfe6d9;
+            border-radius: var(--spf-radius); padding: 14px 18px;
+        }
+        .meter .lbl { font-size: .8rem; color: var(--spf-text-muted); }
+        .meter .big { font-size: 1.35rem; font-weight: 800; color: var(--spf-green-dark); }
+        .tbl-scroll { overflow-x: auto; }
+        .sim-compact { font-size: .74rem; }
+        .sim-compact th, .sim-compact td { padding: 5px 6px !important; white-space: nowrap; }
+        .sim-compact th { font-size: .7rem; line-height: 1.35; white-space: normal; }
+        .sim-compact td.wname { white-space: normal; min-width: 92px; }
+        .cur-hint { font-size: .74rem; color: var(--spf-text-muted); margin-bottom: 8px; }
+        .sim-note {
+            background: #fdf8ec; border: 1px solid #e6d4a8; color: #6b5010;
+            border-radius: var(--spf-radius-sm); padding: 10px 14px;
+            font-size: .85rem; line-height: 1.8;
+        }
+        .subh { font-weight: 800; color: var(--spf-green-dark); font-size: .95rem; margin-bottom: 10px; }
+
+    </style>
+</head>
+<body>
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>محاكاة إصدار وتسوية الفواتير الشهرية</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">محاكاة الفواتير والتسوية</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge" id="roleBadge">—</span>
+            </div>
+        </div>
+
+        <div id="storageWarn" class="alert-spf alert-warning mb-4 d-none">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>الحفظ الدائم غير متاح في هذا المتصفح، وستعمل المحاكاة مؤقتاً في الذاكرة فقط دون استمرار عبر الأشهر.</div>
+        </div>
+
+        <!-- ===== معطيات إصدار الفاتورة (مجمّعة) ===== -->
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">
+                <span>معطيات إصدار الفاتورة</span>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+
+                    <!-- العمود الأيمن: عدد العمال ثم تظلّمات الأجر -->
+                    <div class="col-lg-6 d-flex flex-column gap-3">
+
+                        <!-- 1) عدد العمال في المنشأة -->
+                        <div class="input-block">
+                            <div class="ib-head"><i class="fas fa-users"></i> عدد العمال في المنشأة<span class="req">مطلوب</span></div>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <label class="form-label small mb-1">عمانيون</label>
+                                    <input type="number" class="form-control form-control-sm" id="nOmani" value="6" min="0" max="20">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label small mb-1">غير عمانيين</label>
+                                    <input type="number" class="form-control form-control-sm" id="nNon" value="4" min="0" max="20">
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label small mb-1">توقيت الدفع</label>
+                                    <select class="form-select form-select-sm" id="timingSel">
+                                        <option value="grace">خلال السماح</option>
+                                        <option value="late">متأخر</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="text-muted small mt-2 mb-0" id="capMsg">الحد الأقصى ٢٠ عاملاً. تُولَّد بيانات العمال وأجورهم تلقائياً.</p>
+                        </div>
+
+                        <!-- 2) تظلمات الأجر -->
+                        <div class="input-block flex-grow-1 d-flex flex-column">
+                            <div class="ib-head">
+                                <i class="fas fa-scale-balanced"></i> تظلّمات الأجر بأثر رجعي
+                                <span class="opt">اختياري — لغير العمانيين</span>
+                            </div>
+                            <div class="tbl-scroll d-none" id="objTableWrap">
+                                <table class="spf-table obj-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الأجر الحالي (ر.ع)</th>
+                                            <th>الأجر الصحيح (ر.ع)</th>
+                                            <th>أشهر الأثر الرجعي</th>
+                                            <th style="width:1%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="objList"></tbody>
+                                </table>
+                            </div>
+                            <div class="empty-state flex-grow-1" id="objEmpty">
+                                <i class="fas fa-scale-balanced"></i>
+                                <div>لا توجد تظلّمات مسجّلة على هذه الفاتورة</div>
+                                <small>أضف تظلّماً إذا كان الأجر المسجَّل لأحد العمال غير العمانيين غير صحيح، ليُحتسب الفرق وغرامته ضمن الفاتورة.</small>
+                            </div>
+                            <button class="btn btn-sm btn-spf-outline mt-2" onclick="addObjectionRow()">
+                                <i class="fas fa-plus me-1"></i> إضافة تظلّم
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- العمود الأيسر: النسب ممتدة بمحاذاة الكتلتين -->
+                    <div class="col-lg-6">
+                        <div class="input-block h-100">
+                            <div class="ib-head"><i class="fas fa-percent"></i> نسب الاشتراك والغرامة<span class="req">مطلوب</span></div>
+                            <div class="tbl-scroll">
+                                <table class="spf-table rate-table">
+                                    <thead>
+                                        <tr>
+                                            <th>الفرع التأميني</th>
+                                            <th>الاشتراك ٪</th>
+                                            <th>الغرامة ٪</th>
+                                            <th>النطاق</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="rateGrid"></tbody>
+                                </table>
+                            </div>
+                            <div class="rate-total" id="rateTotal"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="text-start mt-3">
+                    <button class="btn btn-spf px-5 py-2" onclick="issueInvoice()">
+                        <i class="fas fa-file-invoice me-1"></i> إصدار الفاتورة
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== الأرصدة السابقة ===== -->
+        <div class="spf-card mb-4 d-none" id="carriedCard">
+            <div class="card-header-custom">
+                <span>أرصدة سابقة مرحّلة — تُسوّى أولاً</span>
+                <span class="badge-status pending">أولوية في السداد</span>
+            </div>
+            <div class="card-body">
+                <div class="tbl-scroll"><table class="spf-table sim-table" id="carriedTable"></table></div>
+            </div>
+        </div>
+
+        <!-- ===== فروق التظلمات ===== -->
+        <div class="spf-card mb-4 d-none" id="retroCard">
+            <div class="card-header-custom">فروق وغرامات تظلّمات الأجر (أثر رجعي)</div>
+            <div class="card-body">
+                <div class="tbl-scroll"><table class="spf-table sim-table" id="retroTable"></table></div>
+            </div>
+        </div>
+
+        <!-- ===== الفاتورة ===== -->
+        <div class="spf-card mb-4 d-none" id="invoiceCard">
+            <div class="card-header-custom">فاتورة الشهر — الاشتراكات المستحقة</div>
+            <div class="card-body">
+                <div class="cur-hint">جميع المبالغ بالريال العماني.</div>
+                <div class="tbl-scroll"><table class="spf-table sim-table sim-compact" id="invoiceTable"></table></div>
+                <div class="meter mt-3">
+                    <div>
+                        <div class="lbl">إجمالي الفاتورة (اشتراكات + أرصدة سابقة + فروق تظلّمات)</div>
+                        <div class="big" id="invTotal">0.00 ر.ع</div>
+                    </div>
+                    <div>
+                        <div class="lbl">منها ادخار (غرامته ٨٪)</div>
+                        <div class="big text-gold" id="invSavings">0.00 ر.ع</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== الدفع ===== -->
+        <div class="spf-card mb-4 d-none" id="payCard">
+            <div class="card-header-custom">الدفع والتسوية</div>
+            <div class="card-body">
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-6">
+                        <label class="form-label fw-700">المبلغ المدفوع (ر.ع)</label>
+                        <input type="number" class="form-control" id="payAmount" value="0" min="0" step="1">
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-spf-gold w-100 py-3" onclick="runSettlement()">
+                            <i class="fas fa-play me-1"></i> معاينة عملية الدفع والتسوية
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== حركة التسوية ===== -->
+        <div class="spf-card mb-4 d-none" id="settleCard">
+            <div class="card-header-custom">حركة التسوية</div>
+            <div class="card-body">
+                <div class="meter mb-3">
+                    <div>
+                        <div class="lbl">المبلغ المتبقي أثناء التوزيع</div>
+                        <div class="big" id="remaining">0.00 ر.ع</div>
+                    </div>
+                    <div class="text-muted small align-self-center" id="stopMsg"></div>
+                </div>
+                <div class="sim-legend">
+                    <span><i style="background:#e2f4e9;border:1px solid #1b6f40"></i> مُسوّى بالكامل</span>
+                    <span><i style="background:#fdf6e6;border:1px solid #86651a"></i> توقّف السداد (جزئي)</span>
+                    <span><i style="background:#fdeeee;border:1px solid #a8291f"></i> غير مسدد (يُرحّل)</span>
+                </div>
+
+                <div id="prevSettleWrap" class="d-none">
+                    <h6 class="subh">أ) الأرصدة السابقة وفروق التظلّمات — تُسوّى أولاً</h6>
+                    <div class="tbl-scroll mb-4"><table class="spf-table sim-table" id="prevSettleTable"></table></div>
+                </div>
+
+                <h6 class="subh">ب) اشتراكات الشهر الحالي — مرتّبة بتاريخ الالتحاق</h6>
+                <div class="cur-hint">جميع المبالغ بالريال العماني.</div>
+                <div class="tbl-scroll"><table class="spf-table sim-table sim-compact" id="settleTable"></table></div>
+            </div>
+        </div>
+
+        <!-- ===== النتيجة ===== -->
+        <div class="spf-card mb-4 d-none" id="resultCard">
+            <div class="card-header-custom">النتيجة والغرامات المُرحّلة للفاتورة القادمة</div>
+            <div class="card-body">
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-lg-3">
+                        <div class="insight-card">
+                            <div class="insight-icon blue"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <div class="insight-value" id="kTotal" style="font-size:1.2rem">0</div>
+                            <div class="insight-label">إجمالي المستحق</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="insight-card">
+                            <div class="insight-icon green"><i class="fas fa-circle-check"></i></div>
+                            <div class="insight-value" id="kPaid" style="font-size:1.2rem">0</div>
+                            <div class="insight-label">المُسوّى</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="insight-card">
+                            <div class="insight-icon gold"><i class="fas fa-hourglass-half"></i></div>
+                            <div class="insight-value" id="kUnpaid" style="font-size:1.2rem">0</div>
+                            <div class="insight-label">غير مسدد (أصل)</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-3">
+                        <div class="insight-card">
+                            <div class="insight-icon red"><i class="fas fa-triangle-exclamation"></i></div>
+                            <div class="insight-value" id="kPenalty" style="font-size:1.2rem">0</div>
+                            <div class="insight-label">غرامة تُضاف</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="subh">تفصيل الغرامات — كل بند بنسبته</h6>
+                <div class="tbl-scroll"><table class="spf-table sim-table" id="penTable"></table></div>
+
+                <div class="meter mt-3" style="background:var(--spf-gold-light);border-color:#e6cf9c">
+                    <div>
+                        <div class="lbl" style="color:#6b5010">إجمالي ما يُرحّل للشهر القادم (أصل غير مسدد + غرامات)</div>
+                        <div class="big text-gold" id="carryTotal">0.00 ر.ع</div>
+                    </div>
+                </div>
+
+                <div class="text-start mt-3">
+                    <button class="btn btn-spf px-4" onclick="commitMonth()">
+                        <i class="fas fa-check me-1"></i> اعتماد الشهر وترحيله والانتقال للشهر التالي
+                    </button>
+                </div>
+                <p class="text-muted small mt-2 mb-0">
+                    عند الاعتماد تُحفظ الفاتورة، ويُرحّل غير المسدد مع غرامته كأرصدة سابقة على فاتورة الشهر التالي.
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        /* شارة الدور — الشاشة متاحة لجميع الأدوار */
+        document.addEventListener('DOMContentLoaded', function () {
+            var role = localStorage.getItem('spf-user-role') || 'saver';
+            var map = { saver: 'المدخر', employer: 'صاحب العمل', staff: 'موظف الصندوق' };
+            var badge = document.getElementById('roleBadge');
+            badge.textContent = map[role] || map.saver;
+            badge.classList.add(role);
+        });
+
+        /* ================= إعدادات الاحتساب ================= */
+        const CFG = { graceDays: 15, items: [
+            { id: 'oldage',    name: 'الشيخوخة والعجز والوفاة',        short: 'الشيخوخة والعجز', rate: 7.5, pen: 5.5, applies: 'omani',    est: true  },
+            { id: 'general',   name: 'الحصة العامة (بند ١١٪)',          short: 'الحصة العامة',    rate: 11,  pen: 5.5, applies: 'omani',    est: true  },
+            { id: 'injury',    name: 'إصابات العمل والأمراض المهنية',   short: 'إصابات العمل',    rate: 1,   pen: 5.5, applies: 'both',     est: true  },
+            { id: 'jobsec',    name: 'نظام الأمان الوظيفي',             short: 'الأمان الوظيفي',  rate: 1,   pen: 5.5, applies: 'omani',    est: true  },
+            { id: 'maternity', name: 'فرع الأمومة',                     short: 'الأمومة',         rate: 1,   pen: 5.5, applies: 'both',     est: true  },
+            { id: 'leaves',    name: 'الإجازات المرضية وغير الاعتيادية', short: 'الإجازات',        rate: 1,   pen: 5.5, applies: 'both',     est: true  },
+            { id: 'savings',   name: 'الادخار الإلزامي',                short: 'الادخار',         rate: 9,   pen: 8,   applies: 'nonOmani', est: false }
+        ]};
+
+        const money  = n => (Math.round(n * 100) / 100).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' ر.ع';
+        const round2 = n => Math.round(n * 100) / 100;
+        const num    = n => (Math.round(n * 100) / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const arNum  = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+
+        /* ================= تلميحات شرح الاحتساب ================= */
+        function escAttr(t) {
+            return String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+                            .replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+        /* تُوضع على الخلية نفسها كي تبقى بعد تغيير محتواها أثناء التسوية */
+        function tip(text) {
+            return ` class="has-tip" data-bs-toggle="tooltip" data-bs-placement="top" title="${escAttr(text)}"`;
+        }
+        /* لإسناد تلميح إلى عنصر ثابت في الصفحة */
+        function setTip(id, text) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.classList.add('has-tip');
+            el.setAttribute('data-bs-toggle', 'tooltip');
+            el.setAttribute('data-bs-placement', 'top');
+            el.setAttribute('title', text);
+            el.setAttribute('data-bs-original-title', text);
+        }
+        let TIP_INSTANCES = [];
+        function initTips() {
+            TIP_INSTANCES.forEach(t => { try { t.dispose(); } catch (e) {} });
+            TIP_INSTANCES = [];
+            if (!window.bootstrap || !bootstrap.Tooltip) return;
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el => {
+                TIP_INSTANCES.push(new bootstrap.Tooltip(el, { container: 'body' }));
+            });
+        }
+
+        function rng(seed) {
+            return function () {
+                seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+                let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+                t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+                return ((t ^ t >>> 14) >>> 0) / 4294967296;
+            };
+        }
+
+        const OMANI_NAMES = ['سالم الحبسي', 'خالد البلوشي', 'عبدالله الرواحي', 'ريم الهنائي', 'منى الكندي', 'يوسف العامري', 'فاطمة الشكيلي', 'ناصر المعمري', 'هدى البادي', 'طارق الزدجالي'];
+        const NON_NAMES   = ['راهول شارما', 'محمد أسلم', 'أنيل كومار', 'خوسيه فرنانديز', 'بلال أحمد', 'سوريش نائير', 'عمران خان', 'ديفيد روزاريو', 'كمال حسين', 'أرون بيلاي'];
+
+        /* ================= الحفظ ================= */
+        const LS_KEY = 'spf_savings_ledger_v1';
+        let STORAGE_OK = true, MEM = null;
+
+        function defaultLedger() { return { month: 1, carried: [], history: [] }; }
+        function loadLedger() {
+            try {
+                const raw = localStorage.getItem(LS_KEY);
+                if (raw) return JSON.parse(raw);
+                const d = defaultLedger();
+                localStorage.setItem(LS_KEY, JSON.stringify(d));
+                return d;
+            } catch (e) {
+                STORAGE_OK = false;
+                if (!MEM) MEM = defaultLedger();
+                return MEM;
+            }
+        }
+        function saveLedger(l) {
+            try { localStorage.setItem(LS_KEY, JSON.stringify(l)); }
+            catch (e) { STORAGE_OK = false; MEM = l; }
+        }
+
+        let LEDGER = loadLedger();
+        let STATE = { workers: [], prev: [], invoiced: false, invoiceTotal: 0, useSaved: true, settlement: null, generated: false };
+
+        /* العناصر الاختيارية قد لا تكون موجودة في الصفحة — لذا يُتحقق من وجودها قبل استخدامها */
+        function setText(id, text) {
+            const el = document.getElementById(id);
+            if (el) el.textContent = text;
+        }
+
+        function refreshHeader() {
+            setText('monthNum', 'الشهر ' + arNum(LEDGER.month));
+            const c = LEDGER.carried, tot = round2(c.reduce((s, x) => s + x.principal + x.penalty, 0));
+            setText('carryNote', c.length ? money(tot) : 'لا أرصدة مرحّلة');
+            const warn = document.getElementById('storageWarn');
+            if (warn) warn.classList.toggle('d-none', STORAGE_OK);
+        }
+        refreshHeader();
+
+        /* ================= شبكة النسب ================= */
+        function buildRateGrid() {
+            const g = document.getElementById('rateGrid');
+            g.innerHTML = CFG.items.map(it => {
+                const t = it.applies === 'both' ? 'الجميع' : (it.applies === 'omani' ? 'العمانيين' : 'غير العمانيين');
+                return `<tr>
+                    <td class="fw-700">${it.name}</td>
+                    <td><input type="number" step="0.1" value="${it.rate}" onchange="setRate('${it.id}','rate',this.value)"></td>
+                    <td><input type="number" step="0.1" value="${it.pen}" onchange="setRate('${it.id}','pen',this.value)"></td>
+                    <td class="text-muted">${t}</td>
+                </tr>`;
+            }).join('');
+            updateRateTotals();
+        }
+
+        function setRate(id, key, val) {
+            CFG.items.find(i => i.id === id)[key] = +val;
+            updateRateTotals();
+        }
+
+        function totalFor(nat) {
+            return round2(itemsFor(nat).reduce((s, it) => s + it.rate, 0));
+        }
+
+        function updateRateTotals() {
+            const el = document.getElementById('rateTotal');
+            if (!el) return;
+            el.innerHTML = 'إجمالي الاشتراك الشهري — '
+                + '<strong>العماني: ' + totalFor('omani') + '٪</strong>'
+                + ' · <strong>غير العماني: ' + totalFor('nonOmani') + '٪</strong>';
+        }
+        buildRateGrid();
+
+        /* ================= الأرصدة السابقة اليدوية ================= */
+        /* الأرصدة السابقة اليدوية غير مفعّلة حالياً — يبقى الترحيل التلقائي فقط */
+        function readManualPrev() { return []; }
+
+        /* ================= بناء العمال ================= */
+        function itemsFor(nat) { return CFG.items.filter(it => it.applies === 'both' || it.applies === nat); }
+        function computeCells(w) { const c = {}; itemsFor(w.nat).forEach(it => c[it.id] = round2(w.wage * it.rate / 100)); w.cells = c; }
+        function mkWorker(nat, name, r, lo, hi) {
+            const wage = Math.round((lo + r() * (hi - lo)) / 10) * 10;
+            const y = 2019 + Math.floor(r() * 6), m = 1 + Math.floor(r() * 12);
+            const w = { nat, name, wage, join: `${y}-${String(m).padStart(2, '0')}` };
+            computeCells(w);
+            return w;
+        }
+
+        /* ================= تظلّمات الأجر ================= */
+        /* بيانات ابتدائية تُعبَّأ تلقائياً عند إضافة تظلّم، وتتغيّر مع كل صف جديد */
+        const OBJ_SAMPLES = [
+            { oldw: 300, neww: 360, months: 3 },
+            { oldw: 400, neww: 480, months: 2 },
+            { oldw: 250, neww: 310, months: 4 },
+            { oldw: 520, neww: 575, months: 6 }
+        ];
+
+        function addObjectionRow() {
+            const body = document.getElementById('objList');
+            const s = OBJ_SAMPLES[body.children.length % OBJ_SAMPLES.length];
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td><input type="number" class="form-control form-control-sm" data-k="oldw" value="${s.oldw}"></td>
+                <td><input type="number" class="form-control form-control-sm" data-k="newwage" value="${s.neww}"></td>
+                <td><input type="number" class="form-control form-control-sm" data-k="months" min="1" value="${s.months}"></td>
+                <td><button class="btn btn-sm btn-spf-outline" onclick="removeObjRow(this)"><i class="fas fa-xmark"></i></button></td>`;
+            body.appendChild(tr);
+            toggleObjTable();
+        }
+        function removeObjRow(btn) {
+            btn.closest('tr').remove();
+            toggleObjTable();
+        }
+        function toggleObjTable() {
+            const has = !!document.getElementById('objList').children.length;
+            document.getElementById('objTableWrap').classList.toggle('d-none', !has);
+            const empty = document.getElementById('objEmpty');
+            if (empty) empty.classList.toggle('d-none', has);
+        }
+        function readObjections() {
+            return [...document.querySelectorAll('#objList tr')].map(r => {
+                const oldWage = +r.querySelector('[data-k=oldw]').value || 0,
+                      newWage = +r.querySelector('[data-k=newwage]').value || 0,
+                      months  = Math.max(1, +r.querySelector('[data-k=months]').value || 1);
+                return { nat: 'nonOmani', oldWage, newWage, months };
+            }).filter(o => o.newWage > 0 && o.oldWage > 0);
+        }
+
+        function makeRetroLines(nat, name, oldWage, newWage, months) {
+            const diff = newWage - oldWage;
+            if (diff <= 0) return [];
+            const sumM = months * (months + 1) / 2;
+            const acc = { general: { p: 0, k: 0, rates: 0 }, savings: { p: 0, k: 0, rates: 0 } };
+            itemsFor(nat).forEach(it => {
+                const monthly = diff * it.rate / 100;
+                const t = it.id === 'savings' ? 'savings' : 'general';
+                acc[t].p += monthly * months;
+                acc[t].k += monthly * it.pen / 100 / 12 * sumM;
+                acc[t].rates += it.rate;
+            });
+            const lines = [];
+            ['general', 'savings'].forEach(t => {
+                if (acc[t].p > 0.001) {
+                    const penRate = t === 'savings' ? 8 : 5.5;
+                    const monthly = round2(diff * acc[t].rates / 100);
+                    lines.push({
+                        principal: round2(acc[t].p), penalty: round2(acc[t].k), type: t,
+                        pen: penRate, age: months, origin: 'retro',
+                        src: 'تظلّم: ' + name, worker: name, diff, months,
+                        calcP: `فرق الأجر ${num(diff)} × مجموع النسب ${acc[t].rates}٪ = ${num(monthly)} شهرياً، × ${months} أشهر = ${num(acc[t].p)} ر.ع`,
+                        calcK: `${num(monthly)} × ${penRate}٪ ÷ 12 × مجموع تسلسل الأشهر (${sumM}) = ${num(acc[t].k)} ر.ع`
+                    });
+                }
+            });
+            return lines;
+        }
+
+        /* ================= إصدار الفاتورة ================= */
+        function issueInvoice() {
+            const nO = Math.max(0, +document.getElementById('nOmani').value || 0),
+                  nN = Math.max(0, +document.getElementById('nNon').value || 0);
+            if (nO + nN === 0) { spfAlert('أدخل عدداً من العمال.'); return; }
+            const c = document.getElementById('capMsg');
+            if (nO + nN > 20) {
+                c.classList.add('text-danger');
+                c.textContent = 'تجاوزت الحد المسموح: إجمالي العمال يجب ألا يزيد عن ٢٠.';
+                return;
+            }
+            c.classList.remove('text-danger');
+            c.textContent = 'إجمالي العمال يجب ألا يتجاوز ٢٠ عاملاً. تُولَّد بيانات العمال وأجورهم تلقائياً ضمن الفاتورة.';
+
+            const r = rng(nO * 7 + nN * 13 + LEDGER.month * 29 + 3);
+            const workers = [];
+            for (let i = 0; i < nO; i++) workers.push(mkWorker('omani',    OMANI_NAMES[i % OMANI_NAMES.length], r, 350, 900));
+            for (let i = 0; i < nN; i++) workers.push(mkWorker('nonOmani', NON_NAMES[i % NON_NAMES.length],     r, 250, 600));
+            STATE.workers = workers;
+            STATE.useSaved = true;
+
+            const objs = readObjections();
+            let retroLines = [];
+            STATE.objInfo = [];
+            const used = { omani: 0, nonOmani: 0 };
+            objs.forEach(o => {
+                const pool = STATE.workers.filter(w => w.nat === o.nat);
+                const wref = pool[used[o.nat]] || null;
+                if (wref) used[o.nat]++;
+                const oldWage = (o.oldWage > 0) ? o.oldWage : (wref ? wref.wage : 0);
+                if (o.newWage > oldWage) {
+                    const nm = wref ? wref.name : ('تظلّم ' + (o.nat === 'omani' ? 'عماني' : 'غير عماني'));
+                    retroLines = retroLines.concat(makeRetroLines(o.nat, nm, oldWage, o.newWage, o.months));
+                    STATE.objInfo.push({ name: nm, oldWage, newWage: o.newWage, months: o.months });
+                    if (wref) { wref.wage = o.newWage; wref.corrected = true; computeCells(wref); }
+                }
+            });
+
+            const saved = LEDGER.carried.map(x => ({ ...x, origin: 'carried' }));
+            STATE.prev = [...saved, ...readManualPrev(), ...retroLines].sort((a, b) => b.age - a.age);
+            STATE.invoiced = true;
+            STATE.generated = true;
+
+            renderCarried(); renderRetro(); renderInvoice();
+            initTips();
+            show('invoiceCard'); show('payCard'); hide('settleCard'); hide('resultCard');
+            document.getElementById('payAmount').value = Math.round(STATE.invoiceTotal);
+            document.getElementById('invoiceCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function show(id) { document.getElementById(id).classList.remove('d-none'); }
+        function hide(id) { document.getElementById(id).classList.add('d-none'); }
+        function spfAlert(msg) { if (window.spf && spf.showError) spf.showError(msg); else alert(msg); }
+
+        /* ================= جداول العرض ================= */
+        function renderCarried() {
+            const rows = STATE.prev.filter(p => p.origin !== 'retro');
+            if (!rows.length) { hide('carriedCard'); return; }
+            show('carriedCard');
+            let h = '<thead><tr><th>المصدر</th><th>النوع</th><th>الأصل</th><th>غرامة متراكمة</th><th>الإجمالي</th><th>العمر</th></tr></thead><tbody>';
+            rows.forEach(p => {
+                const isSav = p.type === 'savings';
+                h += `<tr><td class="fw-700">${p.src}</td>
+                    <td><span class="pill ${isSav ? 'pill-gold' : 'pill-g'}">${isSav ? 'ادخار ٨٪' : 'عام ٥.٥٪'}</span></td>
+                    <td${tip('أصل الاشتراك الذي لم يُسدَّد في الشهر السابق ورُحِّل إلى هذه الفاتورة')}>${money(p.principal)}</td>
+                    <td${tip(`غرامة متراكمة على الأصل بنسبة ${p.pen}٪ سنوياً حتى تاريخ الترحيل`)}>${money(p.penalty)}</td>
+                    <td class="fw-800 text-spf"${tip(`الأصل ${num(p.principal)} + الغرامة ${num(p.penalty)} = ${num(p.principal + p.penalty)} ر.ع`)}>${money(p.principal + p.penalty)}</td>
+                    <td${tip('عدد الأشهر منذ نشوء الالتزام')}>${arNum(p.age)} شهراً</td></tr>`;
+            });
+            document.getElementById('carriedTable').innerHTML = h + '</tbody>';
+        }
+
+        function renderRetro() {
+            const rows = STATE.prev.filter(p => p.origin === 'retro');
+            if (!rows.length) { hide('retroCard'); return; }
+            show('retroCard');
+            let h = '<thead><tr><th>العامل</th><th>النوع</th><th>فرق الاشتراك (أصل)</th><th>الغرامة المتراكمة</th><th>الإجمالي</th><th>الأشهر</th></tr></thead><tbody>';
+            rows.forEach(p => {
+                const isSav = p.type === 'savings';
+                h += `<tr><td class="fw-700">${p.worker}</td>
+                    <td><span class="pill ${isSav ? 'pill-gold' : 'pill-g'}">${isSav ? 'ادخار ٨٪' : 'عام ٥.٥٪'}</span></td>
+                    <td${tip(p.calcP || '')}>${money(p.principal)}</td>
+                    <td${tip(p.calcK || '')}>${money(p.penalty)}</td>
+                    <td class="fw-800 text-spf"${tip(`الفرق ${num(p.principal)} + الغرامة ${num(p.penalty)} = ${num(p.principal + p.penalty)} ر.ع`)}>${money(p.principal + p.penalty)}</td>
+                    <td${tip('عدد الأشهر التي طبّق عليها الأثر الرجعي')}>${arNum(p.months)}</td></tr>`;
+            });
+            document.getElementById('retroTable').innerHTML = h + '</tbody>';
+        }
+
+        function renderInvoice() {
+            const cols = CFG.items;
+            let head = '<thead><tr><th>العامل</th><th>الجنسية</th><th>الالتحاق</th><th>الأجر الأساسي</th>';
+            cols.forEach(it => head += `<th class="${it.id === 'savings' ? 'savings-col' : ''}">${it.short || it.name}</th>`);
+            head += '<th>إجمالي العامل</th></tr></thead>';
+
+            let body = '<tbody>', grand = 0, savingsTot = 0;
+            STATE.workers.forEach(w => {
+                let rowT = 0;
+                const parts = [];
+                let row = `<tr><td class="fw-700 wname">${w.corrected ? '<span class="tag-corr">مُصحّح</span>' : ''}${w.name}</td>
+                    <td>${w.nat === 'omani' ? 'عماني' : 'غير عماني'}</td><td>${w.join}</td>
+                    <td${tip(w.corrected ? 'الأجر بعد التصحيح بموجب تظلّم الأجر' : 'الأجر الأساسي المسجَّل للعامل')}>${num(w.wage)}</td>`;
+                cols.forEach(it => {
+                    if (w.cells[it.id] != null) {
+                        row += `<td${tip(`${it.name}: الأجر ${num(w.wage)} × ${it.rate}٪ = ${num(w.cells[it.id])} ر.ع`)}>${num(w.cells[it.id])}</td>`;
+                        rowT += w.cells[it.id];
+                        parts.push(num(w.cells[it.id]));
+                        if (it.id === 'savings') savingsTot += w.cells[it.id];
+                    } else row += `<td class="na"${tip(`${it.name} لا يسري على هذه الفئة`)}>—</td>`;
+                });
+                row += `<td class="fw-800 text-spf"${tip(`مجموع بنود العامل: ${parts.join(' + ')} = ${num(rowT)} ر.ع`)}>${num(rowT)}</td></tr>`;
+                body += row;
+                grand += rowT;
+            });
+            document.getElementById('invoiceTable').innerHTML = head + body + '</tbody>';
+
+            const carriedTot = round2(STATE.prev.filter(p => p.origin !== 'retro').reduce((s, p) => s + p.principal + p.penalty, 0));
+            const retroTot   = round2(STATE.prev.filter(p => p.origin === 'retro').reduce((s, p) => s + p.principal + p.penalty, 0));
+            const prevTot = STATE.prev.reduce((s, p) => s + p.principal + p.penalty, 0);
+            STATE.invoiceTotal = round2(grand + prevTot);
+
+            setTip('invTotal', `اشتراكات الشهر ${num(grand)} + أرصدة سابقة ${num(carriedTot)} + فروق تظلّمات ${num(retroTot)} = ${num(STATE.invoiceTotal)} ر.ع`);
+            setTip('invSavings', `مجموع بند الادخار الإلزامي (${CFG.items.find(i => i.id === 'savings').rate}٪ من الأجر الأساسي) لجميع العمال غير العمانيين`);
+            document.getElementById('invTotal').textContent = money(STATE.invoiceTotal);
+            document.getElementById('invSavings').textContent = money(savingsTot);
+        }
+
+
+        /* ================= التسوية ================= */
+        function cssId(s) { return s.replace(/\s/g, '_'); }
+
+        function buildQueue() {
+            const q = [];
+            STATE.prev.forEach((p, i) => q.push({ kind: 'prev', idx: i, pref: p, due: round2(p.principal + p.penalty), pen: p.pen, type: p.type }));
+            const ws = [...STATE.workers].sort((a, b) => a.join < b.join ? -1 : 1);
+            ws.forEach(w => itemsFor(w.nat).forEach(it => q.push({
+                kind: 'cell', wName: w.name, itemId: it.id, due: w.cells[it.id],
+                pen: it.pen, type: it.id === 'savings' ? 'savings' : 'general',
+                domId: `c-${cssId(w.name)}-${it.id}`
+            })));
+            return { q, ws };
+        }
+
+        function runSettlement() {
+            if (!STATE.invoiced) { spfAlert('أصدر الفاتورة أولاً.'); return; }
+            const pay = Math.max(0, +document.getElementById('payAmount').value || 0);
+            const timing = document.getElementById('timingSel').value;
+            const { q, ws } = buildQueue();
+            let rem = pay, stopIdx = -1;
+
+            q.forEach((n, i) => {
+                if (rem <= 0) n.paid = 0;
+                else if (rem >= n.due) { n.paid = n.due; rem = round2(rem - n.due); }
+                else { n.paid = round2(rem); rem = 0; if (stopIdx < 0) stopIdx = i; }
+                n.unpaidTotal = round2(n.due - n.paid);
+                n.status = n.unpaidTotal <= 0 ? 'paid' : (n.paid > 0 ? 'partial' : 'unpaid');
+            });
+
+            const fullyPaid = pay >= STATE.invoiceTotal - 0.001;
+            q.forEach(n => {
+                if (n.kind === 'prev') {
+                    const P = n.pref.principal, K = n.pref.penalty, T = P + K, frac = T > 0 ? n.unpaidTotal / T : 0;
+                    n.remP = round2(P * frac); n.remK = round2(K * frac);
+                    n.nextPen = round2(n.remP * n.pen / 100 / 12);
+                } else {
+                    n.remP = n.unpaidTotal; n.remK = 0;
+                    if (fullyPaid && timing === 'grace') n.nextPen = 0;
+                    else {
+                        const latePaid = (timing === 'late') ? n.paid : 0;
+                        n.nextPen = round2((n.remP + latePaid) * n.pen / 100 / 12);
+                    }
+                }
+            });
+
+            STATE.settlement = { q, ws, pay, timing, stopIdx, fullyPaid };
+            renderSettleTables(q, ws);
+            initTips();
+            show('settleCard');
+            animate(q, pay);
+        }
+
+        function renderSettleTables(q, ws) {
+            const prevWrap = document.getElementById('prevSettleWrap');
+            if (STATE.prev.length) {
+                prevWrap.classList.remove('d-none');
+                let h = '<thead><tr><th>البند السابق / التظلّم</th><th>المستحق</th><th>حالة التسوية</th></tr></thead><tbody>';
+                STATE.prev.forEach((p, i) => {
+                    const isSav = p.type === 'savings';
+                    const tag = p.origin === 'retro' ? 'تظلّم' : (isSav ? 'ادخار' : 'عام');
+                    h += `<tr><td class="fw-700">${p.src} — ${tag} (${arNum(p.age)} شهراً)</td>
+                          <td${tip('الأصل ' + num(p.principal) + ' + الغرامة ' + num(p.penalty) + ' = ' + num(p.principal + p.penalty) + ' ر.ع')}>${money(p.principal + p.penalty)}</td>
+                          <td class="cell" id="p-${i}">بانتظار</td></tr>`;
+                });
+                document.getElementById('prevSettleTable').innerHTML = h + '</tbody>';
+            } else prevWrap.classList.add('d-none');
+
+            const cols = CFG.items;
+            let head = '<thead><tr><th>العامل (بترتيب الالتحاق)</th><th>الالتحاق</th>';
+            cols.forEach(it => head += `<th class="${it.id === 'savings' ? 'savings-col' : ''}">${it.short || it.name}</th>`);
+            head += '</tr></thead><tbody>';
+
+            ws.forEach(w => {
+                let row = `<tr id="row-${cssId(w.name)}"><td class="fw-700 wname">${w.corrected ? '<span class="tag-corr">مُصحّح</span>' : ''}${w.name} <span class="text-muted small">(${w.nat === 'omani' ? 'عماني' : 'غير عماني'})</span></td><td>${w.join}</td>`;
+                cols.forEach(it => {
+                    if (w.cells[it.id] != null) row += `<td class="cell has-tip" id="c-${cssId(w.name)}-${it.id}" data-bs-toggle="tooltip" data-bs-placement="top" title="${escAttr(it.name + ': الأجر ' + num(w.wage) + ' × ' + it.rate + '٪ = ' + num(w.cells[it.id]) + ' ر.ع')}">${num(w.cells[it.id])}</td>`;
+                    else row += '<td class="na">—</td>';
+                });
+                head += row + '</tr>';
+            });
+            document.getElementById('settleTable').innerHTML = head + '</tbody>';
+        }
+
+        function animate(q, pay) {
+            document.getElementById('stopMsg').textContent = '';
+            let rem = pay;
+            const remEl = document.getElementById('remaining');
+            remEl.textContent = money(rem);
+            let i = 0;
+
+            const step = () => {
+                if (i >= q.length) { finishSettle(); return; }
+                const n = q[i];
+                rem = round2(Math.max(0, rem - n.paid));
+                remEl.textContent = money(rem);
+                document.querySelectorAll('tr.settling').forEach(r => r.classList.remove('settling'));
+
+                let el;
+                if (n.kind === 'prev') el = document.getElementById('p-' + n.idx);
+                else {
+                    el = document.getElementById(n.domId);
+                    const row = document.getElementById('row-' + cssId(n.wName));
+                    if (row) row.classList.add('settling');
+                }
+
+                if (el) {
+                    el.classList.remove('paid', 'partial', 'unpaid');
+                    el.classList.add(n.status);
+                    if (n.kind === 'prev') {
+                        el.textContent = n.status === 'paid' ? '✓ مُسوّى' : (n.status === 'partial' ? `جزئي: ${money(n.paid)}` : 'غير مسدد');
+                    } else if (n.status === 'partial') {
+                        el.innerHTML = `${money(n.paid)} <span class="stopbadge">توقف السداد</span>`;
+                        document.getElementById('stopMsg').innerHTML =
+                            `<strong class="text-danger">توقّف السداد عند: ${n.wName} — ${CFG.items.find(x => x.id === n.itemId).name}</strong> (لم يعد المبلغ كافياً)`;
+                    }
+                }
+                i++;
+                setTimeout(step, 170);
+            };
+            step();
+        }
+
+        function finishSettle() {
+            document.querySelectorAll('tr.settling').forEach(r => r.classList.remove('settling'));
+            const { q } = STATE.settlement, total = STATE.invoiceTotal;
+            const paidSum = round2(q.reduce((s, n) => s + n.paid, 0)),
+                  unpaidP = round2(q.reduce((s, n) => s + n.remP, 0)),
+                  penAdd  = round2(q.reduce((s, n) => s + n.nextPen, 0));
+
+            setTip('kTotal',   `قيمة الفاتورة كاملة: اشتراكات الشهر + الأرصدة السابقة + فروق التظلّمات`);
+            setTip('kPaid',    `مجموع ما وُزِّع فعلياً من المبلغ المدفوع على بنود الفاتورة = ${num(paidSum)} ر.ع`);
+            setTip('kUnpaid',  `${num(total)} − ${num(paidSum)} = ${num(round2(total - paidSum))} ر.ع، منها ${num(unpaidP)} أصل والباقي غرامات سابقة`);
+            setTip('kPenalty', `غرامة شهر واحد على كل بند غير مسدد بنسبته (٥.٥٪ للبنود العامة و٨٪ للادخار) ÷ 12 = ${num(penAdd)} ر.ع`);
+            document.getElementById('kTotal').textContent   = money(total);
+            document.getElementById('kPaid').textContent    = money(paidSum);
+            document.getElementById('kUnpaid').textContent  = money(unpaidP);
+            document.getElementById('kPenalty').textContent = money(penAdd);
+
+            const groups = {};
+            q.forEach(n => {
+                if (n.nextPen > 0) {
+                    (groups[n.pen] = groups[n.pen] || { base: 0, pen: 0 });
+                    groups[n.pen].base += n.remP;
+                    groups[n.pen].pen  += n.nextPen;
+                }
+            });
+
+            let h = '<thead><tr><th>فئة البند</th><th>نسبة الغرامة</th><th>الأصل الخاضع</th><th>الغرامة (عن شهر)</th></tr></thead><tbody>';
+            if (!Object.keys(groups).length) {
+                h += '<tr><td colspan="4" class="fw-700" style="color:#1b6f40">لا توجد غرامات — تمّت التسوية بالكامل خلال مهلة السماح</td></tr>';
+            } else {
+                Object.keys(groups).sort((a, b) => b - a).forEach(k => {
+                    const g = groups[k], isSav = (+k === 8);
+                    h += `<tr><td class="fw-700">${isSav ? 'الادخار' : 'بنود عامة'}</td>
+                        <td><span class="pill ${isSav ? 'pill-gold' : 'pill-g'}">${k}٪</span></td>
+                        <td${tip('مجموع الأصل غير المسدد من بنود هذه الفئة')}>${money(round2(g.base))}</td>
+                        <td class="fw-800 ${isSav ? 'text-gold' : 'text-spf'}"${tip(`${num(round2(g.base))} × ${k}٪ ÷ 12 شهراً = ${num(round2(g.pen))} ر.ع عن شهر واحد`)}>${money(round2(g.pen))}</td></tr>`;
+                });
+            }
+            document.getElementById('penTable').innerHTML = h + '</tbody>';
+
+            const oldPen = round2(q.reduce((s, n) => s + n.remK, 0));
+            const carry = round2(unpaidP + oldPen + penAdd);
+            setTip('carryTotal', `أصل غير مسدد ${num(unpaidP)} + غرامات سابقة غير مسددة ${num(oldPen)} + غرامة هذا الشهر ${num(penAdd)} = ${num(carry)} ر.ع`);
+            STATE.settlement.carryTotal = carry;
+            STATE.settlement.paidSum = paidSum;
+            STATE.settlement.unpaidP = unpaidP;
+            STATE.settlement.penAdd = penAdd;
+            document.getElementById('carryTotal').textContent = money(carry);
+            initTips();
+
+            show('resultCard');
+            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        /* ================= اعتماد الشهر ================= */
+        function commitMonth() {
+            if (!STATE.settlement) { spfAlert('نفّذ التسوية أولاً.'); return; }
+            const { q, paidSum, unpaidP, penAdd, carryTotal } = STATE.settlement;
+            const acc = { savings: { principal: 0, penalty: 0, age: 0, cnt: 0 }, general: { principal: 0, penalty: 0, age: 0, cnt: 0 } };
+
+            q.forEach(n => {
+                const remPenalty = round2(n.remK + n.nextPen);
+                if (n.remP > 0 || remPenalty > 0) {
+                    const t = (n.type === 'savings') ? 'savings' : 'general';
+                    acc[t].principal += n.remP;
+                    acc[t].penalty   += remPenalty;
+                    acc[t].age = Math.max(acc[t].age, n.kind === 'prev' ? n.pref.age : 0);
+                    acc[t].cnt++;
+                }
+            });
+
+            const newCarried = [];
+            ['general', 'savings'].forEach(t => {
+                if (acc[t].cnt > 0 && (acc[t].principal > 0.001 || acc[t].penalty > 0.001)) {
+                    newCarried.push({
+                        principal: round2(acc[t].principal), penalty: round2(acc[t].penalty), type: t,
+                        pen: t === 'savings' ? 8 : 5.5, age: acc[t].age + 1,
+                        origin: 'carried', src: 'مرحّل من الشهر ' + arNum(LEDGER.month)
+                    });
+                }
+            });
+
+            LEDGER.history.push({
+                month: LEDGER.month, total: round2(STATE.invoiceTotal), paid: round2(paidSum),
+                unpaid: round2(unpaidP), penalty: round2(penAdd), carry: round2(carryTotal), ts: Date.now()
+            });
+            LEDGER.carried = newCarried;
+            LEDGER.month += 1;
+            saveLedger(LEDGER);
+            refreshHeader();
+
+            resetSim();
+            if (window.spf && spf.showSuccess) spf.showSuccess('تم اعتماد الشهر وحفظه. ستظهر الأرصدة المرحّلة تلقائياً عند إصدار فاتورة الشهر التالي.');
+            else alert('تم اعتماد الشهر وحفظه.');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetSim() {
+            STATE = { workers: [], prev: [], invoiced: false, invoiceTotal: 0, useSaved: true, settlement: null, generated: false };
+            ['carriedCard', 'retroCard', 'invoiceCard', 'payCard', 'settleCard', 'resultCard'].forEach(hide);
+            document.getElementById('objList').innerHTML = '';
+            toggleObjTable();
+        }
+
+    </script>
+</body>
+</html>
