@@ -138,6 +138,9 @@
         .sim-compact th { font-size: .7rem; line-height: 1.35; white-space: normal; }
         .sim-compact td.wname { white-space: normal; min-width: 92px; }
         .cur-hint { font-size: .74rem; color: var(--spf-text-muted); margin-bottom: 8px; }
+        .pen-formula { font-family: ui-monospace, "Courier New", monospace; font-size: .78rem; color: var(--spf-text-muted); direction: ltr; text-align: right; }
+        .sim-table tr.pen-savings td { background: var(--spf-gold-light); }
+        .sim-table tr.pen-savings td:first-child { border-inline-start: 3px solid #c7a94e; }
         .sim-note {
             background: #fdf8ec; border: 1px solid #e6d4a8; color: #6b5010;
             border-radius: var(--spf-radius-sm); padding: 10px 14px;
@@ -291,7 +294,7 @@
         <div class="spf-card mb-4 d-none" id="invoiceCard">
             <div class="card-header-custom">فاتورة الشهر — الاشتراكات المستحقة</div>
             <div class="card-body">
-                <div class="cur-hint">جميع المبالغ بالريال العماني.</div>
+                <div class="cur-hint">جميع المبالغ بالريال العماني. عمود <strong>الادخار</strong> مميّز لأن غرامة تأخره ٨٪ بدل ٥.٥٪ لبقية البنود.</div>
                 <div class="tbl-scroll"><table class="spf-table sim-table sim-compact" id="invoiceTable"></table></div>
                 <div class="meter mt-3">
                     <div>
@@ -911,15 +914,16 @@
                 }
             });
 
-            let h = '<thead><tr><th>فئة البند</th><th>نسبة الغرامة</th><th>الأصل الخاضع</th><th>الغرامة (عن شهر)</th></tr></thead><tbody>';
+            let h = '<thead><tr><th>فئة البند</th><th>نسبة الغرامة</th><th>الأصل الخاضع</th><th>طريقة الاحتساب</th><th>الغرامة (عن شهر)</th></tr></thead><tbody>';
             if (!Object.keys(groups).length) {
-                h += '<tr><td colspan="4" class="fw-700" style="color:#1b6f40">لا توجد غرامات — تمّت التسوية بالكامل خلال مهلة السماح</td></tr>';
+                h += '<tr><td colspan="5" class="fw-700" style="color:#1b6f40">لا توجد غرامات — تمّت التسوية بالكامل خلال مهلة السماح</td></tr>';
             } else {
                 Object.keys(groups).sort((a, b) => b - a).forEach(k => {
                     const g = groups[k], isSav = (+k === 8);
-                    h += `<tr><td class="fw-700">${isSav ? 'الادخار' : 'بنود عامة'}</td>
+                    h += `<tr class="${isSav ? 'pen-savings' : ''}"><td class="fw-700">${isSav ? 'الادخار الإلزامي' : 'بنود الاشتراكات العامة'}</td>
                         <td><span class="pill ${isSav ? 'pill-gold' : 'pill-g'}">${k}٪</span></td>
                         <td${tip('مجموع الأصل غير المسدد من بنود هذه الفئة')}>${money(round2(g.base))}</td>
+                        <td class="pen-formula">${num(round2(g.base))} × ${k}٪ ÷ 12</td>
                         <td class="fw-800 ${isSav ? 'text-gold' : 'text-spf'}"${tip(`${num(round2(g.base))} × ${k}٪ ÷ 12 شهراً = ${num(round2(g.pen))} ر.ع عن شهر واحد`)}>${money(round2(g.pen))}</td></tr>`;
                 });
             }

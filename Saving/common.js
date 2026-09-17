@@ -96,6 +96,7 @@ function initLayout() {
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الصرف</li>
             <li class="nav-staff"><a href="10-disbursement-processing.html" id="link-10"><i class="fas fa-tasks"></i> معالجة طلبات الصرف</a></li>
+            <li class="nav-saver nav-staff"><a href="26-request-details.html" id="link-26"><i class="fas fa-file-circle-check"></i> تفاصيل طلب الصرف</a></li>
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الاستثمار</li>
             <li class="nav-staff"><a href="07-investment-return.html" id="link-07"><i class="fas fa-chart-line"></i> عائد الاستثمار</a></li>

@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تفاصيل طلب صرف المدخرات - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .tbl-scroll { overflow-x: auto; }
+
+        /* ===== ترويسة الطلب ===== */
+        .req-hero {
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap;
+            border: 1px solid var(--spf-border); border-inline-start: 5px solid var(--spf-green);
+            border-radius: var(--spf-radius); background: #fff; padding: 16px 20px; margin-bottom: 20px;
+        }
+        .req-hero .rh-id { font-size: .78rem; color: var(--spf-text-muted); }
+        .req-hero .rh-name { font-size: 1.15rem; font-weight: 800; color: var(--spf-green-dark); }
+        .req-hero .rh-meta { font-size: .82rem; color: var(--spf-text-muted); margin-top: 3px; }
+        .req-hero .rh-amount { text-align: start; }
+        .req-hero .rh-amount .lbl { font-size: .78rem; color: var(--spf-text-muted); }
+        .req-hero .rh-amount .val { font-size: 1.5rem; font-weight: 800; color: var(--spf-green-dark); }
+
+        /* ===== شريط المراحل ===== */
+        .req-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 22px; }
+        .rs-step {
+            position: relative; text-align: center; padding: 9px 6px;
+            border: 1px solid var(--spf-border); border-radius: 9px;
+            background: #fff; font-size: .76rem; color: var(--spf-text-muted);
+        }
+        .rs-step.done { background: var(--spf-green-lighter); border-color: #cfe6d9; color: var(--spf-green-dark); font-weight: 700; }
+        .rs-step.now { background: var(--spf-gold-light); border-color: #e6cf9c; color: #6b5010; font-weight: 800; }
+        .rs-step .rs-n {
+            display: inline-grid; place-items: center; width: 19px; height: 19px;
+            border-radius: 50%; background: #e9efec; color: var(--spf-text-muted);
+            font-size: .68rem; font-weight: 800; margin-inline-end: 5px;
+        }
+        .rs-step.done .rs-n { background: var(--spf-green); color: #fff; }
+        .rs-step.now .rs-n { background: #6b5010; color: #fff; }
+
+        /* ===== مطابقة الورثة ===== */
+        .heirs-review { margin-bottom: 0; font-size: .82rem; }
+        .heirs-review th { font-size: .76rem; white-space: nowrap; }
+        .heirs-review td { padding: 7px 8px; vertical-align: middle; }
+        .heirs-review input[type="text"] {
+            width: 74px; border: 1px solid var(--spf-border); border-radius: 6px;
+            padding: 3px 7px; font-family: inherit; font-size: .8rem; text-align: center;
+        }
+        .heirs-review tr.row-block { background: #fdeeee; }
+
+        /* ===== الالتزامات ===== */
+        .oblig-table { margin-bottom: 0; font-size: .84rem; }
+        .oblig-table td { padding: 7px 9px; vertical-align: middle; }
+        .ob-choice { display: inline-flex; gap: 5px; }
+        .ob-btn {
+            border: 1px solid var(--spf-border); background: #fff; color: #4d6459;
+            border-radius: 8px; padding: 3px 11px; font-size: .76rem; font-weight: 700;
+            font-family: inherit; cursor: pointer; white-space: nowrap;
+        }
+        .ob-btn:hover { border-color: var(--spf-green); }
+        .ob-btn.on-settle { background: var(--spf-green); border-color: var(--spf-green); color: #fff; }
+        .ob-btn.on-defer { background: #6b5010; border-color: #6b5010; color: #fff; }
+        .oblig-summary {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+            background: var(--spf-green-lighter); border: 1px solid #cfe6d9;
+            border-radius: var(--spf-radius); padding: 13px 16px;
+        }
+        .oblig-summary .os-lbl { font-size: .76rem; color: var(--spf-text-muted); }
+        .oblig-summary .os-val { font-size: 1.05rem; font-weight: 800; color: var(--spf-green-dark); }
+
+        /* ===== شريط إجراءات الموظف ===== */
+        .action-bar {
+            position: sticky; bottom: 0; z-index: 20;
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            border: 1px solid var(--spf-border); border-radius: var(--spf-radius);
+            background: #fff; padding: 14px 18px; margin-top: 8px;
+            box-shadow: 0 -8px 22px -18px rgba(10, 92, 54, .5);
+        }
+        .action-bar .ab-spacer { margin-inline-start: auto; }
+
+        @media (max-width: 767px) {
+            .req-steps { grid-template-columns: 1fr 1fr; }
+            .oblig-summary { grid-template-columns: 1fr 1fr; }
+        }
+        @media print { .action-bar, .spf-navbar, .spf-sidebar { display: none !important; } }
+    </style>
+</head>
+<body>
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>تفاصيل طلب صرف المدخرات</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item"><a href="#" id="backLink">قائمة الطلبات</a></li>
+                        <li class="breadcrumb-item active">تفاصيل الطلب</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge" id="roleBadge">—</span>
+            </div>
+        </div>
+
+        <div class="req-hero">
+            <div>
+                <div class="rh-id">رقم الطلب <span id="reqRef">DSB-2026-00418</span></div>
+                <div class="rh-name" id="requesterName">—</div>
+                <div class="rh-meta" id="reqMeta">—</div>
+            </div>
+            <div class="rh-amount">
+                <div class="lbl">المبلغ المطلوب صرفه</div>
+                <div class="val" id="reqAmount">12,480.500 ر.ع</div>
+                <div><span class="badge-status pending" id="reqStatus">قيد المراجعة</span></div>
+            </div>
+        </div>
+
+        <div class="req-steps">
+            <div class="rs-step done"><span class="rs-n">١</span>تقديم الطلب</div>
+            <div class="rs-step done"><span class="rs-n">٢</span>التحقق الآلي</div>
+            <div class="rs-step now"><span class="rs-n">٣</span>مراجعة الموظف</div>
+            <div class="rs-step"><span class="rs-n">٤</span>الاعتماد</div>
+            <div class="rs-step"><span class="rs-n">٥</span>الصرف</div>
+        </div>
+
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">تفاصيل الطلب</div>
+            <div class="card-body">
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-6 border-start">
+                            <h6 class="fw-800 text-spf mb-3">بيانات المبالغ</h6>
+                            <div class="d-flex justify-content-between mb-2"><span>إيداع ذاتي:</span> <strong>1,200.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>إيداع صاحب عمل:</span> <strong>850.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>عائد استثمار:</span> <strong>100.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
+                            <div class="d-flex justify-content-between border-top pt-2"><span>الإجمالي:</span> <strong class="text-spf-dark">2,150.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-800 text-spf mb-3">
+                                بيانات التحويل
+                                <span class="badge-status info ms-1" id="trfType">محلي</span>
+                            </h6>
+
+                            <div id="localDetails">
+                                <div class="mb-2"><span>البنك:</span> <strong>بنك مسقط</strong></div>
+                                <div class="mb-2"><span>رقم الحساب:</span> <strong>0412********9876</strong></div>
+                                <div class="mb-2"><span>الايبان:</span> <strong>OM67BMUS0000...</strong></div>
+                            </div>
+
+                            <div id="intlDetails" class="d-none">
+                                <div class="mb-2"><span>الدولة:</span> <strong>الهند</strong></div>
+                                <div class="mb-2"><span>البنك:</span> <strong>State Bank of India — Mumbai</strong></div>
+                                <div class="mb-2"><span>رمز SWIFT:</span> <strong>SBININBB104</strong></div>
+                                <div class="mb-2"><span>رقم الحساب:</span> <strong>********4471</strong></div>
+                                <div class="mb-2"><span>اسم المستفيد:</span> <strong>RAJESH KUMAR SHARMA</strong></div>
+                                <div class="mb-2"><span>حالة البيانات:</span> <span class="badge-status success">تم التحقق</span></div>
+                                <hr>
+                                <div class="mb-2"><span>سعر الصرف:</span> <strong>1 ر.ع = 216.40 INR</strong></div>
+                                <div class="mb-2"><span>الرسوم:</span> <strong>8.000 ر.ع — على المستفيد</strong></div>
+                                <div class="mb-2"><span>صافي المبلغ:</span> <strong class="text-spf-dark">462,340 INR</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6 class="fw-800 text-spf mb-3">التحقق من الأهلية (System Check)</h6>
+                    <div class="list-group mb-4">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>التحقق من إنهاء الخدمة (لغير العماني)</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>التحقق من مغادرة السلطنة (سجلات شرطة عمان السلطانية)</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>عدم وجود التزامات مالية قائمة</span>
+                            <i class="fas fa-exclamation-triangle text-warning" title="يوجد قسط متأخر"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>حالة العامل في وزارة العمل (تحديث يومي)</span>
+                            <span class="small fw-700 text-success">ملغي — 12/08/2026 <i class="fas fa-check-circle ms-1"></i></span>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>تطابق اسم المستفيد مع اسم العامل المسجل</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>صحة رقم الحساب ورمز البنك بحسب الدولة</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                        <div class="list-group-item d-flex justify-content-between align-items-center intl-check d-none">
+                            <span>اكتمال المستندات (الجواز وإثبات ملكية الحساب)</span>
+                            <i class="fas fa-check-circle text-success"></i>
+                        </div>
+                    </div>
+
+                    <!-- ===== مسار الوفاة: المستندات وحالة الأحوال المدنية ===== -->
+                    <div class="death-check d-none">
+                        <h6 class="fw-800 text-spf mb-3">طلب مقدَّم عن الغير — المدخر متوفى</h6>
+                        <div class="p-3 border rounded mb-4">
+                            <div class="row g-3 small">
+                                <div class="col-md-3">
+                                    <div class="text-muted">مقدّم الطلب</div>
+                                    <div class="fw-700">سالم بن أحمد الحبسي</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-muted">صلة القرابة بالمتوفى</div>
+                                    <div class="fw-700">ابن</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-muted">الرقم المدني للمتوفى</div>
+                                    <div class="fw-700">12345678</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="text-muted">حالة المدخر — الأحوال المدنية</div>
+                                    <div><span class="badge-status success">متوفى — 03/07/2026</span></div>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2 flex-wrap mt-3 border-top pt-3">
+                                <button class="btn btn-sm btn-spf-outline" onclick="viewDoc('إعلام الوراثة الشرعي')">
+                                    <i class="fas fa-file-contract me-1"></i> إعلام الوراثة الشرعي
+                                </button>
+                                <button class="btn btn-sm btn-spf-outline" onclick="viewDoc('شهادة الوفاة')">
+                                    <i class="fas fa-file-lines me-1"></i> شهادة الوفاة <span class="text-muted">(اختياري)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <h6 class="fw-800 text-spf mb-3">مطابقة الورثة والأنصبة مع إعلام الوراثة</h6>
+                        <div class="alert-spf alert-info mb-3">
+                            <i class="fas fa-circle-info"></i>
+                            <div>
+                                طابِق كل وريث مع ما ورد في الإعلام، وعدّل النصيب عند الاختلاف. ولا تُستكمل المعالجة
+                                ما لم يكن لكل وريث <strong>حساب بنكي نشط</strong> مستعلَم من ملاءة.
+                            </div>
+                        </div>
+                        <div class="tbl-scroll mb-2">
+                            <table class="spf-table heirs-review">
+                                <thead>
+                                    <tr>
+                                        <th>الوريث</th>
+                                        <th>الرقم المدني</th>
+                                        <th>صلة القرابة</th>
+                                        <th>النصيب</th>
+                                        <th>المبلغ المستحق</th>
+                                        <th>الحساب البنكي (ملاءة)</th>
+                                        <th id="heirMatchCol">مطابق للإعلام</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="heirsReview"></tbody>
+                            </table>
+                        </div>
+                        <div class="alert-spf alert-warning mb-4 d-none" id="heirBlockMsg">
+                            <i class="fas fa-ban"></i>
+                            <div>
+                                <strong>المعالجة موقوفة.</strong> لا يوجد حساب بنكي نشط لأحد الورثة على الأقل.
+                                لا يجوز إدخال بيانات الحساب يدويًا؛ يجب إنشاء الحساب لدى البنك أولًا ليظهر في ملاءة.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== الالتزامات المستحقة ===== -->
+                    <h6 class="fw-800 text-spf mb-3">الالتزامات المالية المستحقة على المدخر</h6>
+                    <div class="tbl-scroll mb-2">
+                        <table class="spf-table oblig-table">
+                            <thead>
+                                <tr>
+                                    <th>الالتزام</th>
+                                    <th>المصدر</th>
+                                    <th>تاريخ الاستحقاق</th>
+                                    <th>القيمة</th>
+                                    <th>القرار</th>
+                                </tr>
+                            </thead>
+                            <tbody id="obligList"></tbody>
+                        </table>
+                    </div>
+                    <div class="oblig-summary mb-4">
+                        <div>
+                            <div class="os-lbl">إجمالي الالتزامات</div>
+                            <div class="os-val" id="obligTotal">0.000 ر.ع</div>
+                        </div>
+                        <div>
+                            <div class="os-lbl">المؤكَّد تسويته من مبلغ الصرف</div>
+                            <div class="os-val text-spf" id="obligSettled">0.000 ر.ع</div>
+                        </div>
+                        <div>
+                            <div class="os-lbl">المؤجَّل</div>
+                            <div class="os-val text-gold" id="obligDeferred">0.000 ر.ع</div>
+                        </div>
+                        <div>
+                            <div class="os-lbl">صافي المبلغ المصروف بعد التسوية</div>
+                            <div class="os-val" id="netAfterOblig">0.000 ر.ع</div>
+                        </div>
+                    </div>
+
+                    <div class="intl-check d-none">
+                        <h6 class="fw-800 text-spf mb-3">حالة المعاملة في النظام المالي</h6>
+                        <div class="p-3 border rounded mb-4">
+                            <div class="row g-3 small">
+                                <div class="col-md-4">
+                                    <div class="text-muted">مرجع المعاملة في Oracle</div>
+                                    <div class="fw-700">#ORA-2026-04128</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-muted">تاريخ الدفع إلى Oracle</div>
+                                    <div class="fw-700">21/02/2026</div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="text-muted">الحالة</div>
+                                    <div><span class="badge-status pending">لدى قسم المصروفات</span></div>
+                                </div>
+                            </div>
+                            <div class="notes-panel mt-3 border-top pt-3">
+                                <div class="note-item">
+                                    <div>دفع المعاملة إلى النظام المالي (Push) واستلام مرجعها</div>
+                                    <div class="note-meta">21/02/2026 - 09:30</div>
+                                </div>
+                                <div class="note-item">
+                                    <div>اعتماد الطلب من موظف الصندوق</div>
+                                    <div class="note-meta">21/02/2026 - 09:05</div>
+                                </div>
+                            </div>
+                            <div class="small text-muted mt-2">
+                                <i class="fas fa-circle-info me-1"></i>
+                                ينشئ قسم المصروفات عملية التحويل الفعلية مع البنك ويحدد سعر الصرف والرسوم. وعند ارتداد العملية تُحفظ نتيجتها وسببها وتُعاد الحالة إلى تصحيح البيانات مع إشعار العامل.
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+
+        <!-- ===== إجراءات الموظف ===== -->
+        <div class="staff-only" id="staffActions">
+            <div class="spf-card mb-3">
+                <div class="card-header-custom">قرار الموظف</div>
+                <div class="card-body">
+                    <label class="form-label fw-700">مبررات القرار</label>
+                    <textarea class="form-control" rows="3" id="staffJustification" placeholder="أدخل الملاحظات التي ستُحفظ في سجل الطلب..."></textarea>
+                </div>
+            </div>
+            <div class="action-bar">
+                <button class="btn btn-spf-outline" onclick="action('docs')">
+                    <i class="fas fa-file-circle-plus me-1"></i> طلب وثائق إضافية
+                </button>
+                <button class="btn btn-danger" onclick="action('reject')">
+                    <i class="fas fa-xmark me-1"></i> رفض الطلب
+                </button>
+                <span class="ab-spacer"></span>
+                <button class="btn btn-spf px-4" onclick="action('approve')">
+                    <i class="fas fa-check me-1"></i> اعتماد الصرف
+                </button>
+            </div>
+        </div>
+
+        <!-- ===== ملاحظة المدخر ===== -->
+        <div class="alert-spf alert-info saver-only d-none" id="saverNote">
+            <i class="fas fa-circle-info"></i>
+            <div>
+                هذه الصفحة للاطلاع على حالة طلبك وتفاصيله. وسيصلك إشعار عند كل تغيير في حالة الطلب.
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        /* ================= سياق الطلب والدور ================= */
+        var REQUESTS = {
+            'DSB-2026-00418': {
+                name: 'أحمد بن سالم الحبسي', meta: 'طلب مقدَّم عن الغير — وفاة المدخر · قُدِّم في 05/07/2026',
+                amount: 12480.500, status: 'قيد المراجعة', intl: false, deceased: true
+            },
+            'DSB-2026-00402': {
+                name: 'سعيد بن راشد المعمري', meta: 'استحقاق معاش تقاعدي · قُدِّم في 20/02/2026',
+                amount: 2150.000, status: 'قيد المراجعة', intl: false, deceased: false
+            },
+            'DSB-2026-00411': {
+                name: 'هدى بنت خلفان الزدجالية', meta: 'بلوغ 180 شهرًا من الاشتراكات والإيداعات · قُدِّم في 19/02/2026',
+                amount: 3920.000, status: 'قيد المراجعة', intl: false, deceased: false
+            },
+            'DSB-2026-00397': {
+                name: 'راجيش كومار شارما', meta: 'انتهاء علاقة العمل ومغادرة السلطنة · قُدِّم في 18/02/2026',
+                amount: 1706.667, status: 'قيد المراجعة', intl: true, deceased: false
+            }
+        };
+
+        function qs(k) {
+            var m = new RegExp('[?&]' + k + '=([^&]*)').exec(window.location.search);
+            return m ? decodeURIComponent(m[1]) : null;
+        }
+
+        var ROLE = localStorage.getItem('spf-user-role') || 'saver';
+        var REF = qs('ref') || 'DSB-2026-00418';
+        var REQ = REQUESTS[REF] || REQUESTS['DSB-2026-00418'];
+        var DISB_TOTAL = REQ.amount;
+
+        function omr(n) {
+            return (Math.round(n * 1000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 }) + ' ر.ع';
+        }
+
+        /* ================= مسار الوفاة: الورثة ================= */
+        var HEIRS = [
+            { name: 'سالم بن أحمد الحبسي', id: '22119988', rel: 'ابن', share: '1/2', ratio: 0.5, iban: 'OM70 BMUS 0012 3456 7890 01', bank: 'بنك مسقط' },
+            { name: 'مريم بنت أحمد الحبسية', id: '22119989', rel: 'ابنة', share: '1/4', ratio: 0.25, iban: 'OM18 NBOM 0098 7654 3210 44', bank: 'البنك الوطني العُماني' },
+            { name: 'فاطمة بنت سعيد العامرية', id: '11002233', rel: 'زوجة', share: '1/8', ratio: 0.125, iban: '', bank: '' },
+            { name: 'أحمد بن علي الحبسي', id: '33445511', rel: 'ابن', share: '1/8', ratio: 0.125, iban: 'OM55 BDOF 0055 4433 2211 09', bank: 'بنك ظفار' }
+        ];
+
+        function renderHeirs() {
+            var body = document.getElementById('heirsReview');
+            if (!body) return;
+            var missing = 0;
+            var editable = ROLE === 'staff';
+            body.innerHTML = HEIRS.map(function (h, i) {
+                if (!h.iban) missing++;
+                var acct = h.iban
+                    ? '<div class="fw-700">' + h.bank + '</div><div class="small text-muted">' + h.iban + '</div>'
+                    : '<span class="badge-status rejected">لا يوجد حساب نشط</span>';
+                var share = editable
+                    ? '<input type="text" value="' + h.share + '" onchange="setShare(' + i + ', this.value)">'
+                    : '<span class="fw-700">' + h.share + '</span>';
+                return '<tr class="' + (h.iban ? '' : 'row-block') + '">' +
+                    '<td class="fw-700">' + h.name + '</td>' +
+                    '<td>' + h.id + '</td>' +
+                    '<td>' + h.rel + '</td>' +
+                    '<td>' + share + '</td>' +
+                    '<td class="fw-800 text-spf">' + omr(DISB_TOTAL * h.ratio) + '</td>' +
+                    '<td>' + acct + '</td>' +
+                    (editable ? '<td class="text-center"><input type="checkbox" class="form-check-input" checked></td>' : '') +
+                    '</tr>';
+            }).join('');
+            var msg = document.getElementById('heirBlockMsg');
+            if (msg) msg.classList.toggle('d-none', missing === 0);
+            var col = document.getElementById('heirMatchCol');
+            if (col) col.classList.toggle('d-none', !editable);
+        }
+
+        function setShare(i, val) {
+            var m = /^\s*(\d+)\s*\/\s*(\d+)\s*$/.exec(val);
+            HEIRS[i].ratio = m ? (+m[1] / +m[2]) : (parseFloat(val) || 0);
+            HEIRS[i].share = val;
+            renderHeirs();
+        }
+
+        function viewDoc(name) {
+            if (window.spf && spf.showSuccess) spf.showSuccess('عرض المستند: ' + name);
+            else alert('عرض المستند: ' + name);
+        }
+
+        /* ================= الالتزامات المستحقة ================= */
+        var OBLIGATIONS = [
+            { t: 'قسط قرض اجتماعي متأخر', src: 'نظام المستحقات', due: '15/05/2026', amt: 320.000, state: 'settle' },
+            { t: 'مبلغ مصروف بدون وجه حق', src: 'نظام المبالغ المصروفة بدون وجه حق', due: '02/03/2026', amt: 745.250, state: 'settle' },
+            { t: 'اشتراكات متأخرة — فرع كبار السن', src: 'نظام الاشتراكات', due: '28/02/2026', amt: 180.000, state: 'defer' }
+        ];
+
+        function renderObligations() {
+            var body = document.getElementById('obligList');
+            if (!body) return;
+            var editable = ROLE === 'staff';
+            body.innerHTML = OBLIGATIONS.map(function (o, i) {
+                var decision = editable
+                    ? '<div class="ob-choice">' +
+                        '<button class="ob-btn' + (o.state === 'settle' ? ' on-settle' : '') + '" onclick="setOblig(' + i + ',\'settle\')">تأكيد التسوية</button>' +
+                        '<button class="ob-btn' + (o.state === 'defer' ? ' on-defer' : '') + '" onclick="setOblig(' + i + ',\'defer\')">تأجيل</button>' +
+                      '</div>'
+                    : '<span class="badge-status ' + (o.state === 'settle' ? 'success' : 'pending') + '">' +
+                        (o.state === 'settle' ? 'تُسوَّى من مبلغ الصرف' : 'مؤجَّلة') + '</span>';
+                return '<tr>' +
+                    '<td class="fw-700">' + o.t + '</td>' +
+                    '<td class="small text-muted">' + o.src + '</td>' +
+                    '<td>' + o.due + '</td>' +
+                    '<td class="fw-800">' + omr(o.amt) + '</td>' +
+                    '<td>' + decision + '</td>' +
+                    '</tr>';
+            }).join('');
+            updateObligTotals();
+        }
+
+        function setOblig(i, state) {
+            OBLIGATIONS[i].state = state;
+            renderObligations();
+        }
+
+        function updateObligTotals() {
+            var total = OBLIGATIONS.reduce(function (s, o) { return s + o.amt; }, 0);
+            var settled = OBLIGATIONS.filter(function (o) { return o.state === 'settle'; })
+                                     .reduce(function (s, o) { return s + o.amt; }, 0);
+            document.getElementById('obligTotal').textContent = omr(total);
+            document.getElementById('obligSettled').textContent = omr(settled);
+            document.getElementById('obligDeferred').textContent = omr(total - settled);
+            document.getElementById('netAfterOblig').textContent = omr(DISB_TOTAL - settled);
+        }
+
+        /* ================= قرار الموظف ================= */
+        function action(type) {
+            var msg = {
+                approve: 'تم اعتماد طلب الصرف. يُدفع إلى النظام المالي لتنفيذ التحويل على حساب كل مستحق.',
+                reject: 'تم رفض الطلب وحُفظت المبررات في سجل الطلب، وأُشعر مقدّمه بالنتيجة.',
+                docs: 'تم إرسال طلب وثائق إضافية إلى مقدّم الطلب، وتحوّلت حالة الطلب إلى (بانتظار مستندات إضافية).'
+            }[type];
+            if (window.spf && spf.showSuccess) spf.showSuccess(msg); else alert(msg);
+            setTimeout(function () { window.location.href = '10-disbursement-processing.html'; }, 3000);
+        }
+
+        /* ================= التشغيل ================= */
+        document.addEventListener('DOMContentLoaded', function () {
+            var map = { saver: 'المدخر', employer: 'صاحب العمل', staff: 'موظف الصندوق' };
+            var badge = document.getElementById('roleBadge');
+            badge.textContent = map[ROLE] || map.saver;
+            badge.classList.add(ROLE);
+
+            document.getElementById('reqRef').textContent = REF;
+            document.getElementById('requesterName').textContent = REQ.name;
+            document.getElementById('reqMeta').textContent = REQ.meta;
+            document.getElementById('reqAmount').textContent = omr(REQ.amount);
+            document.getElementById('reqStatus').textContent = REQ.status;
+
+            var isStaff = ROLE === 'staff';
+            document.getElementById('staffActions').classList.toggle('d-none', !isStaff);
+            document.getElementById('saverNote').classList.toggle('d-none', isStaff);
+            document.getElementById('backLink').setAttribute('href',
+                isStaff ? '10-disbursement-processing.html' : '08-disbursement.html');
+
+            document.querySelectorAll('.death-check').forEach(function (el) {
+                el.classList.toggle('d-none', !REQ.deceased);
+            });
+            document.querySelectorAll('.intl-check').forEach(function (el) {
+                el.classList.toggle('d-none', !REQ.intl);
+            });
+            var iD = document.getElementById('intlDetails'), lD = document.getElementById('localDetails');
+            if (iD) iD.classList.toggle('d-none', !REQ.intl);
+            if (lD) lD.classList.toggle('d-none', REQ.intl);
+            var tt = document.getElementById('trfType');
+            if (tt) tt.textContent = REQ.intl ? 'دولي — بعد المغادرة' : 'محلي';
+
+            renderHeirs();
+            renderObligations();
+        });
+    </script>
+</body>
+</html>

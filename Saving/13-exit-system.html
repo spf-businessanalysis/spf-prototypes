@@ -37,9 +37,9 @@
                                 <h6 class="fw-800 text-spf-dark mb-3"><i class="fas fa-circle-info me-2"></i> أثر الخروج</h6>
                                 <ul class="list-group list-group-flush small mb-4">
                                     <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-warning"></i> تتوقف الإيداعات الاختيارية الجديدة من تاريخ الخروج.</li>
-                                    <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-success"></i> يبقى رصيدك كاملاً في حسابك دون أي خصم.</li>
+                                    <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-success"></i> يبقى رصيدك كاملاً دون أي خصم إلى حين صرفه.</li>
                                     <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-success"></i> يستمر احتساب عائد الاستثمار على رصيدك.</li>
-                                    <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-danger"></i> <strong>لا يُصرف رصيدك</strong> إلا عند تحقق أحد شروط استحقاق الصرف.</li>
+                                    <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-danger"></i> <strong>يجب تقديم طلب صرف مدخراتك خلال المدة المقررة</strong> من تاريخ الخروج.</li>
                                     <li class="list-group-item"><i class="fas fa-arrow-left me-2 text-spf"></i> يمكنك إعادة الاشتراك لاحقاً وفق الضوابط المعتمدة.</li>
                                 </ul>
                                 <div class="form-check">
@@ -48,20 +48,20 @@
                                 </div>
                             </div>
                             <div class="col-md-7 p-4 bg-light">
-                                <h6 class="fw-800 text-spf-dark mb-3">رصيدك بعد الخروج (يبقى كما هو)</h6>
+                                <h6 class="fw-800 text-spf-dark mb-3">رصيدك المستحق عند الخروج</h6>
                                 <div class="row g-3 small mb-3">
                                     <div class="col-6">إجمالي الإيداعات: <strong>1,380.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
                                     <div class="col-6">العوائد الموزعة: <strong>70.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong></div>
                                     <div class="col-12 border-top pt-2 mt-2">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <span class="h5 mb-0 fw-800">الرصيد المحتفظ به في حسابك:</span>
+                                            <span class="h5 mb-0 fw-800">الرصيد المستحق لك:</span>
                                             <strong class="h4 mb-0 text-spf-dark fw-800">1,450.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></strong>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="p-3 bg-white rounded border small mb-3">
-                                    <i class="fas fa-lock me-1 text-muted"></i>
-                                    لا توجد في هذه الشاشة أي خيارات لتحويل المبلغ إلى حساب بنكي. لمتابعة استحقاقك مستقبلاً راجع
+                                    <i class="fas fa-circle-info me-1 text-muted"></i>
+                                    بعد تأكيد الخروج يُنشئ النظام تذكيرًا بتقديم طلب الصرف، وتقدّمه من
                                     <a href="08-disbursement.html" class="text-spf">شاشة طلب صرف المدخرات</a>.
                                 </div>
                                 <div class="text-start">
@@ -90,7 +90,7 @@
                 spf.showError('يرجى الموافقة على الإقرار للمتابعة.');
                 return;
             }
-            spf.showSuccess("تم تنفيذ خروجك من الادخار الاختياري. رصيدك يبقى محفوظاً في حسابك ويستمر استحقاقه للعائد، ولا يُصرف إلا عند تحقق أحد شروط الاستحقاق.");
+            spf.showSuccess("تم تنفيذ خروجك من الادخار الاختياري. يجب تقديم طلب صرف مدخراتك خلال المدة المقررة من تاريخ الخروج، ويمكنك إعادة التسجيل لاحقًا وفق الضوابط.");
             setTimeout(() => {
                 window.location.href = '01-dashboard.html';
             }, 3000);

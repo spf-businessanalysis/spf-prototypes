@@ -7,6 +7,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ===== اختيار نوع الطلب ===== */
+        .req-type {
+            display: block; height: 100%; cursor: pointer;
+            border: 1px solid var(--spf-border); border-radius: var(--spf-radius-sm);
+            padding: 12px 14px; background: #fff; transition: var(--spf-transition);
+        }
+        .req-type:hover { border-color: var(--spf-green); }
+        .req-type.is-on { border-color: var(--spf-green); background: var(--spf-green-lighter); }
+        .req-type input { position: absolute; opacity: 0; pointer-events: none; }
+        .req-type .rt-title { display: block; font-weight: 800; color: var(--spf-green-dark); }
+        .req-type .rt-desc { display: block; font-size: .8rem; color: var(--spf-text-muted); margin-top: 3px; line-height: 1.7; }
+
+        /* ===== وسوم الإلزام ===== */
+        .req-badge, .opt-badge {
+            font-size: .66rem; font-weight: 700; border-radius: 999px; padding: 1px 8px;
+            vertical-align: middle; margin-inline-start: 5px;
+        }
+        .req-badge { background: var(--spf-green-lighter); color: var(--spf-green-dark); border: 1px solid #cfe6d9; }
+        .opt-badge { background: #f1f3f5; color: #5c6771; border: 1px solid #dfe3e7; }
+
+        /* ===== جدول الورثة ===== */
+        .heirs-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+        .heirs-table { margin-bottom: 0; font-size: .82rem; }
+        .heirs-table th { font-size: .76rem; white-space: nowrap; }
+        .heirs-table td { padding: 5px 7px; vertical-align: middle; }
+        .heirs-table input, .heirs-table select {
+            width: 100%; min-width: 88px;
+            border: 1px solid var(--spf-border); border-radius: 6px;
+            padding: 4px 7px; font-family: inherit; font-size: .8rem;
+        }
+        .tbl-scroll { overflow-x: auto; }
+    </style>
 </head>
 <body data-user-role="saver">
     <div id="navbarPlaceholder"></div>
@@ -81,6 +114,113 @@
                     <div class="card-header-custom">بيانات طلب الصرف</div>
                     <div class="card-body">
                         <form id="disbursementForm">
+
+                            <div class="mb-4">
+                                <label class="form-label fw-700">نوع الطلب</label>
+                                <div class="row g-2">
+                                    <div class="col-md-6">
+                                        <label class="req-type is-on" id="rtSelf">
+                                            <input type="radio" name="requestFor" value="self" checked onchange="switchRequestType()">
+                                            <span class="rt-title"><i class="fas fa-user me-1"></i> عن النفس</span>
+                                            <span class="rt-desc">أقدّم الطلب لنفسي عند تحقق أحد شروط الاستحقاق.</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="req-type" id="rtOther">
+                                            <input type="radio" name="requestFor" value="other" onchange="switchRequestType()">
+                                            <span class="rt-title"><i class="fas fa-users me-1"></i> عن الغير</span>
+                                            <span class="rt-desc">أقدّم الطلب نيابة عن مدخر متوفى بصفتي من ذويه أو معارفه.</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ===== مسار الوفاة ===== -->
+                            <div id="deceasedBlock" class="d-none">
+                                <div class="alert-spf alert-info mb-4">
+                                    <i class="fas fa-circle-info"></i>
+                                    <div>
+                                        مدخرات المتوفى <strong>تركة</strong> تؤول إلى الورثة الشرعيين، ولا تُصرف إلا بموجب إعلام وراثة شرعي.
+                                        ويُصرف نصيب كل وريث على <strong>حسابه البنكي هو</strong>.
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-700">الرقم المدني للمتوفى</label>
+                                        <input type="text" class="form-control" id="deceasedId" value="12345678" maxlength="8">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-700">تاريخ انتهاء البطاقة الشخصية</label>
+                                        <input type="date" class="form-control" id="deceasedCardExpiry" value="2027-04-30">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-700">صلة القرابة بالمتوفى</label>
+                                        <select class="form-select" id="deceasedRelation">
+                                            <option>ابن</option>
+                                            <option>ابنة</option>
+                                            <option>زوج</option>
+                                            <option>زوجة</option>
+                                            <option>أب</option>
+                                            <option>أم</option>
+                                            <option>أخ</option>
+                                            <option>أخت</option>
+                                            <option>عم</option>
+                                            <option>خال</option>
+                                            <option>حفيد</option>
+                                            <option>قريب آخر</option>
+                                            <option>جار</option>
+                                            <option>صديق</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-700">إعلام الوراثة الشرعي <span class="req-badge">إلزامي</span></label>
+                                        <input type="file" class="form-control" id="inheritanceDoc">
+                                        <div class="form-text">تُبنى عليه أسماء الورثة وأنصبتهم.</div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-700">شهادة الوفاة <span class="opt-badge">اختياري</span></label>
+                                        <input type="file" class="form-control" id="deathCertDoc">
+                                        <div class="form-text">لا يتوقف قبول الطلب على إرفاقها.</div>
+                                    </div>
+                                </div>
+
+                                <div class="heirs-head">
+                                    <span class="fw-800 text-spf-dark">بيانات الورثة كما وردت في إعلام الوراثة</span>
+                                    <button type="button" class="btn btn-sm btn-spf-outline" onclick="addHeir()">
+                                        <i class="fas fa-plus me-1"></i> إضافة وريث
+                                    </button>
+                                </div>
+                                <div class="tbl-scroll">
+                                    <table class="spf-table heirs-table">
+                                        <thead>
+                                            <tr>
+                                                <th>الاسم</th>
+                                                <th>الرقم المدني</th>
+                                                <th>تاريخ الميلاد</th>
+                                                <th>صلة القرابة</th>
+                                                <th>النسبة من الإرث</th>
+                                                <th style="width:1%"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="heirsList"></tbody>
+                                    </table>
+                                </div>
+
+                                <div class="alert-spf alert-warning mt-3 mb-4">
+                                    <i class="fas fa-shield-halved"></i>
+                                    <div>
+                                        عند حفظ الطلب يتحقق النظام آليًا من أن حالة صاحب الرقم المدني <strong>متوفى</strong> لدى الأحوال المدنية،
+                                        ومن وجود مدخرات قائمة له. ولا يمكن تقديم الطلب إذا أخفق أي من التحققين.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ===== مسار عن النفس ===== -->
+                            <div id="selfBlock">
                             <div class="mb-4">
                                 <label class="form-label fw-700">شرط استحقاق الصرف</label>
                                 <select class="form-select" id="disbursementReason" onchange="checkReason()">
@@ -253,6 +393,7 @@
                                     <div>لا يُنفَّذ التحويل إلا ببيانات <strong>تم التحقق</strong> منها وباسمك أنت. إذا كانت بياناتك ناقصة أو بحاجة إلى تحديث، تُحال الحالة إلى معالجة يدوية وقد تطول مدة الصرف.</div>
                                 </div>
                             </div>
+                            </div>
 
                             <div class="mb-4">
                                 <label class="form-label fw-700">ملاحظات إضافية</label>
@@ -267,11 +408,99 @@
                 </div>
             </div>
         </div>
+
+        <div class="spf-card mt-4">
+            <div class="card-header-custom">طلباتي السابقة</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="spf-table">
+                        <thead>
+                            <tr>
+                                <th>رقم الطلب</th>
+                                <th>سبب الاستحقاق</th>
+                                <th>تاريخ التقديم</th>
+                                <th>المبلغ</th>
+                                <th>الحالة</th>
+                                <th>إجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="fw-700">DSB-2026-00411</td>
+                                <td>بلوغ 180 شهرًا من الاشتراكات والإيداعات</td>
+                                <td>19/02/2026</td>
+                                <td>3,920.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status pending">قيد المراجعة</span></td>
+                                <td>
+                                    <a class="btn btn-sm btn-spf-outline py-1" href="26-request-details.html?ref=DSB-2026-00411">
+                                        <i class="fas fa-eye me-1"></i> عرض التفاصيل
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="fw-700">DSB-2026-00418</td>
+                                <td>وفاة المدخر — طلب مقدَّم عن الغير</td>
+                                <td>05/07/2026</td>
+                                <td>12,480.500 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                <td><span class="badge-status pending">قيد المراجعة</span></td>
+                                <td>
+                                    <a class="btn btn-sm btn-spf-outline py-1" href="26-request-details.html?ref=DSB-2026-00418">
+                                        <i class="fas fa-eye me-1"></i> عرض التفاصيل
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="common.js"></script>
     <script>
+
+        /* ===== نوع الطلب: عن النفس / عن الغير ===== */
+        function switchRequestType() {
+            var isOther = document.querySelector('input[name="requestFor"]:checked').value === 'other';
+            document.getElementById('deceasedBlock').classList.toggle('d-none', !isOther);
+            document.getElementById('selfBlock').classList.toggle('d-none', isOther);
+            document.getElementById('rtSelf').classList.toggle('is-on', !isOther);
+            document.getElementById('rtOther').classList.toggle('is-on', isOther);
+            if (isOther && !document.getElementById('heirsList').children.length) {
+                addHeir(); addHeir();
+            }
+        }
+
+        /* ===== جدول الورثة ===== */
+        var HEIR_SAMPLES = [
+            { name: 'سالم بن أحمد الحبسي', id: '22119988', dob: '1994-03-12', rel: 'ابن', share: '1/2' },
+            { name: 'مريم بنت أحمد الحبسية', id: '22119989', dob: '1997-11-05', rel: 'ابنة', share: '1/4' },
+            { name: 'فاطمة بنت سعيد العامرية', id: '11002233', dob: '1968-06-21', rel: 'زوجة', share: '1/8' },
+            { name: 'أحمد بن علي الحبسي', id: '33445511', dob: '2001-01-30', rel: 'ابن', share: '1/8' }
+        ];
+        var HEIR_RELATIONS = ['ابن', 'ابنة', 'زوج', 'زوجة', 'أب', 'أم', 'أخ', 'أخت', 'عم', 'خال', 'حفيد', 'قريب آخر'];
+
+        function addHeir() {
+            var body = document.getElementById('heirsList');
+            var s = HEIR_SAMPLES[body.children.length % HEIR_SAMPLES.length];
+            var opts = HEIR_RELATIONS.map(function (r) {
+                return '<option' + (r === s.rel ? ' selected' : '') + '>' + r + '</option>';
+            }).join('');
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td><input type="text" value="' + s.name + '"></td>' +
+                '<td><input type="text" maxlength="8" value="' + s.id + '"></td>' +
+                '<td><input type="date" value="' + s.dob + '"></td>' +
+                '<td><select>' + opts + '</select></td>' +
+                '<td><input type="text" value="' + s.share + '"></td>' +
+                '<td><button type="button" class="btn btn-sm btn-spf-outline" onclick="removeHeir(this)"><i class="fas fa-xmark"></i></button></td>';
+            body.appendChild(tr);
+        }
+
+        function removeHeir(btn) {
+            btn.closest('tr').remove();
+        }
         document.addEventListener('DOMContentLoaded', function() {
             const role = localStorage.getItem('spf-user-role') || 'saver';
             if (role === 'employer' || role === 'staff') {
@@ -340,7 +569,56 @@
             updateBankBlocks();
         }
 
+
+        /* ===== تقديم الطلب عن الغير: التحققان الآليان ===== */
+        /* أرقام للمحاكاة: 12345678 حالته متوفى وله مدخرات — وغيرها يُظهر رسائل التعذّر */
+        var DECEASED_REGISTRY = {
+            '12345678': { status: 'deceased', hasSavings: true },
+            '87654321': { status: 'alive', hasSavings: true },
+            '11223344': { status: 'deceased', hasSavings: false }
+        };
+
+        function submitOnBehalf() {
+            var id = (document.getElementById('deceasedId').value || '').trim();
+            var expiry = document.getElementById('deceasedCardExpiry').value;
+            var heirs = document.getElementById('heirsList').children.length;
+
+            if (id.length !== 8) {
+                spf.showError('يرجى إدخال الرقم المدني للمتوفى المكوّن من 8 أرقام.');
+                return;
+            }
+            if (!expiry) {
+                spf.showError('يرجى إدخال تاريخ انتهاء البطاقة الشخصية للمتوفى.');
+                return;
+            }
+            if (!heirs) {
+                spf.showError('يرجى إدخال بيانات الورثة كما وردت في إعلام الوراثة.');
+                return;
+            }
+
+            var rec = DECEASED_REGISTRY[id];
+
+            /* التحقق الأول: حالة الوفاة في الأحوال المدنية */
+            if (!rec || rec.status !== 'deceased') {
+                spf.showError('تعذّر تقديم الطلب حاليًا: حالة صاحب الرقم المدني غير محدّثة لدى الأحوال المدنية.');
+                return;
+            }
+
+            /* التحقق الثاني: وجود مدخرات — رسالة موحّدة لا توضّح السبب */
+            if (!rec.hasSavings) {
+                spf.showError('تعذّر تقديم الطلب حاليًا. يرجى مراجعة الصندوق.');
+                return;
+            }
+
+            spf.showSuccess('تم استلام طلب صرف مدخرات المتوفى. سيُراجع قسم الادخار إعلام الوراثة وبيانات الورثة وأنصبتهم، ويُصرف نصيب كل وريث على حسابه البنكي هو. ولا تكتمل المعالجة قبل وجود حساب بنكي نشط لكل وريث.');
+            setTimeout(function () { window.location.href = '01-dashboard.html'; }, 4000);
+        }
         function submitDisbursement() {
+            // مسار الوفاة: تحققان آليان قبل قبول الطلب
+            if (document.querySelector('input[name="requestFor"]:checked').value === 'other') {
+                submitOnBehalf();
+                return;
+            }
             const reason = document.getElementById('disbursementReason').value;
             if (!reason) {
                 spf.showError('يرجى اختيار سبب طلب الصرف للمتابعة.');
