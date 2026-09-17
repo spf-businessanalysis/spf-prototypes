@@ -100,6 +100,7 @@ function initLayout() {
 
             <li class="nav-staff sidebar-category-header mt-3">موظفي الاستثمار</li>
             <li class="nav-staff"><a href="07-investment-return.html" id="link-07"><i class="fas fa-chart-line"></i> عائد الاستثمار</a></li>
+            <li class="nav-staff"><a href="27-roi-simulation.html" id="link-27"><i class="fas fa-calculator"></i> محاكاة احتساب العائد</a></li>
             <li class="nav-staff"><a href="12-surplus-transfers.html" id="link-12"><i class="fas fa-exchange-alt"></i> الإيداعات المباشرة</a></li>
 
             <li class="nav-saver nav-employer"><a href="05-deposit.html" id="link-05"><i class="fas fa-hand-holding-usd"></i> الإيداع الإلكتروني</a></li>

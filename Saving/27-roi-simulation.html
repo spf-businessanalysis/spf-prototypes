@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاكاة احتساب العائد من الاستثمار - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .tbl-scroll { overflow-x: auto; }
+        .has-tip { cursor: help; }
+        .tooltip-inner { max-width: 300px; font-size: .78rem; line-height: 1.85; text-align: start; }
+
+        /* ===== شريط النتيجة ===== */
+        .result-bar {
+            display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+            border: 1px solid #cfe6d9; border-radius: var(--spf-radius);
+            background: var(--spf-green-lighter); padding: 14px 20px; margin-bottom: 18px;
+        }
+        .rb-item .rb-lbl { font-size: .76rem; color: var(--spf-text-muted); }
+        .rb-item .rb-val { font-size: 1.3rem; font-weight: 800; color: var(--spf-green-dark); line-height: 1.3; }
+        .rb-item.gold .rb-val { color: #6b5010; }
+        .rb-rate { display: flex; align-items: center; gap: 7px; }
+        .rb-rate input {
+            width: 72px; border: 1px solid var(--spf-border); border-radius: 7px;
+            padding: 4px 8px; font-family: inherit; font-size: .9rem; font-weight: 700; text-align: center;
+        }
+
+        /* ===== لوحة الأشهر ===== */
+        .months { display: grid; grid-template-columns: repeat(auto-fill, minmax(186px, 1fr)); gap: 8px; }
+        .m-card {
+            border: 1px solid var(--spf-border); border-radius: var(--spf-radius-sm);
+            background: #fff; padding: 8px 9px; display: flex; flex-direction: column; gap: 5px;
+            min-width: 0; overflow: hidden;
+        }
+        .m-card.has-tx { border-color: #cfe6d9; background: #fcfefd; }
+        .carry-strip {
+            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+            border: 1px solid #cfe6d9; border-inline-start: 4px solid var(--spf-green);
+            border-radius: var(--spf-radius-sm); background: var(--spf-green-lighter);
+            padding: 10px 16px; margin-bottom: 12px;
+        }
+        .carry-strip .cs-title { font-size: .85rem; font-weight: 800; color: var(--spf-green-dark); }
+        .carry-strip .cs-title i { margin-inline-end: 5px; }
+        .carry-strip .cs-amt { font-size: 1.1rem; font-weight: 800; color: var(--spf-green-dark); }
+        .carry-strip .cs-amt span { font-size: .72rem; font-weight: 400; color: var(--spf-text-muted); }
+        .carry-strip .cs-badge {
+            font-size: .68rem; font-weight: 700; color: var(--spf-green-dark);
+            background: #fff; border: 1px solid #cfe6d9; border-radius: 999px; padding: 2px 10px;
+        }
+        .carry-strip .cs-res { display: flex; gap: 10px; margin-inline-start: auto; flex-wrap: wrap; }
+        .carry-strip .cs-chip {
+            display: inline-flex; align-items: center; gap: 7px;
+            background: #fff; border: 1px solid #cfe6d9; border-radius: 999px; padding: 5px 14px;
+        }
+        .carry-strip .cs-chip i { font-size: .74rem; }
+        .carry-strip .cs-lbl { font-size: .7rem; color: var(--spf-text-muted); }
+        .carry-strip .cs-val { font-size: .95rem; font-weight: 800; }
+        .carry-strip .cs-chip.gain { border-color: #e6cf9c; background: var(--spf-gold-light); }
+        .carry-strip .cs-chip.gain i, .carry-strip .cs-chip.gain .cs-val { color: #6b5010; }
+        .carry-strip .cs-chip.total { border-color: var(--spf-green); }
+        .carry-strip .cs-chip.total i, .carry-strip .cs-chip.total .cs-val { color: var(--spf-green-dark); }
+        .m-head { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+        .m-name { font-size: .82rem; font-weight: 800; color: var(--spf-green-dark); }
+        .m-months { font-size: .66rem; color: var(--spf-text-muted); }
+        .m-row { display: flex; align-items: center; gap: 4px; min-width: 0; }
+        .m-row select {
+            flex: 0 0 34px; width: 34px; border: 1px solid var(--spf-border); border-radius: 6px;
+            padding: 2px 1px; font-family: inherit; font-size: .78rem; font-weight: 800; text-align: center;
+        }
+        .m-row select.in { color: var(--spf-green); }
+        .m-row select.out { color: #b3261e; }
+        .m-row input {
+            flex: 1; min-width: 0; border: 1px solid var(--spf-border); border-radius: 6px;
+            padding: 2px 5px; font-family: inherit; font-size: .78rem; text-align: center;
+        }
+        .m-row button {
+            border: none; background: none; color: #b3261e; cursor: pointer;
+            padding: 0 2px; font-size: .72rem; line-height: 1;
+        }
+        .m-add {
+            border: 1px dashed var(--spf-border); background: none; color: var(--spf-text-muted);
+            border-radius: 6px; padding: 2px; font-size: .7rem; font-family: inherit; cursor: pointer;
+        }
+        .m-add:hover { border-color: var(--spf-green); color: var(--spf-green-dark); }
+        .m-foot {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+            border-top: 1px dashed #e3eae6; padding-top: 5px; margin-top: auto;
+        }
+        .m-foot.empty { display: block; text-align: center; font-size: .7rem; color: var(--spf-text-muted); }
+        .m-foot > div { text-align: center; min-width: 0; }
+        .m-foot .mf-lbl { display: block; font-size: .62rem; color: var(--spf-text-muted); }
+        .m-foot .mf-val { display: block; font-size: .76rem; font-weight: 800; color: #6b5010; }
+        .m-foot .mf-val.tot { color: var(--spf-green-dark); }
+
+        /* ===== الخروج من النظام ===== */
+        .exit-verdict {
+            display: flex; align-items: center; gap: 9px;
+            border-radius: var(--spf-radius-sm); padding: 10px 14px; font-size: .86rem; font-weight: 700;
+        }
+        .exit-verdict.ok { background: var(--spf-green-lighter); border: 1px solid #cfe6d9; color: var(--spf-green-dark); }
+        .exit-verdict.late { background: #fdeeee; border: 1px solid #f2cecb; color: #a8291f; }
+        .exit-table { margin-bottom: 0; font-size: .82rem; }
+        .exit-table td { padding: 6px 9px; vertical-align: middle; }
+        .exit-table tr.zero td { color: var(--spf-text-muted); }
+
+    </style>
+</head>
+<body>
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4>محاكاة احتساب العائد من الاستثمار</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">محاكاة احتساب العائد</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge staff">موظف الصندوق</span>
+            </div>
+        </div>
+
+        <!-- ===== النتيجة الحيّة ===== -->
+        <div class="result-bar">
+            <div class="rb-rate">
+                <span class="rb-lbl">نسبة العائد السنوية</span>
+                <input type="number" step="0.25" id="rate" value="3" oninput="recalc()"> <span class="fw-800">٪</span>
+            </div>
+            <div class="rb-item">
+                <div class="rb-lbl">رصيد مرحّل من العام السابق</div>
+                <div class="rb-rate">
+                    <input type="number" step="10" id="carry" value="1200" oninput="recalc()" style="width:92px">
+                    <span class="rb-lbl">ر.ع</span>
+                </div>
+            </div>
+            <div class="rb-item">
+                <div class="rb-lbl">مجموع الأصل</div>
+                <div class="rb-val" id="outPrincipal">—</div>
+            </div>
+            <div class="rb-item gold">
+                <div class="rb-lbl">العائد المحتسب</div>
+                <div class="rb-val has-tip" id="outReturn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">—</div>
+            </div>
+            <div class="rb-item">
+                <div class="rb-lbl">رصيد نهاية السنة</div>
+                <div class="rb-val has-tip" id="outEnd" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">—</div>
+            </div>
+        </div>
+
+        <!-- ===== أشهر السنة ===== -->
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">
+                <span>عمليات السنة موزّعة على الأشهر</span>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-sm btn-spf-outline" onclick="loadDefaults()">
+                        <i class="fas fa-rotate-left me-1"></i> إعادة المثال
+                    </button>
+                    <button class="btn btn-sm btn-spf-outline" onclick="clearAll()">
+                        <i class="fas fa-eraser me-1"></i> تفريغ
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="carryStrip"></div>
+                <div class="months" id="monthsBoard"></div>
+            </div>
+        </div>
+
+        <!-- ===== الخروج من النظام ===== -->
+        <div class="spf-card mb-4">
+            <div class="card-header-custom">أثر الخروج من النظام على العائد</div>
+            <div class="card-body">
+                <p class="text-muted small mb-3">
+                    يلتزم المدخر بإخطار الصندوق بخروجه وطلب صرف مدخراته خلال <strong>شهر</strong> من تاريخ الخروج.
+                    فإن تأخّر، تُحتسب مدخراته في الفترة التي أصبح فيها غير مشترك
+                    <strong>بالحد الأدنى لعوائد الاستثمار (٢٪) لمدة عام واحد، ودون أي عائد بعد ذلك العام</strong>.
+                </p>
+
+                <div class="row g-3 align-items-end mb-3">
+                    <div class="col-md-3">
+                        <label class="form-label small mb-1 fw-700">تاريخ الخروج</label>
+                        <input type="date" class="form-control form-control-sm" id="exitDate" value="2026-03-15" onchange="recalcExit()">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small mb-1 fw-700">تاريخ إخطار الصندوق</label>
+                        <input type="date" class="form-control form-control-sm" id="noticeDate" value="2026-04-02" onchange="recalcExit()">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small mb-1 fw-700">الحد الأدنى للعائد ٪</label>
+                        <input type="number" step="0.25" class="form-control form-control-sm" id="minRate" value="2" oninput="recalcExit()">
+                    </div>
+                    <div class="col-md-3">
+                        <div class="exit-verdict ok" id="exitVerdict">—</div>
+                    </div>
+                </div>
+
+                <div class="tbl-scroll">
+                    <table class="spf-table exit-table">
+                        <thead>
+                            <tr>
+                                <th>الفترة</th>
+                                <th>النسبة المطبّقة</th>
+                                <th>الرصيد في بدايتها</th>
+                                <th>العائد عنها</th>
+                                <th>الرصيد في نهايتها</th>
+                            </tr>
+                        </thead>
+                        <tbody id="exitBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        var MONTHS = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                      'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+
+        /* مثال افتراضي بأرقام واقعية: رصيد يقارب 2,400 ر.ع */
+        var DEFAULTS = [
+            { m: 1,  kind: 'in',  amount: 250 },
+            { m: 3,  kind: 'in',  amount: 180 },
+            { m: 5,  kind: 'in',  amount: 300 },
+            { m: 7,  kind: 'out', amount: 120 },
+            { m: 8,  kind: 'in',  amount: 220 },
+            { m: 10, kind: 'in',  amount: 150 },
+            { m: 12, kind: 'in',  amount: 200 }
+        ];
+
+        var TX = [];
+        var YEAR_END = 0;
+
+        function omr(n) {
+            return (Math.round(n * 1000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+        }
+        function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+
+        /* ================= لوحة الأشهر ================= */
+        function renderBoard() {
+            var rate = (+document.getElementById('rate').value || 0) / 100;
+            var carry = +document.getElementById("carry").value || 0;
+            var carryEnd = carry * Math.pow(1 + rate / 12, 12);
+            var carryStrip = carry > 0
+                ? "<div class=\"carry-strip\">"
+                    + "<div class=\"cs-title\"><i class=\"fas fa-rotate-left\"></i> مُرحَّل من العام السابق</div>"
+                    + "<div class=\"cs-amt\">" + omr(carry) + " <span>ر.ع</span></div>"
+                    + "<div class=\"cs-badge has-tip\" data-bs-toggle=\"tooltip\" title=\"الرصيد المرحّل موجود منذ أول السنة، فيستفيد من الاثني عشر شهرًا كاملة.\">12 شهر استفادة</div>"
+                    + "<div class=\"cs-res\">"
+                        + "<div class=\"cs-chip gain\"><i class=\"fas fa-arrow-trend-up\"></i>"
+                            + "<span class=\"cs-lbl\">العائد</span><span class=\"cs-val\">" + omr(carryEnd - carry) + "</span></div>"
+                        + "<div class=\"cs-chip total\"><i class=\"fas fa-equals\"></i>"
+                            + "<span class=\"cs-lbl\">الإجمالي</span><span class=\"cs-val\">" + omr(carryEnd) + "</span></div>"
+                      + "</div>"
+                  + "</div>"
+                : "";
+            var monthCards = MONTHS.map(function (name, i) {
+                var m = i + 1, months = 12 - m;
+                var rows = TX.filter(function (t) { return t.m === m; });
+                var monthPrincipal = rows.reduce(function (s, t) {
+                    return s + (t.kind === "in" ? 1 : -1) * t.amount;
+                }, 0);
+                var monthEnd = monthPrincipal * Math.pow(1 + rate / 12, months);
+                var monthGain = monthEnd - monthPrincipal;
+                var body = rows.map(function (t) {
+                    var k = TX.indexOf(t);
+                    return '<div class="m-row">' +
+                        '<select class="' + t.kind + '" onchange="setKind(' + k + ', this.value)">' +
+                            '<option value="in"' + (t.kind === 'in' ? ' selected' : '') + '>+</option>' +
+                            '<option value="out"' + (t.kind === 'out' ? ' selected' : '') + '>−</option>' +
+                        '</select>' +
+                        '<input type="number" step="10" value="' + t.amount + '" oninput="setAmount(' + k + ', this.value)">' +
+                        '<button onclick="removeTx(' + k + ')" title="حذف"><i class="fas fa-xmark"></i></button>' +
+                    '</div>';
+                }).join('');
+                return '<div class="m-card' + (rows.length ? ' has-tx' : '') + '">' +
+                    '<div class="m-head"><span class="m-name">' + name + '</span>' +
+                    '<span class="m-months has-tip" data-bs-toggle="tooltip" title="' +
+                        esc(months === 0
+                            ? 'عمليات ديسمبر لا تستفيد من عائد هذه السنة، ويُرحَّل مبلغها إلى السنة التالية.'
+                            : 'الاستفادة تبدأ من الشهر التالي، فيكون عدد الأشهر 12 − ' + m + ' = ' + months) +
+                    '">' + months + ' شهر</span></div>' +
+                    body +
+                    '<button class="m-add" onclick="addTx(' + m + ')">+ عملية</button>' +
+                    (rows.length
+                        ? "<div class=\"m-foot\">"
+                            + "<div><span class=\"mf-lbl\">العائد</span><span class=\"mf-val\">" + omr(monthGain) + "</span></div>"
+                            + "<div><span class=\"mf-lbl\">الإجمالي</span><span class=\"mf-val tot\">" + omr(monthEnd) + "</span></div>"
+                          + "</div>"
+                        : "<div class=\"m-foot empty\">—</div>") +
+                '</div>';
+            }).join("");
+            document.getElementById("carryStrip").innerHTML = carryStrip;
+            document.getElementById("monthsBoard").innerHTML = monthCards;
+            initTips();
+        }
+
+        function addTx(m) { TX.push({ m: m, kind: 'in', amount: 100 }); recalc(); }
+        function removeTx(i) { TX.splice(i, 1); recalc(); }
+        function setKind(i, v) { TX[i].kind = v; recalc(); }
+        function setAmount(i, v) { TX[i].amount = +v || 0; recalc(); }
+        function loadDefaults() { TX = DEFAULTS.map(function (t) { return { m: t.m, kind: t.kind, amount: t.amount }; }); recalc(); }
+        function clearAll() { TX = []; recalc(); }
+
+        /* ================= الاحتساب ================= */
+        function recalc() {
+            var rate = (+document.getElementById('rate').value || 0) / 100;
+            var carry = +document.getElementById('carry').value || 0;
+
+            var carryEnd = carry * Math.pow(1 + rate / 12, 12);
+            var principal = carry, end = carryEnd;
+            var inSum = 0, outSum = 0;
+
+            TX.forEach(function (t) {
+                var months = 12 - t.m;
+                var signed = (t.kind === 'in' ? 1 : -1) * t.amount;
+                principal += signed;
+                end += signed * Math.pow(1 + rate / 12, months);
+                if (t.kind === 'in') inSum += t.amount; else outSum += t.amount;
+            });
+
+            var gain = end - principal;
+            YEAR_END = end;
+
+            document.getElementById('outPrincipal').textContent = omr(principal) + ' ر.ع';
+            document.getElementById('outReturn').textContent = omr(gain) + ' ر.ع';
+            document.getElementById('outEnd').textContent = omr(end) + ' ر.ع';
+
+            var pct = (Math.round(rate * 10000) / 100);
+            setTip('outEnd',
+                'الرصيد المرحّل ' + omr(carry) + ' × (1 + ' + pct + '%/12)^12 = ' + omr(carryEnd) + '، '
+                + 'ويُضاف إليه ناتج كل عملية مضروبًا في معامل أشهرها. '
+                + 'المجموع ' + omr(end) + ' ر.ع.');
+            setTip('outReturn',
+                'رصيد نهاية السنة ' + omr(end) + ' − مجموع الأصل ' + omr(principal) + ' = ' + omr(gain) + ' ر.ع. '
+                + '(إيداعات ' + omr(inSum) + '، سحوبات ' + omr(outSum) + '، مرحّل ' + omr(carry) + ')');
+
+            renderBoard();
+            recalcExit();
+        }
+
+        /* ================= الخروج من النظام ================= */
+        function recalcExit() {
+            var exit = document.getElementById('exitDate').value;
+            var notice = document.getElementById('noticeDate').value;
+            var minRate = (+document.getElementById('minRate').value || 0) / 100;
+            var rate = (+document.getElementById('rate').value || 0) / 100;
+            var v = document.getElementById('exitVerdict');
+            var body = document.getElementById('exitBody');
+            if (!exit || !notice) { v.textContent = 'أدخل التاريخين'; body.innerHTML = ''; return; }
+
+            var d1 = new Date(exit), d2 = new Date(notice);
+            var days = Math.round((d2 - d1) / 86400000);
+            var onTime = days >= 0 && days <= 30;
+
+            v.className = 'exit-verdict ' + (onTime ? 'ok' : 'late');
+            v.innerHTML = '<i class="fas ' + (onTime ? 'fa-circle-check' : 'fa-triangle-exclamation') + '"></i>' +
+                (days < 0 ? 'تاريخ الإخطار قبل تاريخ الخروج'
+                          : onTime ? 'أُخطر خلال ' + days + ' يومًا — ضمن المهلة'
+                                   : 'تأخر الإخطار ' + days + ' يومًا — تجاوز الشهر');
+
+            var b0 = YEAR_END;
+            var rows = [];
+            if (onTime) {
+                var y1 = b0 * Math.pow(1 + rate / 12, 12);
+                rows.push(['السنة الأولى بعد الخروج', (Math.round(rate * 10000) / 100) + '٪ — النسبة المقررة', b0, y1 - b0, y1, '']);
+                rows.push(['ما بعدها حتى الصرف', 'النسبة المقررة كل عام', y1, null, null, '']);
+            } else {
+                var z1 = b0 * Math.pow(1 + minRate / 12, 12);
+                rows.push(['السنة الأولى بعد الخروج', (Math.round(minRate * 10000) / 100) + '٪ — الحد الأدنى', b0, z1 - b0, z1, '']);
+                rows.push(['ما بعد السنة الأولى', 'لا عائد', z1, 0, z1, 'zero']);
+            }
+
+            body.innerHTML = rows.map(function (r) {
+                return '<tr class="' + r[5] + '">' +
+                    '<td class="fw-700">' + r[0] + '</td>' +
+                    '<td>' + r[1] + '</td>' +
+                    '<td>' + omr(r[2]) + '</td>' +
+                    '<td>' + (r[3] === null ? '—' : omr(r[3])) + '</td>' +
+                    '<td class="fw-800 text-spf">' + (r[4] === null ? '—' : omr(r[4])) + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        /* ================= تلميحات ================= */
+        var TIPS = [];
+        function setTip(id, text) {
+            var el = document.getElementById(id);
+            if (!el) return;
+            el.setAttribute('title', text);
+            el.setAttribute('data-bs-original-title', text);
+        }
+        function initTips() {
+            TIPS.forEach(function (t) { try { t.dispose(); } catch (e) {} });
+            TIPS = [];
+            if (!window.bootstrap || !bootstrap.Tooltip) return;
+            document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function (el) {
+                TIPS.push(new bootstrap.Tooltip(el, { container: 'body' }));
+            });
+        }
+
+        /* ================= التشغيل ================= */
+        document.addEventListener('DOMContentLoaded', function () {
+            var role = localStorage.getItem('spf-user-role') || 'saver';
+            if (role !== 'staff') {
+                document.body.innerHTML = '<div class="container mt-5 text-center">'
+                    + '<div class="alert alert-warning">عذراً، هذه الشاشة مخصصة لموظفي الصندوق.</div>'
+                    + '<a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+                return;
+            }
+            loadDefaults();
+        });
+    </script>
+</body>
+</html>
