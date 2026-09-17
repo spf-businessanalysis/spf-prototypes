@@ -72,6 +72,22 @@
         .exec-ring b { font-size: 1.5rem; font-weight: 800; }
         .exec-ring small { font-size: .71rem; color: rgba(255, 255, 255, .7); }
 
+        /* ===== نطاق العرض ===== */
+        .q-filter { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+        .qf-btn {
+            border: 1px solid #d8e3dd; background: #fff; color: #355044;
+            border-radius: 999px; padding: 6px 16px; font-size: .84rem; font-weight: 700;
+            font-family: inherit; cursor: pointer; transition: all .15s ease;
+        }
+        .qf-btn:hover { border-color: #14532d; }
+        .qf-btn.on { background: #14532d; border-color: #14532d; color: #fff; }
+        .qf-btn .qf-n { opacity: .75; font-weight: 400; }
+        .q-empty {
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            padding: 46px 18px; color: #7d8f86; text-align: center;
+        }
+        .q-empty i { font-size: 1.8rem; color: #bfe4cd; }
+
         /* ===== المحاور ===== */
         .theme-block { margin-bottom: 24px; }
         .theme-head {
@@ -107,6 +123,17 @@
             background: #f1f3f5; color: #5c6771; border: 1px solid #dfe3e7;
         }
         .q-card.has-reply .q-badge { background: #e2f4e9; color: #1b6f40; border-color: #bfe4cd; }
+        .q-top { cursor: pointer; }
+        .q-fold {
+            flex: 0 0 auto; display: grid; place-items: center;
+            width: 24px; height: 24px; border-radius: 7px;
+            background: #f2f5f4; color: #6d7e75; font-size: .72rem;
+            transition: transform .2s ease, background .15s ease;
+        }
+        .q-top:hover .q-fold { background: #e3ebe7; color: var(--spf-green-dark); }
+        .q-card.is-collapsed .q-fold { transform: rotate(180deg); }
+        .q-card.is-collapsed .q-body { display: none; }
+        .q-card.is-collapsed .q-text { color: #4c5f56; }
         .q-tools { margin-top: 11px; }
         .q-btn {
             border: 1px solid #d8e3dd; background: #fff; color: #355044;
@@ -215,7 +242,12 @@
             </div>
         </section>
 
+        <div class="q-filter" id="qFilter" role="tablist" aria-label="نطاق العرض"></div>
         <div id="themesHost"></div>
+        <div class="q-empty d-none" id="qEmpty">
+            <i class="fas fa-circle-check"></i>
+            <div>لا توجد استفسارات بانتظار الرد.</div>
+        </div>
     </main>
 
     <!-- ===== المثال التوضيحي لآلية احتساب العائد ===== -->
@@ -397,11 +429,16 @@
         }
         function hasReply(id) { return !!(replies[id] && replies[id].length); }
 
+        var AR_DIGITS = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+        function toArabicDigits(n) {
+            return String(n).replace(/[0-9]/g, function (d) { return AR_DIGITS[+d]; });
+        }
+
         function countLabel(n) {
             if (n === 1) return 'نقطة واحدة';
             if (n === 2) return 'نقطتان';
-            if (n <= 10) return n + ' نقاط';
-            return n + ' نقطة';
+            if (n <= 10) return toArabicDigits(n) + " نقاط";
+            return toArabicDigits(n) + " نقطة";
         }
 
         /* ================= العرض ================= */
@@ -419,12 +456,14 @@
         function renderCard(inq, index) {
             var answered = hasReply(inq.id);
             return ''
-              + '<article class="q-card' + (answered ? ' has-reply' : '') + '" data-id="' + inq.id + '">'
-              +   '<div class="q-top">'
+              + '<article class="q-card' + (answered ? ' has-reply is-collapsed' : '') + '" data-id="' + inq.id + '">'
+              +   '<div class="q-top" data-act="fold">'
               +     '<span class="q-num">' + String(index).padStart(2, '0') + '</span>'
               +     '<p class="q-text flex-grow-1">' + esc(inq.q) + '</p>'
               +     '<span class="q-badge">' + (answered ? 'تم الرد' : 'بانتظار الرد') + '</span>'
+              +     '<span class="q-fold" title="طي وتوسيع"><i class="fas fa-chevron-up"></i></span>'
               +   '</div>'
+              +   '<div class="q-body">'
               +   '<div class="q-tools">'
               +     '<button class="q-btn" data-act="reply"><i class="fas fa-pen me-1"></i>تدوين رد</button>'
               +     (inq.demo ? ' <button class="q-btn demo" data-act="demo" data-modal="' + inq.demo + '"><i class="fas fa-calculator me-1"></i>مثال توضيحي</button>' : '')
@@ -435,15 +474,38 @@
               +     '<button class="btn btn-sm btn-spf-outline" data-act="cancel">إلغاء</button>'
               +   '</div>'
               +   '<div class="q-log" data-log="' + inq.id + '">' + renderLog(inq.id) + '</div>'
+              +   '</div>'
               + '</article>';
         }
 
+        /* نطاق العرض: all = الكل، open = بانتظار الرد فقط */
+        var SCOPE = 'all';
+
+
+        function renderFilter() {
+            var total = INQUIRIES.length;
+            var open = INQUIRIES.filter(function (i) { return !hasReply(i.id); }).length;
+            document.getElementById('qFilter').innerHTML =
+                '<button class="qf-btn' + (SCOPE === 'all' ? ' on' : '') + '" data-scope="all">'
+                    + 'كل الاستفسارات <span class="qf-n">' + toArabicDigits(total) + '</span></button>'
+              + '<button class="qf-btn' + (SCOPE === 'open' ? ' on' : '') + '" data-scope="open">'
+                    + 'بانتظار الرد <span class="qf-n">' + toArabicDigits(open) + '</span></button>';
+        }
+
         function renderAll() {
-            var counter = 0;
+            renderFilter();
+            /* الترقيم يبقى ثابتًا للسؤال في الحالتين */
+            var NUM = {};
+            INQUIRIES.forEach(function (i, k) { NUM[i.id] = k + 1; });
+            var shown = 0;
             document.getElementById('themesHost').innerHTML = THEMES.map(function (theme) {
-                var items = INQUIRIES.filter(function (i) { return i.theme === theme.id; });
+                var all = INQUIRIES.filter(function (i) { return i.theme === theme.id; });
+                var items = SCOPE === 'open'
+                    ? all.filter(function (i) { return !hasReply(i.id); })
+                    : all;
                 if (!items.length) return '';
-                var cards = items.map(function (inq) { counter++; return renderCard(inq, counter); }).join('');
+                shown += items.length;
+                var cards = items.map(function (inq) { return renderCard(inq, NUM[inq.id]); }).join('');
                 return ''
                   + '<section class="theme-block" data-theme="' + theme.id + '">'
                   +   '<div class="theme-head">'
@@ -455,6 +517,7 @@
                   +   '<div class="theme-body">' + cards + '</div>'
                   + '</section>';
             }).join('');
+            document.getElementById('qEmpty').classList.toggle('d-none', shown > 0);
             updateRing();
         }
 
@@ -470,6 +533,7 @@
             if (!card) return;
             var answered = hasReply(id);
             card.classList.toggle('has-reply', answered);
+            if (answered) card.classList.remove('is-collapsed');
             card.querySelector('.q-badge').textContent = answered ? 'تم الرد' : 'بانتظار الرد';
             card.querySelector('[data-log="' + id + '"]').innerHTML = renderLog(id);
             updateRing();
@@ -477,8 +541,15 @@
 
         /* ================= التفاعل ================= */
         document.addEventListener('click', function (e) {
+            var scopeBtn = e.target.closest("[data-scope]");
+            if (scopeBtn) { SCOPE = scopeBtn.getAttribute("data-scope"); renderAll(); return; }
+
             var head = e.target.closest('.theme-head');
             if (head) { head.parentElement.classList.toggle('collapsed'); return; }
+
+            /* طي أو توسيع استفسار بالنقر على ترويسته */
+            var fold = e.target.closest('[data-act="fold"]');
+            if (fold) { fold.closest('.q-card').classList.toggle('is-collapsed'); return; }
 
             var del = e.target.closest('[data-del]');
             if (del) {
