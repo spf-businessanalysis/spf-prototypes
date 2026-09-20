@@ -27,6 +27,29 @@
             padding: 4px 8px; font-family: inherit; font-size: .9rem; font-weight: 700; text-align: center;
         }
 
+        /* ===== شريط المعامل الشهري ===== */
+        .factor-bar {
+            display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+            border: 1px solid #e0d3ae; border-radius: var(--spf-radius);
+            background: var(--spf-gold-light); padding: 9px 16px; margin-bottom: 18px;
+        }
+        .fb-tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: .78rem; font-weight: 800; color: #6b5010;
+            border-inline-end: 1px solid #e0d3ae; padding-inline-end: 12px;
+        }
+        .fb-eq { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .fb-step {
+            background: #fff; border: 1px solid #e6cf9c; border-radius: 7px;
+            padding: 3px 10px; font-size: .84rem; font-weight: 700; color: var(--spf-text);
+        }
+        .fb-step sup { font-size: .62rem; font-weight: 700; margin-inline-start: 2px; }
+        .fb-step.res { background: #6b5010; color: #fff; border-color: #6b5010; }
+        .fb-op { font-size: .9rem; font-weight: 800; color: #8a7a4e; }
+        .fb-side { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; flex-wrap: wrap; }
+        .fb-note { display: inline-flex; align-items: center; gap: 6px; font-size: .76rem; font-weight: 700; }
+        .fb-note.ok { color: var(--spf-green-dark); }
+
         /* ===== لوحة الأشهر ===== */
         .months { display: grid; grid-template-columns: repeat(auto-fill, minmax(186px, 1fr)); gap: 8px; }
         .m-card {
@@ -35,6 +58,28 @@
             min-width: 0; overflow: hidden;
         }
         .m-card.has-tx { border-color: #cfe6d9; background: #fcfefd; }
+        .mand-strip {
+            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+            border: 1px solid #cfe0ec; border-inline-start: 4px solid #2f6f9f;
+            border-radius: var(--spf-radius-sm); background: #eef5fa;
+            padding: 10px 16px; margin-bottom: 10px;
+        }
+        .mand-strip .ms-toggle { font-size: .85rem; font-weight: 800; color: #1d4f74; cursor: pointer; margin: 0; }
+        .mand-strip .ms-toggle input { margin-inline-end: 5px; vertical-align: -1px; }
+        .mand-strip .ms-field { display: flex; align-items: center; gap: 6px; font-size: .78rem; color: var(--spf-text-muted); }
+        .mand-strip .ms-field input {
+            width: 78px; border: 1px solid var(--spf-border); border-radius: 7px;
+            padding: 3px 8px; font-family: inherit; font-size: .85rem; font-weight: 700; text-align: center;
+        }
+        .mand-strip .ms-note { font-size: .78rem; color: var(--spf-text-muted); flex: 1 1 auto; min-width: 150px; }
+        .mand-strip .ms-note b { color: #1d4f74; font-size: .95rem; }
+        .mand-strip .cs-chip.total { border-color: #2f6f9f; }
+        .mand-strip .cs-chip.total i, .mand-strip .cs-chip.total .cs-val { color: #1d4f74; }
+        .mand-strip.off { opacity: .55; }
+        .m-row.mand { justify-content: space-between; background: #eef5fa; border: 1px solid #dceaf3; border-radius: 6px; padding: 2px 6px; }
+        .m-row.mand .mand-tag { font-size: .62rem; font-weight: 700; color: #1d4f74; }
+        .m-row.mand .mand-amt { font-size: .78rem; font-weight: 800; color: #1d4f74; }
+
         .carry-strip {
             display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
             border: 1px solid #cfe6d9; border-inline-start: 4px solid var(--spf-green);
@@ -49,18 +94,19 @@
             font-size: .68rem; font-weight: 700; color: var(--spf-green-dark);
             background: #fff; border: 1px solid #cfe6d9; border-radius: 999px; padding: 2px 10px;
         }
-        .carry-strip .cs-res { display: flex; gap: 10px; margin-inline-start: auto; flex-wrap: wrap; }
-        .carry-strip .cs-chip {
-            display: inline-flex; align-items: center; gap: 7px;
-            background: #fff; border: 1px solid #cfe6d9; border-radius: 999px; padding: 5px 14px;
+        /* رقاقتا العائد والإجمالي — مشتركة بين شريطَي الإلزامي والمرحّل */
+        .cs-res { display: flex; gap: 8px; margin-inline-start: auto; flex-wrap: nowrap; }
+        .cs-chip {
+            display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+            background: #fff; border: 1px solid #cfe6d9; border-radius: 999px; padding: 5px 13px;
         }
-        .carry-strip .cs-chip i { font-size: .74rem; }
-        .carry-strip .cs-lbl { font-size: .7rem; color: var(--spf-text-muted); }
-        .carry-strip .cs-val { font-size: .95rem; font-weight: 800; }
-        .carry-strip .cs-chip.gain { border-color: #e6cf9c; background: var(--spf-gold-light); }
-        .carry-strip .cs-chip.gain i, .carry-strip .cs-chip.gain .cs-val { color: #6b5010; }
-        .carry-strip .cs-chip.total { border-color: var(--spf-green); }
-        .carry-strip .cs-chip.total i, .carry-strip .cs-chip.total .cs-val { color: var(--spf-green-dark); }
+        .cs-chip i { font-size: .72rem; }
+        .cs-lbl { font-size: .7rem; color: var(--spf-text-muted); }
+        .cs-val { font-size: .92rem; font-weight: 800; }
+        .cs-chip.gain { border-color: #e6cf9c; background: var(--spf-gold-light); }
+        .cs-chip.gain i, .cs-chip.gain .cs-val { color: #6b5010; }
+        .cs-chip.total { border-color: var(--spf-green); }
+        .cs-chip.total i, .cs-chip.total .cs-val { color: var(--spf-green-dark); }
         .m-head { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
         .m-name { font-size: .82rem; font-weight: 800; color: var(--spf-green-dark); }
         .m-months { font-size: .66rem; color: var(--spf-text-muted); }
@@ -84,15 +130,25 @@
             border-radius: 6px; padding: 2px; font-size: .7rem; font-family: inherit; cursor: pointer;
         }
         .m-add:hover { border-color: var(--spf-green); color: var(--spf-green-dark); }
-        .m-foot {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+        /* كشف احتساب العائد داخل بطاقة الشهر */
+        .m-calc {
             border-top: 1px dashed #e3eae6; padding-top: 5px; margin-top: auto;
+            display: flex; flex-direction: column; gap: 1px;
         }
-        .m-foot.empty { display: block; text-align: center; font-size: .7rem; color: var(--spf-text-muted); }
-        .m-foot > div { text-align: center; min-width: 0; }
-        .m-foot .mf-lbl { display: block; font-size: .62rem; color: var(--spf-text-muted); }
-        .m-foot .mf-val { display: block; font-size: .76rem; font-weight: 800; color: #6b5010; }
-        .m-foot .mf-val.tot { color: var(--spf-green-dark); }
+        .mc-row {
+            display: flex; align-items: baseline; justify-content: space-between; gap: 4px;
+            font-size: .64rem; line-height: 1.5; min-width: 0;
+        }
+        .mc-row .mc-lbl { color: var(--spf-text-muted); white-space: nowrap; }
+        .mc-row .mc-val { font-weight: 700; color: var(--spf-text); font-variant-numeric: tabular-nums; }
+        .mc-row.base { border-top: 1px solid #e3eae6; margin-top: 2px; padding-top: 3px; }
+        .mc-row.base .mc-lbl, .mc-row.base .mc-val { font-weight: 800; color: #1d4f74; }
+        .mc-row.gain { background: var(--spf-gold-light); border-radius: 5px; padding: 2px 5px; margin-top: 2px; }
+        .mc-row.gain .mc-lbl, .mc-row.gain .mc-val { color: #6b5010; font-weight: 800; }
+        .mc-row.gain .mc-val { font-size: .74rem; }
+        .mc-row.tot { border-top: 1px solid #e3eae6; margin-top: 2px; padding-top: 3px; }
+        .mc-row.tot .mc-lbl, .mc-row.tot .mc-val { font-weight: 800; color: var(--spf-green-dark); }
+        .mc-row.tot .mc-val { font-size: .76rem; }
 
         /* ===== الخروج من النظام ===== */
         .exit-verdict {
@@ -154,6 +210,9 @@
             </div>
         </div>
 
+        <!-- ===== المعامل الشهري ===== -->
+        <div class="factor-bar" id="factorBar"></div>
+
         <!-- ===== أشهر السنة ===== -->
         <div class="spf-card mb-4">
             <div class="card-header-custom">
@@ -168,6 +227,13 @@
                 </div>
             </div>
             <div class="card-body">
+                <div class="mand-strip">
+                    <label class="ms-toggle"><input type="checkbox" id="mandOn" checked onchange="recalc()"> الادخار الإلزامي</label>
+                    <div class="ms-field"><span>الأجر الأساسي</span><input type="number" step="50" id="mandWage" value="1000" oninput="recalc()"></div>
+                    <div class="ms-field"><span>النسبة ٪</span><input type="number" step="0.5" id="mandRate" value="9" oninput="recalc()"></div>
+                    <div class="ms-note">يُودَع <b id="mandMonthly">—</b> ر.ع في كل شهر من أشهر السنة</div>
+                    <div class="cs-res" id="mandRes"></div>
+                </div>
                 <div id="carryStrip"></div>
                 <div class="months" id="monthsBoard"></div>
             </div>
@@ -239,21 +305,58 @@
         var TX = [];
         var YEAR_END = 0;
 
+        /* المعامل الشهري الثابت:  (1 + النسبة السنوية) ^ (1 ÷ 12) − 1 */
+        function monthFactor(rate) { return Math.pow(1 + rate, 1 / 12) - 1; }
+
+        /* دفتر السنة: يُضاف إيداع الشهر إلى الرصيد، ثم يُحتسب العائد على الرصيد كاملًا */
+        function buildLedger() {
+            var rate = (+document.getElementById('rate').value || 0) / 100;
+            var carry = +document.getElementById('carry').value || 0;
+            var mand = mandMonthly();
+            var f = monthFactor(rate);
+            var bal = carry, rows = [], totalGain = 0, totalDep = 0;
+            for (var m = 1; m <= 12; m++) {
+                var opt = TX.filter(function (t) { return t.m === m; })
+                            .reduce(function (a, t) { return a + (t.kind === 'in' ? 1 : -1) * t.amount; }, 0);
+                var dep = mand + opt;
+                var open = bal;
+                bal += dep;
+                var gain = bal * f;
+                bal += gain;
+                totalGain += gain;
+                totalDep += dep;
+                rows.push({ m: m, open: open, mand: mand, opt: opt, dep: dep, base: open + dep, gain: gain, close: bal });
+            }
+            return { rate: rate, carry: carry, mand: mand, factor: f, rows: rows,
+                     principal: carry + totalDep, gain: totalGain, end: bal };
+        }
+
         function omr(n) {
             return (Math.round(n * 1000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
         }
         function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+        function tip(text) { return ' class="has-tip" data-bs-toggle="tooltip" title="' + esc(text) + '"'; }
+
+        /* الادخار الإلزامي: نسبة من الأجر الأساسي تُودَع في كل شهر */
+        function mandMonthly() {
+            var on = document.getElementById('mandOn');
+            if (!on || !on.checked) return 0;
+            var wage = +document.getElementById('mandWage').value || 0;
+            var pct = +document.getElementById('mandRate').value || 0;
+            return wage * pct / 100;
+        }
 
         /* ================= لوحة الأشهر ================= */
         function renderBoard() {
-            var rate = (+document.getElementById('rate').value || 0) / 100;
-            var carry = +document.getElementById("carry").value || 0;
-            var carryEnd = carry * Math.pow(1 + rate / 12, 12);
+            var L = buildLedger();
+            var rate = L.rate;
+            var carry = L.carry;
+            var carryEnd = carry * (1 + rate);
             var carryStrip = carry > 0
                 ? "<div class=\"carry-strip\">"
                     + "<div class=\"cs-title\"><i class=\"fas fa-rotate-left\"></i> مُرحَّل من العام السابق</div>"
                     + "<div class=\"cs-amt\">" + omr(carry) + " <span>ر.ع</span></div>"
-                    + "<div class=\"cs-badge has-tip\" data-bs-toggle=\"tooltip\" title=\"الرصيد المرحّل موجود منذ أول السنة، فيستفيد من الاثني عشر شهرًا كاملة.\">12 شهر استفادة</div>"
+                    + "<div class=\"cs-badge has-tip\" data-bs-toggle=\"tooltip\" title=\"" + esc('الرصيد المرحّل هو نقطة البداية للرصيد التراكمي، فيستفيد من أشهر السنة كاملة') + "\">12 شهر استفادة</div>"
                     + "<div class=\"cs-res\">"
                         + "<div class=\"cs-chip gain\"><i class=\"fas fa-arrow-trend-up\"></i>"
                             + "<span class=\"cs-lbl\">العائد</span><span class=\"cs-val\">" + omr(carryEnd - carry) + "</span></div>"
@@ -262,14 +365,12 @@
                       + "</div>"
                   + "</div>"
                 : "";
+            var mand = L.mand;
+            var factor = L.factor;
             var monthCards = MONTHS.map(function (name, i) {
-                var m = i + 1, months = 12 - m;
+                var m = i + 1;
                 var rows = TX.filter(function (t) { return t.m === m; });
-                var monthPrincipal = rows.reduce(function (s, t) {
-                    return s + (t.kind === "in" ? 1 : -1) * t.amount;
-                }, 0);
-                var monthEnd = monthPrincipal * Math.pow(1 + rate / 12, months);
-                var monthGain = monthEnd - monthPrincipal;
+                var LR = L.rows[i];
                 var body = rows.map(function (t) {
                     var k = TX.indexOf(t);
                     return '<div class="m-row">' +
@@ -281,21 +382,36 @@
                         '<button onclick="removeTx(' + k + ')" title="حذف"><i class="fas fa-xmark"></i></button>' +
                     '</div>';
                 }).join('');
-                return '<div class="m-card' + (rows.length ? ' has-tx' : '') + '">' +
+                var mandRow = mand > 0
+                    ? '<div class="m-row mand"><span class="mand-tag">إلزامي</span><span class="mand-amt">+ ' + omr(mand) + '</span></div>'
+                    : '';
+                return '<div class="m-card' + (rows.length || mand > 0 ? ' has-tx' : '') + '">' +
                     '<div class="m-head"><span class="m-name">' + name + '</span>' +
                     '<span class="m-months has-tip" data-bs-toggle="tooltip" title="' +
-                        esc(months === 0
-                            ? 'عمليات ديسمبر لا تستفيد من عائد هذه السنة، ويُرحَّل مبلغها إلى السنة التالية.'
-                            : 'الاستفادة تبدأ من الشهر التالي، فيكون عدد الأشهر 12 − ' + m + ' = ' + months) +
-                    '">' + months + ' شهر</span></div>' +
-                    body +
+                        esc('المعامل الشهري الثابت، يُضرب في أساس الاحتساب أسفل البطاقة: '
+                            + omr(LR.base) + ' × ' + factor.toFixed(8) + ' = ' + omr(LR.gain)) +
+                    '">× ' + (factor * 100).toFixed(4) + '٪</span></div>' +
+                    mandRow + body +
                     '<button class="m-add" onclick="addTx(' + m + ')">+ عملية</button>' +
-                    (rows.length
-                        ? "<div class=\"m-foot\">"
-                            + "<div><span class=\"mf-lbl\">العائد</span><span class=\"mf-val\">" + omr(monthGain) + "</span></div>"
-                            + "<div><span class=\"mf-lbl\">الإجمالي</span><span class=\"mf-val tot\">" + omr(monthEnd) + "</span></div>"
-                          + "</div>"
-                        : "<div class=\"m-foot empty\">—</div>") +
+                    "<div class=\"m-calc\">"
+                        + "<div class=\"mc-row\"" + tip(m === 1
+                            ? "رصيد مرحّل من العام السابق: " + omr(LR.open) + " ر.ع"
+                            : "رصيد نهاية " + MONTHS[i - 1] + " منقولًا إلى " + name + ": " + omr(LR.open) + " ر.ع")
+                          + "><span class=\"mc-lbl\">" + (m === 1 ? "مرحّل من العام السابق" : "مرحّل من " + MONTHS[i - 1]) + "</span>"
+                          + "<span class=\"mc-val\">" + omr(LR.open) + "</span></div>"
+                        + "<div class=\"mc-row\"" + tip("إلزامي " + omr(LR.mand) + " + اختياري " + omr(LR.opt) + " = " + omr(LR.dep)) + ">"
+                          + "<span class=\"mc-lbl\">+ مودَع هذا الشهر</span>"
+                          + "<span class=\"mc-val\">" + omr(LR.dep) + "</span></div>"
+                        + "<div class=\"mc-row base\"" + tip("المرحّل " + omr(LR.open) + " + المودَع " + omr(LR.dep) + " = " + omr(LR.base) + " ر.ع، وهو المبلغ الذي يُحتسب عليه عائد هذا الشهر") + ">"
+                          + "<span class=\"mc-lbl\">= أساس الاحتساب</span>"
+                          + "<span class=\"mc-val\">" + omr(LR.base) + "</span></div>"
+                        + "<div class=\"mc-row gain\"" + tip(omr(LR.base) + " × " + factor.toFixed(8) + " = " + omr(LR.gain) + " ر.ع") + ">"
+                          + "<span class=\"mc-lbl\">عائد الشهر</span>"
+                          + "<span class=\"mc-val\">" + omr(LR.gain) + "</span></div>"
+                        + "<div class=\"mc-row tot\"" + tip("أساس الاحتساب " + omr(LR.base) + " + العائد " + omr(LR.gain) + " = " + omr(LR.close) + " ر.ع، يُرحَّل إلى الشهر التالي") + ">"
+                          + "<span class=\"mc-lbl\">الرصيد بعده</span>"
+                          + "<span class=\"mc-val\">" + omr(LR.close) + "</span></div>"
+                      + "</div>" +
                 '</div>';
             }).join("");
             document.getElementById("carryStrip").innerHTML = carryStrip;
@@ -312,22 +428,18 @@
 
         /* ================= الاحتساب ================= */
         function recalc() {
-            var rate = (+document.getElementById('rate').value || 0) / 100;
-            var carry = +document.getElementById('carry').value || 0;
+            var L = buildLedger();
+            var rate = L.rate, carry = L.carry, mand = L.mand;
+            var carryEnd = carry * (1 + rate);
+            var principal = L.principal, end = L.end, gain = L.gain;
 
-            var carryEnd = carry * Math.pow(1 + rate / 12, 12);
-            var principal = carry, end = carryEnd;
             var inSum = 0, outSum = 0;
+            TX.forEach(function (t) { if (t.kind === 'in') inSum += t.amount; else outSum += t.amount; });
+            var mandPrincipal = mand * 12;
+            inSum += mandPrincipal;
+            renderFactorBar(L);
+            renderMandStrip(mand, mandPrincipal);
 
-            TX.forEach(function (t) {
-                var months = 12 - t.m;
-                var signed = (t.kind === 'in' ? 1 : -1) * t.amount;
-                principal += signed;
-                end += signed * Math.pow(1 + rate / 12, months);
-                if (t.kind === 'in') inSum += t.amount; else outSum += t.amount;
-            });
-
-            var gain = end - principal;
             YEAR_END = end;
 
             document.getElementById('outPrincipal').textContent = omr(principal) + ' ر.ع';
@@ -336,15 +448,52 @@
 
             var pct = (Math.round(rate * 10000) / 100);
             setTip('outEnd',
-                'الرصيد المرحّل ' + omr(carry) + ' × (1 + ' + pct + '%/12)^12 = ' + omr(carryEnd) + '، '
-                + 'ويُضاف إليه ناتج كل عملية مضروبًا في معامل أشهرها. '
-                + 'المجموع ' + omr(end) + ' ر.ع.');
+                'يُضاف إيداع كل شهر إلى الرصيد، ثم يُحتسب العائد على الرصيد كاملًا بالمعامل '
+                + L.factor.toFixed(8) + '، ويُضاف إليه فيدخل في عائد الشهر التالي. '
+                + 'رصيد نهاية السنة ' + omr(end) + ' ر.ع.');
             setTip('outReturn',
                 'رصيد نهاية السنة ' + omr(end) + ' − مجموع الأصل ' + omr(principal) + ' = ' + omr(gain) + ' ر.ع. '
-                + '(إيداعات ' + omr(inSum) + '، سحوبات ' + omr(outSum) + '، مرحّل ' + omr(carry) + ')');
+                + '(إيداعات ' + omr(inSum) + ' منها إلزامي ' + omr(mandPrincipal)
+                + '، سحوبات ' + omr(outSum) + '، مرحّل ' + omr(carry) + ')');
 
             renderBoard();
             recalcExit();
+        }
+
+        function renderFactorBar(L) {
+            var box = document.getElementById('factorBar');
+            if (!box) return;
+            var pct = Math.round(L.rate * 10000) / 100;
+            var fPct = (L.factor * 100).toFixed(6);
+            box.innerHTML =
+                '<div class="fb-tag"><i class="fas fa-percent"></i> المعامل الشهري</div>'
+              + '<div class="fb-eq">'
+                  + '<span class="fb-step has-tip" ' + 'title="' + esc('الجذر الثاني عشر للنسبة السنوية: العدد الذي إذا تراكم 12 مرة أعطى ' + pct + '٪') + '" data-bs-toggle="tooltip">'
+                      + '( 1 + ' + pct + '٪ )<sup>1 ÷ 12</sup></span>'
+                  + '<span class="fb-op">−</span><span class="fb-step">1</span>'
+                  + '<span class="fb-op">=</span>'
+                  + '<span class="fb-step res has-tip" ' + 'title="' + esc('يُضرب هذا المعامل في الرصيد التراكمي لكل شهر. وهو ثابت لجميع الأشهر الاثني عشر.') + '" data-bs-toggle="tooltip">'
+                      + fPct + '٪</span>'
+              + '</div>'
+              + '<div class="fb-side">'
+                  + '<span class="fb-note ok has-tip" data-bs-toggle="tooltip" title="'
+                      + esc('(1 + ' + (L.factor).toFixed(8) + ')^12 = ' + Math.pow(1 + L.factor, 12).toFixed(6)
+                            + ' — أي ' + pct + '٪ تمامًا، بلا زيادة ولا نقص.') + '">'
+                      + '<i class="fas fa-circle-check"></i> تراكمه 12 شهرًا = ' + pct + '٪ سنويًا بالضبط</span>'
+              + '</div>';
+        }
+
+        function renderMandStrip(mand, principal) {
+            var strip = document.querySelector('.mand-strip');
+            var note = document.getElementById('mandMonthly');
+            var res = document.getElementById('mandRes');
+            if (!strip || !note || !res) return;
+            strip.classList.toggle('off', mand <= 0);
+            note.textContent = omr(mand);
+            res.innerHTML = mand > 0
+                ? '<div class="cs-chip total"><i class="fas fa-equals"></i>'
+                    + '<span class="cs-lbl">إجمالي اشتراك السنة</span><span class="cs-val">' + omr(principal) + '</span></div>'
+                : '';
         }
 
         /* ================= الخروج من النظام ================= */
@@ -370,11 +519,11 @@
             var b0 = YEAR_END;
             var rows = [];
             if (onTime) {
-                var y1 = b0 * Math.pow(1 + rate / 12, 12);
+                var y1 = b0 * (1 + rate);
                 rows.push(['السنة الأولى بعد الخروج', (Math.round(rate * 10000) / 100) + '٪ — النسبة المقررة', b0, y1 - b0, y1, '']);
                 rows.push(['ما بعدها حتى الصرف', 'النسبة المقررة كل عام', y1, null, null, '']);
             } else {
-                var z1 = b0 * Math.pow(1 + minRate / 12, 12);
+                var z1 = b0 * (1 + minRate);
                 rows.push(['السنة الأولى بعد الخروج', (Math.round(minRate * 10000) / 100) + '٪ — الحد الأدنى', b0, z1 - b0, z1, '']);
                 rows.push(['ما بعد السنة الأولى', 'لا عائد', z1, 0, z1, 'zero']);
             }
