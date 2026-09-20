@@ -14,7 +14,7 @@
 
         /* ===== شريط النتيجة ===== */
         .result-bar {
-            display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; flex-wrap: wrap;
             border: 1px solid #cfe6d9; border-radius: var(--spf-radius);
             background: var(--spf-green-lighter); padding: 14px 20px; margin-bottom: 18px;
         }
@@ -26,6 +26,31 @@
             width: 72px; border: 1px solid var(--spf-border); border-radius: 7px;
             padding: 4px 8px; font-family: inherit; font-size: .9rem; font-weight: 700; text-align: center;
         }
+        /* سطر العنوان: التسمية ومفتاح الفصل جنبًا إلى جنب */
+        .rb-head { display: flex; align-items: center; gap: 10px; margin-bottom: 3px; }
+        .rb-split {
+            display: inline-flex; align-items: center; gap: 5px; cursor: pointer;
+            font-size: .68rem; font-weight: 700; color: var(--spf-text-muted);
+            border: 1px solid var(--spf-border); border-radius: 999px; padding: 1px 9px 1px 7px;
+            background: #fff; white-space: nowrap;
+        }
+        .rb-split:hover { border-color: var(--spf-green); color: var(--spf-green-dark); }
+        .rb-split input { margin: 0; cursor: pointer; }
+        /* الخانتان مرصوفتان رأسيًا ليتطابق عرض الحقول وموضعها */
+        .rb-dual { display: flex; flex-direction: column; gap: 4px; }
+        .rb-line { display: flex; align-items: center; gap: 6px; }
+        .rb-dual input { width: 64px; }
+        .rb-unit { font-size: .7rem; font-weight: 800; color: var(--spf-text-muted); }
+        .rb-tag {
+            font-size: .66rem; font-weight: 800; border-radius: 5px; padding: 2px 7px;
+            white-space: nowrap; min-width: 54px; text-align: center;
+        }
+        .rb-tag.mand { background: #e8f1f7; color: #1d4f74; }
+        .rb-tag.opt { background: var(--spf-gold-light); color: #6b5010; }
+        .rb-sub { font-size: .68rem; color: var(--spf-text-muted); margin-top: 2px; }
+        .rb-sub b { font-weight: 800; }
+        .rb-sub b.m { color: #1d4f74; }
+        .rb-sub b.v { color: #6b5010; }
 
         /* ===== شريط المعامل الشهري ===== */
         .factor-bar {
@@ -49,6 +74,8 @@
         .fb-side { display: flex; align-items: center; gap: 12px; margin-inline-start: auto; flex-wrap: wrap; }
         .fb-note { display: inline-flex; align-items: center; gap: 6px; font-size: .76rem; font-weight: 700; }
         .fb-note.ok { color: var(--spf-green-dark); }
+        .fb-eq.dual { gap: 5px; }
+        .fb-eq.dual .fb-step { font-size: .76rem; padding: 2px 8px; }
 
         /* ===== لوحة الأشهر ===== */
         .months { display: grid; grid-template-columns: repeat(auto-fill, minmax(186px, 1fr)); gap: 8px; }
@@ -149,6 +176,22 @@
         .mc-row.tot { border-top: 1px solid #e3eae6; margin-top: 2px; padding-top: 3px; }
         .mc-row.tot .mc-lbl, .mc-row.tot .mc-val { font-weight: 800; color: var(--spf-green-dark); }
         .mc-row.tot .mc-val { font-size: .76rem; }
+        /* الكشف المزدوج عند اعتماد نسبة لكل مسار */
+        .m-calc.dual .mc-row { display: grid; grid-template-columns: minmax(0, 1fr) 66px 66px; gap: 4px; align-items: baseline; }
+        .m-calc.dual .mc-val { text-align: end; }
+        .m-calc.dual .mc-row.head { font-size: .58rem; }
+        .m-calc.dual .mc-row.head .mc-val { font-weight: 800; }
+        .m-calc.dual .mc-row.head .mc-val.m { color: #1d4f74; }
+        .m-calc.dual .mc-row.head .mc-val.v { color: #6b5010; }
+        .m-calc.dual .mc-row.gain .mc-val { font-size: .68rem; }
+        .m-calc.dual .mc-row.tot .mc-val { font-size: .68rem; }
+        .m-calc.dual .mc-row.sum {
+            grid-template-columns: minmax(0, 1fr) auto;
+            border-top: 1px solid #e3eae6; margin-top: 3px; padding-top: 3px;
+        }
+        .m-calc.dual .mc-row.sum .mc-lbl, .m-calc.dual .mc-row.sum .mc-val { font-weight: 800; color: #6b5010; }
+        .m-calc.dual .mc-row.sum .mc-val { font-size: .74rem; }
+        .months.split { grid-template-columns: repeat(auto-fill, minmax(252px, 1fr)); }
 
         /* ===== الخروج من النظام ===== */
         .exit-verdict {
@@ -185,15 +228,47 @@
 
         <!-- ===== النتيجة الحيّة ===== -->
         <div class="result-bar">
-            <div class="rb-rate">
-                <span class="rb-lbl">نسبة العائد السنوية</span>
-                <input type="number" step="0.25" id="rate" value="3" oninput="recalc()"> <span class="fw-800">٪</span>
+            <div class="rb-item">
+                <div class="rb-head">
+                    <span class="rb-lbl">نسبة العائد السنوية</span>
+                    <label class="rb-split has-tip" data-bs-toggle="tooltip" title="المادة ١٠٨ من اللائحة تجيز الفصل المحاسبي بين الادخار الإلزامي والاختياري، واعتماد نسبة عائد لكل مسار">
+                        <input type="checkbox" id="splitRates" onchange="toggleSplit()"> نسبة لكل مسار
+                    </label>
+                </div>
+                <div class="rb-rate" id="rateSingle">
+                    <input type="number" step="0.25" id="rate" value="3" oninput="recalc()">
+                    <span class="rb-unit">٪</span>
+                </div>
+                <div class="rb-dual" id="rateDual" style="display:none">
+                    <div class="rb-line">
+                        <span class="rb-tag mand">إلزامي</span>
+                        <input type="number" step="0.25" id="rateM" value="3" oninput="recalc()">
+                        <span class="rb-unit">٪</span>
+                    </div>
+                    <div class="rb-line">
+                        <span class="rb-tag opt">اختياري</span>
+                        <input type="number" step="0.25" id="rateV" value="3" oninput="recalc()">
+                        <span class="rb-unit">٪</span>
+                    </div>
+                </div>
             </div>
             <div class="rb-item">
-                <div class="rb-lbl">رصيد مرحّل من العام السابق</div>
-                <div class="rb-rate">
+                <div class="rb-head"><span class="rb-lbl">رصيد مرحّل من العام السابق</span></div>
+                <div class="rb-rate" id="carrySingle">
                     <input type="number" step="10" id="carry" value="1200" oninput="recalc()" style="width:92px">
-                    <span class="rb-lbl">ر.ع</span>
+                    <span class="rb-unit">ر.ع</span>
+                </div>
+                <div class="rb-dual" id="carryDual" style="display:none">
+                    <div class="rb-line">
+                        <span class="rb-tag mand">إلزامي</span>
+                        <input type="number" step="10" id="carryM" value="900" oninput="recalc()">
+                        <span class="rb-unit">ر.ع</span>
+                    </div>
+                    <div class="rb-line">
+                        <span class="rb-tag opt">اختياري</span>
+                        <input type="number" step="10" id="carryV" value="300" oninput="recalc()">
+                        <span class="rb-unit">ر.ع</span>
+                    </div>
                 </div>
             </div>
             <div class="rb-item">
@@ -203,6 +278,7 @@
             <div class="rb-item gold">
                 <div class="rb-lbl">العائد المحتسب</div>
                 <div class="rb-val has-tip" id="outReturn" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">—</div>
+                <div class="rb-sub" id="outSplit"></div>
             </div>
             <div class="rb-item">
                 <div class="rb-lbl">رصيد نهاية السنة</div>
@@ -239,8 +315,8 @@
             </div>
         </div>
 
-        <!-- ===== الخروج من النظام ===== -->
-        <div class="spf-card mb-4">
+        <!-- ===== الخروج من النظام — مخفي مؤقتًا بناءً على طلب العمل ===== -->
+        <div class="spf-card mb-4" style="display:none">
             <div class="card-header-custom">أثر الخروج من النظام على العائد</div>
             <div class="card-body">
                 <p class="text-muted small mb-3">
@@ -308,33 +384,90 @@
         /* المعامل الشهري الثابت:  (1 + النسبة السنوية) ^ (1 ÷ 12) − 1 */
         function monthFactor(rate) { return Math.pow(1 + rate, 1 / 12) - 1; }
 
-        /* دفتر السنة: يُضاف إيداع الشهر إلى الرصيد، ثم يُحتسب العائد على الرصيد كاملًا */
+        /* هل اعتُمدت نسبة عائد لكل مسار على حدة؟ (م. ١٠٨ لائحة) */
+        function isSplit() {
+            var c = document.getElementById('splitRates');
+            return !!(c && c.checked);
+        }
+
+        function annualRates() {
+            if (isSplit()) {
+                return { m: (+document.getElementById('rateM').value || 0) / 100,
+                         v: (+document.getElementById('rateV').value || 0) / 100 };
+            }
+            var r = (+document.getElementById('rate').value || 0) / 100;
+            return { m: r, v: r };
+        }
+
+        function carryParts() {
+            if (isSplit()) {
+                return { m: +document.getElementById('carryM').value || 0,
+                         v: +document.getElementById('carryV').value || 0 };
+            }
+            return { m: +document.getElementById('carry').value || 0, v: 0 };
+        }
+
+        /* تبديل نمط النسبة مع الحفاظ على إجمالي الرصيد المرحّل */
+        function toggleSplit() {
+            var on = isSplit();
+            if (on) {
+                var r = +document.getElementById('rate').value || 0;
+                document.getElementById('rateM').value = r;
+                document.getElementById('rateV').value = r;
+                var c = +document.getElementById('carry').value || 0;
+                var v = Math.round(c * 0.25);
+                document.getElementById('carryM').value = c - v;
+                document.getElementById('carryV').value = v;
+            } else {
+                document.getElementById('carry').value =
+                    (+document.getElementById('carryM').value || 0) + (+document.getElementById('carryV').value || 0);
+            }
+            document.getElementById('rateSingle').style.display = on ? 'none' : '';
+            document.getElementById('carrySingle').style.display = on ? 'none' : '';
+            document.getElementById('rateDual').style.display = on ? '' : 'none';
+            document.getElementById('carryDual').style.display = on ? '' : 'none';
+            recalc();
+        }
+
+        /* دفتر السنة: مساران متوازيان، لكل منهما رصيده ومعامله.
+           في كل شهر يُضاف إيداع المسار إلى رصيده، ثم يُحتسب العائد على الرصيد كاملًا. */
         function buildLedger() {
-            var rate = (+document.getElementById('rate').value || 0) / 100;
-            var carry = +document.getElementById('carry').value || 0;
+            var R = annualRates(), C = carryParts();
             var mand = mandMonthly();
-            var f = monthFactor(rate);
-            var bal = carry, rows = [], totalGain = 0, totalDep = 0;
+            var fM = monthFactor(R.m), fV = monthFactor(R.v);
+            var balM = C.m, balV = C.v;
+            var rows = [], gM = 0, gV = 0, depM = 0, depV = 0;
             for (var m = 1; m <= 12; m++) {
                 var opt = TX.filter(function (t) { return t.m === m; })
                             .reduce(function (a, t) { return a + (t.kind === 'in' ? 1 : -1) * t.amount; }, 0);
-                var dep = mand + opt;
-                var open = bal;
-                bal += dep;
-                var gain = bal * f;
-                bal += gain;
-                totalGain += gain;
-                totalDep += dep;
-                rows.push({ m: m, open: open, mand: mand, opt: opt, dep: dep, base: open + dep, gain: gain, close: bal });
+                var openM = balM, openV = balV;
+                var baseM = openM + mand, baseV = openV + opt;
+                var gainM = baseM * fM, gainV = baseV * fV;
+                balM = baseM + gainM; balV = baseV + gainV;
+                gM += gainM; gV += gainV; depM += mand; depV += opt;
+                rows.push({
+                    m: m,
+                    M: { open: openM, dep: mand, base: baseM, gain: gainM, close: balM },
+                    V: { open: openV, dep: opt, base: baseV, gain: gainV, close: balV },
+                    open: openM + openV, mand: mand, opt: opt, dep: mand + opt,
+                    base: baseM + baseV, gain: gainM + gainV, close: balM + balV
+                });
             }
-            return { rate: rate, carry: carry, mand: mand, factor: f, rows: rows,
-                     principal: carry + totalDep, gain: totalGain, end: bal };
+            return {
+                split: isSplit(), rate: R.m, rateM: R.m, rateV: R.v,
+                carry: C.m + C.v, carryM: C.m, carryV: C.v,
+                mand: mand, factor: fM, factorM: fM, factorV: fV, rows: rows,
+                depM: depM, depV: depV, gainM: gM, gainV: gV, gain: gM + gV,
+                principal: C.m + C.v + depM + depV,
+                endM: balM, endV: balV, end: balM + balV
+            };
         }
 
         function omr(n) {
             return (Math.round(n * 1000) / 1000).toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
         }
         function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+        function pctTxt(r) { return (Math.round(r * 10000) / 100) + '٪'; }
         function tip(text) { return ' class="has-tip" data-bs-toggle="tooltip" title="' + esc(text) + '"'; }
 
         /* الادخار الإلزامي: نسبة من الأجر الأساسي تُودَع في كل شهر */
@@ -346,17 +479,78 @@
             return wage * pct / 100;
         }
 
+        /* كشف احتساب الشهر — نسخة المسار الواحد */
+        function calcSheetSingle(L, LR, i, m, name) {
+            var prev = m === 1 ? "مرحّل من العام السابق" : "مرحّل من " + MONTHS[i - 1];
+            return "<div class=\"m-calc\">"
+                + "<div class=\"mc-row\"" + tip(m === 1
+                    ? "رصيد مرحّل من العام السابق: " + omr(LR.open) + " ر.ع"
+                    : "رصيد نهاية " + MONTHS[i - 1] + " منقولًا إلى " + name + ": " + omr(LR.open) + " ر.ع")
+                  + "><span class=\"mc-lbl\">" + prev + "</span>"
+                  + "<span class=\"mc-val\">" + omr(LR.open) + "</span></div>"
+                + "<div class=\"mc-row\"" + tip("إلزامي " + omr(LR.mand) + " + اختياري " + omr(LR.opt) + " = " + omr(LR.dep)) + ">"
+                  + "<span class=\"mc-lbl\">+ مودَع هذا الشهر</span>"
+                  + "<span class=\"mc-val\">" + omr(LR.dep) + "</span></div>"
+                + "<div class=\"mc-row base\"" + tip("المرحّل " + omr(LR.open) + " + المودَع " + omr(LR.dep) + " = " + omr(LR.base) + " ر.ع، وهو المبلغ الذي يُحتسب عليه عائد هذا الشهر") + ">"
+                  + "<span class=\"mc-lbl\">= أساس الاحتساب</span>"
+                  + "<span class=\"mc-val\">" + omr(LR.base) + "</span></div>"
+                + "<div class=\"mc-row gain\"" + tip(omr(LR.base) + " × " + L.factorM.toFixed(8) + " = " + omr(LR.gain) + " ر.ع") + ">"
+                  + "<span class=\"mc-lbl\">عائد الشهر</span>"
+                  + "<span class=\"mc-val\">" + omr(LR.gain) + "</span></div>"
+                + "<div class=\"mc-row tot\"" + tip("أساس الاحتساب " + omr(LR.base) + " + العائد " + omr(LR.gain) + " = " + omr(LR.close) + " ر.ع، يُرحَّل إلى الشهر التالي") + ">"
+                  + "<span class=\"mc-lbl\">الرصيد بعده</span>"
+                  + "<span class=\"mc-val\">" + omr(LR.close) + "</span></div>"
+              + "</div>";
+        }
+
+        /* كشف احتساب الشهر — نسخة المسارين، كل مسار بنسبته ورصيده */
+        function calcSheetDual(L, LR, i, m, name) {
+            var prev = m === 1 ? "مرحّل من العام السابق" : "مرحّل من " + MONTHS[i - 1];
+            function line(cls, lbl, a, b, tipTxt) {
+                return "<div class=\"mc-row " + cls + "\"" + (tipTxt ? tip(tipTxt) : "") + ">"
+                    + "<span class=\"mc-lbl\">" + lbl + "</span>"
+                    + "<span class=\"mc-val m\">" + omr(a) + "</span>"
+                    + "<span class=\"mc-val v\">" + omr(b) + "</span></div>";
+            }
+            return "<div class=\"m-calc dual\">"
+                + "<div class=\"mc-row head\"><span class=\"mc-lbl\"></span>"
+                    + "<span class=\"mc-val m\">إلزامي</span><span class=\"mc-val v\">اختياري</span></div>"
+                + line("", prev, LR.M.open, LR.V.open,
+                    "رصيد كل مسار عند بداية " + name + " — ولا يختلط أحدهما بالآخر")
+                + line("", "+ مودَع", LR.M.dep, LR.V.dep,
+                    "الإلزامي " + omr(LR.M.dep) + " والاختياري " + omr(LR.V.dep) + " في " + name)
+                + line("base", "= الأساس", LR.M.base, LR.V.base,
+                    "أساس احتساب كل مسار: الإلزامي " + omr(LR.M.base) + " والاختياري " + omr(LR.V.base))
+                + line("gain", "العائد", LR.M.gain, LR.V.gain,
+                    "إلزامي: " + omr(LR.M.base) + " × " + L.factorM.toFixed(8) + " = " + omr(LR.M.gain)
+                    + "  |  اختياري: " + omr(LR.V.base) + " × " + L.factorV.toFixed(8) + " = " + omr(LR.V.gain))
+                + line("tot", "الرصيد بعده", LR.M.close, LR.V.close,
+                    "يُرحَّل رصيد كل مسار إلى الشهر التالي داخل مساره")
+                + "<div class=\"mc-row sum\"" + tip("عائد الإلزامي " + omr(LR.M.gain) + " + عائد الاختياري " + omr(LR.V.gain) + " = " + omr(LR.gain) + " ر.ع") + ">"
+                    + "<span class=\"mc-lbl\">إجمالي عائد الشهر</span>"
+                    + "<span class=\"mc-val\">" + omr(LR.gain) + "</span></div>"
+              + "</div>";
+        }
+
+        function calcSheet(L, LR, i, m, name) {
+            return L.split ? calcSheetDual(L, LR, i, m, name) : calcSheetSingle(L, LR, i, m, name);
+        }
+
         /* ================= لوحة الأشهر ================= */
         function renderBoard() {
             var L = buildLedger();
             var rate = L.rate;
             var carry = L.carry;
-            var carryEnd = carry * (1 + rate);
+            var carryEnd = L.carryM * (1 + L.rateM) + L.carryV * (1 + L.rateV);
             var carryStrip = carry > 0
                 ? "<div class=\"carry-strip\">"
                     + "<div class=\"cs-title\"><i class=\"fas fa-rotate-left\"></i> مُرحَّل من العام السابق</div>"
                     + "<div class=\"cs-amt\">" + omr(carry) + " <span>ر.ع</span></div>"
-                    + "<div class=\"cs-badge has-tip\" data-bs-toggle=\"tooltip\" title=\"" + esc('الرصيد المرحّل هو نقطة البداية للرصيد التراكمي، فيستفيد من أشهر السنة كاملة') + "\">12 شهر استفادة</div>"
+                    + "<div class=\"cs-badge has-tip\" data-bs-toggle=\"tooltip\" title=\"" + esc(L.split
+                        ? 'المرحّل الإلزامي ' + omr(L.carryM) + ' بنسبة ' + pctTxt(L.rateM)
+                          + '، والمرحّل الاختياري ' + omr(L.carryV) + ' بنسبة ' + pctTxt(L.rateV)
+                          + ' — ورصيد قائم طوال السنة يستحق النسبة السنوية كاملة.'
+                        : 'الرصيد المرحّل هو نقطة البداية للرصيد التراكمي، فيستفيد من أشهر السنة كاملة') + "\">12 شهر استفادة</div>"
                     + "<div class=\"cs-res\">"
                         + "<div class=\"cs-chip gain\"><i class=\"fas fa-arrow-trend-up\"></i>"
                             + "<span class=\"cs-lbl\">العائد</span><span class=\"cs-val\">" + omr(carryEnd - carry) + "</span></div>"
@@ -388,34 +582,23 @@
                 return '<div class="m-card' + (rows.length || mand > 0 ? ' has-tx' : '') + '">' +
                     '<div class="m-head"><span class="m-name">' + name + '</span>' +
                     '<span class="m-months has-tip" data-bs-toggle="tooltip" title="' +
-                        esc('المعامل الشهري الثابت، يُضرب في أساس الاحتساب أسفل البطاقة: '
-                            + omr(LR.base) + ' × ' + factor.toFixed(8) + ' = ' + omr(LR.gain)) +
-                    '">× ' + (factor * 100).toFixed(4) + '٪</span></div>' +
+                        esc(L.split
+                            ? 'معامل الإلزامي ' + (L.factorM * 100).toFixed(4) + '٪ ومعامل الاختياري '
+                              + (L.factorV * 100).toFixed(4) + '٪، يُضرب كل منهما في أساس مساره'
+                            : 'المعامل الشهري الثابت، يُضرب في أساس الاحتساب أسفل البطاقة: '
+                              + omr(LR.base) + ' × ' + factor.toFixed(8) + ' = ' + omr(LR.gain)) +
+                    '">' + (L.split
+                        ? '× ' + (L.factorM * 100).toFixed(4) + '٪ · ' + (L.factorV * 100).toFixed(4) + '٪'
+                        : '× ' + (factor * 100).toFixed(4) + '٪') + '</span></div>' +
                     mandRow + body +
                     '<button class="m-add" onclick="addTx(' + m + ')">+ عملية</button>' +
-                    "<div class=\"m-calc\">"
-                        + "<div class=\"mc-row\"" + tip(m === 1
-                            ? "رصيد مرحّل من العام السابق: " + omr(LR.open) + " ر.ع"
-                            : "رصيد نهاية " + MONTHS[i - 1] + " منقولًا إلى " + name + ": " + omr(LR.open) + " ر.ع")
-                          + "><span class=\"mc-lbl\">" + (m === 1 ? "مرحّل من العام السابق" : "مرحّل من " + MONTHS[i - 1]) + "</span>"
-                          + "<span class=\"mc-val\">" + omr(LR.open) + "</span></div>"
-                        + "<div class=\"mc-row\"" + tip("إلزامي " + omr(LR.mand) + " + اختياري " + omr(LR.opt) + " = " + omr(LR.dep)) + ">"
-                          + "<span class=\"mc-lbl\">+ مودَع هذا الشهر</span>"
-                          + "<span class=\"mc-val\">" + omr(LR.dep) + "</span></div>"
-                        + "<div class=\"mc-row base\"" + tip("المرحّل " + omr(LR.open) + " + المودَع " + omr(LR.dep) + " = " + omr(LR.base) + " ر.ع، وهو المبلغ الذي يُحتسب عليه عائد هذا الشهر") + ">"
-                          + "<span class=\"mc-lbl\">= أساس الاحتساب</span>"
-                          + "<span class=\"mc-val\">" + omr(LR.base) + "</span></div>"
-                        + "<div class=\"mc-row gain\"" + tip(omr(LR.base) + " × " + factor.toFixed(8) + " = " + omr(LR.gain) + " ر.ع") + ">"
-                          + "<span class=\"mc-lbl\">عائد الشهر</span>"
-                          + "<span class=\"mc-val\">" + omr(LR.gain) + "</span></div>"
-                        + "<div class=\"mc-row tot\"" + tip("أساس الاحتساب " + omr(LR.base) + " + العائد " + omr(LR.gain) + " = " + omr(LR.close) + " ر.ع، يُرحَّل إلى الشهر التالي") + ">"
-                          + "<span class=\"mc-lbl\">الرصيد بعده</span>"
-                          + "<span class=\"mc-val\">" + omr(LR.close) + "</span></div>"
-                      + "</div>" +
+                    calcSheet(L, LR, i, m, name) +
                 '</div>';
             }).join("");
             document.getElementById("carryStrip").innerHTML = carryStrip;
-            document.getElementById("monthsBoard").innerHTML = monthCards;
+            var board = document.getElementById("monthsBoard");
+            board.className = L.split ? "months split" : "months";
+            board.innerHTML = monthCards;
             initTips();
         }
 
@@ -446,35 +629,70 @@
             document.getElementById('outReturn').textContent = omr(gain) + ' ر.ع';
             document.getElementById('outEnd').textContent = omr(end) + ' ر.ع';
 
-            var pct = (Math.round(rate * 10000) / 100);
-            setTip('outEnd',
-                'يُضاف إيداع كل شهر إلى الرصيد، ثم يُحتسب العائد على الرصيد كاملًا بالمعامل '
-                + L.factor.toFixed(8) + '، ويُضاف إليه فيدخل في عائد الشهر التالي. '
-                + 'رصيد نهاية السنة ' + omr(end) + ' ر.ع.');
+            var sub = document.getElementById('outSplit');
+            if (sub) {
+                sub.innerHTML = L.split
+                    ? 'إلزامي <b class="m">' + omr(L.gainM) + '</b> · اختياري <b class="v">' + omr(L.gainV) + '</b>'
+                    : '';
+            }
+
+            setTip('outEnd', L.split
+                ? 'لكل مسار رصيده ومعامله: الإلزامي ينتهي عند ' + omr(L.endM) + ' بنسبة ' + pctTxt(L.rateM)
+                  + '، والاختياري عند ' + omr(L.endV) + ' بنسبة ' + pctTxt(L.rateV)
+                  + '. المجموع ' + omr(end) + ' ر.ع.'
+                : 'يُضاف إيداع كل شهر إلى الرصيد، ثم يُحتسب العائد على الرصيد كاملًا بالمعامل '
+                  + L.factor.toFixed(8) + '، ويُضاف إليه فيدخل في عائد الشهر التالي. '
+                  + 'رصيد نهاية السنة ' + omr(end) + ' ر.ع.');
             setTip('outReturn',
                 'رصيد نهاية السنة ' + omr(end) + ' − مجموع الأصل ' + omr(principal) + ' = ' + omr(gain) + ' ر.ع. '
-                + '(إيداعات ' + omr(inSum) + ' منها إلزامي ' + omr(mandPrincipal)
-                + '، سحوبات ' + omr(outSum) + '، مرحّل ' + omr(carry) + ')');
+                + (L.split
+                    ? '(عائد الإلزامي ' + omr(L.gainM) + ' بنسبة ' + pctTxt(L.rateM)
+                      + '، وعائد الاختياري ' + omr(L.gainV) + ' بنسبة ' + pctTxt(L.rateV) + ')'
+                    : '(إيداعات ' + omr(inSum) + ' منها إلزامي ' + omr(mandPrincipal)
+                      + '، سحوبات ' + omr(outSum) + '، مرحّل ' + omr(carry) + ')'));
 
             renderBoard();
             recalcExit();
         }
 
+        function factorEq(rate, factor, tagHtml) {
+            var pct = Math.round(rate * 10000) / 100;
+            return (tagHtml || '')
+              + '<span class="fb-step has-tip" title="'
+                  + esc('الجذر الثاني عشر للنسبة السنوية: العدد الذي إذا تراكم 12 مرة أعطى ' + pct + '٪')
+                  + '" data-bs-toggle="tooltip">( 1 + ' + pct + '٪ )<sup>1 ÷ 12</sup></span>'
+              + '<span class="fb-op">−</span><span class="fb-step">1</span>'
+              + '<span class="fb-op">=</span>'
+              + '<span class="fb-step res has-tip" title="'
+                  + esc('(1 + ' + factor.toFixed(8) + ')^12 = ' + Math.pow(1 + factor, 12).toFixed(6)
+                        + ' — أي ' + pct + '٪ تمامًا. ويُضرب هذا المعامل في الرصيد التراكمي لكل شهر.')
+                  + '" data-bs-toggle="tooltip">' + (factor * 100).toFixed(6) + '٪</span>';
+        }
+
         function renderFactorBar(L) {
             var box = document.getElementById('factorBar');
             if (!box) return;
+            if (L.split) {
+                box.innerHTML =
+                    '<div class="fb-tag"><i class="fas fa-percent"></i> المعامل الشهري لكل مسار</div>'
+                  + '<div class="fb-eq dual">'
+                      + factorEq(L.rateM, L.factorM, '<span class="rb-tag mand">إلزامي</span>')
+                  + '</div>'
+                  + '<div class="fb-eq dual">'
+                      + factorEq(L.rateV, L.factorV, '<span class="rb-tag opt">اختياري</span>')
+                  + '</div>'
+                  + '<div class="fb-side">'
+                      + '<span class="fb-note ok has-tip" data-bs-toggle="tooltip" title="'
+                          + esc('تُطبَّق نسبة كل مسار على مكوّنات الرصيد الخاصة به فقط، ولا يختلط المساران في الاحتساب. '
+                                + 'سند ذلك المادة ١٠٨ من اللائحة التي تجيز الفصل المحاسبي بين أموال الادخار الإلزامي والاختياري.') + '">'
+                          + '<i class="fas fa-layer-group"></i> فصل محاسبي بين المسارين</span>'
+                  + '</div>';
+                return;
+            }
             var pct = Math.round(L.rate * 10000) / 100;
-            var fPct = (L.factor * 100).toFixed(6);
             box.innerHTML =
                 '<div class="fb-tag"><i class="fas fa-percent"></i> المعامل الشهري</div>'
-              + '<div class="fb-eq">'
-                  + '<span class="fb-step has-tip" ' + 'title="' + esc('الجذر الثاني عشر للنسبة السنوية: العدد الذي إذا تراكم 12 مرة أعطى ' + pct + '٪') + '" data-bs-toggle="tooltip">'
-                      + '( 1 + ' + pct + '٪ )<sup>1 ÷ 12</sup></span>'
-                  + '<span class="fb-op">−</span><span class="fb-step">1</span>'
-                  + '<span class="fb-op">=</span>'
-                  + '<span class="fb-step res has-tip" ' + 'title="' + esc('يُضرب هذا المعامل في الرصيد التراكمي لكل شهر. وهو ثابت لجميع الأشهر الاثني عشر.') + '" data-bs-toggle="tooltip">'
-                      + fPct + '٪</span>'
-              + '</div>'
+              + '<div class="fb-eq">' + factorEq(L.rate, L.factor) + '</div>'
               + '<div class="fb-side">'
                   + '<span class="fb-note ok has-tip" data-bs-toggle="tooltip" title="'
                       + esc('(1 + ' + (L.factor).toFixed(8) + ')^12 = ' + Math.pow(1 + L.factor, 12).toFixed(6)
@@ -501,7 +719,8 @@
             var exit = document.getElementById('exitDate').value;
             var notice = document.getElementById('noticeDate').value;
             var minRate = (+document.getElementById('minRate').value || 0) / 100;
-            var rate = (+document.getElementById('rate').value || 0) / 100;
+            var L = buildLedger();
+            var rate = L.rateM;
             var v = document.getElementById('exitVerdict');
             var body = document.getElementById('exitBody');
             if (!exit || !notice) { v.textContent = 'أدخل التاريخين'; body.innerHTML = ''; return; }
@@ -519,8 +738,10 @@
             var b0 = YEAR_END;
             var rows = [];
             if (onTime) {
-                var y1 = b0 * (1 + rate);
-                rows.push(['السنة الأولى بعد الخروج', (Math.round(rate * 10000) / 100) + '٪ — النسبة المقررة', b0, y1 - b0, y1, '']);
+                var y1 = L.split ? L.endM * (1 + L.rateM) + L.endV * (1 + L.rateV) : b0 * (1 + rate);
+                rows.push(['السنة الأولى بعد الخروج',
+                    (L.split ? 'إلزامي ' + pctTxt(L.rateM) + ' · اختياري ' + pctTxt(L.rateV) : pctTxt(rate))
+                    + ' — النسبة المقررة', b0, y1 - b0, y1, '']);
                 rows.push(['ما بعدها حتى الصرف', 'النسبة المقررة كل عام', y1, null, null, '']);
             } else {
                 var z1 = b0 * (1 + minRate);
