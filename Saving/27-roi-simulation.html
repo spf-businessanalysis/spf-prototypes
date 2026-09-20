@@ -107,21 +107,7 @@
         .m-row.mand .mand-tag { font-size: .62rem; font-weight: 700; color: #1d4f74; }
         .m-row.mand .mand-amt { font-size: .78rem; font-weight: 800; color: #1d4f74; }
 
-        .carry-strip {
-            display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
-            border: 1px solid #cfe6d9; border-inline-start: 4px solid var(--spf-green);
-            border-radius: var(--spf-radius-sm); background: var(--spf-green-lighter);
-            padding: 10px 16px; margin-bottom: 12px;
-        }
-        .carry-strip .cs-title { font-size: .85rem; font-weight: 800; color: var(--spf-green-dark); }
-        .carry-strip .cs-title i { margin-inline-end: 5px; }
-        .carry-strip .cs-amt { font-size: 1.1rem; font-weight: 800; color: var(--spf-green-dark); }
-        .carry-strip .cs-amt span { font-size: .72rem; font-weight: 400; color: var(--spf-text-muted); }
-        .carry-strip .cs-badge {
-            font-size: .68rem; font-weight: 700; color: var(--spf-green-dark);
-            background: #fff; border: 1px solid #cfe6d9; border-radius: 999px; padding: 2px 10px;
-        }
-        /* رقاقتا العائد والإجمالي — مشتركة بين شريطَي الإلزامي والمرحّل */
+        /* رقاقة نتيجة شريط الادخار الإلزامي */
         .cs-res { display: flex; gap: 8px; margin-inline-start: auto; flex-wrap: nowrap; }
         .cs-chip {
             display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
@@ -310,7 +296,6 @@
                     <div class="ms-note">يُودَع <b id="mandMonthly">—</b> ر.ع في كل شهر من أشهر السنة</div>
                     <div class="cs-res" id="mandRes"></div>
                 </div>
-                <div id="carryStrip"></div>
                 <div class="months" id="monthsBoard"></div>
             </div>
         </div>
@@ -540,25 +525,6 @@
         function renderBoard() {
             var L = buildLedger();
             var rate = L.rate;
-            var carry = L.carry;
-            var carryEnd = L.carryM * (1 + L.rateM) + L.carryV * (1 + L.rateV);
-            var carryStrip = carry > 0
-                ? "<div class=\"carry-strip\">"
-                    + "<div class=\"cs-title\"><i class=\"fas fa-rotate-left\"></i> مُرحَّل من العام السابق</div>"
-                    + "<div class=\"cs-amt\">" + omr(carry) + " <span>ر.ع</span></div>"
-                    + "<div class=\"cs-badge has-tip\" data-bs-toggle=\"tooltip\" title=\"" + esc(L.split
-                        ? 'المرحّل الإلزامي ' + omr(L.carryM) + ' بنسبة ' + pctTxt(L.rateM)
-                          + '، والمرحّل الاختياري ' + omr(L.carryV) + ' بنسبة ' + pctTxt(L.rateV)
-                          + ' — ورصيد قائم طوال السنة يستحق النسبة السنوية كاملة.'
-                        : 'الرصيد المرحّل هو نقطة البداية للرصيد التراكمي، فيستفيد من أشهر السنة كاملة') + "\">12 شهر استفادة</div>"
-                    + "<div class=\"cs-res\">"
-                        + "<div class=\"cs-chip gain\"><i class=\"fas fa-arrow-trend-up\"></i>"
-                            + "<span class=\"cs-lbl\">العائد</span><span class=\"cs-val\">" + omr(carryEnd - carry) + "</span></div>"
-                        + "<div class=\"cs-chip total\"><i class=\"fas fa-equals\"></i>"
-                            + "<span class=\"cs-lbl\">الإجمالي</span><span class=\"cs-val\">" + omr(carryEnd) + "</span></div>"
-                      + "</div>"
-                  + "</div>"
-                : "";
             var mand = L.mand;
             var factor = L.factor;
             var monthCards = MONTHS.map(function (name, i) {
@@ -595,7 +561,6 @@
                     calcSheet(L, LR, i, m, name) +
                 '</div>';
             }).join("");
-            document.getElementById("carryStrip").innerHTML = carryStrip;
             var board = document.getElementById("monthsBoard");
             board.className = L.split ? "months split" : "months";
             board.innerHTML = monthCards;
