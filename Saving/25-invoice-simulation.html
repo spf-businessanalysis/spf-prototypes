@@ -609,6 +609,23 @@
             }).filter(o => o.newWage > 0 && o.oldWage > 0);
         }
 
+        /* ============ احتساب الغرامة ============
+           المعادلة المعتمدة:  أصل المبلغ المتأخر × النسبة السنوية × ( أيام التأخير ÷ 360 )
+           ولا تُحتسب غرامة على غرامة سابقة، فالوعاء هو الأصل وحده.
+           وشهر التأخير الكامل يعادل 30 يومًا، فيكون 30 ÷ 360 من النسبة السنوية. */
+        const DAYS_BASIS = 360;
+        const DAYS_PER_MONTH = 30;
+
+        function penaltyOf(principal, annualRate, lateDays) {
+            return principal * annualRate / 100 * (lateDays / DAYS_BASIS);
+        }
+        function penaltyMonths(principal, annualRate, months) {
+            return penaltyOf(principal, annualRate, months * DAYS_PER_MONTH);
+        }
+        function penaltyHow(principal, annualRate, lateDays) {
+            return `${num(principal)} × ${annualRate}٪ × (${lateDays} يوم ÷ ${DAYS_BASIS}) = ${num(penaltyOf(principal, annualRate, lateDays))} ر.ع`;
+        }
+
         function makeRetroLines(nat, name, oldWage, newWage, months) {
             const diff = newWage - oldWage;
             if (diff <= 0) return [];
@@ -618,7 +635,7 @@
                 const monthly = diff * it.rate / 100;
                 const t = it.id === 'savings' ? 'savings' : 'general';
                 acc[t].p += monthly * months;
-                acc[t].k += monthly * it.pen / 100 / 12 * sumM;
+                acc[t].k += penaltyMonths(monthly, it.pen, sumM);
                 acc[t].rates += it.rate;
             });
             const lines = [];
@@ -631,7 +648,7 @@
                         pen: penRate, age: months, origin: 'retro',
                         src: 'تظلّم: ' + name, worker: name, diff, months,
                         calcP: `فرق الأجر ${num(diff)} × مجموع النسب ${acc[t].rates}٪ = ${num(monthly)} شهرياً، × ${months} أشهر = ${num(acc[t].p)} ر.ع`,
-                        calcK: `${num(monthly)} × ${penRate}٪ ÷ 12 × مجموع تسلسل الأشهر (${sumM}) = ${num(acc[t].k)} ر.ع`
+                        calcK: `${num(monthly)} × ${penRate}٪ × (${sumM * DAYS_PER_MONTH} يوم ÷ ${DAYS_BASIS}) = ${num(acc[t].k)} ر.ع — مجموع تسلسل الأشهر ${sumM} شهرًا`
                     });
                 }
             });
@@ -801,13 +818,13 @@
                 if (n.kind === 'prev') {
                     const P = n.pref.principal, K = n.pref.penalty, T = P + K, frac = T > 0 ? n.unpaidTotal / T : 0;
                     n.remP = round2(P * frac); n.remK = round2(K * frac);
-                    n.nextPen = round2(n.remP * n.pen / 100 / 12);
+                    n.nextPen = round2(penaltyMonths(n.remP, n.pen, 1));
                 } else {
                     n.remP = n.unpaidTotal; n.remK = 0;
                     if (fullyPaid && timing === 'grace') n.nextPen = 0;
                     else {
                         const latePaid = (timing === 'late') ? n.paid : 0;
-                        n.nextPen = round2((n.remP + latePaid) * n.pen / 100 / 12);
+                        n.nextPen = round2(penaltyMonths(n.remP + latePaid, n.pen, 1));
                     }
                 }
             });
@@ -914,7 +931,7 @@
                 }
             });
 
-            let h = '<thead><tr><th>فئة البند</th><th>نسبة الغرامة</th><th>الأصل الخاضع</th><th>طريقة الاحتساب</th><th>الغرامة (عن شهر)</th></tr></thead><tbody>';
+            let h = '<thead><tr><th>فئة البند</th><th>نسبة الغرامة</th><th>الأصل الخاضع</th><th>طريقة الاحتساب</th><th>الغرامة (عن ٣٠ يومًا)</th></tr></thead><tbody>';
             if (!Object.keys(groups).length) {
                 h += '<tr><td colspan="5" class="fw-700" style="color:#1b6f40">لا توجد غرامات — تمّت التسوية بالكامل خلال مهلة السماح</td></tr>';
             } else {
@@ -923,8 +940,8 @@
                     h += `<tr class="${isSav ? 'pen-savings' : ''}"><td class="fw-700">${isSav ? 'الادخار الإلزامي' : 'بنود الاشتراكات العامة'}</td>
                         <td><span class="pill ${isSav ? 'pill-gold' : 'pill-g'}">${k}٪</span></td>
                         <td${tip('مجموع الأصل غير المسدد من بنود هذه الفئة')}>${money(round2(g.base))}</td>
-                        <td class="pen-formula">${num(round2(g.base))} × ${k}٪ ÷ 12</td>
-                        <td class="fw-800 ${isSav ? 'text-gold' : 'text-spf'}"${tip(`${num(round2(g.base))} × ${k}٪ ÷ 12 شهراً = ${num(round2(g.pen))} ر.ع عن شهر واحد`)}>${money(round2(g.pen))}</td></tr>`;
+                        <td class="pen-formula">${num(round2(g.base))} × ${k}٪ × (${DAYS_PER_MONTH} ÷ ${DAYS_BASIS})</td>
+                        <td class="fw-800 ${isSav ? 'text-gold' : 'text-spf'}"${tip(penaltyHow(round2(g.base), +k, DAYS_PER_MONTH) + ' — عن شهر تأخير واحد. والوعاء هو الأصل وحده، فلا تُحتسب غرامة على غرامة سابقة.')}>${money(round2(g.pen))}</td></tr>`;
                 });
             }
             document.getElementById('penTable').innerHTML = h + '</tbody>';

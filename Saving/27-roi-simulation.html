@@ -117,6 +117,10 @@
         .m-row.mand { justify-content: space-between; background: #eef5fa; border: 1px solid #dceaf3; border-radius: 6px; padding: 2px 6px; }
         .m-row.mand .mand-tag { font-size: .62rem; font-weight: 700; color: #1d4f74; }
         .m-row.mand .mand-amt { font-size: .78rem; font-weight: 800; color: #1d4f74; }
+        .m-row.mand.part { background: var(--spf-gold-light); border-color: #e6cf9c; }
+        .m-row.mand.part .mand-tag, .m-row.mand.part .mand-amt { color: #6b5010; }
+        .m-row.mand.off { opacity: .55; }
+        .m-row.mand.off .mand-tag, .m-row.mand.off .mand-amt { color: var(--spf-text-muted); }
 
         /* رقاقة نتيجة شريط الادخار الإلزامي */
         .cs-res { display: flex; gap: 8px; margin-inline-start: auto; flex-wrap: nowrap; }
@@ -310,7 +314,11 @@
                     <label class="ms-toggle"><input type="checkbox" id="mandOn" checked onchange="recalc()"> الادخار الإلزامي</label>
                     <div class="ms-field"><span>الأجر الأساسي</span><input type="number" step="50" id="mandWage" value="1000" oninput="recalc()"></div>
                     <div class="ms-field"><span>النسبة ٪</span><input type="number" step="0.5" id="mandRate" value="9" oninput="recalc()"></div>
-                    <div class="ms-note">يُودَع <b id="mandMonthly">—</b> ر.ع في كل شهر من أشهر السنة</div>
+                    <div class="ms-field"><span>شهر الالتحاق</span><select id="mandFrom" onchange="recalc()"></select></div>
+                    <div class="ms-field"><span>يوم الالتحاق</span><input type="number" min="1" max="30" step="1" id="mandFromDay" value="1" oninput="recalc()"></div>
+                    <div class="ms-field"><span>شهر الترك</span><select id="mandTo" onchange="recalc()"></select></div>
+                    <div class="ms-field"><span>يوم الترك</span><input type="number" min="1" max="30" step="1" id="mandToDay" value="30" oninput="recalc()"></div>
+                    <div class="ms-note">يُودَع <b id="mandMonthly">—</b> ر.ع شهريًا، ويُحتسب <b>بالتناسب</b> في شهرَي الالتحاق والترك</div>
                     <div class="cs-res" id="mandRes"></div>
                 </div>
                 <div class="months" id="monthsBoard"></div>
@@ -446,15 +454,16 @@
                 /* يبدأ استحقاق الإيداع من الشهر التالي، فيُحتسب عائد الشهر
                    على الرصيد الافتتاحي وحده، ثم يُضاف إيداع الشهر بعده. */
                 var openM = balM, openV = balV;
+                var mandM = mandFor(m);
                 var baseM = openM, baseV = openV;
                 var gainM = baseM * fM, gainV = baseV * fV;
-                balM = openM + gainM + mand; balV = openV + gainV + opt;
-                gM += gainM; gV += gainV; depM += mand; depV += opt;
+                balM = openM + gainM + mandM; balV = openV + gainV + opt;
+                gM += gainM; gV += gainV; depM += mandM; depV += opt;
                 rows.push({
-                    m: m,
-                    M: { open: openM, dep: mand, base: baseM, gain: gainM, close: balM },
+                    m: m, days: mandDays(m), partial: isPartial(m),
+                    M: { open: openM, dep: mandM, base: baseM, gain: gainM, close: balM },
                     V: { open: openV, dep: opt, base: baseV, gain: gainV, close: balV },
-                    open: openM + openV, mand: mand, opt: opt, dep: mand + opt,
+                    open: openM + openV, mand: mandM, opt: opt, dep: mandM + opt,
                     base: baseM + baseV, gain: gainM + gainV, close: balM + balV
                 });
             }
@@ -482,6 +491,46 @@
             var wage = +document.getElementById('mandWage').value || 0;
             var pct = +document.getElementById('mandRate').value || 0;
             return wage * pct / 100;
+        }
+
+        /* شهر الاشتراك محسوب على ثلاثين يومًا، فيُحتسب شهر الالتحاق أو الترك بالتناسب */
+        var MONTH_DAYS = 30;
+        function num(id, dflt) {
+            var e = document.getElementById(id);
+            var v = e ? +e.value : NaN;
+            return isNaN(v) ? dflt : v;
+        }
+        /* عدد أيام الاشتراك في شهر معيّن، من 0 إلى 30 */
+        function mandDays(m) {
+            var from = num('mandFrom', 1), to = num('mandTo', 12);
+            var fromDay = Math.min(MONTH_DAYS, Math.max(1, num('mandFromDay', 1)));
+            var toDay = Math.min(MONTH_DAYS, Math.max(1, num('mandToDay', MONTH_DAYS)));
+            if (m < from || m > to) return 0;
+            var start = (m === from) ? fromDay : 1;
+            var end = (m === to) ? toDay : MONTH_DAYS;
+            return Math.max(0, end - start + 1);
+        }
+        /* قيمة اشتراك الشهر بعد التناسب */
+        function mandFor(m) {
+            var full = mandMonthly();
+            if (full <= 0) return 0;
+            var d = mandDays(m);
+            if (d >= MONTH_DAYS) return full;
+            return full * d / MONTH_DAYS;
+        }
+        /* تعبئة قائمتَي شهر الالتحاق والترك */
+        function fillMonthSelects() {
+            var opts = MONTHS.map(function (nm, i) {
+                return '<option value="' + (i + 1) + '">' + nm + '</option>';
+            }).join('');
+            var a = document.getElementById('mandFrom'), b = document.getElementById('mandTo');
+            if (a) { a.innerHTML = opts; a.value = '1'; }
+            if (b) { b.innerHTML = opts; b.value = '12'; }
+        }
+
+        function isPartial(m) {
+            var d = mandDays(m);
+            return d > 0 && d < MONTH_DAYS;
         }
 
         /* كشف احتساب الشهر — نسخة المسار الواحد */
@@ -567,9 +616,13 @@
                         '<button onclick="removeTx(' + k + ')" title="حذف"><i class="fas fa-xmark"></i></button>' +
                     '</div>';
                 }).join('');
-                var mandRow = mand > 0
-                    ? '<div class="m-row mand"><span class="mand-tag">إلزامي</span><span class="mand-amt">+ ' + omr(mand) + '</span></div>'
-                    : '';
+                var mandRow = LR.mand > 0
+                    ? '<div class="m-row mand' + (LR.partial ? ' part' : '') + '">'
+                        + '<span class="mand-tag">إلزامي' + (LR.partial ? ' · ' + LR.days + ' يومًا' : '') + '</span>'
+                        + '<span class="mand-amt">+ ' + omr(LR.mand) + '</span></div>'
+                    : (mand > 0 && LR.days === 0
+                        ? '<div class="m-row mand off"><span class="mand-tag">خارج فترة الاشتراك</span><span class="mand-amt">—</span></div>'
+                        : '');
                 return '<div class="m-card' + (rows.length || mand > 0 ? ' has-tx' : '') + '">' +
                     '<div class="m-head"><span class="m-name">' + name + '</span>' +
                     '<span class="m-months has-tip" data-bs-toggle="tooltip" title="' +
@@ -608,7 +661,7 @@
 
             var inSum = 0, outSum = 0;
             TX.forEach(function (t) { if (t.kind === 'in') inSum += t.amount; else outSum += t.amount; });
-            var mandPrincipal = mand * 12;
+            var mandPrincipal = L.depM;
             inSum += mandPrincipal;
             renderFactorBar(L);
             renderMandStrip(mand, mandPrincipal);
@@ -811,6 +864,7 @@
                     + '<a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
                 return;
             }
+            fillMonthSelects();
             loadDefaults();
         });
     </script>

@@ -51,6 +51,9 @@
         }
         .cap-head b { font-weight: 800; color: var(--spf-green-dark); }
         .cap-wrap .mini-bar { width: 100%; height: 8px; }
+        .cap-title { font-size: .8rem; font-weight: 800; color: var(--spf-green-dark); margin-bottom: 8px; }
+        .cap-line + .cap-line { margin-top: 11px; }
+        .cap-rest { font-size: .72rem; color: var(--spf-text-muted); margin-top: 3px; }
 
         .st-pill { font-size: .7rem; font-weight: 800; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
         .st-pill.ok { background: var(--spf-green-lighter); color: var(--spf-green-dark); }
@@ -519,6 +522,13 @@
             { name: 'الشكاوى والاستفسارات', total: 312, onTime: 268, sla: 7 }
         ];
 
+        /* السقف السنوي يُطبَّق على كل مصدر إيداع على حدة — BR-DEP-02B */
+        var CAP_MAX = 36000;
+        var CAP_SOURCES = [
+            { name: 'إيداعك عن نفسك',        used: 362.250 },
+            { name: 'إيداع جهة العمل عنك',   used: 1080.000 }
+        ];
+
         /* رصيد المدخر مفصّلًا بمصدره */
         var SAVER_TRACKS = [
             { name: 'الادخار الإلزامي',   bal: 980.500, gain: 29.415, src: 'خصم شهري من الأجر' },
@@ -678,13 +688,19 @@
                 + '<td class="fw-800">' + omr(bSum) + '</td><td>100٪</td>'
                 + '<td class="fw-800">' + omr(gSum) + '</td></tr>';
 
-            var capUsed = 362.250, capMax = 36000;
             var capNote = '<div class="cap-wrap">'
-                + '<div class="cap-head"><span>الإيداع الاختياري هذه السنة</span>'
-                    + '<b>' + omr(capUsed) + ' من ' + omr(capMax, 0) + ' ر.ع</b></div>'
-                + bar(pct(capUsed, capMax))
+                + '<div class="cap-title">السقف السنوي — لكل مصدر إيداع على حدة</div>'
+                + CAP_SOURCES.map(function (c) {
+                    var p = pct(c.used, CAP_MAX);
+                    return '<div class="cap-line">'
+                        + '<div class="cap-head"><span>' + c.name + '</span>'
+                            + '<b>' + omr(c.used) + ' من ' + omr(CAP_MAX, 0) + ' ر.ع</b></div>'
+                        + bar(p, p >= 90 ? 'bad' : (p >= 70 ? 'warn' : ''))
+                        + '<div class="cap-rest">المتبقي ' + omr(CAP_MAX - c.used) + ' ر.ع</div>'
+                      + '</div>';
+                  }).join('')
                 + '<p class="dash-note mb-0">الحد الأقصى السنوي هو اثنا عشر ضعف سقف أجر الاشتراك، '
-                + 'والحد الأدنى للإيداع الواحد مئة ريال.</p></div>';
+                + 'ويُحتسب لكل مصدر إيداع على حدة لا على الحساب مجتمعًا. والحد الأدنى للإيداع الواحد مئة ريال.</p></div>';
 
             host.innerHTML = card('رصيدك مفصّلًا بمصدره',
                 tbl(['المسار', 'مصدر الإيداع', 'الرصيد', 'الحصة', 'العائد'], rows, foot) + capNote);
