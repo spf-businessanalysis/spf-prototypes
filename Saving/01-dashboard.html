@@ -10,6 +10,53 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ===== لوحات المتابعة الموسّعة ===== */
+        .tbl-scroll { overflow-x: auto; }
+        .dash-table { font-size: .82rem; margin-bottom: 0; }
+        .dash-table th { white-space: nowrap; font-size: .76rem; }
+        .dash-table td { padding: 7px 9px; vertical-align: middle; }
+        .dash-table td.dim { color: var(--spf-text-muted); font-size: .76rem; }
+        .dash-table tr.sum-row td { background: var(--spf-green-lighter); border-top: 2px solid #cfe6d9; }
+        .dash-table td.gap-cell { color: #a8291f; font-weight: 700; }
+        .dash-table td.extra-cell { color: #6b5010; font-weight: 700; }
+
+        .mini-bar {
+            display: inline-block; width: 74px; height: 6px; border-radius: 3px;
+            background: #eef1f0; overflow: hidden; vertical-align: middle;
+        }
+        .mini-fill { height: 100%; background: var(--spf-green); }
+        .mini-fill.warn { background: #d9a441; }
+        .mini-fill.bad { background: #d9534f; }
+        .mini-pct { font-size: .74rem; font-weight: 700; margin-inline-start: 7px; color: var(--spf-text-muted); }
+
+        .dash-note { font-size: .78rem; line-height: 1.8; color: var(--spf-text-muted); margin-top: 11px; }
+
+        .basis-box {
+            border: 1px solid var(--spf-border); border-radius: var(--spf-radius-sm);
+            background: #fcfdfc; padding: 11px 14px; margin-top: 13px;
+        }
+        .basis-box .bb-row {
+            display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+            font-size: .82rem; padding: 4px 0;
+        }
+        .basis-box .bb-row b { font-weight: 800; color: var(--spf-green-dark); }
+        .basis-box .bb-row.gap { border-top: 1px dashed var(--spf-border); margin-top: 4px; padding-top: 7px; }
+        .basis-box .bb-row.gap b { color: #a8291f; }
+
+        .cap-wrap { margin-top: 13px; }
+        .cap-head {
+            display: flex; justify-content: space-between; align-items: baseline;
+            font-size: .82rem; margin-bottom: 6px;
+        }
+        .cap-head b { font-weight: 800; color: var(--spf-green-dark); }
+        .cap-wrap .mini-bar { width: 100%; height: 8px; }
+
+        .st-pill { font-size: .7rem; font-weight: 800; border-radius: 999px; padding: 2px 10px; white-space: nowrap; }
+        .st-pill.ok { background: var(--spf-green-lighter); color: var(--spf-green-dark); }
+        .st-pill.warn { background: var(--spf-gold-light); color: #6b5010; }
+        .st-pill.bad { background: #fdeeee; color: #a8291f; }
+    </style>
 </head>
 <body data-user-role="saver">
 
@@ -193,6 +240,7 @@
                     </div>
                 </div>
             </div>
+            <div id="saverExtra"></div>
         </div>
 
         <!-- Role-Specific Dashboard: EMPLOYER -->
@@ -326,6 +374,7 @@
                     </div>
                 </div>
             </div>
+            <div id="employerExtra"></div>
         </div>
 
         <!-- Role-Specific Dashboard: STAFF -->
@@ -426,6 +475,7 @@
                     </div>
                 </div>
             </div>
+            <div id="staffExtra"></div>
         </div>
 
     </main>
@@ -434,5 +484,267 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Common JS -->
     <script src="common.js"></script>
+    <script>
+        /* ================= بيانات لوحات المتابعة =================
+           أرقام العرض فقط، وهي متسقة فيما بينها حتى تصح المقارنة والمجاميع. */
+
+        var YEAR = 2026;
+
+        /* الفصل المحاسبي بين المسارين — الأموال في محفظة واحدة والفصل في الدفاتر */
+        var TRACKS = [
+            { name: 'الادخار الإلزامي',  bal: 612400000, gain: 18372000, rate: 3.0, reserve: 24500000 },
+            { name: 'الادخار الاختياري', bal: 237600000, gain:  7128000, rate: 3.0, reserve:  9500000 }
+        ];
+
+        /* المتوقَّع مقابل المحصَّل — أساس احتساب العائد هو المتوقَّع (BR-INV-06) */
+        var COLLECTION = [
+            { q: 'الربع الأول',  expected: 158200000, collected: 149900000 },
+            { q: 'الربع الثاني', expected: 161500000, collected: 154100000 },
+            { q: 'الربع الثالث', expected: 164800000, collected: 152300000 }
+        ];
+
+        /* أكبر جهات العمل تأخرًا في التوريد */
+        var LATE_EMPLOYERS = [
+            { name: 'شركة الخليج للمقاولات',   workers: 412, due: 386400, months: 3, extra: 7728 },
+            { name: 'مؤسسة الوادي للخدمات',    workers: 268, due: 214900, months: 2, extra: 2865 },
+            { name: 'شركة النهضة الصناعية',    workers: 197, due: 158300, months: 4, extra: 4221 },
+            { name: 'شركة البحر للنقل',        workers: 143, due:  96700, months: 1, extra:  645 }
+        ];
+
+        /* الالتزام بالمدد المعلنة */
+        var SLA_ROWS = [
+            { name: 'طلبات صرف المدخرات', total: 486, onTime: 431, sla: 10 },
+            { name: 'طلبات التسجيل',      total: 2400, onTime: 2338, sla: 5 },
+            { name: 'اعتراضات الأجر',     total: 174, onTime: 141, sla: 30 },
+            { name: 'الشكاوى والاستفسارات', total: 312, onTime: 268, sla: 7 }
+        ];
+
+        /* رصيد المدخر مفصّلًا بمصدره */
+        var SAVER_TRACKS = [
+            { name: 'الادخار الإلزامي',   bal: 980.500, gain: 29.415, src: 'خصم شهري من الأجر' },
+            { name: 'الادخار الاختياري',  bal: 362.250, gain: 10.868, src: 'إيداع ذاتي' },
+            { name: 'فائض الاشتراكات',    bal: 107.250, gain:  4.967, src: 'إيداع من الصندوق' }
+        ];
+
+        /* بيانات جهة العمل */
+        var EMP_WORKERS = { registered: 389, pending: 23, noAccount: 11 };
+        var EMP_INVOICES = [
+            { ref: 'INV-2026-04417', month: 'سبتمبر 2026', amount: 35010, status: 'مستحقة',  extra: 0 },
+            { ref: 'INV-2026-04302', month: 'أغسطس 2026',  amount: 34650, status: 'متأخرة',  extra: 231 },
+            { ref: 'INV-2026-04188', month: 'يوليو 2026',  amount: 34290, status: 'مسددة',   extra: 0 },
+            { ref: 'INV-2026-04071', month: 'يونيو 2026',  amount: 33840, status: 'مسددة',   extra: 0 }
+        ];
+
+        /* ================= أدوات ================= */
+        function omr(n, d) {
+            d = (d === undefined) ? 3 : d;
+            return (Math.round(n * 1000) / 1000).toLocaleString('en-US',
+                { minimumFractionDigits: d, maximumFractionDigits: d });
+        }
+        function big(n) {
+            if (n >= 1000000) return (Math.round(n / 100000) / 10) + ' مليون';
+            if (n >= 1000) return (Math.round(n / 100) / 10) + ' ألف';
+            return omr(n, 0);
+        }
+        function pct(a, b) { return b ? Math.round(a / b * 1000) / 10 : 0; }
+        function bar(p, cls) {
+            return '<div class="mini-bar"><div class="mini-fill ' + (cls || '')
+                + '" style="width:' + Math.max(0, Math.min(100, p)) + '%"></div></div>';
+        }
+        function card(title, body, extraClass) {
+            return '<div class="spf-card mb-4 ' + (extraClass || '') + '">'
+                + '<div class="card-header-custom">' + title + '</div>'
+                + '<div class="card-body">' + body + '</div></div>';
+        }
+        function tbl(head, rows, foot) {
+            return '<div class="tbl-scroll"><table class="spf-table dash-table">'
+                + '<thead><tr>' + head.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead>'
+                + '<tbody>' + rows + '</tbody>'
+                + (foot ? '<tfoot>' + foot + '</tfoot>' : '')
+                + '</table></div>';
+        }
+
+        /* ================= لوحة الموظف ================= */
+        function renderStaff() {
+            var host = document.getElementById('staffExtra');
+            if (!host) return;
+
+            /* 1) الفصل المحاسبي */
+            var tBal = 0, tGain = 0, tRes = 0;
+            TRACKS.forEach(function (t) { tBal += t.bal; tGain += t.gain; tRes += t.reserve; });
+            var trackRows = TRACKS.map(function (t) {
+                return '<tr>'
+                    + '<td class="fw-700">' + t.name + '</td>'
+                    + '<td>' + big(t.bal) + '</td>'
+                    + '<td>' + pct(t.bal, tBal) + '٪</td>'
+                    + '<td>' + t.rate + '٪</td>'
+                    + '<td>' + big(t.gain) + '</td>'
+                    + '<td>' + big(t.reserve) + '</td>'
+                + '</tr>';
+            }).join('');
+            var trackFoot = '<tr class="sum-row"><td class="fw-800">المجموع</td>'
+                + '<td class="fw-800">' + big(tBal) + '</td><td>100٪</td><td>—</td>'
+                + '<td class="fw-800">' + big(tGain) + '</td>'
+                + '<td class="fw-800">' + big(tRes) + '</td></tr>';
+
+            var sepNote = '<p class="dash-note">الأموال مستثمرة في محفظة واحدة، والفصل بين المسارين '
+                + '<strong>في الدفاتر لا في الأموال</strong>: لكل مسار رصيده وعائده واحتياطيه، '
+                + 'ويجوز اعتماد نسبة عائد لكل مسار على حدة.</p>';
+
+            /* 2) المحصَّل مقابل المتوقَّع */
+            var eSum = 0, cSum = 0;
+            COLLECTION.forEach(function (r) { eSum += r.expected; cSum += r.collected; });
+            var colRows = COLLECTION.map(function (r) {
+                var gap = r.expected - r.collected, p = pct(r.collected, r.expected);
+                return '<tr>'
+                    + '<td class="fw-700">' + r.q + '</td>'
+                    + '<td>' + big(r.expected) + '</td>'
+                    + '<td>' + big(r.collected) + '</td>'
+                    + '<td class="gap-cell">' + big(gap) + '</td>'
+                    + '<td>' + bar(p, p >= 95 ? '' : (p >= 90 ? 'warn' : 'bad')) + '<span class="mini-pct">' + p + '٪</span></td>'
+                + '</tr>';
+            }).join('');
+            var colFoot = '<tr class="sum-row"><td class="fw-800">المجموع</td>'
+                + '<td class="fw-800">' + big(eSum) + '</td>'
+                + '<td class="fw-800">' + big(cSum) + '</td>'
+                + '<td class="fw-800 gap-cell">' + big(eSum - cSum) + '</td>'
+                + '<td class="fw-800">' + pct(cSum, eSum) + '٪</td></tr>';
+
+            var colNote = '<div class="basis-box">'
+                + '<div class="bb-row"><span>أساس احتساب العائد (المتوقَّع)</span><b>' + big(eSum) + ' ر.ع</b></div>'
+                + '<div class="bb-row"><span>المحصَّل فعليًا</span><b>' + big(cSum) + ' ر.ع</b></div>'
+                + '<div class="bb-row gap"><span>الفجوة المغطاة من الاحتياطي</span><b>' + big(eSum - cSum) + ' ر.ع</b></div>'
+                + '<p class="dash-note mb-0">يُحتسب العائد على المبالغ <strong>المتوقَّع تحصيلها</strong> لا على ما حُصِّل فعلًا، '
+                + 'فيستحق العامل عائد اشتراكاته ولو تأخرت جهة العمل. والفرق بين الرقمين هو ما يلزم تغطيته من الاحتياطي.</p>'
+                + '</div>';
+
+            /* 3) جهات العمل المتأخرة */
+            var lateRows = LATE_EMPLOYERS.map(function (e) {
+                return '<tr>'
+                    + '<td class="fw-700">' + e.name + '</td>'
+                    + '<td>' + e.workers + '</td>'
+                    + '<td>' + omr(e.due, 0) + '</td>'
+                    + '<td>' + e.months + '</td>'
+                    + '<td class="extra-cell">' + omr(e.extra, 0) + '</td>'
+                + '</tr>';
+            }).join('');
+
+            /* 4) الالتزام بالمدد */
+            var slaRows = SLA_ROWS.map(function (r) {
+                var p = pct(r.onTime, r.total);
+                return '<tr>'
+                    + '<td class="fw-700">' + r.name + '</td>'
+                    + '<td>' + r.total + '</td>'
+                    + '<td>' + r.sla + ' أيام</td>'
+                    + '<td>' + (r.total - r.onTime) + '</td>'
+                    + '<td>' + bar(p, p >= 95 ? '' : (p >= 85 ? 'warn' : 'bad')) + '<span class="mini-pct">' + p + '٪</span></td>'
+                + '</tr>';
+            }).join('');
+
+            host.innerHTML =
+                '<div class="row g-4"><div class="col-lg-6">'
+                  + card('الفصل المحاسبي بين مسارَي الادخار',
+                        tbl(['المسار', 'الرصيد', 'الحصة', 'نسبة العائد', 'العائد الموزع', 'الاحتياطي'], trackRows, trackFoot) + sepNote)
+                + '</div><div class="col-lg-6">'
+                  + card('المحصَّل مقابل المتوقَّع — أساس احتساب العائد',
+                        tbl(['الفترة', 'المتوقَّع', 'المحصَّل', 'الفجوة', 'نسبة التحصيل'], colRows, colFoot) + colNote)
+                + '</div></div>'
+                + '<div class="row g-4"><div class="col-lg-6">'
+                  + card('أكبر جهات العمل تأخرًا في التوريد',
+                        tbl(['جهة العمل', 'العمال', 'المتأخر (ر.ع)', 'أشهر التأخر', 'مبلغ إضافي ٨٪'], lateRows))
+                + '</div><div class="col-lg-6">'
+                  + card('الالتزام بالمدد المعلنة',
+                        tbl(['نوع الطلب', 'العدد', 'المهلة', 'تجاوزت', 'ضمن المهلة'], slaRows))
+                + '</div></div>';
+        }
+
+        /* ================= لوحة المدخر ================= */
+        function renderSaver() {
+            var host = document.getElementById('saverExtra');
+            if (!host) return;
+
+            var bSum = 0, gSum = 0;
+            SAVER_TRACKS.forEach(function (t) { bSum += t.bal; gSum += t.gain; });
+            var rows = SAVER_TRACKS.map(function (t) {
+                return '<tr>'
+                    + '<td class="fw-700">' + t.name + '</td>'
+                    + '<td class="dim">' + t.src + '</td>'
+                    + '<td>' + omr(t.bal) + '</td>'
+                    + '<td>' + pct(t.bal, bSum) + '٪</td>'
+                    + '<td>' + omr(t.gain) + '</td>'
+                + '</tr>';
+            }).join('');
+            var foot = '<tr class="sum-row"><td class="fw-800">المجموع</td><td></td>'
+                + '<td class="fw-800">' + omr(bSum) + '</td><td>100٪</td>'
+                + '<td class="fw-800">' + omr(gSum) + '</td></tr>';
+
+            var capUsed = 362.250, capMax = 36000;
+            var capNote = '<div class="cap-wrap">'
+                + '<div class="cap-head"><span>الإيداع الاختياري هذه السنة</span>'
+                    + '<b>' + omr(capUsed) + ' من ' + omr(capMax, 0) + ' ر.ع</b></div>'
+                + bar(pct(capUsed, capMax))
+                + '<p class="dash-note mb-0">الحد الأقصى السنوي هو اثنا عشر ضعف سقف أجر الاشتراك، '
+                + 'والحد الأدنى للإيداع الواحد مئة ريال.</p></div>';
+
+            host.innerHTML = card('رصيدك مفصّلًا بمصدره',
+                tbl(['المسار', 'مصدر الإيداع', 'الرصيد', 'الحصة', 'العائد'], rows, foot) + capNote);
+        }
+
+        /* ================= لوحة صاحب العمل ================= */
+        function renderEmployer() {
+            var host = document.getElementById('employerExtra');
+            if (!host) return;
+
+            var invRows = EMP_INVOICES.map(function (v) {
+                var cls = v.status === 'مسددة' ? 'ok' : (v.status === 'متأخرة' ? 'bad' : 'warn');
+                return '<tr>'
+                    + '<td class="fw-700">' + v.ref + '</td>'
+                    + '<td>' + v.month + '</td>'
+                    + '<td>' + omr(v.amount, 0) + '</td>'
+                    + '<td class="extra-cell">' + (v.extra ? omr(v.extra, 0) : '—') + '</td>'
+                    + '<td><span class="st-pill ' + cls + '">' + v.status + '</span></td>'
+                + '</tr>';
+            }).join('');
+
+            var dueTotal = 0, extraTotal = 0;
+            EMP_INVOICES.forEach(function (v) {
+                if (v.status !== 'مسددة') { dueTotal += v.amount; extraTotal += v.extra; }
+            });
+
+            var sumBox = '<div class="basis-box">'
+                + '<div class="bb-row"><span>إجمالي المستحق عليك الآن</span><b>' + omr(dueTotal, 0) + ' ر.ع</b></div>'
+                + '<div class="bb-row gap"><span>منه مبلغ إضافي عن التأخير</span><b>' + omr(extraTotal, 0) + ' ر.ع</b></div>'
+                + '<p class="dash-note mb-0">المبلغ الإضافي ٨٪ سنويًا يُحتسب على الاشتراكات المتأخرة، '
+                + 'ويزيد كلما طال التأخير.</p></div>';
+
+            var wTotal = EMP_WORKERS.registered + EMP_WORKERS.pending;
+            var wRows = '<tr><td class="fw-700">مسجلون في نظام الادخار</td><td>' + EMP_WORKERS.registered + '</td>'
+                    + '<td>' + bar(pct(EMP_WORKERS.registered, wTotal)) + '<span class="mini-pct">'
+                    + pct(EMP_WORKERS.registered, wTotal) + '٪</span></td></tr>'
+                + '<tr><td class="fw-700">بانتظار استكمال التسجيل</td><td>' + EMP_WORKERS.pending + '</td>'
+                    + '<td>' + bar(pct(EMP_WORKERS.pending, wTotal), 'warn') + '<span class="mini-pct">'
+                    + pct(EMP_WORKERS.pending, wTotal) + '٪</span></td></tr>'
+                + '<tr><td class="fw-700">بلا حساب بنكي نشط</td><td>' + EMP_WORKERS.noAccount + '</td>'
+                    + '<td>' + bar(pct(EMP_WORKERS.noAccount, wTotal), 'bad') + '<span class="mini-pct">'
+                    + pct(EMP_WORKERS.noAccount, wTotal) + '٪</span></td></tr>';
+
+            host.innerHTML =
+                '<div class="row g-4"><div class="col-lg-7">'
+                  + card('فواتيرك وحالة سدادها',
+                        tbl(['رقم الفاتورة', 'الشهر', 'المبلغ (ر.ع)', 'مبلغ إضافي', 'الحالة'], invRows) + sumBox)
+                + '</div><div class="col-lg-5">'
+                  + card('حالة عمالك في النظام',
+                        tbl(['البند', 'العدد', 'النسبة'], wRows)
+                        + '<p class="dash-note mb-0">العامل الذي لا يملك حسابًا بنكيًا نشطًا تتوقف معالجة صرف مدخراته '
+                        + 'حتى ينشئ الحساب، فيحسن تنبيهه مبكرًا.</p>')
+                + '</div></div>';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            renderSaver();
+            renderEmployer();
+            renderStaff();
+        });
+    </script>
 </body>
 </html>

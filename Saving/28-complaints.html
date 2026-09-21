@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الطلبات والشكاوى - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .tbl-scroll { overflow-x: auto; }
+
+        /* ===== شريط الملخص ===== */
+        .sum-bar {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            border: 1px solid #cfe6d9; border-radius: var(--spf-radius);
+            background: var(--spf-green-lighter); padding: 12px 16px; margin-bottom: 18px;
+        }
+        .sum-chip {
+            display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+            background: #fff; border: 1px solid var(--spf-border); border-radius: 999px;
+            padding: 6px 14px; font-family: inherit; font-size: .78rem; font-weight: 700;
+            color: var(--spf-text-muted);
+        }
+        .sum-chip .n { font-size: .95rem; font-weight: 800; color: var(--spf-green-dark); }
+        .sum-chip.active { border-color: var(--spf-green); background: #fff; color: var(--spf-green-dark); }
+        .sum-chip.late .n { color: #a8291f; }
+        .sum-note { font-size: .76rem; color: var(--spf-text-muted); margin-inline-start: auto; }
+
+        /* ===== بطاقة الشكوى في القائمة ===== */
+        .c-list { display: flex; flex-direction: column; gap: 10px; }
+        .c-card {
+            border: 1px solid var(--spf-border); border-inline-start: 4px solid var(--spf-border);
+            border-radius: var(--spf-radius-sm); background: #fff; padding: 12px 15px; cursor: pointer;
+        }
+        .c-card:hover { border-color: var(--spf-green); }
+        .c-card.sel { border-color: var(--spf-green); border-inline-start-color: var(--spf-green); background: #fcfefd; }
+        .c-card.late { border-inline-start-color: #d9534f; }
+        .c-card.closed { border-inline-start-color: #9aa5a0; background: #fbfcfc; }
+        .c-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+        .c-ref { font-size: .72rem; font-weight: 800; color: var(--spf-text-muted); }
+        .c-subject { font-size: .92rem; font-weight: 800; color: var(--spf-text); }
+        .c-meta { font-size: .74rem; color: var(--spf-text-muted); display: flex; gap: 12px; flex-wrap: wrap; }
+        .c-meta b { font-weight: 700; color: var(--spf-text); }
+
+        .pill { font-size: .68rem; font-weight: 800; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+        .pill.new { background: #e8f1f7; color: #1d4f74; }
+        .pill.work { background: var(--spf-gold-light); color: #6b5010; }
+        .pill.wait { background: #f3eefc; color: #5b3f8a; }
+        .pill.closed { background: #eef1f0; color: #55605b; }
+        .pill.esc { background: #fdeeee; color: #a8291f; }
+        .pill.cat { background: #eef4f1; color: var(--spf-green-dark); font-weight: 700; }
+
+        /* شريط المهلة */
+        .sla { display: flex; align-items: center; gap: 7px; font-size: .72rem; }
+        .sla-bar { flex: 1; height: 5px; border-radius: 3px; background: #eef1f0; overflow: hidden; min-width: 70px; }
+        .sla-fill { height: 100%; background: var(--spf-green); }
+        .sla-fill.warn { background: #d9a441; }
+        .sla-fill.over { background: #d9534f; }
+        .sla-txt { font-weight: 700; color: var(--spf-text-muted); white-space: nowrap; }
+        .sla-txt.over { color: #a8291f; }
+
+        /* ===== تفاصيل الشكوى ===== */
+        .d-head {
+            display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+            border-bottom: 1px solid var(--spf-border); padding-bottom: 12px; margin-bottom: 14px;
+        }
+        .d-head .d-subject { font-size: 1.05rem; font-weight: 800; color: var(--spf-green-dark); }
+        .d-head .d-meta { font-size: .78rem; color: var(--spf-text-muted); margin-top: 4px; }
+
+        .thread { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+        .msg { display: flex; gap: 10px; }
+        .msg .who {
+            flex: 0 0 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .8rem; background: #eef4f1; color: var(--spf-green-dark);
+        }
+        .msg.staff .who { background: #e8f1f7; color: #1d4f74; }
+        .msg.sys .who { background: var(--spf-gold-light); color: #6b5010; }
+        .bubble { flex: 1; border: 1px solid var(--spf-border); border-radius: var(--spf-radius-sm); padding: 9px 13px; background: #fff; }
+        .msg.staff .bubble { background: #f7fbfd; border-color: #d8e6ef; }
+        .msg.sys .bubble { background: var(--spf-gold-light); border-color: #e6cf9c; }
+        .bubble .b-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 4px; flex-wrap: wrap; }
+        .bubble .b-name { font-size: .78rem; font-weight: 800; color: var(--spf-text); }
+        .bubble .b-time { font-size: .7rem; color: var(--spf-text-muted); }
+        .bubble .b-text { font-size: .86rem; line-height: 1.75; }
+        .bubble .b-file {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 7px;
+            font-size: .74rem; font-weight: 700; color: var(--spf-green-dark);
+            border: 1px solid #cfe6d9; border-radius: 7px; padding: 3px 9px; background: #fff;
+        }
+
+        .reply-box { border: 1px solid var(--spf-border); border-radius: var(--spf-radius-sm); padding: 12px; background: #fcfdfc; }
+        .reply-box textarea {
+            width: 100%; border: 1px solid var(--spf-border); border-radius: 7px;
+            padding: 9px 11px; font-family: inherit; font-size: .86rem; resize: vertical; min-height: 84px;
+        }
+        .reply-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-top: 9px; }
+        .reply-actions .spacer { margin-inline-start: auto; }
+
+        .closed-note {
+            border: 1px solid #cfe6d9; border-inline-start: 4px solid var(--spf-green);
+            border-radius: var(--spf-radius-sm); background: var(--spf-green-lighter);
+            padding: 11px 14px; font-size: .84rem; line-height: 1.8;
+        }
+        .rate-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .star { cursor: pointer; font-size: 1.05rem; color: #d7ddda; background: none; border: none; padding: 0 1px; }
+        .star.on { color: #d9a441; }
+
+        /* ===== نموذج التقديم ===== */
+        .new-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+        .new-grid label { display: block; font-size: .8rem; font-weight: 700; margin-bottom: 5px; }
+        .new-grid select, .new-grid input {
+            width: 100%; border: 1px solid var(--spf-border); border-radius: 7px;
+            padding: 8px 11px; font-family: inherit; font-size: .86rem;
+        }
+        .cat-hint { font-size: .74rem; color: var(--spf-text-muted); margin-top: 5px; }
+        .empty-state { text-align: center; padding: 34px 16px; color: var(--spf-text-muted); font-size: .88rem; }
+        .empty-state i { font-size: 1.8rem; display: block; margin-bottom: 10px; color: #cfd8d4; }
+    </style>
+</head>
+<body>
+    <div id="navbarPlaceholder"></div>
+    <div id="sidebarPlaceholder"></div>
+
+    <main class="spf-main">
+        <div class="page-header">
+            <div>
+                <h4 id="pageTitle">الطلبات والشكاوى</h4>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="01-dashboard.html">لوحة التحكم</a></li>
+                        <li class="breadcrumb-item active">الطلبات والشكاوى</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="user-info-badge">
+                <span class="current-role-badge badge user-type-badge" id="roleBadge">—</span>
+            </div>
+        </div>
+
+        <!-- ===== الملخص وعوامل التصفية ===== -->
+        <div class="sum-bar" id="sumBar"></div>
+
+        <!-- ===== تقديم شكوى جديدة (للمدخر وصاحب العمل) ===== -->
+        <div class="spf-card mb-4" id="newCard">
+            <div class="card-header-custom">
+                <span>تقديم شكوى أو استفسار</span>
+                <button class="btn btn-sm btn-spf-outline" onclick="toggleNew()">
+                    <i class="fas fa-plus me-1"></i> <span id="newToggleTxt">فتح النموذج</span>
+                </button>
+            </div>
+            <div class="card-body" id="newBody" style="display:none">
+                <div class="new-grid mb-3">
+                    <div>
+                        <label for="ncCat">موضوع الشكوى</label>
+                        <select id="ncCat" onchange="catChanged()"></select>
+                        <div class="cat-hint" id="ncHint">—</div>
+                    </div>
+                    <div>
+                        <label for="ncRef">رقم مرتبط (اختياري)</label>
+                        <input type="text" id="ncRef" placeholder="رقم طلب أو فاتورة إن وُجد">
+                        <div class="cat-hint">يساعد على المعالجة بشكل أسرع</div>
+                    </div>
+                </div>
+                <label for="ncText" class="fw-700 small mb-1">اكتب شكواك</label>
+                <textarea id="ncText" class="w-100" style="border:1px solid var(--spf-border);border-radius:7px;padding:9px 11px;font-family:inherit;font-size:.86rem;min-height:96px"
+                          placeholder="اشرح المشكلة باختصار: ماذا حدث، ومتى، وما الذي تتوقعه"></textarea>
+                <div class="reply-actions">
+                    <button class="btn btn-sm btn-spf-outline" onclick="attachDemo()">
+                        <i class="fas fa-paperclip me-1"></i> إرفاق مستند
+                    </button>
+                    <span class="cat-hint" id="ncFile"></span>
+                    <span class="spacer"></span>
+                    <button class="btn btn-sm btn-spf" onclick="submitComplaint()">
+                        <i class="fas fa-paper-plane me-1"></i> تقديم الشكوى
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <!-- ===== القائمة ===== -->
+            <div class="col-lg-5">
+                <div class="spf-card">
+                    <div class="card-header-custom"><span id="listTitle">الشكاوى</span></div>
+                    <div class="card-body">
+                        <div class="c-list" id="cList"></div>
+                        <div class="empty-state" id="cEmpty" style="display:none">
+                            <i class="fas fa-inbox"></i>
+                            لا توجد شكاوى ضمن هذا العرض
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== التفاصيل ===== -->
+            <div class="col-lg-7">
+                <div class="spf-card">
+                    <div class="card-header-custom"><span>تفاصيل الشكوى ومتابعتها</span></div>
+                    <div class="card-body" id="detail">
+                        <div class="empty-state">
+                            <i class="fas fa-hand-pointer"></i>
+                            اختر شكوى من القائمة لعرض تفاصيلها
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="common.js"></script>
+    <script>
+        /* ================= التصنيفات ومدد الرد ================= */
+        /* المدد قابلة للتهيئة من داخل النظام — BR-CRM-02 */
+        var CATS = [
+            { id: 'balance', name: 'رصيد وحركات الحساب', sla: 5,  dept: 'دائرة التشغيل',        who: ['saver'] },
+            { id: 'payout',  name: 'طلب صرف المدخرات',    sla: 7,  dept: 'دائرة الصرف',         who: ['saver'] },
+            { id: 'invoice', name: 'فاتورة أو مبلغ إضافي', sla: 5,  dept: 'دائرة التحصيل',       who: ['saver', 'employer'] },
+            { id: 'wage',    name: 'الأجر الأساسي المسجل', sla: 10, dept: 'دائرة بيانات المشتركين', who: ['saver', 'employer'] },
+            { id: 'transfer',name: 'بيانات التحويل البنكي', sla: 5,  dept: 'دائرة الصرف',        who: ['saver'] },
+            { id: 'other',   name: 'موضوع آخر',            sla: 7,  dept: 'خدمة العملاء',        who: ['saver', 'employer'] }
+        ];
+
+        var STATUS = {
+            'new':    { txt: 'جديدة',            cls: 'new'  },
+            'work':   { txt: 'قيد المعالجة',      cls: 'work' },
+            'wait':   { txt: 'بانتظار مقدّم الشكوى', cls: 'wait' },
+            'closed': { txt: 'مغلقة',            cls: 'closed' }
+        };
+
+        /* ================= بيانات العرض ================= */
+        var TODAY = '2026-09-21';
+
+        var COMPLAINTS = [
+            {
+                ref: 'CMP-2026-00187', cat: 'balance', by: 'saver', byName: 'سالم بن ناصر الهنائي',
+                opened: '2026-09-18', status: 'work', esc: false, linked: '',
+                thread: [
+                    { who: 'saver', name: 'سالم بن ناصر الهنائي', t: '2026-09-18 09:12',
+                      text: 'أودعت مبلغ 200 ريال في الثاني عشر من الشهر ولم يظهر في رصيدي حتى الآن.' },
+                    { who: 'sys', name: 'النظام', t: '2026-09-18 09:12',
+                      text: 'استُلمت الشكوى وأُحيلت إلى دائرة التشغيل. مدة الرد خمسة أيام عمل.' },
+                    { who: 'staff', name: 'موظف التشغيل', t: '2026-09-19 11:40',
+                      text: 'نراجع حاليا سجل الإيداع لدى قناة التحصيل. نرجو تزويدنا بإيصال السداد.' },
+                    { who: 'saver', name: 'سالم بن ناصر الهنائي', t: '2026-09-19 14:05',
+                      text: 'مرفق إيصال السداد من تطبيق البنك.', file: 'إيصال-سداد.pdf' }
+                ]
+            },
+            {
+                ref: 'CMP-2026-00184', cat: 'payout', by: 'saver', byName: 'سالم بن ناصر الهنائي',
+                opened: '2026-09-09', status: 'work', esc: true, linked: 'DSB-2026-00411',
+                thread: [
+                    { who: 'saver', name: 'سالم بن ناصر الهنائي', t: '2026-09-09 08:30',
+                      text: 'قدمت طلب صرف منذ أكثر من أسبوعين ولم يتغير وضعه.' },
+                    { who: 'sys', name: 'النظام', t: '2026-09-09 08:30',
+                      text: 'استُلمت الشكوى وأُحيلت إلى دائرة الصرف. مدة الرد سبعة أيام عمل.' },
+                    { who: 'sys', name: 'النظام', t: '2026-09-16 08:00',
+                      text: 'انقضت مدة الرد دون معالجة، فصُعّدت الشكوى إلى رئيس دائرة الصرف.' }
+                ]
+            },
+            {
+                ref: 'CMP-2026-00180', cat: 'invoice', by: 'employer', byName: 'شركة الخليج للمقاولات',
+                opened: '2026-09-20', status: 'new', esc: false, linked: 'INV-2026-04417',
+                thread: [
+                    { who: 'employer', name: 'شركة الخليج للمقاولات', t: '2026-09-20 10:05',
+                      text: 'الفاتورة تتضمن مبلغا إضافيا عن شهر لم نتأخر في سداده. نرجو المراجعة.' },
+                    { who: 'sys', name: 'النظام', t: '2026-09-20 10:05',
+                      text: 'استُلمت الشكوى وأُحيلت إلى دائرة التحصيل. مدة الرد خمسة أيام عمل.' }
+                ]
+            },
+            {
+                ref: 'CMP-2026-00171', cat: 'wage', by: 'employer', byName: 'شركة الخليج للمقاولات',
+                opened: '2026-09-02', status: 'wait', esc: false, linked: '',
+                thread: [
+                    { who: 'employer', name: 'شركة الخليج للمقاولات', t: '2026-09-02 12:20',
+                      text: 'الأجر المسجل لأحد عمالنا غير مطابق للعقد.' },
+                    { who: 'staff', name: 'موظف بيانات المشتركين', t: '2026-09-04 09:15',
+                      text: 'نرجو إرفاق صورة العقد وكشف الرواتب لآخر ثلاثة أشهر حتى نستكمل المراجعة.' }
+                ]
+            },
+            {
+                ref: 'CMP-2026-00150', cat: 'transfer', by: 'saver', byName: 'راجيش كومار',
+                opened: '2026-08-11', status: 'closed', esc: false, linked: '',
+                closedOn: '2026-08-14', rating: 4,
+                closeReason: 'صُحِّح رمز SWIFT بعد التحقق من الحساب مع البنك، وأصبحت بيانات التحويل صالحة للتنفيذ.',
+                thread: [
+                    { who: 'saver', name: 'راجيش كومار', t: '2026-08-11 16:40',
+                      text: 'بيانات التحويل التي أدخلتها مرفوضة ولا أعرف سبب الرفض.' },
+                    { who: 'staff', name: 'موظف الصرف', t: '2026-08-13 10:10',
+                      text: 'رمز SWIFT المدخل لا يطابق البنك المذكور. نرجو تأكيده من كشف الحساب.' },
+                    { who: 'saver', name: 'راجيش كومار', t: '2026-08-13 18:22',
+                      text: 'مرفق كشف الحساب وفيه الرمز الصحيح.', file: 'كشف-حساب.pdf' },
+                    { who: 'staff', name: 'موظف الصرف', t: '2026-08-14 09:05',
+                      text: 'حُدِّث الرمز وتم التحقق من البيانات. الشكوى مغلقة.' }
+                ]
+            }
+        ];
+
+        /* ================= الحالة ================= */
+        var ROLE = 'saver';
+        var FILTER = 'all';
+        var SELECTED = null;
+        var PENDING_FILE = '';
+
+        function cat(id) {
+            for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) return CATS[i];
+            return { name: '—', sla: 0, dept: '—' };
+        }
+        function esc(t) {
+            return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        }
+        function days(from, to) {
+            return Math.round((new Date(to) - new Date(from)) / 86400000);
+        }
+        function arDate(d) {
+            var p = String(d).split(' ')[0].split('-');
+            return p[2] + '/' + p[1] + '/' + p[0];
+        }
+
+        /* من يرى ماذا: المدخر وصاحب العمل يريان ما قدّماه، والموظف يرى الجميع */
+        function visible() {
+            return COMPLAINTS.filter(function (c) {
+                if (ROLE === 'staff') return true;
+                return c.by === ROLE;
+            });
+        }
+
+        function slaInfo(c) {
+            var info = cat(c.cat);
+            if (c.status === 'closed') {
+                return { done: true, used: days(c.opened, c.closedOn), total: info.sla };
+            }
+            var used = days(c.opened, TODAY);
+            return { done: false, used: used, total: info.sla, over: used > info.sla };
+        }
+
+        /* ================= شريط الملخص ================= */
+        function renderSummary() {
+            var list = visible();
+            var open = list.filter(function (c) { return c.status !== 'closed'; });
+            var late = open.filter(function (c) { return slaInfo(c).over; });
+            var closed = list.filter(function (c) { return c.status === 'closed'; });
+            var rated = closed.filter(function (c) { return c.rating; });
+            var avg = rated.length
+                ? (rated.reduce(function (s, c) { return s + c.rating; }, 0) / rated.length).toFixed(1)
+                : '—';
+
+            function chip(key, label, n, cls) {
+                return '<button class="sum-chip ' + (cls || '') + (FILTER === key ? ' active' : '') + '" data-filter="' + key + '">'
+                    + '<span>' + label + '</span><span class="n">' + n + '</span></button>';
+            }
+
+            document.getElementById('sumBar').innerHTML =
+                  chip('all', 'الكل', list.length)
+                + chip('open', 'مفتوحة', open.length)
+                + chip('late', 'تجاوزت المهلة', late.length, 'late')
+                + chip('closed', 'مغلقة', closed.length)
+                + '<span class="sum-note"><i class="fas fa-star" style="color:#d9a441"></i> متوسط الرضا بعد الإغلاق: <b>' + avg + '</b> من 5</span>';
+        }
+
+        /* ================= القائمة ================= */
+        function renderList() {
+            var list = visible().filter(function (c) {
+                if (FILTER === 'open') return c.status !== 'closed';
+                if (FILTER === 'closed') return c.status === 'closed';
+                if (FILTER === 'late') return c.status !== 'closed' && slaInfo(c).over;
+                return true;
+            });
+
+            document.getElementById('listTitle').textContent =
+                'الشكاوى (' + list.length + ')';
+            document.getElementById('cEmpty').style.display = list.length ? 'none' : '';
+
+            document.getElementById('cList').innerHTML = list.map(function (c) {
+                var info = cat(c.cat), s = slaInfo(c), st = STATUS[c.status];
+                var pct = s.total ? Math.min(100, Math.round(s.used / s.total * 100)) : 0;
+                var fill = s.done ? '' : (s.over ? ' over' : (pct >= 70 ? ' warn' : ''));
+                var slaTxt = s.done
+                    ? 'أُغلقت خلال ' + s.used + ' يوم'
+                    : (s.over ? 'تجاوزت المهلة بـ ' + (s.used - s.total) + ' يوم'
+                              : 'مضى ' + s.used + ' من ' + s.total + ' يوم');
+
+                return '<div class="c-card' + (SELECTED === c.ref ? ' sel' : '')
+                        + (c.status === 'closed' ? ' closed' : (s.over ? ' late' : '')) + '" data-ref="' + c.ref + '">'
+                    + '<div class="c-top">'
+                        + '<span class="c-ref">' + c.ref + '</span>'
+                        + '<span class="pill cat">' + esc(info.name) + '</span>'
+                        + '<span class="pill ' + st.cls + '">' + st.txt + '</span>'
+                        + (c.esc ? '<span class="pill esc">مُصعَّدة</span>' : '')
+                    + '</div>'
+                    + '<div class="c-subject mb-1">' + esc(c.thread[0].text.slice(0, 70))
+                        + (c.thread[0].text.length > 70 ? '…' : '') + '</div>'
+                    + '<div class="c-meta mb-2">'
+                        + '<span>مقدّمها: <b>' + esc(c.byName) + '</b></span>'
+                        + '<span>تاريخها: <b>' + arDate(c.opened) + '</b></span>'
+                        + '<span>ردود: <b>' + c.thread.length + '</b></span>'
+                    + '</div>'
+                    + '<div class="sla">'
+                        + '<div class="sla-bar"><div class="sla-fill' + fill + '" style="width:' + (s.done ? 100 : pct) + '%"></div></div>'
+                        + '<span class="sla-txt' + (s.over && !s.done ? ' over' : '') + '">' + slaTxt + '</span>'
+                    + '</div>'
+                + '</div>';
+            }).join('');
+        }
+
+        /* ================= التفاصيل ================= */
+        function renderDetail() {
+            var box = document.getElementById('detail');
+            var c = null;
+            for (var i = 0; i < COMPLAINTS.length; i++) if (COMPLAINTS[i].ref === SELECTED) c = COMPLAINTS[i];
+            if (!c) {
+                box.innerHTML = '<div class="empty-state"><i class="fas fa-hand-pointer"></i>'
+                    + 'اختر شكوى من القائمة لعرض تفاصيلها</div>';
+                return;
+            }
+
+            var info = cat(c.cat), s = slaInfo(c), st = STATUS[c.status];
+
+            var head = '<div class="d-head">'
+                + '<div>'
+                    + '<div class="d-subject">' + esc(info.name) + '</div>'
+                    + '<div class="d-meta">' + c.ref + ' · مقدّمها ' + esc(c.byName)
+                        + ' · بتاريخ ' + arDate(c.opened)
+                        + (c.linked ? ' · مرتبطة بـ ' + c.linked : '') + '</div>'
+                    + '<div class="d-meta">الجهة المختصة: <b>' + esc(info.dept) + '</b> · مدة الرد: <b>'
+                        + info.sla + ' أيام عمل</b></div>'
+                + '</div>'
+                + '<div class="text-start">'
+                    + '<span class="pill ' + st.cls + '">' + st.txt + '</span>'
+                    + (c.esc ? ' <span class="pill esc">مُصعَّدة</span>' : '')
+                + '</div>'
+            + '</div>';
+
+            var thread = '<div class="thread">' + c.thread.map(function (m) {
+                var kind = m.who === 'staff' ? 'staff' : (m.who === 'sys' ? 'sys' : '');
+                var icon = m.who === 'staff' ? 'fa-user-tie' : (m.who === 'sys' ? 'fa-gear' : 'fa-user');
+                return '<div class="msg ' + kind + '">'
+                    + '<div class="who"><i class="fas ' + icon + '"></i></div>'
+                    + '<div class="bubble">'
+                        + '<div class="b-head"><span class="b-name">' + esc(m.name) + '</span>'
+                            + '<span class="b-time">' + esc(m.t) + '</span></div>'
+                        + '<div class="b-text">' + esc(m.text) + '</div>'
+                        + (m.file ? '<div class="b-file"><i class="fas fa-paperclip"></i> ' + esc(m.file) + '</div>' : '')
+                    + '</div>'
+                + '</div>';
+            }).join('') + '</div>';
+
+            var foot;
+            if (c.status === 'closed') {
+                foot = '<div class="closed-note">'
+                    + '<b>سبب الإغلاق:</b> ' + esc(c.closeReason || '—')
+                    + '<div class="mt-1" style="font-size:.78rem;color:var(--spf-text-muted)">أُغلقت بتاريخ '
+                        + arDate(c.closedOn) + ' بعد ' + s.used + ' يوم من تقديمها</div>'
+                    + '</div>'
+                    + '<div class="rate-row">'
+                        + '<span style="font-size:.82rem;font-weight:700">رأيك في المعالجة:</span>'
+                        + [1, 2, 3, 4, 5].map(function (k) {
+                            return '<button class="star' + (c.rating >= k ? ' on' : '') + '" data-star="' + k + '">'
+                                + '<i class="fas fa-star"></i></button>';
+                          }).join('')
+                        + (ROLE !== 'staff'
+                            ? '<button class="btn btn-sm btn-spf-outline" style="margin-inline-start:auto" data-act="reopen">'
+                                + '<i class="fas fa-rotate-right me-1"></i> إعادة فتح الشكوى</button>'
+                            : '')
+                    + '</div>';
+            } else {
+                foot = '<div class="reply-box">'
+                    + '<label class="fw-700 small mb-1" for="replyText">'
+                        + (ROLE === 'staff' ? 'الرد على مقدّم الشكوى' : 'إضافة رد أو توضيح') + '</label>'
+                    + '<textarea id="replyText" placeholder="اكتب ردك هنا"></textarea>'
+                    + '<div class="reply-actions">'
+                        + '<button class="btn btn-sm btn-spf-outline" data-act="attachReply">'
+                            + '<i class="fas fa-paperclip me-1"></i> إرفاق مستند</button>'
+                        + '<span class="cat-hint" id="replyFile"></span>'
+                        + '<span class="spacer"></span>'
+                        + (ROLE === 'staff'
+                            ? '<button class="btn btn-sm btn-spf-outline" data-act="askInfo">طلب مستند إضافي</button>'
+                              + '<button class="btn btn-sm btn-spf" data-act="reply">إرسال الرد</button>'
+                              + '<button class="btn btn-sm btn-spf-outline" data-act="close">إغلاق الشكوى</button>'
+                            : '<button class="btn btn-sm btn-spf" data-act="reply">إرسال</button>')
+                    + '</div>'
+                + '</div>';
+            }
+
+            box.innerHTML = head + thread + foot;
+        }
+
+        /* ================= الأفعال ================= */
+        function current() {
+            for (var i = 0; i < COMPLAINTS.length; i++) if (COMPLAINTS[i].ref === SELECTED) return COMPLAINTS[i];
+            return null;
+        }
+        function stamp() {
+            var d = new Date(TODAY);
+            return TODAY + ' ' + String(d.getHours()).padStart(2, '0') + ':00';
+        }
+        function myName() {
+            if (ROLE === 'staff') return 'موظف الصندوق';
+            if (ROLE === 'employer') return 'شركة الخليج للمقاولات';
+            return 'سالم بن ناصر الهنائي';
+        }
+
+        function sendReply() {
+            var c = current(); if (!c) return;
+            var el = document.getElementById('replyText');
+            var txt = el ? el.value.trim() : '';
+            if (!txt) { alert('اكتب نص الرد أولا'); return; }
+            var m = { who: ROLE === 'staff' ? 'staff' : ROLE, name: myName(), t: stamp(), text: txt };
+            if (PENDING_FILE) { m.file = PENDING_FILE; PENDING_FILE = ''; }
+            c.thread.push(m);
+            c.status = ROLE === 'staff' ? 'wait' : 'work';
+            renderAll();
+        }
+
+        function askInfo() {
+            var c = current(); if (!c) return;
+            c.thread.push({ who: 'staff', name: 'موظف الصندوق', t: stamp(),
+                text: 'نرجو تزويدنا بمستند إضافي لاستكمال المراجعة.' });
+            c.status = 'wait';
+            renderAll();
+        }
+
+        function closeComplaint() {
+            var c = current(); if (!c) return;
+            var el = document.getElementById('replyText');
+            var reason = el ? el.value.trim() : '';
+            if (!reason) { alert('اكتب سبب الإغلاق — لا تُغلق الشكوى دون سبب يظهر لمقدّمها'); return; }
+            c.thread.push({ who: 'staff', name: 'موظف الصندوق', t: stamp(), text: reason });
+            c.status = 'closed';
+            c.closedOn = TODAY;
+            c.closeReason = reason;
+            c.rating = 0;
+            renderAll();
+        }
+
+        function reopen() {
+            var c = current(); if (!c) return;
+            c.status = 'work';
+            c.thread.push({ who: 'sys', name: 'النظام', t: stamp(),
+                text: 'أُعيد فتح الشكوى بناء على طلب مقدّمها.' });
+            delete c.closedOn; delete c.closeReason;
+            renderAll();
+        }
+
+        function rate(k) {
+            var c = current(); if (!c) return;
+            c.rating = k;
+            renderAll();
+        }
+
+        /* ================= نموذج التقديم ================= */
+        function toggleNew() {
+            var b = document.getElementById('newBody');
+            var open = b.style.display === 'none';
+            b.style.display = open ? '' : 'none';
+            document.getElementById('newToggleTxt').textContent = open ? 'إغلاق النموذج' : 'فتح النموذج';
+        }
+
+        function fillCats() {
+            var sel = document.getElementById('ncCat');
+            sel.innerHTML = CATS.filter(function (c) { return c.who.indexOf(ROLE) >= 0; })
+                .map(function (c) { return '<option value="' + c.id + '">' + esc(c.name) + '</option>'; }).join('');
+            catChanged();
+        }
+
+        function catChanged() {
+            var sel = document.getElementById('ncCat');
+            var info = cat(sel.value);
+            document.getElementById('ncHint').textContent =
+                'تُحال إلى ' + info.dept + ' — مدة الرد ' + info.sla + ' أيام عمل';
+        }
+
+        function attachDemo() {
+            PENDING_FILE = 'مستند-مرفق.pdf';
+            document.getElementById('ncFile').textContent = 'أُرفق: ' + PENDING_FILE;
+        }
+
+        function submitComplaint() {
+            var txt = document.getElementById('ncText').value.trim();
+            if (!txt) { alert('اكتب نص الشكوى أولا'); return; }
+            var catId = document.getElementById('ncCat').value;
+            var info = cat(catId);
+            var ref = 'CMP-2026-00' + (188 + COMPLAINTS.filter(function (c) { return c.ref.indexOf('CMP-2026') === 0; }).length);
+
+            var first = { who: ROLE, name: myName(), t: stamp(), text: txt };
+            if (PENDING_FILE) { first.file = PENDING_FILE; PENDING_FILE = ''; }
+
+            COMPLAINTS.unshift({
+                ref: ref, cat: catId, by: ROLE, byName: myName(),
+                opened: TODAY, status: 'new', esc: false,
+                linked: document.getElementById('ncRef').value.trim(),
+                thread: [
+                    first,
+                    { who: 'sys', name: 'النظام', t: stamp(),
+                      text: 'استُلمت الشكوى وأُحيلت إلى ' + info.dept + '. مدة الرد ' + info.sla + ' أيام عمل.' }
+                ]
+            });
+
+            document.getElementById('ncText').value = '';
+            document.getElementById('ncRef').value = '';
+            document.getElementById('ncFile').textContent = '';
+            SELECTED = ref;
+            toggleNew();
+            renderAll();
+        }
+
+        /* ================= الرسم ================= */
+        function renderAll() {
+            renderSummary();
+            renderList();
+            renderDetail();
+        }
+
+        function applyRole() {
+            ROLE = localStorage.getItem('spf-user-role') || 'saver';
+            var badge = document.getElementById('roleBadge');
+            var names = { saver: 'المدخر', employer: 'صاحب العمل', staff: 'موظف الصندوق' };
+            badge.textContent = names[ROLE] || ROLE;
+            badge.classList.add(ROLE);
+
+            /* الموظف يعالج ولا يقدّم شكوى */
+            document.getElementById('newCard').style.display = ROLE === 'staff' ? 'none' : '';
+            document.getElementById('pageTitle').textContent =
+                ROLE === 'staff' ? 'معالجة الطلبات والشكاوى' : 'الطلبات والشكاوى';
+            if (ROLE !== 'staff') fillCats();
+        }
+
+        /* ================= الأحداث ================= */
+        document.addEventListener('click', function (e) {
+            var chip = e.target.closest ? e.target.closest('[data-filter]') : null;
+            if (chip) { FILTER = chip.getAttribute('data-filter'); renderAll(); return; }
+
+            var card = e.target.closest ? e.target.closest('[data-ref]') : null;
+            if (card) { SELECTED = card.getAttribute('data-ref'); renderAll(); return; }
+
+            var star = e.target.closest ? e.target.closest('[data-star]') : null;
+            if (star) { rate(+star.getAttribute('data-star')); return; }
+
+            var act = e.target.closest ? e.target.closest('[data-act]') : null;
+            if (!act) return;
+            var a = act.getAttribute('data-act');
+            if (a === 'reply') sendReply();
+            else if (a === 'askInfo') askInfo();
+            else if (a === 'close') closeComplaint();
+            else if (a === 'reopen') reopen();
+            else if (a === 'attachReply') {
+                PENDING_FILE = 'مستند-مرفق.pdf';
+                var f = document.getElementById('replyFile');
+                if (f) f.textContent = 'أُرفق: ' + PENDING_FILE;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            applyRole();
+            renderAll();
+        });
+    </script>
+</body>
+</html>

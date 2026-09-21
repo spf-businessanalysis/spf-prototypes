@@ -106,6 +106,7 @@ function initLayout() {
             <li class="nav-saver nav-employer"><a href="05-deposit.html" id="link-05"><i class="fas fa-hand-holding-usd"></i> الإيداع الإلكتروني</a></li>
             <li class="nav-saver"><a href="08-disbursement.html" id="link-08"><i class="fas fa-money-check-alt"></i> طلبات الصرف (المدخر)</a></li>
             <li class="nav-saver"><a href="06-obligations.html" id="link-06"><i class="fas fa-file-invoice-dollar"></i> سداد الالتزامات</a></li>
+            <li class="nav-saver nav-employer nav-staff"><a href="28-complaints.html" id="link-28"><i class="fas fa-comments"></i> الطلبات والشكاوى</a></li>
             <!-- مخفي مؤقتاً: شاشة الادخار الإلزامي -->
             <li class="nav-saver"><a href="20-eos-acknowledgment.html" id="link-20"><i class="fas fa-award"></i> تسوية نهاية الخدمة</a></li>
             <li class="nav-saver"><a href="22-wage-objection.html" id="link-22"><i class="fas fa-scale-balanced"></i> التظلم على الأجر</a></li>
