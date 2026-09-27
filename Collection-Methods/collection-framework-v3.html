@@ -6,13 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="إطار عملي لرفع كفاءة تحصيل الاشتراكات في صندوق الحماية الاجتماعية.">
   <title>إطار رفع كفاءة التحصيل</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="collection-framework-v3.css">
 </head>
 
 <body data-view="session">
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <!-- رمز الريال العماني الرسمي — البنك المركزي العماني (الوزن Medium من الملف الرسمي) -->
+    <symbol id="omr-sign" viewBox="1200.5 338.1 346.4 232">
+      <path fill="currentColor" d="M1342.7,466.8c-.8-1.3-1.7-2.7-2.5-4-7.6-12.7-13.9-26.6-16.4-41.2-2.3-13.2-1-27.5,3.2-40.5,8.7-8.9,20-14.7,32.6-16.4,9.3-1.2,18.3-.3,27,3.3,8.9,3.8,16.9,9.6,24.1,16,8.2,7.3,22.3,24.1,22.3,24.1l15-26c-9.4-11.8-19.8-23.1-32.1-31.9-6.1-4.3-12.7-8-19.8-10.2-6.8-2.1-13.8-2.3-20.9-1.4-12.3,1.5-23.8,6.8-32.6,15.7-5.4,5.5-9.3,12-13.2,18.7-6,10.3-12.8,20.6-16.8,32-4.1,11.6-5.9,24.6-4.8,36.9.8,8.6,3.1,17,6.3,25h-53.8l-15,26h82.1c10.3,16.3,23.4,31,37.9,43.5,3.1,2.7,6.3,5.3,9.6,7.7h-159.4l-15,26h286.6l15-26h-50.8c-30.4-2.6-58.3-20.9-79.7-41.6-3.2-3.1-6.3-6.3-9.3-9.6h169.5l15.1-26h-204.4.2ZM1331,371c.2-.4.4-.7.5-1.1,3.1-6.2,8.5-12.7-2.3,5.2.6-1.4,1.2-2.7,1.8-4.1Z"/>
+    </symbol>
+  </svg>
   <header class="topbar">
     <div class="topbar-in">
       <a class="brand" href="#top" aria-label="العودة إلى بداية الوثيقة">
@@ -46,7 +49,7 @@
         <h1>الإطار المقترح لرفع كفاءة آليات التحصيل</h1>
         <p class="hero-lead">يقدم هذا الإطار آليات تسهّل على جهات العمل سداد الاشتراكات، وترفع دقة التحصيل لدى الصندوق،
           وتساعد على معالجة أسباب التأخر قبل تراكم المستحقات.</p>
-        <div class="hero-meta"><span>نسخة عمل للنقاش</span><span>سبتمبر 2026</span></div>
+        <div class="hero-meta"><span>نسخة عمل للنقاش</span><span>الإصدار 4.2</span><span>سبتمبر 2026</span></div>
         <div class="hero-outcomes">
           <article><strong>الوقاية</strong><span>إصدار الفاتورة من البيانات المعتمدة، وتوفير تقدير مسبق لقيمة الاشتراك،
               وإرسال تنبيه إلى جهة العمل قبل موعد الاستحقاق</span></article>
@@ -64,22 +67,44 @@
             <h2>الملخص</h2>
           </div>
         </div>
-        <h3>الوضع الحالي بالأرقام</h3>
-        <div class="metric-grid">
-          <article class="metric-card"><span>القطاع الخاص</span><strong>53.8%</strong>
-            <p>نسبة فواتير القطاع الخاص التي سددتها جهات العمل كاملة في الموعد</p>
+        <h3>الوضع الحالي بالأرقام <small style="color:var(--muted);font-size:12px;font-weight:600">· بيانات حتى 30 أغسطس 2026</small></h3>
+        <div class="qa-list">
+          <article class="qa">
+            <div class="qa-q">كم يتم تحصيله مما يستحقه الصندوق شهرياً؟</div>
+            <div class="qa-n">99%
+              <span class="meter" role="img" aria-label="نسبة التحصيل إلى الاستحقاق بالقيمة 99%"><i style="width:99%"></i></span>
+            </div>
+            <div class="qa-a">من كل 100 <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>
+              تستحق للصندوق في القطاع الخاص يتم تحصيل 99 نقداً، ونحو 98 في القطاع الحكومي (يناير – يوليو 2026) —
+              فالمشكلة ليست في إجمالي الإيراد.</div>
           </article>
-          <article class="metric-card"><span>القطاع الخاص</span><strong>27.5%</strong>
-            <p>نسبة فواتير القطاع الخاص التي لم تسددها جهات العمل خلال الفترة محل التحليل</p>
+          <article class="qa">
+            <div class="qa-q">من الذي يسدد فعلاً؟</div>
+            <div class="qa-n">&lt;1% <small>من الجهات = 72% من القيمة</small></div>
+            <div class="qa-a">760 جهة كبيرة (أقل من 1% بالعدد) تمثل 72% من الاستحقاق وتسدد بانتظام يصل إلى 92%؛
+              بينما تمثل الجهات الصغيرة والجهات بدون عاملين 91% بالعدد و6% فقط بالقيمة — ولهذا لا تتجاوز نسبة
+              المسددين خلال شهر الاستحقاق 20% بالعدد، بينما استحقاقات غير المسددين نحو 7% فقط بالقيمة.</div>
           </article>
-          <article class="metric-card"><span>القطاع الحكومي</span><strong>10.1%</strong>
-            <p>سددت الجهات الحكومية 10.1% من الفواتير كاملة في الموعد، بينما سددت 55.3% من الفواتير بصورة
-              جزئية</p>
+          <article class="qa">
+            <div class="qa-q">كم تراكم من أرصدة قائمة عبر السنوات؟</div>
+            <div class="qa-n">364 <small>مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></small></div>
+            <div class="qa-a">نحو 100 مليون على القطاع الخاص، و24 على الجهات الحكومية، و180 على جهات العمل بدول
+              مجلس التعاون، و59 على فئات الاشتراك الفردي، ومليونان على سجلات دون تصنيف. نحو 94% منها مبالغ
+              متراكمة فعلاً، و6% فقط استحقاق الشهر الأخير الذي كانت نافذة سداده مفتوحة.
+              <span class="chip">أولي · بانتظار المطابقة مع القوائم المالية</span></div>
+          </article>
+          <article class="qa">
+            <div class="qa-q">لماذا لا يتم القياس بعدّ الفواتير؟</div>
+            <div class="qa-n">86–88%</div>
+            <div class="qa-a">من فواتير كل شهر يتم إلغاؤها وإعادة إصدارها، لأن الفاتورة في النظام كشف رصيد متجدد
+              يحمل الرصيد التراكمي لا استحقاق الشهر وحده — ولذلك يتم القياس بمقارنة استحقاق كل شهر بالتحصيل
+              النقدي الفعلي، وهو أساس لا يتأثر بإلغاء الفواتير.</div>
           </article>
         </div>
-        <p class="prose detail-only">خلال اثني عشر شهراً، سددت جهات العمل الخاصة نصف فواتيرها في الموعد، وتأخر سدس آخر لأيام قليلة
-          داخل الشهر نفسه، وبقي ربع دون سداد. أما الجهات الحكومية فنمطها مختلف: أغلبها يسدد جزءاً من الفاتورة ولا
-          يكملها. لذلك لا يصلح إجراء واحد للجميع.</p>
+        <p class="note">يعتمد احتساب هذه الأرقام على مقارنة استحقاق اشتراكات كل شهر بالتحصيل النقدي بتاريخ الدفع
+          الفعلي، من واقع بيانات نظام الفوترة والمدفوعات حتى نهاية يوم 30 أغسطس 2026 (قبل موعد إصدار فواتير يوم
+          31)، ويمكن إعادة إنتاج أي رقم منها بالنتيجة نفسها في أي وقت. تعريفات المقاييس والبيانات المساندة في
+          الملحق هـ.</p>
         <div class="detail-only">
           <h3>التصور المقترح لتطوير التحصيل</h3>
           <p class="prose">يقسم الإطار أعمال التحصيل إلى أربع مراحل تبدأ بإصدار الفاتورة، ثم تسهيل السداد، ثم معالجة
@@ -95,6 +120,13 @@
             <li>دراسة مهلة السداد والمبلغ الإضافي بالاعتماد على البيانات قبل اقتراح أي تغيير فيهما.</li>
           </ul>
         </div>
+        <h3>نطاق الإطار</h3>
+        <p class="prose">يغطي الإطار جميع الفئات الملزمة بسداد الاشتراكات: جهات العمل في القطاعين الخاص والحكومي،
+          وجهات العمل بدول مجلس التعاون، وفئات الاشتراك الفردي — وهم مؤمن عليهم لا تسدد عنهم جهة عمل فيسددون
+          اشتراكاتهم بأنفسهم، وأغلبهم عاملون لحسابهم الخاص. وتختلف المسارات لا النطاق: تحتاج جهات دول المجلس إلى
+          مسار عبر آلية مد الحماية الخليجية لأن أدوات الإنفاذ المحلية لا تنطبق عليها، وتحتاج فئات الاشتراك الفردي
+          إلى مسار يناسب صغر مبالغها وعددها، ويرد اعتماد المسارين ضمن القرارات المطلوبة في القسم 7. ولا يشمل
+          الإطار التحقق من اكتمال تسجيل العاملين أو صحة الأجور المصرح بها، فذلك مسار مستقل ضمن أعمال الالتزام.</p>
         <div class="framework-rule"><span>القاعدة الأساسية قبل بدء التصعيد</span><strong>لا يبدأ أي تصعيد قبل التأكد من
             صحة المبلغ، وربط
             الدفعات، وفصل المبلغ محل التظلم، وإعطاء جهة العمل فرصة واضحة للسداد أو طلب المعالجة.</strong></div>
@@ -111,83 +143,315 @@
             والحالات الاستثنائية يدوياً. كما يحتاج اختلاف نمط السداد في القطاع الحكومي إلى مسار معالجة خاص.</p>
         </div>
 
-        <div class="figure-card">
-          <div class="figure-heading"><span class="section-eyebrow">نتائج الفواتير الشهرية</span>
-            <h3>كيف سددت جهات العمل خلال اثني عشر شهراً؟</h3>
-          </div>
-          <div class="outcome-row">
-            <div class="outcome-title"><strong>القطاع الخاص</strong></div>
-            <div class="outcome-bar" role="img"
-              aria-label="القطاع الخاص: في الموعد 53.8%، بعد الموعد داخل الشهر 16.8%، في شهر لاحق 0.02%، سداد جزئي 1.9%، لم يُسدد 27.5%">
-              <i class="outcome-segment segment-1 has-label" data-label="53.8%" style="width:53.8%"></i><i
-                class="outcome-segment segment-2 has-label" data-label="16.8%" style="width:16.8%"></i><i
-                class="outcome-segment segment-3" style="width:0.02%"></i><i class="outcome-segment segment-4"
-                style="width:1.9%"></i><i class="outcome-segment segment-5 has-label" data-label="27.5%"
-                style="width:27.5%"></i>
-            </div>
-            <div class="outcome-legend"><span class="legend-1">في الموعد <b>53.8%</b></span><span class="legend-2">بعد
-                الموعد داخل الشهر <b>16.8%</b></span><span class="legend-3">في شهر لاحق <b>0.02%</b></span><span
-                class="legend-4">سداد جزئي <b>1.9%</b></span><span class="legend-5">لم يُسدد <b>27.5%</b></span></div>
-          </div>
-          <div class="outcome-row">
-            <div class="outcome-title"><strong>القطاع الحكومي</strong></div>
-            <div class="outcome-bar" role="img"
-              aria-label="القطاع الحكومي: في الموعد 10.1%، بعد الموعد داخل الشهر 9.3%، في شهر لاحق 0.8%، سداد جزئي 55.3%، لم يُسدد 24.5%">
-              <i class="outcome-segment segment-1 has-label" data-label="10.1%" style="width:10.1%"></i><i
-                class="outcome-segment segment-2 has-label" data-label="9.3%" style="width:9.3%"></i><i
-                class="outcome-segment segment-3" style="width:0.8%"></i><i class="outcome-segment segment-4 has-label"
-                data-label="55.3%" style="width:55.3%"></i><i class="outcome-segment segment-5 has-label"
-                data-label="24.5%" style="width:24.5%"></i>
-            </div>
-            <div class="outcome-legend"><span class="legend-1">في الموعد <b>10.1%</b></span><span class="legend-2">بعد
-                الموعد داخل الشهر <b>9.3%</b></span><span class="legend-3">في شهر لاحق <b>0.8%</b></span><span
-                class="legend-4">سداد جزئي <b>55.3%</b></span><span class="legend-5">لم يُسدد <b>24.5%</b></span></div>
-          </div>
-        </div>
-        <details class="inline-details">
-          <summary>عرض الأعداد التفصيلية وقراءة النتائج</summary>
-          <div class="table-wrap">
-            <table>
+        <h3>كم يستحق الصندوق شهرياً وكم يحصّل فعلاً؟ <small style="color:var(--muted);font-size:12px;font-weight:600">· متوسط شهري، يناير – يوليو 2026</small></h3>
+        <div class="table-wrap">
+          <table>
             <thead>
               <tr>
-                <th scope="col">النتيجة</th>
-                <th scope="col">القطاع الخاص</th>
-                <th scope="col">القطاع الحكومي</th>
-                <th scope="col">ماذا تعني؟</th>
+                <th scope="col">الفئة</th>
+                <th scope="col">عدد المفوترين شهرياً</th>
+                <th scope="col">استحقاق اشتراكات الشهر</th>
+                <th scope="col">التحصيل النقدي خلال الشهر</th>
+                <th scope="col">نسبة التحصيل إلى الاستحقاق · بالقيمة</th>
+                <th scope="col">سددت خلال شهر الاستحقاق · بالعدد</th>
+                <th scope="col" class="detail-only">الاتجاه الشهري</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">في الموعد</th>
-                <td class="num">53.8% (269,807 فاتورة)</td>
-                <td class="num">10.1% (161)</td>
-                <td>تمثل هذه النسبة مستوى السداد الحالي الذي يستهدف الإطار رفعه.</td>
+                <th scope="row">القطاع الخاص</th>
+                <td class="num">~170,000</td>
+                <td class="num">55.3 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">54.9 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">99%</td>
+                <td class="num">17–20%</td>
+                <td class="detail-only"><svg class="spark" viewBox="0 0 100 28" role="img"
+                    aria-label="القطاع الخاص: الاستحقاق والتحصيل الشهريان متقاربان طوال الفترة">
+                    <polyline class="ln-accrual" points="4,21.9 19.2,16.2 34.3,24 49.5,9.4 64.7,10.7 79.8,12.6 95,4" />
+                    <polyline class="ln-cash" points="4,20.4 19.2,19.5 34.3,17.3 49.5,9.6 64.7,21.2 79.8,11.6 95,14.2" />
+                  </svg></td>
               </tr>
               <tr>
-                <th scope="row">بعد الموعد داخل الشهر</th>
-                <td class="num">16.8% (84,000)</td>
-                <td class="num">9.3% (147)</td>
-                <td>تشمل هذه الفئة جهات العمل التي تسدد بعد الموعد بأيام قليلة، ويمكن خفض تأخرها من خلال
-                  التذكير المبكر وتوفير وسائل سداد أسهل.</td>
+                <th scope="row">القطاع الحكومي</th>
+                <td class="num">~106</td>
+                <td class="num">46.4 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">45.6 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">~98% مع تسويات مجمعة</td>
+                <td class="num">48–73%</td>
+                <td class="detail-only"><svg class="spark" viewBox="0 0 100 28" role="img"
+                    aria-label="القطاع الحكومي: استحقاق مستقر وتحصيل متفاوت بين الأشهر">
+                    <polyline class="ln-accrual" points="4,15 19.2,14.3 34.3,14.4 49.5,14.8 64.7,14.7 79.8,13.5 95,16.6" />
+                    <polyline class="ln-cash" points="4,10.3 19.2,18.1 34.3,20.7 49.5,4 64.7,18.1 79.8,10.5 95,24" />
+                  </svg></td>
               </tr>
               <tr>
-                <th scope="row">سداد جزئي</th>
-                <td class="num">1.9% (9,454)</td>
-                <td class="num">55.3% (878)</td>
-                <td>يمثل السداد الجزئي النمط الأبرز لدى الجهات الحكومية. ويحتاج الصندوق إلى التحقق من ارتباط
-                  هذا النمط بالاعتمادات المالية ودورة إعداد الموازنة قبل تحديد المعالجة المناسبة.</td>
+                <th scope="row">جهات العمل بدول مجلس التعاون</th>
+                <td class="num">~2,300</td>
+                <td class="num">10.5 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">11.5 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">109% (يشمل تحصيل متأخرات)</td>
+                <td class="num">22–31%</td>
+                <td class="detail-only"><svg class="spark" viewBox="0 0 100 28" role="img"
+                    aria-label="جهات العمل بدول مجلس التعاون: استحقاق مستقر وتحصيل متفاوت">
+                    <polyline class="ln-accrual" points="4,18.8 19.2,17.8 34.3,18.3 49.5,18.9 64.7,18.4 79.8,19.1 95,17" />
+                    <polyline class="ln-cash" points="4,18.4 19.2,24 34.3,16.8 49.5,15.2 64.7,14.6 79.8,23.9 95,4" />
+                  </svg></td>
               </tr>
               <tr>
-                <th scope="row">لم يُسدد</th>
-                <td class="num">27.5% (137,809)</td>
-                <td class="num">24.5% (390)</td>
-                <td>تحتاج الفواتير غير المسددة إلى تحديد سبب عدم السداد، والتمييز بين وجود خطأ في الفاتورة،
-                  أو تعثر جهة العمل، أو عدم استجابتها.</td>
+                <th scope="row">فئات الاشتراك الفردي</th>
+                <td class="num">~144,000</td>
+                <td class="num">1.0 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">0.4 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                <td class="num">~40%</td>
+                <td class="num">5–6%</td>
+                <td class="detail-only"><svg class="spark" viewBox="0 0 100 28" role="img"
+                    aria-label="فئات الاشتراك الفردي: استحقاق مستقر وتحصيل أدنى منه بثبات">
+                    <polyline class="ln-accrual" points="4,4 19.2,4.2 34.3,4.4 49.5,4.6 64.7,4.7 79.8,4.8 95,4.9" />
+                    <polyline class="ln-cash" points="4,22.7 19.2,22.3 34.3,23.8 49.5,20.8 64.7,24 79.8,23.8 95,23" />
+                  </svg></td>
+              </tr>
+              <tr class="row-out-of-scope">
+                <th scope="row">سجلات دون تصنيف قطاع</th>
+                <td class="num">~20,000 (يوليو)</td>
+                <td class="num">0.7 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg> (يوليو)</td>
+                <td class="num">0.26 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg> (يوليو)</td>
+                <td class="num">~32%</td>
+                <td class="num">8–12%</td>
+                <td class="detail-only">متزايدة شهرياً</td>
               </tr>
             </tbody>
+          </table>
+        </div>
+        <p class="note">فئات الاشتراك الفردي: مؤمن عليهم لا تسدد عنهم جهة عمل ويتم سداد اشتراكاتهم بأنفسهم،
+          وأغلبهم عاملون لحسابهم الخاص. أما «سجلات دون تصنيف قطاع» فهي سجلات جهات ظهرت في النظام منذ ديسمبر 2025
+          دون رمز قطاع ويتزايد عددها شهرياً حتى بلغ نحو 20 ألفاً في يوليو، ويتم تصحيح تصنيفها ضمن جودة البيانات في
+          المتطلب 01. وتتجاوز نسبة تحصيل جهات دول المجلس 100% لأن التحصيل يشمل سداد متأخرات فترات سابقة.</p>
+        <p class="note detail-only">الاتجاه الشهري: الخط الأخضر يمثل التحصيل النقدي والخط الرمادي استحقاق
+          الاشتراكات، من يناير إلى يوليو 2026، بمقياس مستقل لكل فئة.</p>
+
+        <div class="chart-row detail-only">
+          <div class="chart-panel">
+            <h4>القطاع الخاص · استحقاق وتحصيل شهري بالمليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></h4>
+            <svg viewBox="0 0 320 130" role="img" style="direction:ltr"
+              aria-label="القطاع الخاص من يناير إلى يوليو 2026: استحقاق بين 53 و57 مليوناً وتحصيل ملاصق له طوال الفترة">
+              <line class="grid" x1="30" y1="95" x2="310" y2="95" /><line class="grid" x1="30" y1="63" x2="310" y2="63" /><line class="grid" x1="30" y1="31" x2="310" y2="31" />
+              <text x="318" y="98" text-anchor="end">53</text><text x="318" y="66" text-anchor="end">55</text><text x="318" y="34" text-anchor="end">57</text>
+              <polyline class="ln-a" points="30,82 76.7,64.1 123.3,88.6 170,42.8 216.7,47 263.3,52.7 310,25.9" />
+              <polyline class="ln-c" points="30,77.2 76.7,74.5 123.3,67.6 170,43.5 216.7,80 263.3,49.6 310,57.9" />
+              <text class="lbl-accr" x="30" y="115">الاستحقاق</text>
+              <text class="lbl-cash" x="90" y="115">التحصيل النقدي</text>
+              <text x="30" y="127">يناير</text><text x="160" y="127" text-anchor="middle">أبريل</text><text x="310" y="127" text-anchor="end">يوليو</text>
+            </svg>
+          </div>
+          <div class="chart-panel">
+            <h4>القطاع الحكومي · استحقاق وتحصيل شهري بالمليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></h4>
+            <svg viewBox="0 0 320 130" role="img" style="direction:ltr"
+              aria-label="القطاع الحكومي من يناير إلى يوليو 2026: استحقاق مستقر حول 46 مليوناً وتحصيل يتأرجح بين 25 و71 مليوناً بتسويات مجمعة">
+              <line class="grid" x1="30" y1="87.7" x2="310" y2="87.7" /><line class="grid" x1="30" y1="51.4" x2="310" y2="51.4" /><line class="grid" x1="30" y1="15" x2="310" y2="15" />
+              <text x="318" y="90.7" text-anchor="end">25</text><text x="318" y="54.4" text-anchor="end">50</text><text x="318" y="18" text-anchor="end">75</text>
+              <polyline class="ln-a" points="30,57.6 76.7,55.1 123.3,55.2 170,56.7 216.7,56.3 263.3,52.3 310,62.7" />
+              <polyline class="ln-c" points="30,41.4 76.7,67.8 123.3,76.8 170,20.3 216.7,67.8 263.3,42.3 310,87.7" />
+              <text class="lbl-accr" x="30" y="115">الاستحقاق</text>
+              <text class="lbl-cash" x="90" y="115">التحصيل النقدي</text>
+              <text x="30" y="127">يناير</text><text x="160" y="127" text-anchor="middle">أبريل</text><text x="310" y="127" text-anchor="end">يوليو</text>
+            </svg>
+          </div>
+        </div>
+
+        <h3>شرائح جهات العمل الخاصة حسب عدد العاملين <small style="color:var(--muted);font-size:12px;font-weight:600">· من الأكثر عمالاً إلى الأقل، حتى 30 أغسطس 2026</small></h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">الشريحة</th>
+                <th scope="col">عدد الجهات</th>
+                <th scope="col">نسبتها بالعدد</th>
+                <th scope="col">عدد عمالها</th>
+                <th scope="col">نصيبها من الاستحقاق</th>
+                <th scope="col">نصيبها من التحصيل</th>
+                <th scope="col">سددت في شهر الاستحقاق · بالعدد</th>
+                <th scope="col">رصيدها القائم</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">أكثر من 150 عاملاً</th>
+                <td class="num">760</td>
+                <td class="num">أقل من 1%</td>
+                <td class="num">443,385</td>
+                <td class="num">72%</td>
+                <td class="num">75%</td>
+                <td class="num">92% <span class="meter" role="img" aria-label="92%"><i style="width:92%"></i></span></td>
+                <td class="num">9.1 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+              </tr>
+              <tr>
+                <th scope="row">من 51 إلى 150 عاملاً</th>
+                <td class="num">1,835</td>
+                <td class="num">1%</td>
+                <td class="num">153,944</td>
+                <td class="num">12%</td>
+                <td class="num">12%</td>
+                <td class="num">84% <span class="meter" role="img" aria-label="84%"><i style="width:84%"></i></span></td>
+                <td class="num">7.2 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+              </tr>
+              <tr>
+                <th scope="row">من 11 إلى 50 عاملاً</th>
+                <td class="num">18,943</td>
+                <td class="num">8%</td>
+                <td class="num">358,359</td>
+                <td class="num">10%</td>
+                <td class="num">9%</td>
+                <td class="num">49% <span class="meter" role="img" aria-label="49%"><i style="width:49%"></i></span></td>
+                <td class="num">17.5 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+              </tr>
+              <tr>
+                <th scope="row">من 1 إلى 10 عمال</th>
+                <td class="num">108,415</td>
+                <td class="num">46%</td>
+                <td class="num">379,688</td>
+                <td class="num">6%</td>
+                <td class="num">4%</td>
+                <td class="num">21% <span class="meter" role="img" aria-label="21%"><i style="width:21%"></i></span></td>
+                <td class="num">39.5 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+              </tr>
+              <tr>
+                <th scope="row">بدون عاملين نشطين</th>
+                <td class="num">107,475</td>
+                <td class="num">45%</td>
+                <td class="num">0</td>
+                <td class="num">أقل من 1%</td>
+                <td class="num">أقل من 1%</td>
+                <td class="num">1% <span class="meter" role="img" aria-label="1%"><i style="width:1%"></i></span></td>
+                <td class="num">26.3 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="duo" role="img"
+          aria-label="مقارنة نصيب كل شريحة بالعدد ومن الاستحقاق: الجهات التي لديها أكثر من 150 عاملاً أقل من 1% بالعدد و72% من الاستحقاق، بينما الجهات من 1 إلى 10 عمال 46% بالعدد و6% من الاستحقاق، والجهات بدون عاملين 45% بالعدد وأقل من 1% من الاستحقاق">
+          <div class="duo-row">
+            <div class="lbl">أكثر من 150 عاملاً</div>
+            <div>
+              <div class="barline"><span class="bar count"><i style="width:0.7%"></i></span><b>&lt;1% بالعدد</b></div>
+              <div class="barline"><span class="bar value"><i style="width:72%"></i></span><b>72% بالقيمة</b></div>
+            </div>
+          </div>
+          <div class="duo-row">
+            <div class="lbl">من 11 إلى 150 عاملاً</div>
+            <div>
+              <div class="barline"><span class="bar count"><i style="width:9%"></i></span><b>9% بالعدد</b></div>
+              <div class="barline"><span class="bar value"><i style="width:22%"></i></span><b>22% بالقيمة</b></div>
+            </div>
+          </div>
+          <div class="duo-row">
+            <div class="lbl">من 1 إلى 10 عمال وبدون عاملين</div>
+            <div>
+              <div class="barline"><span class="bar count"><i style="width:91%"></i></span><b>91% بالعدد</b></div>
+              <div class="barline"><span class="bar value"><i style="width:6%"></i></span><b>6% بالقيمة</b></div>
+            </div>
+          </div>
+          <div class="duo-legend"><span class="k-count">النسبة من عدد الجهات</span><span class="k-value">النصيب من استحقاق الاشتراكات</span></div>
+        </div>
+        <p class="note">تشمل هذه الشرائح القطاع الخاص. وتوضح أن انتظام السداد يرتفع مع حجم الجهة: من 1% لدى الجهات
+          بدون عاملين نشطين إلى 92% لدى الجهات التي يتجاوز عمالها 150، وأن 760 جهة كبيرة يتركز لديها نحو ثلاثة
+          أرباع الاستحقاق والتحصيل، بينما تتركز الأرصدة القائمة لدى الشرائح الصغيرة.</p>
+
+        <div class="split-wrap">
+          <span class="split-title">توزيع الأرصدة القائمة · نحو 364 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg> (حتى 30 أغسطس 2026 · أولي)</span>
+          <div class="split-bar" role="img"
+            aria-label="توزيع الأرصدة القائمة: جهات العمل بدول مجلس التعاون 180 مليوناً أي 49%، والقطاع الخاص 100 مليون أي 27%، وفئات الاشتراك الفردي 59 مليوناً أي 16%، والقطاع الحكومي 24 مليوناً أي 7%، وسجلات دون تصنيف نحو مليونين أي أقل من 1%">
+            <i class="seg-a" style="width:27.4%"></i><i class="seg-b" style="width:6.5%"></i><i class="seg-c"
+              style="width:49.4%"></i><i class="seg-d" style="width:16.7%"></i>
+          </div>
+          <div class="split-legend">
+            <span class="seg-a">القطاع الخاص <b>100 مليون · 27%</b></span>
+            <span class="seg-b">القطاع الحكومي <b>24 مليوناً · 7%</b></span>
+            <span class="seg-c">جهات العمل بدول مجلس التعاون <b>180 مليوناً · 49%</b></span>
+            <span class="seg-d">الاشتراك الفردي وسجلات دون تصنيف <b>61 مليوناً · 17%</b></span>
+          </div>
+        </div>
+
+        <details class="inline-details">
+          <summary>عرض قراءة الأرصدة القائمة حسب الفئة</summary>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">الفئة</th>
+                  <th scope="col">الرصيد القائم</th>
+                  <th scope="col">من عليهم رصيد</th>
+                  <th scope="col">قراءة الرصيد</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">القطاع الخاص</th>
+                  <td class="num">99.6 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                  <td class="num">137,047 جهة</td>
+                  <td>يعادل أقل من شهرين من الاستحقاق، ويتوزع على عدد كبير من الجهات الصغيرة، فتناسبه المعالجة
+                    الآلية والتذكير لا المتابعة الفردية.</td>
+                </tr>
+                <tr>
+                  <th scope="row">القطاع الحكومي</th>
+                  <td class="num">23.6 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                  <td class="num">46 جهة</td>
+                  <td>يتكون من أربعة أجزاء: 12.4 مليوناً على حساب مجمع لم يتم تسجيل أي دفعة عليه، و4.0 ملايين
+                    استحقاق يوليو الذي كانت نافذة سداده لا تزال مفتوحة، و6.0 ملايين مبالغ مرحّلة أخرى ضمن
+                    الفواتير السارية، و1.2 مليون على جهات توقفت فوترتها. كما يتم إصدار نحو ثلثي الاستحقاقات
+                    الحكومية على حساب مجمع باسم «وزارة المالية – وزارات أخرى» فلا يمكن نسبة الالتزام إلى كل جهة.
+                    <span class="split-bar" role="img" style="height:10px;max-width:260px;margin-top:6px"
+                      aria-label="مكونات الرصيد الحكومي: حساب مجمع دون دفعات 53%، رصيد جارٍ 42%، وأرصدة أقدم 5%">
+                      <i class="seg-a" style="width:52.5%"></i><i class="seg-b" style="width:42.5%"></i><i class="seg-c" style="width:5%"></i>
+                    </span></td>
+                </tr>
+                <tr>
+                  <th scope="row">جهات العمل بدول مجلس التعاون</th>
+                  <td class="num">179.9 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                  <td class="num">2,318 جهة</td>
+                  <td>أكبر رصيد قائم، ويعادل استحقاق أكثر من سنة لهذه الفئة. أدوات الإنفاذ المحلية (الحظر والتنفيذ
+                    الإداري) لا تنطبق عليها، ويحتاج تحصيلها إلى مسار عبر آلية مد الحماية الخليجية.</td>
+                </tr>
+                <tr>
+                  <th scope="row">فئات الاشتراك الفردي</th>
+                  <td class="num">58.8 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                  <td class="num">139,020 مشتركاً</td>
+                  <td>مجموعتان مختلفتان: عدد كبير من العاملين لحسابهم الخاص بأرصدة صغيرة (نحو 138 ألفاً عليهم 21.2
+                    مليوناً) تناسبهم القنوات الرقمية والتذكير الآلي؛ وعدد محدود من الأفراد في فئة «القطاع
+                    المشترك» بأرصدة كبيرة (911 فرداً عليهم 37.5 مليوناً) يحتاجون حصراً وتصنيفاً ومعالجة فردية.</td>
+                </tr>
+                <tr class="row-out-of-scope">
+                  <th scope="row">سجلات دون تصنيف قطاع</th>
+                  <td class="num">2.0 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg></td>
+                  <td class="num">17,905 سجلاً</td>
+                  <td>يتم تصحيح تصنيف هذه السجلات ضمن جودة البيانات في المتطلب 01، مع إيقاف سبب ظهورها من المصدر.</td>
+                </tr>
+              </tbody>
             </table>
           </div>
+          <p class="note">يتم احتساب الرصيد القائم من آخر فاتورة سارية لكل جهة أو مشترك (الرصيد التراكمي في
+            النظام) ناقصاً مدفوعاتها، مع استبعاد فواتير أغسطس الصادرة يوم 31 واحتساب جميع المدفوعات حتى نهاية
+            أغسطس 2026. وعلى مستوى جميع الفئات، يمثل استحقاق يوليو الذي كانت نافذة سداده لا تزال مفتوحة نحو 20
+            مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg> فقط (نحو 6%)
+            من الأرصدة القائمة، والباقي مبالغ مرحّلة من شهور سابقة أو أرصدة على جهات توقفت فوترتها. وتبقى الأرقام
+            أولية إلى حين مطابقتها مع أرصدة الذمم في القوائم المالية، ومراجعة أرصدة قديمة سابقة لعام 2024، وتصنيف
+            نوع فوترة خليجي مستقل مع الدائرة المالية قبل ضمه إلى أي أرقام.</p>
         </details>
+
+
+        <div class="callout"><strong>دورة حياة الفاتورة في النظام الحالي: كشف رصيد متجدد لا فاتورة شهرية
+          ثابتة.</strong> تصدر فاتورة الشهر في آخر يوم منه وتكون صالحة للدفع طوال الشهر التالي، وتحمل الرصيد
+          التراكمي الكامل لجهة العمل لا استحقاق الشهر وحده. وعند صدور فاتورة الشهر التالي يتم إلغاء الفاتورة التي
+          لم يتم سدادها ويترحّل رصيدها إلى الفاتورة الجديدة، بينما تبقى الفاتورة المسددة بحالتها. كما يتم إلغاء
+          الفاتورة وإعادة إصدارها خلال الشهر نفسه كلما تغيرت بيانات الجهة، فقد تصدر للجهة الواحدة عدة نسخ لفاتورة
+          الشهر الواحد (ما بين 86% و88% من الفواتير يتم إلغاؤها وإعادة إصدارها شهرياً). يفسر هذا الأسلوب ضعف
+          مرجعية الفاتورة لدى جهات العمل، ويصعّب ربط الدفعات والمتابعة والقياس. ويتناول المتطلبان 01 و05 توحيد
+          هوية الفاتورة ومرجع الدفع.</div>
+
+        <p class="note"><b>لماذا تختلف هذه الأرقام عن التقارير السابقة؟</b> احتسبت التقارير السابقة نسب السداد بعدّ
+          الفواتير غير الملغاة. وبما أن النظام يلغي أغلب الفواتير ويعيد إصدارها برصيد تراكمي كما هو موضح أعلاه،
+          فإن تلك الطريقة تتأثر بعدد الفواتير الملغاة وبتراكم الرصيد في الفاتورة الواحدة. وتعتمد هذه النسخة أساساً
+          مختلفاً: الاستحقاق الشهري لكل جهة مقابل المدفوعات الفعلية بتاريخ الدفع، وهو أساس لا يتأثر بإلغاء الفواتير
+          وإعادة إصدارها.</p>
 
         <h3>رحلة الفاتورة اليوم</h3>
         <div class="timeline">
@@ -220,7 +484,7 @@
 
         <h3>ما أسباب انخفاض كفاءة التحصيل؟</h3>
         <div class="issue-grid">
-          <article><span>01</span><strong>تأخر تحديث البيانات</strong><p>قد تصدر الفاتورة ثم تحتاج إلى تعديل، وقد تبدأ متابعة مبلغ غير صحيح.</p></article>
+          <article><span>01</span><strong>تأخر تحديث البيانات</strong><p>تصدر الفاتورة ثم تحتاج إلى تعديل، وتُعاد نسبة كبيرة من الفواتير كل شهر.</p></article>
           <article><span>02</span><strong>نقص بيانات التواصل</strong><p>قد لا تصل الإشعارات، ويضطر الموظف إلى اتصالات فردية يصعب توثيقها.</p></article>
           <article><span>03</span><strong>دفعات غير مرتبطة</strong><p>يتأخر تحديث الرصيد، وقد تبدأ متابعة مبلغ سبق سداده.</p></article>
           <article><span>04</span><strong>إجراءات يدوية</strong><p>تحتاج الشيكات وخطط السداد إلى وقت أطول وتزيد احتمالات الخطأ.</p></article>
@@ -341,7 +605,9 @@
             <div class="enabler-head"><span class="enabler-number">01</span>
               <h4>إصدار الفاتورة من البيانات المعتمدة</h4>
             </div>
-            <p class="why">بيانات الأجور وانتهاء الخدمة والسجل التجاري تصل متأخرة أحياناً، فتصدر فاتورة ثم تُعدّل.</p>
+            <p class="why">بيانات الأجور وانتهاء الخدمة والسجل التجاري تصل متأخرة أحياناً، فتصدر فاتورة ثم تُعدّل. وتشهد
+              قاعدة المؤمن عليهم حركة شهرية كبيرة من حالات التسجيل وانتهاء الخدمة، وهو ما يفسر حاجة عدد من
+              الفواتير إلى التعديل بعد إصدارها.</p>
             <dl>
               <div>
                 <dt>ماذا سيتغير؟</dt>
@@ -430,40 +696,6 @@
         <div class="stage-title" id="stage-payment" data-stage="2">
           <h3>المرحلة 2 · السداد</h3><span>من إصدار الفاتورة إلى نهاية المهلة</span>
         </div>
-        <!-- <div class="payment-hub" role="img"
-          aria-label="قنوات السداد المقترحة: التحويل البنكي، والخصم المباشر، ورمز الدفع السريع، وسداد عدة فواتير في عملية واحدة، ويربط النظام كل عملية بالفواتير إلكترونياً">
-          <div class="payment-center">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 3h10l3 3v15H7zM17 3v4h4M10 11h7M10 15h7M10 19h5" />
-            </svg>
-            <strong>الفاتورة</strong><span>مرجع دفع موحد</span>
-          </div>
-          <div class="payment-channel channel-bank">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 10h18M5 10v8M9 10v8M15 10v8M19 10v8M3 18h18M12 3l9 5H3z" />
-            </svg>
-            <strong>التحويل البنكي</strong><span>مع مرجع الفاتورة</span>
-          </div>
-          <div class="payment-channel channel-debit">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 7h13M4 12h16M4 17h9M17 4l3 3-3 3M16 14l-3 3 3 3" />
-            </svg>
-            <strong>الخصم المباشر</strong><span>بعد إشعار جهة العمل</span>
-          </div>
-          <div class="payment-channel channel-qr">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2v6h-6v-2M16 18h2" />
-            </svg>
-            <strong>رمز دفع سريع</strong><span>يحمل بيانات الفاتورة</span>
-          </div>
-          <div class="payment-channel channel-multi">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M7 3h10v4H7zM5 7h14v5H5zM3 12h18v8H3zM7 16h10" />
-            </svg>
-            <strong>عدة فواتير</strong><span>في عملية إلكترونية واحدة</span>
-          </div>
-          <p>يتولى النظام ربط عملية السداد بالفاتورة أو الفواتير وتسوية الحالات المطابقة للقواعد المعتمدة.</p>
-        </div> -->
         <div class="enabler-grid">
           <article class="enabler">
             <div class="enabler-head"><span class="enabler-number">05</span>
@@ -556,9 +788,10 @@
             <div class="enabler-head"><span class="enabler-number">08</span>
               <h4>مراجعة مهلة السداد والمبلغ الإضافي</h4>
             </div>
-            <p class="why">تسدد جهات العمل 16.8% من فواتير القطاع الخاص بعد اليوم الخامس عشر وداخل الشهر نفسه.
-              وتحتاج الدراسة إلى التحقق مما إذا كان تراكم المبلغ الإضافي على الجهات التي تتأخر أياماً قليلة يزيد
-              احتمال استمرار تعثرها، وما إذا كانت هناك مواعيد استحقاق أنسب لدورة عمل القطاع الخاص.</p>
+            <p class="why">تشير بيانات المدفوعات إلى أن أغلبها يتم قبل موعد الاستحقاق ويتركز في النصف الأول من
+              الشهر، بينما لا تسدد خلال شهر الاستحقاق إلا أقلية من جهات العمل المفوترة. وتحتاج الدراسة إلى
+              التحقق مما إذا كان تراكم المبلغ الإضافي على الجهات الصغيرة المتأخرة يزيد احتمال استمرار تعثرها، وما
+              إذا كانت هناك مواعيد استحقاق أنسب لدورة عمل القطاع الخاص.</p>
             <dl>
               <div class="full">
                 <dt>ماذا سيتغير؟</dt>
@@ -575,8 +808,8 @@
               </div>
               <div>
                 <dt>ملاحظة</dt>
-                <dd>تمديد المهلة إلى نهاية الشهر يرفع نسبة «السداد في الموعد» حسابياً إلى نحو 70% دون أن يزيد المبلغ
-                  المحصّل. تفاصيل الدراسة في الملحق د.</dd>
+                <dd>تمديد المهلة يرفع مؤشر «السداد في الموعد» حسابياً دون أن يزيد المبلغ المحصّل، لذلك لا يصلح
+                  وحده هدفاً. تفاصيل الدراسة في الملحق د.</dd>
               </div>
             </dl>
             <div class="enabler-tags"><span class="tag" data-state="study">يحتاج دراسة</span><span class="tag">قد يحتاج
@@ -658,9 +891,13 @@
             <div class="enabler-head"><span class="enabler-number">13</span>
               <h4>مسار خاص للقطاع الحكومي</h4>
             </div>
-            <p class="why">سددت الجهات الحكومية 55.3% من فواتيرها بصورة جزئية، وسددت 10.1% فقط كاملة في الموعد. وقد
-              يرتبط ذلك بالاعتمادات المالية ودورة إعداد الموازنة، ويحتاج الصندوق إلى التحقق من هذا الارتباط. كما
-              أن حظر الخدمات لا يمثل أداة مناسبة لمعالجة جميع الحالات الحكومية.</p>
+            <p class="why">تعادل المدفوعات الحكومية الاستحقاقات تقريباً بالقيمة الإجمالية، غير أن بنية الفوترة
+              الحالية لا تتيح نسبة الالتزام إلى كل جهة: يُفوتر جزء كبير من الاستحقاقات الحكومية على حساب مجمع باسم
+              «وزارة المالية – وزارات أخرى» لا عاملين مسجلين عليه، وتوجد حسابات مجمعة أخرى لم تُسجل عليها دفعات،
+              وتوجد جهات مسجلة لم تُفوتر، وغرامات التأخير المحتسبة على الجهات الحكومية شبه معدومة، وتصل الدفعات
+              على فترات متباعدة وبتسويات مجمعة. أما قطاع الأمن والجهات العسكرية فيسدد اشتراكاته شهرياً بمبلغ
+              إجمالي خارج نظام الفوترة، ويحتاج التحقق من اكتمال سداده إلى مطابقة مستقلة. وقد انخفض الرصيد الحكومي
+              القائم بصورة كبيرة بعد تسوية مركزية في أكتوبر 2025.</p>
             <dl>
               <div>
                 <dt>ماذا سيتغير؟</dt>
@@ -689,6 +926,16 @@
             <li><span>5</span><strong>المطابقة والإغلاق</strong><small>نظام الصندوق</small></li>
           </ol>
         </div>
+
+        <div class="callout"><strong>تحتاج الأرصدة القائمة إلى معالجة خاصة إلى جانب الفواتير الجارية.</strong>
+          بلغت الأرصدة القائمة حتى 30 أغسطس 2026 نحو 364 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>: نحو 100 مليون على القطاع الخاص تتوزع على
+          عدد كبير من الجهات الصغيرة فتناسبها المعالجة الآلية والتذكير؛ و24 مليوناً على الجهات الحكومية أكثر من
+          نصفها على حساب مجمع لم يتم تسجيل أي دفعة عليه؛ و180 مليوناً على جهات العمل بدول مجلس التعاون التي لا
+          تنطبق عليها أدوات الإنفاذ المحلية؛ و59 مليوناً على فئات الاشتراك الفردي يتركز أغلبها لدى عدد محدود من
+          الأفراد بأرصدة كبيرة. ويحتاج الصندوق إلى تحديد موقفه من: قواعد معالجة الأرصدة الصغيرة المتراكمة على
+          الجهات متناهية الصغر، وقواعد التعامل مع أرصدة الجهات المغلقة أو المنتهي نشاطها بعد استنفاد إجراءات
+          التحصيل، ومسار تحصيل أرصدة جهات العمل بدول المجلس، ومسار فئات الاشتراك الفردي. ويرد هذا الموقف ضمن
+          القرارات المطلوبة في القسم 7.</div>
 
         <div class="stage-title" id="stage-escalation" data-stage="4">
           <h3>المرحلة 4 · التصعيد</h3><span>عند عدم الاستجابة بعد المعالجة</span>
@@ -770,7 +1017,10 @@
               <h4>فريق التحصيل وطريقة عمله</h4>
             </div>
             <p class="why">يتطلب تنفيذ الإطار تحديد الأدوار والمسؤوليات إلى جانب تطوير الأنظمة التقنية، ووضع مدد
-              محددة للرد، وتوفير متابعة خاصة للجهات الكبيرة، وتنفيذ برامج توعية مستمرة.</p>
+              محددة للرد، وتوفير متابعة خاصة للجهات الكبيرة، وتنفيذ برامج توعية مستمرة. وتؤكد بيانات أغسطس 2026
+              الحاجة إلى هذا التمييز: عدد محدود من الجهات الكبيرة يغطي جزءاً كبيراً من المؤمن عليهم والقيمة،
+              بينما تمثل الجهات متناهية الصغر الغالبية العظمى بالعدد، فتحتاج الأولى إلى موظف متابعة مخصص، وتعتمد
+              الثانية على الأتمتة والخدمة الذاتية.</p>
             <dl>
               <div>
                 <dt>ماذا سيتغير؟</dt>
@@ -833,8 +1083,62 @@
           <article data-risk="high"><strong>مرتفعة</strong><span>50–74</span><small>إنذار رسمي ومراجعة الموظف</small></article>
           <article data-risk="critical"><strong>حرجة</strong><span>75–100</span><small>تحديد مستوى الحظر المناسب</small></article>
         </div>
+        <details class="inline-details">
+          <summary>عرض مثال توضيحي لاحتساب الدرجة</summary>
+          <p class="prose">منشأة خاصة سددت فاتورتين فقط من آخر ست فواتير كاملة في موعدها، وأقدم مبلغ مؤكد عليها عمره
+            أربعة أشهر، ويعادل إجمالي المستحقات ضعف متوسط اشتراكها الشهري، وترد على الإشعارات لكنها لم تلتزم بخطة
+            سداد سابقة، ولديها 35 عاملاً.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">العامل</th>
+                  <th scope="col">نتيجة الحالة</th>
+                  <th scope="col">الدرجة</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">الالتزام في آخر 6 أشهر</th>
+                  <td>فاتورتان من ست في الموعد</td>
+                  <td class="num">20 من 30</td>
+                </tr>
+                <tr>
+                  <th scope="row">عمر المبالغ المستحقة</th>
+                  <td>أربعة أشهر</td>
+                  <td class="num">15 من 25</td>
+                </tr>
+                <tr>
+                  <th scope="row">حجم المبالغ المستحقة</th>
+                  <td>ضعف متوسط الاشتراك الشهري</td>
+                  <td class="num">12 من 20</td>
+                </tr>
+                <tr>
+                  <th scope="row">الاستجابة</th>
+                  <td>ترد على الإشعارات ولم تلتزم بخطة سابقة</td>
+                  <td class="num">8 من 15</td>
+                </tr>
+                <tr>
+                  <th scope="row">حجم المنشأة والأثر</th>
+                  <td>35 عاملاً</td>
+                  <td class="num">4 من 10</td>
+                </tr>
+                <tr>
+                  <th scope="row">المجموع</th>
+                  <td>حالة مرتفعة (50–74)</td>
+                  <td class="num">59 من 100</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">النتيجة: إنذار رسمي مع مراجعة الموظف قبل أي حظر. والقيم الواردة في المثال افتراضية للتوضيح،
+            وتُعتمد جداول الاحتساب التفصيلية لكل عامل ضمن المتطلب 14.</p>
+        </details>
         <div class="callout"><strong>نوع القطاع يحدد المسار ولا يرفع الدرجة بذاته.</strong> أدوات المتابعة المتاحة مع
           الجهات الحكومية تختلف عن الخاصة، فيُستخدم نوع القطاع لتوجيه الحالة إلى مسارها، لا للحكم على التزامها.</div>
+        <div class="callout"><strong>لا يتحمل المؤمن عليه تبعات تأخر جهة العمل.</strong> تبقى حقوق المؤمن عليهم
+          محفوظة وفق أحكام القانون، ويُختار مستوى الحظر بأضيق نطاق يحقق الغرض حفاظاً على الخدمات الأساسية المقدمة
+          لهم.</div>
 
         <h3>ثالثاً: مستويات التصعيد</h3>
         <p class="prose">مرور الوقت وحده لا يكفي للانتقال بين المستويات؛ تنتقل الحالة بدرجتها واستجابتها.</p>
@@ -884,7 +1188,7 @@
             ثم التطبيق الفعلي والتوسع. ويقيس الصندوق النتائج بعد كل مرحلة للتحقق من الفعالية والكفاءة.</p>
         </div>
         <div class="wave-grid">
-          <article class="wave-card"><span>المرحلة 1</span>
+          <article class="wave-card"><span>المرحلة 1 · مدة استرشادية: 3–4 أشهر</span>
             <h4>تثبيت الأساس</h4>
             <ul>
               <li>خط الأساس ومصادر البيانات.</li>
@@ -894,7 +1198,7 @@
               <li>بدء دراسة مهلة السداد (الملحق د).</li>
             </ul>
           </article>
-          <article class="wave-card"><span>المرحلة 2</span>
+          <article class="wave-card"><span>المرحلة 2 · مدة استرشادية: 5–6 أشهر</span>
             <h4>الرقمنة والتجربة</h4>
             <ul>
               <li>ربط الدفعات آلياً وملف جهة العمل الواحد.</li>
@@ -904,7 +1208,7 @@
               <li>تجربة التنفيذ الإداري يدوياً على عينة.</li>
             </ul>
           </article>
-          <article class="wave-card"><span>المرحلة 3</span>
+          <article class="wave-card"><span>المرحلة 3 · مدة استرشادية: 6–12 شهراً</span>
             <h4>التطبيق والتوسع</h4>
             <ul>
               <li>مستويات الحظر بعد اعتماد نطاق كل مستوى.</li>
@@ -915,12 +1219,72 @@
             </ul>
           </article>
         </div>
+        <p class="note">المدد الواردة أعلاه استرشادية للنقاش، وتُعتمد المدد النهائية ضمن خطة التنفيذ بعد تقدير الجهد
+          مع فريق الحلول الرقمية.</p>
+
+        <h3>الترتيب والاعتماديات الرئيسية بين المتطلبات</h3>
+        <ul>
+          <li>الملف الموحد لجهة العمل (10) ومرجع الدفع الموحد (05) أساس لتشغيل التصنيف والحظر المتدرج (14)، فلا يبدأ
+            التصنيف الفعلي قبلهما.</li>
+          <li>لا يتوسع تطبيق مستويات الحظر قبل اختبار التكامل مع الجهات الحكومية (16) للتأكد من دقة تطبيق الحظر
+            ورفعه لدى كل جهة.</li>
+          <li>لا يُقترح أي تغيير في مهلة السداد أو المبلغ الإضافي (08) قبل اكتمال الدراسة الواردة في الملحق د.</li>
+          <li>يرتبط الخصم المباشر (06) وبدائل الشيكات (12) باتفاقات مع البنوك، لذلك يقعان في المرحلة 3.</li>
+          <li>يبدأ التنفيذ الإداري (15) بتجربة يدوية بعد الرأي القانوني، ولا ينتظر جاهزية الأنظمة التقنية.</li>
+          <li>يُحدد المسؤول عن تنفيذ كل متطلب ضمن قرار تنظيم فريق التحصيل (17) في المرحلة 1.</li>
+        </ul>
+
+        <h3>المخاطر والاعتماديات الخارجية</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">الاعتمادية أو المخاطرة</th>
+                <th scope="col">الأثر عند تحققها</th>
+                <th scope="col">إجراء التخفيف</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">تأخر اتفاقات البنوك للخصم المباشر</th>
+                <td>تأجيل المتطلبين 06 و12 وتأخر المرحلة 3</td>
+                <td>البدء بمرجع الدفع الموحد عبر القنوات القائمة دون انتظار الاتفاقات</td>
+              </tr>
+              <tr>
+                <th scope="row">تعثر التنسيق مع وزارة المالية</th>
+                <td>استمرار السداد الجزئي في القطاع الحكومي</td>
+                <td>اعتماد المسار الحكومي بمذكرة تفاهم وخطة اعتمادات سنوية قبل إعداد الموازنة</td>
+              </tr>
+              <tr>
+                <th scope="row">تأخر الرأي القانوني في المسائل المعلقة</th>
+                <td>توقف المتطلبات 08 و09 و15 المرتبطة بالمهلة والحوافز والتنفيذ الإداري</td>
+                <td>عرض المسائل على الدائرة القانونية في المرحلة 1 قبل بدء التنفيذ</td>
+              </tr>
+              <tr>
+                <th scope="row">جودة البيانات الواردة من وزارة العمل والسجل التجاري</th>
+                <td>استمرار تعديل الفواتير بعد إصدارها</td>
+                <td>اتفاقيات تبادل بيانات تحدد مصدر كل بيان وموعد تحديثه (المتطلب 16)</td>
+              </tr>
+              <tr>
+                <th scope="row">جاهزية الفريق وتوزيع الأدوار</th>
+                <td>تأخر معالجة الحالات وتراكمها لدى الموظفين</td>
+                <td>اعتماد تنظيم فريق التحصيل (المتطلب 17) مبكراً في المرحلة 1</td>
+              </tr>
+              <tr>
+                <th scope="row">تقبل جهات العمل للتغييرات الجديدة</th>
+                <td>انخفاض استخدام الخدمات الجديدة واستمرار الأنماط الحالية</td>
+                <td>خطة تواصل وتوعية تسبق كل تغيير وتوضح موعد تطبيقه وفائدته</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <h3>كيف يقيس الصندوق فعالية الإطار وكفاءة تطبيقه؟</h3>
         <div class="indicator-dashboard">
           <article><span>نتائج التحصيل</span><strong>3 مؤشرات</strong><small>السداد في الموعد، والفواتير غير المسددة، والمتأخرات المحصلة</small></article>
           <article><span>دقة العمليات</span><strong>3 مؤشرات</strong><small>ربط الدفعات، وتعديل الفواتير، ومعالجة الشيك المرتجع</small></article>
           <article><span>استدامة المعالجة</span><strong>مؤشران</strong><small>انتظام خطط السداد، ونتيجة كل مستوى تصعيد</small></article>
-          <article class="baseline"><span>خط الأساس المتاح</span><strong>53.8% خاص</strong><small>10.1% حكومي سداد كامل في الموعد</small></article>
+          <article class="baseline"><span>خط الأساس المتاح · حتى 30 أغسطس 2026</span><strong>99% تحصيلاً بالقيمة</strong><small>و17–20% من الجهات الخاصة تسدد خلال شهر الاستحقاق</small></article>
         </div>
         <details class="inline-details">
           <summary>عرض تعريف المؤشرات وخطوط الأساس</summary>
@@ -931,53 +1295,124 @@
                 <th scope="col">المؤشر</th>
                 <th scope="col">ما الذي يقيسه؟</th>
                 <th scope="col">خط الأساس</th>
+                <th scope="col">المستهدف</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <th scope="row">السداد الكامل في الموعد</th>
-                <td>الفواتير المسددة كاملة قبل الاستحقاق من إجمالي الفواتير.</td>
-                <td class="num">53.8% خاص · 10.1% حكومي</td>
+                <th scope="row">نسبة التحصيل إلى الاستحقاق · بالقيمة</th>
+                <td>المبالغ المحصلة نقداً خلال الشهر نسبة إلى استحقاق اشتراكات الشهر لكل فئة.</td>
+                <td class="num">99% خاص · ~98% حكومي · ~40% اشتراك فردي</td>
+                <td>يتم اعتماده في المرحلة 1</td>
               </tr>
               <tr>
-                <th scope="row">الفواتير غير المسددة</th>
-                <td>الفواتير التي لم تُسدد خلال الفترة.</td>
-                <td class="num">27.5% خاص · 24.5% حكومي</td>
+                <th scope="row">الجهات التي سددت خلال شهر الاستحقاق · بالعدد</th>
+                <td>جهات العمل التي سددت أي مبلغ خلال شهر استحقاق فاتورتها من إجمالي الجهات المفوترة.</td>
+                <td class="num">17–20% خاص · 48–73% حكومي · 22–31% دول المجلس · 5–6% اشتراك فردي</td>
+                <td>يتم اعتماده في المرحلة 1</td>
               </tr>
               <tr>
                 <th scope="row">المتأخرات المحصّلة</th>
-                <td>ما حُصّل خلال الفترة من المتأخرات القائمة في بدايتها.</td>
-                <td>يُحدد في المرحلة 1</td>
+                <td>ما يتم تحصيله خلال الفترة من الأرصدة القائمة في بدايتها.</td>
+                <td class="num">الرصيد القائم نحو 364 مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg> (حتى 30 أغسطس 2026، أولي)</td>
+                <td>يتم اعتماده في المرحلة 1</td>
               </tr>
               <tr>
                 <th scope="row">الدفعات المربوطة آلياً</th>
                 <td>الدفعات التي ربطها النظام بفاتورتها دون تدخل.</td>
                 <td>يُحدد في المرحلة 1</td>
+                <td>يُعتمد في المرحلة 1</td>
               </tr>
               <tr>
                 <th scope="row">الفواتير المعدّلة بعد الإصدار</th>
                 <td>الفواتير التي احتاجت تعديلاً بعد صدورها.</td>
                 <td>يُحدد في المرحلة 1</td>
+                <td>يُعتمد في المرحلة 1</td>
               </tr>
               <tr>
                 <th scope="row">زمن معالجة الشيك المرتجع</th>
                 <td>من استلام نتيجة البنك حتى السداد أو الإجراء التالي.</td>
                 <td>يُحدد في المرحلة 1</td>
+                <td>يُعتمد في المرحلة 1</td>
               </tr>
               <tr>
                 <th scope="row">خطط السداد المنتظمة</th>
                 <td>الخطط التي سُددت أقساطها وفواتيرها الجديدة في مواعيدها.</td>
                 <td>يُحدد في المرحلة 1</td>
+                <td>يُعتمد في المرحلة 1</td>
               </tr>
               <tr>
                 <th scope="row">السداد بعد كل مستوى تصعيد</th>
                 <td>الجهات التي سددت بعد كل مستوى، ومدة رفع الحظر بعد السداد.</td>
                 <td>يُحدد في المرحلة 1</td>
+                <td>يُعتمد في المرحلة 1</td>
               </tr>
             </tbody>
             </table>
           </div>
         </details>
+      </section>
+
+      <section id="decisions" data-title="القرارات المطلوبة" data-number="7">
+        <div class="section-heading"><span class="section-number">7</span>
+          <div><span class="section-eyebrow">مخرجات النقاش المتوقعة</span>
+            <h2>القرارات المطلوبة من هذا النقاش</h2>
+          </div>
+        </div>
+        <div class="reading-panel"><span>الخلاصة</span>
+          <p>يعرض هذا القسم القرارات التي يحتاجها الإطار للانتقال من نسخة العمل إلى بدء التنفيذ. ولا يشترط البت فيها
+            جميعاً في جلسة واحدة، لكن تحديد صاحب كل قرار وموعده شرط لبدء المرحلة 1.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">القرار المطلوب</th>
+                <th scope="col">موضعه في الوثيقة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">1</th>
+                <td>اعتماد النموذج المستهدف بمراحله الأربع، والقاعدة الأساسية قبل بدء التصعيد.</td>
+                <td>القسمان 3 و5</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>اعتماد عوامل التصنيف الخمسة وأوزانها ونطاقات الدرجة لاختبارها على بيانات حقيقية دون أثر على جهات
+                  العمل.</td>
+                <td>القسم 5</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th>
+                <td>الموافقة على بدء دراسة مهلة السداد والمبلغ الإضافي، وتكليف الجهات المعنية بتوفير بياناتها.</td>
+                <td>المتطلب 08 والملحق د</td>
+              </tr>
+              <tr>
+                <th scope="row">4</th>
+                <td>التخويل بفتح المسار الحكومي والتنسيق مع وزارة المالية بشأن الاعتمادات والتسوية المركزية.</td>
+                <td>المتطلب 13</td>
+              </tr>
+              <tr>
+                <th scope="row">5</th>
+                <td>اعتماد حدود نوعي خطط السداد: الخطة الموحدة والخطة التي تحتاج دراسة واعتماداً أعلى.</td>
+                <td>المتطلب 11</td>
+              </tr>
+              <tr>
+                <th scope="row">6</th>
+                <td>تكليف الدائرة القانونية بتأكيد انطباق قانون تحصيل مستحقات الدولة وتحديد صاحب الصلاحية والنماذج.</td>
+                <td>المتطلب 15 والملحق أ</td>
+              </tr>
+              <tr>
+                <th scope="row">7</th>
+                <td>تحديد موقف الصندوق من معالجة الأرصدة القائمة (الجهات متناهية الصغر، والجهات المغلقة)، ومن مسار
+                  تحصيل أرصدة جهات العمل بدول مجلس التعاون، ومن مسار فئات الاشتراك الفردي.</td>
+                <td>القسم 4 ونطاق الإطار في القسم 1</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <details class="appendix" id="appendix-a" data-title="التنفيذ الإداري تفصيلاً" data-number="أ">
@@ -1131,14 +1566,14 @@
         </summary>
         <div class="appendix-body">
           <div class="benchmark-cards">
-            <article><span>مرجع دولي</span><h3>الوقاية والتدخل المبكر</h3><p>تبدأ إدارة المستحقات قبل تراكمها من خلال فاتورة صحيحة وتذكير وتواصل مستمر.</p><a href="https://www.oecd.org/en/publications/successful-tax-debt-management_e8fdb816-en.html" target="_blank" rel="noopener noreferrer">منظمة التعاون الاقتصادي والتنمية</a></article>
-            <article><span>المملكة المتحدة</span><h3>المعالجة حسب القدرة والسلوك</h3><p>تختلف معالجة التعثر المؤقت عن معالجة عدم الاستجابة لإجراءات المتابعة.</p><a href="https://www.gov.uk/hmrc-internal-manuals/debt-management-and-banking/dmbm800050" target="_blank" rel="noopener noreferrer">هيئة الإيرادات والجمارك البريطانية</a></article>
-            <article><span>مرجع دولي</span><h3>الإجراء حسب حالة الجهة</h3><p>يُختار الإجراء وفق سجل السداد وعمر المستحقات وحجمها والاستجابة.</p><a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2014/10/working-smarter-in-tax-debt-management_g1g496ee/9789264223257-en.pdf" target="_blank" rel="noopener noreferrer">منظمة التعاون الاقتصادي والتنمية</a></article>
-            <article><span>السعودية</span><h3>قناة دفع موحدة</h3><p>تتيح المؤسسة سداد الاشتراكات عبر نظام سداد من القنوات البنكية.</p><a href="https://www.gosi.gov.sa/GOSIOnline/E-Services_Channels?locale=en_US" target="_blank" rel="noopener noreferrer">المؤسسة العامة للتأمينات الاجتماعية</a></article>
-            <article><span>الإمارات</span><h3>حماية الأجور</h3><p>يربط النظام بيانات المنشآت بجهات مالية معتمدة لتنفيذ تحويلات الرواتب ومتابعتها.</p><a href="https://www.mohre.gov.ae/ar/media-center/news/10/12/2025/mohre-launches-new-update-for-the-wage-protection-system" target="_blank" rel="noopener noreferrer">وزارة الموارد البشرية والتوطين</a></article>
-            <article><span>البحرين</span><h3>الخصم المباشر</h3><p>يمكن لصاحب العمل طلب خصم فاتورة الاشتراكات مباشرة من حسابه البنكي.</p><a href="https://www.sio.gov.bh/en/direct-debit-installment" target="_blank" rel="noopener noreferrer">الهيئة العامة للتأمين الاجتماعي</a></article>
-            <article><span>ماليزيا</span><h3>ربط الرواتب بالاشتراكات</h3><p>تدير المنشآت الصغيرة بيانات الرواتب وتحتسب الاشتراكات وتسددها من خلال خدمة إلكترونية واحدة.</p><a href="https://www.kwsp.gov.my/en/employer/online-platform/e-payroll" target="_blank" rel="noopener noreferrer">صندوق ادخار الموظفين</a></article>
-            <article><span>سنغافورة</span><h3>تقديم وسداد موحد</h3><p>تحتسب الخدمة الاشتراكات وتتيح سدادها بالخصم المباشر أو رمز دفع سريع، مع أمر شهري للحالات المستقرة.</p><a href="https://www.cpf.gov.sg/employer/making-cpf-contributions/submitting-cpf-contributions-via-cpf-ezpay" target="_blank" rel="noopener noreferrer">مجلس صندوق الادخار المركزي</a></article>
+            <article><span>مرجع دولي</span><h3>الوقاية والتدخل المبكر</h3><p>تبدأ إدارة المستحقات قبل تراكمها من خلال فاتورة صحيحة وتذكير وتواصل مستمر. ويقابل هذا التوجه المتطلبات من 01 إلى 03.</p><a href="https://www.oecd.org/en/publications/successful-tax-debt-management_e8fdb816-en.html" target="_blank" rel="noopener noreferrer">منظمة التعاون الاقتصادي والتنمية</a></article>
+            <article><span>المملكة المتحدة</span><h3>المعالجة حسب القدرة والسلوك</h3><p>تختلف معالجة التعثر المؤقت عن معالجة عدم الاستجابة لإجراءات المتابعة. ويقابل هذا التوجه فصل مرحلة المعالجة عن التصعيد في القسم 3.</p><a href="https://www.gov.uk/hmrc-internal-manuals/debt-management-and-banking/dmbm800050" target="_blank" rel="noopener noreferrer">هيئة الإيرادات والجمارك البريطانية</a></article>
+            <article><span>مرجع دولي</span><h3>الإجراء حسب حالة الجهة</h3><p>يُختار الإجراء وفق سجل السداد وعمر المستحقات وحجمها والاستجابة. وتقابل هذه المعايير عوامل التصنيف الخمسة في القسم 5.</p><a href="https://www.oecd.org/content/dam/oecd/en/publications/reports/2014/10/working-smarter-in-tax-debt-management_g1g496ee/9789264223257-en.pdf" target="_blank" rel="noopener noreferrer">منظمة التعاون الاقتصادي والتنمية</a></article>
+            <article><span>السعودية</span><h3>قناة دفع موحدة</h3><p>تتيح المؤسسة سداد الاشتراكات عبر نظام سداد من القنوات البنكية. ويقابل هذا التوجه المتطلب 05.</p><a href="https://www.gosi.gov.sa/GOSIOnline/E-Services_Channels?locale=en_US" target="_blank" rel="noopener noreferrer">المؤسسة العامة للتأمينات الاجتماعية</a></article>
+            <article><span>الإمارات</span><h3>حماية الأجور</h3><p>يربط النظام بيانات المنشآت بجهات مالية معتمدة لتنفيذ تحويلات الرواتب ومتابعتها. وتفيد بيانات حماية الأجور دراسة مواعيد السداد في الملحق د.</p><a href="https://www.mohre.gov.ae/ar/media-center/news/10/12/2025/mohre-launches-new-update-for-the-wage-protection-system" target="_blank" rel="noopener noreferrer">وزارة الموارد البشرية والتوطين</a></article>
+            <article><span>البحرين</span><h3>الخصم المباشر</h3><p>يمكن لصاحب العمل طلب خصم فاتورة الاشتراكات مباشرة من حسابه البنكي. ويقابل هذا التوجه المتطلب 06.</p><a href="https://www.sio.gov.bh/en/direct-debit-installment" target="_blank" rel="noopener noreferrer">الهيئة العامة للتأمين الاجتماعي</a></article>
+            <article><span>ماليزيا</span><h3>ربط الرواتب بالاشتراكات</h3><p>تدير المنشآت الصغيرة بيانات الرواتب وتحتسب الاشتراكات وتسددها من خلال خدمة إلكترونية واحدة. ويقابل هذا التوجه المتطلبين 02 و07.</p><a href="https://www.kwsp.gov.my/en/employer/online-platform/e-payroll" target="_blank" rel="noopener noreferrer">صندوق ادخار الموظفين</a></article>
+            <article><span>سنغافورة</span><h3>تقديم وسداد موحد</h3><p>تحتسب الخدمة الاشتراكات وتتيح سدادها بالخصم المباشر أو رمز دفع سريع، مع أمر شهري للحالات المستقرة. ويقابل هذا التوجه المتطلبات 05 و06 و07.</p><a href="https://www.cpf.gov.sg/employer/making-cpf-contributions/submitting-cpf-contributions-via-cpf-ezpay" target="_blank" rel="noopener noreferrer">مجلس صندوق الادخار المركزي</a></article>
           </div>
         </div>
       </details>
@@ -1237,7 +1672,7 @@
           <h3>الأسئلة التي يجب أن تجيب عنها البيانات</h3>
           <ol class="study-questions">
             <li>في أي يوم من الشهر تسدد الجهات فعلاً؟ هل تتجمع المدفوعات عند اليوم 15 أم تمتد حتى آخره؟</li>
-            <li>هل تتكرر حالات التأخر لدى نسبة 16.8% من جهات العمل نفسها كل شهر، أم تحدث لدى جهات مختلفة لأسباب مؤقتة؟
+            <li>هل تتكرر حالات التأخر لدى الجهات نفسها كل شهر، أم تحدث لدى جهات مختلفة لأسباب مؤقتة؟
             </li>
             <li>ما نسبة المبلغ الإضافي إلى أصل الاشتراك لدى الجهات المتعثرة؟ وهل بدأ تراكمه قبل ظهور التعثر المالي أم
               بعده؟</li>
@@ -1246,9 +1681,11 @@
             <li>كم عدد الجهات المتعثرة حالياً التي كانت تسدد داخل الشهر قبل تعثرها؟ تساعد الإجابة عن هذا السؤال على
               التحقق من العلاقة بين التأخر القصير وبدء التعثر المالي.</li>
           </ol>
+          <p class="note">مؤشر أولي من بيانات المدفوعات: تتركز المدفوعات في النصف الأول من الشهر وقبل موعد
+            الاستحقاق، مما يشير إلى ارتباط السداد بدورة صرف الرواتب أكثر من ارتباطه بيوم الاستحقاق نفسه.</p>
           <h3>الخيارات التي تُقارن</h3>
           <div class="study-options">
-            <article><span>01</span><h4>تمديد المهلة</h4><dl><div><dt>طريقة العمل</dt><dd>تمتد المهلة إلى نهاية الشهر بدلاً من اليوم الخامس عشر.</dd></div><div><dt>الأثر المتوقع</dt><dd>يرتفع مؤشر السداد في الموعد إلى نحو 70% دون زيادة المبلغ المحصل، مع احتمال تأخير التدفقات المالية.</dd></div><div><dt>المتطلب</dt><dd>تعديل اللائحة أو قرار من صاحب الصلاحية.</dd></div></dl></article>
+            <article><span>01</span><h4>تمديد المهلة</h4><dl><div><dt>طريقة العمل</dt><dd>تمتد المهلة إلى نهاية الشهر بدلاً من اليوم الخامس عشر.</dd></div><div><dt>الأثر المتوقع</dt><dd>يرتفع مؤشر السداد في الموعد حسابياً دون زيادة المبلغ المحصل، مع احتمال تأخير التدفقات المالية.</dd></div><div><dt>المتطلب</dt><dd>تعديل اللائحة أو قرار من صاحب الصلاحية.</dd></div></dl></article>
             <article><span>02</span><h4>مبلغ إضافي متدرج</h4><dl><div><dt>طريقة العمل</dt><dd>يحتسب مبلغ محدود خلال الأيام من 16 إلى 30، ثم يزيد تدريجياً.</dd></div><div><dt>الأثر المتوقع</dt><dd>يخفف العبء عن الجهة التي تتأخر أياماً قليلة دون تغيير موعد الاستحقاق.</dd></div><div><dt>المتطلب</dt><dd>تعديل جدول المبلغ الإضافي.</dd></div></dl></article>
             <article><span>03</span><h4>إعفاء أول تأخر</h4><dl><div><dt>طريقة العمل</dt><dd>تعفى الجهة الملتزمة من المبلغ الإضافي عند أول تأخر خلال اثني عشر شهراً.</dd></div><div><dt>الأثر المتوقع</dt><dd>يساعد الجهات الملتزمة عند حدوث تأخر مؤقت مع استمرار تشجيع السداد في الموعد.</dd></div><div><dt>المتطلب</dt><dd>سماح الضوابط القانونية واعتماد صاحب الصلاحية.</dd></div></dl></article>
             <article><span>04</span><h4>سقف للمبلغ الإضافي</h4><dl><div><dt>طريقة العمل</dt><dd>لا يتجاوز المبلغ المتراكم نسبة محددة من أصل الاشتراك.</dd></div><div><dt>الأثر المتوقع</dt><dd>يحد من تحول التأخر إلى تعثر بسبب تراكم المبلغ الإضافي.</dd></div><div><dt>المتطلب</dt><dd>تعديل جدول المبلغ الإضافي.</dd></div></dl></article>
@@ -1262,6 +1699,135 @@
           <p class="prose"><b>المدة المقترحة للدراسة:</b> تستغرق الدراسة من أربعة إلى ستة أسابيع تبدأ بعد توفير البيانات
             المطلوبة والتحقق من جودتها. <b>المسؤول:</b> دائرة
             الاشتراكات مع الدائرة المالية، ورأي الدائرة القانونية في الخيارات التي تحتاج تعديلاً.</p>
+        </div>
+      </details>
+
+      <details class="appendix" id="appendix-e" data-title="تعريفات المقاييس والبيانات المساندة" data-number="هـ">
+        <summary><span class="section-number appendix">هـ</span>
+          <h2>ملحق هـ · تعريفات المقاييس والبيانات المساندة</h2><span class="toggle">اضغط للعرض</span>
+        </summary>
+        <div class="appendix-body">
+          <p class="prose">يتم استخراج جميع أرقام هذه الوثيقة من بيانات نظام الفوترة والمدفوعات حتى نهاية يوم
+            30 أغسطس 2026 (قبل موعد إصدار فواتير يوم 31)، ويمكن إعادة إنتاج أي رقم بالنتيجة نفسها في أي وقت.
+            وتتوفر تفاصيل الاستخراج لدى دائرة الاشتراكات.</p>
+
+          <h3>تعريفات المقاييس</h3>
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                <tr>
+                  <th scope="row">استحقاق اشتراكات الشهر</th>
+                  <td>اشتراكات الشهر الواحد فقط (دون الأرصدة السابقة)، من آخر نسخة صادرة لفاتورة الجهة في ذلك
+                    الشهر أياً كانت حالتها اللاحقة، لأن النظام يلغي الفواتير ويعيد إصدارها باستمرار.</td>
+                </tr>
+                <tr>
+                  <th scope="row">التحصيل النقدي خلال الشهر</th>
+                  <td>مجموع الدفعات المؤكدة بتاريخ الدفع الفعلي، بشرط أن يكون تاريخ الدفع وتاريخ تسجيل الدفعة قبل
+                    30 أغسطس 2026 وألا يكون قد تم إلغاؤها قبل هذا التاريخ.</td>
+                </tr>
+                <tr>
+                  <th scope="row">نسبة التحصيل إلى الاستحقاق · بالقيمة</th>
+                  <td>التحصيل النقدي خلال الفترة مقسوماً على استحقاق اشتراكات الفترة نفسها. وقد تتجاوز النسبة
+                    100% عندما يشمل التحصيل سداد متأخرات فترات سابقة.</td>
+                </tr>
+                <tr>
+                  <th scope="row">سددت خلال شهر الاستحقاق · بالعدد</th>
+                  <td>عدد الجهات التي سجلت أي دفعة خلال شهر استحقاق فاتورتها مقسوماً على عدد الجهات المفوترة في
+                    ذلك الشهر.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الرصيد القائم</th>
+                  <td>آخر فاتورة سارية لكل جهة أو مشترك (وهي تحمل الرصيد التراكمي في النظام) ناقصاً مدفوعاتها،
+                    باحتساب كل جهة مرة واحدة، حتى 30 أغسطس 2026. وقد ثبت من البيانات أن الفواتير بالحالة «مسددة»
+                    مغطاة بالدفعات بنسبة 98%، مما يؤكد سلامة هذا الأساس.</td>
+                </tr>
+                <tr>
+                  <th scope="row">الفواتير الملغاة والمعاد إصدارها</th>
+                  <td>عدد الفواتير التي تم إلغاؤها قبل 30 أغسطس مقسوماً على إجمالي فواتير الشهر، لكل شهر من يناير
+                    2025 إلى يونيو 2026 (النسبة بين 86% و88% في كل الأشهر).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>الاستحقاق والتحصيل شهرياً · يناير – يوليو 2026 (مليون <svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">الشهر</th>
+                  <th scope="col">الخاص · استحقاق</th>
+                  <th scope="col">الخاص · تحصيل</th>
+                  <th scope="col">الحكومي · استحقاق</th>
+                  <th scope="col">الحكومي · تحصيل</th>
+                  <th scope="col">دول المجلس · استحقاق</th>
+                  <th scope="col">دول المجلس · تحصيل</th>
+                  <th scope="col">اشتراك فردي · استحقاق</th>
+                  <th scope="col">اشتراك فردي · تحصيل</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">يناير</th><td class="num">53.8</td><td class="num">54.1</td><td class="num">45.7</td><td class="num">56.8</td><td class="num">10.2</td><td class="num">10.5</td><td class="num">1.01</td><td class="num">0.41</td></tr>
+                <tr><th scope="row">فبراير</th><td class="num">54.9</td><td class="num">54.3</td><td class="num">47.5</td><td class="num">38.7</td><td class="num">10.8</td><td class="num">7.3</td><td class="num">1.00</td><td class="num">0.42</td></tr>
+                <tr><th scope="row">مارس</th><td class="num">53.4</td><td class="num">54.7</td><td class="num">47.3</td><td class="num">32.5</td><td class="num">10.5</td><td class="num">11.4</td><td class="num">1.00</td><td class="num">0.37</td></tr>
+                <tr><th scope="row">أبريل</th><td class="num">56.3</td><td class="num">56.2</td><td class="num">46.3</td><td class="num">71.4</td><td class="num">10.2</td><td class="num">12.3</td><td class="num">0.99</td><td class="num">0.47</td></tr>
+                <tr><th scope="row">مايو</th><td class="num">56.0</td><td class="num">53.9</td><td class="num">46.6</td><td class="num">38.7</td><td class="num">10.5</td><td class="num">12.6</td><td class="num">0.99</td><td class="num">0.36</td></tr>
+                <tr><th scope="row">يونيو</th><td class="num">55.6</td><td class="num">55.8</td><td class="num">49.4</td><td class="num">56.2</td><td class="num">10.1</td><td class="num">7.3</td><td class="num">0.98</td><td class="num">0.37</td></tr>
+                <tr><th scope="row">يوليو</th><td class="num">57.3</td><td class="num">55.3</td><td class="num">42.2</td><td class="num">25.0</td><td class="num">11.3</td><td class="num">18.8</td><td class="num">0.98</td><td class="num">0.40</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">تحصيل يوليو الحكومي المنخفض يقابله تحصيل مرتفع في أغسطس (51.2 مليوناً) وفق نمط التسويات
+            المجمعة، ونسبة يناير – يوليو للقطاع الحكومي نحو 98%. أما «السجلات دون تصنيف قطاع» فقد بدأت بالظهور في
+            ديسمبر 2025 وبلغ استحقاقها في يوليو نحو 0.7 مليون وتحصيلها نحو 0.26 مليون.</p>
+
+          <h3>الأرصدة القائمة حسب الفئة · حتى 30 أغسطس 2026</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">الفئة</th>
+                  <th scope="col">الرصيد القائم (<svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>)</th>
+                  <th scope="col">من عليهم رصيد</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">جهات العمل بدول مجلس التعاون</th><td class="num">179,868,888</td><td class="num">2,318 جهة</td></tr>
+                <tr><th scope="row">القطاع الخاص</th><td class="num">99,553,832</td><td class="num">137,047 جهة</td></tr>
+                <tr><th scope="row">فئات الاشتراك الفردي</th><td class="num">58,831,580</td><td class="num">139,020 مشتركاً</td></tr>
+                <tr><th scope="row">القطاع الحكومي</th><td class="num">23,609,625</td><td class="num">46 جهة</td></tr>
+                <tr><th scope="row">سجلات دون تصنيف قطاع</th><td class="num">1,963,292</td><td class="num">17,905 سجلاً</td></tr>
+                <tr><th scope="row">الإجمالي</th><td class="num">363,827,217</td><td class="num">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>شرائح جهات العمل الخاصة · القيم التفصيلية (يناير – يوليو 2026)</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">الشريحة</th>
+                  <th scope="col">الجهات</th>
+                  <th scope="col">العمال</th>
+                  <th scope="col">الاستحقاق (<svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>)</th>
+                  <th scope="col">التحصيل النقدي (<svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>)</th>
+                  <th scope="col">الرصيد القائم (<svg class="omr" role="img" aria-label="ريال عماني"><use href="#omr-sign"/></svg>)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">أكثر من 150 عاملاً</th><td class="num">760</td><td class="num">443,385</td><td class="num">278,667,375</td><td class="num">328,284,131</td><td class="num">9,098,535</td></tr>
+                <tr><th scope="row">من 51 إلى 150</th><td class="num">1,835</td><td class="num">153,944</td><td class="num">46,185,204</td><td class="num">50,998,624</td><td class="num">7,187,051</td></tr>
+                <tr><th scope="row">من 11 إلى 50</th><td class="num">18,943</td><td class="num">358,359</td><td class="num">39,518,327</td><td class="num">41,537,203</td><td class="num">17,483,150</td></tr>
+                <tr><th scope="row">من 1 إلى 10</th><td class="num">108,415</td><td class="num">379,688</td><td class="num">21,792,123</td><td class="num">18,748,071</td><td class="num">39,508,524</td></tr>
+                <tr><th scope="row">بدون عاملين نشطين</th><td class="num">107,475</td><td class="num">0</td><td class="num">1,199,486</td><td class="num">1,117,442</td><td class="num">26,276,572</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="note">عمود التحصيل النقدي في جدول الشرائح يشمل مدفوعات يناير إلى نهاية 30 أغسطس (ثمانية أشهر
+            تقريباً) مقابل استحقاق سبعة أشهر، ولذلك قد يتجاوز التحصيل الاستحقاق في بعض الشرائح؛ ويتم استخدام
+            النسب المئوية في المتن على الأساس نفسه لكل الشرائح فتصح المقارنة بينها. ويعتمد تصنيف الشريحة على عدد
+            العاملين النشطين في سجلات التوظيف الحالية.</p>
         </div>
       </details>
 
