@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نموذج تفاعلي – نظام الادخار SPF</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#F5F6F8;--card:#fff;--ink:#12213B;--mut:#5B667A;--line:#D9DEE7;--acc:#0E6F68;--soft:#E3F0EE;--warn:#B45309;--wsoft:#FBEBD9;--f:"IBM Plex Sans Arabic",Tahoma,sans-serif;box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1726;--card:#172238;--ink:#E8ECF4;--mut:#9AA6BC;--line:#2B3852;--acc:#4FC3B8;--soft:#143A3A;--warn:#F0A25A;--wsoft:#3A2A16}}
+:root[data-theme="dark"]{--bg:#0F1726;--card:#172238;--ink:#E8ECF4;--mut:#9AA6BC;--line:#2B3852;--acc:#4FC3B8;--soft:#143A3A;--warn:#F0A25A;--wsoft:#3A2A16}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f);font-size:15px;line-height:1.6;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 14px}
+header h1{font-size:16px;margin:0 0 8px}
+.tabs{display:flex;gap:6px;overflow-x:auto}
+.tab{white-space:nowrap;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:6px;padding:7px 12px;font-size:13px;cursor:pointer;font-family:var(--f)}
+.tab.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+main{max-width:1000px;margin:0 auto;padding:16px 14px 50px}
+.view{display:none}.view.on{display:block}
+.crumb{font-size:12px;color:var(--mut);margin-bottom:10px}
+.crumb b{cursor:pointer;color:var(--acc)}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 14px;cursor:pointer}
+.card:hover{border-color:var(--acc)}
+.card b{font-size:14px;display:block;margin-bottom:2px}
+.card span{font-size:12px;color:var(--mut)}
+.detail{background:var(--card);border:1px solid var(--line);border-inline-start:4px solid var(--acc);border-radius:8px;padding:16px;margin-top:12px}
+.detail h3{margin:0 0 10px;font-size:16px}
+.detail h4{font-size:13px;margin:12px 0 4px;color:var(--acc)}
+.detail ul{margin:0;padding-inline-start:18px;font-size:13.5px}
+.detail li{margin-bottom:3px}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:9px;background:var(--wsoft);color:var(--warn);margin-inline-start:5px}
+.evlist{display:flex;flex-direction:column;gap:6px}
+.ev{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:13.5px}
+.ev:hover{border-color:var(--acc)}
+.ev small{color:var(--mut);font-size:11px}
+.flow{display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.flow .lyr{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:10px 12px;font-size:13px}
+.flow .lyr b{color:var(--acc);display:block;margin-bottom:3px;font-size:13px}
+.arrow{text-align:center;color:var(--mut);font-size:18px;margin:1px 0}
+.side{font-size:11px;color:var(--mut);text-align:center;margin:2px 0}
+.timeline{display:flex;flex-direction:column;gap:10px}
+.ph{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px 14px}
+.ph b{color:var(--acc);font-size:14px;display:block;margin-bottom:5px}
+.ph ul{margin:0;padding-inline-start:18px;font-size:13px}
+small.note{color:var(--mut)}
+</style>
+</head>
+<body>
+<header>
+<h1>نموذج تفاعلي – نظام الادخار (SPF)</h1>
+<div class="tabs">
+<button class="tab on" data-v="arch">الهيكل المعماري التفاعلي</button>
+<button class="tab" data-v="events">رحلة الأحداث ↔ الجداول/APIs/المحاسبة</button>
+<button class="tab" data-v="flow">مخطط تدفق البيانات</button>
+<button class="tab" data-v="journey">رحلة المدخر الكاملة</button>
+</div>
+</header>
+<main>
+
+<section class="view on" id="v-arch">
+<div class="crumb" id="arch-crumb">الطبقات</div>
+<div class="grid" id="arch-grid"></div>
+<div id="arch-detail"></div>
+</section>
+
+<section class="view" id="v-events">
+<p><small class="note">اضغط على أي حدث لعرض الجداول المنطقية، الـAPIs، والحركة المحاسبية المرتبطة به.</small></p>
+<div class="evlist" id="ev-list"></div>
+<div id="ev-detail"></div>
+</section>
+
+<section class="view" id="v-flow">
+<p><small class="note">تدفق البيانات من القنوات حتى المدخر، مرورًا بكل طبقة واعتماداتها.</small></p>
+<div class="flow" id="flow-box"></div>
+</section>
+
+<section class="view" id="v-journey">
+<div class="timeline" id="journey-box"></div>
+</section>
+
+</main>
+<script>
+const ARCH = {
+"القنوات":{desc:"نقاط دخول المدخر وصاحب العمل والموظف",comp:{
+"بوابة المدخر":{tasks:["عرض الرصيد والحركات","تقديم طلب صرف","إضافة/تحديث الحساب الدولي"],deps:["Member Account API","International Account Verification"],iface:["Member Account Update","REST/HTTPS + مصادقة الهوية الوطنية"],ch:["حمل تزامن مع 3+ مليون مستخدم محتمل","دعم التحقق من ملكية الحساب الدولي"]},
+"بوابة صاحب العمل":{tasks:["عرض الفواتير والالتزامات","سداد/تسوية جزئية"],deps:["Billing System"],iface:["Outstanding Balance API"],ch:["مطابقة هوية صاحب العمل مع بيانات وزارة العمل"]},
+"تطبيق الجوال":{tasks:["إشعارات الاستحقاق والصرف"],deps:["Notification Service"],iface:["Push/SMS"],ch:["فجوة تسليم الإشعار لمن لا حساب دولي موثّق"]}
+}},
+"نواة الادخار":{desc:"القلب التشغيلي: الحسابات والاستحقاقات والعوائد والاحتياطي",comp:{
+"حسابات المدخرين":{tasks:["إنشاء/تحديث حساب المدخر","فصل الحساب الفرعي إلزامي/اختياري"],deps:["Eligibility Engine","Registration"],iface:["Member Account Update API"],ch:["نموذج Sub-Account لكل من الإلزامي والاختياري (توصية معلّقة تأكيد)"]},
+"محرك العائد":{tasks:["احتساب شهري للحد الأدنى 2% EAR","تحويل Effective→معدل شهري مكافئ","تفعيل Accrual_Basis (فعلي/حد أدنى فقط/متوقف) حسب مهلة المادة 112"],deps:["Return Rate Version","Business Calendar"],iface:["Return Accrual Posting API"],ch:["إعادة احتساب سنوية عند الحجم الكامل قد تستغرق وقتًا طويلاً","تمييز بداية العائد من الشهر التالي لكل إيداع"]},
+"التسوية السنوية True-up":{tasks:["إعادة احتساب الاستحقاق لكل إيداع بفترته","حساب الفرق الموجب/السالب"],deps:["Annual Return Reconciliation","Reserve Ledger"],iface:["Contribution Adjustment API"],ch:["عدم لمس الحركات المرحّلة — يتطلب حركة True-up مستقلة بالكامل"]},
+"الصرف والتسوية":{tasks:["فحص الأهلية","تسوية المعلقات","حساب صافي المستحق","دفعة واحدة أو تقسيط"],deps:["Withdrawal Request","Payment Staging","Oracle Finance Staging"],iface:["Create Withdrawal Payment API"],ch:["استمرار العائد أثناء التقسيط","تمويل التقادم/الأموال غير المطالب بها بعد 5 سنوات"]}
+}},
+"طبقة التكامل":{desc:"البنية الوسيطة بين الأنظمة",comp:{
+"محرك فحص الأهلية":{tasks:["تصنيف العقود عند D-Day","تحديد مؤهل/مؤهل لاحقًا/يحتاج مراجعة"],deps:["Eligibility Snapshot","Registration"],iface:["Batch job داخلي"],ch:["مطابقة نتيجة الأهلية مع إجمالي الحسابات بعد الاكتمال"]},
+"Freeze/Unfreeze Controller":{tasks:["تجميد قصير لأخذ Snapshot فقط","رفع التجميد فورًا بعد النسخ"],deps:["Registration Integration"],iface:["API Gateway toggle"],ch:["فصل مدة التجميد عن مدة المعالجة لتفادي تعليق طويل"]},
+"Reconciliation Engine":{tasks:["مطابقة يومية Billing↔Oracle↔Payment"],deps:["كل الأنظمة"],iface:["Batch + تقارير فروقات"],ch:["تعدد قنوات التحصيل (ONIC/OIFC/بنوك) يعقّد المطابقة"]},
+"API Gateway / Event Bus":{tasks:["توجيه الطلبات، Idempotency، DLQ"],deps:["كل الواجهات"],iface:["REST + Event Streaming"],ch:["حجم 3+ مليون مشترك يتطلب تقسيم الأحمال"]}
+}},
+"أنظمة الصندوق":{desc:"الأنظمة المصدرية والمالية",comp:{
+"نظام الفوترة":{tasks:["حساب الاستحقاق","إصدار الفاتورة","تسوية أقدم التزام أولاً"],deps:["Registration (الأجر الأساسي)"],iface:["Create/Update Billing Invoice API"],ch:["معالجة الأثر الرجعي للأجر غير محسومة بعد"]},
+"Oracle المالي":{tasks:["قيد الاستحقاق (يوم 16 تقريبًا)","قيد التحصيل (يوم 5 التالي)"],deps:["Billing","Savings Accounting Events"],iface:["Post Financial Transaction API"],ch:["Segments مستقلة للادخار (إلزامي/اختياري) غير مؤكدة رسميًا"]},
+"نظام الدفع":{tasks:["تنفيذ أمر الصرف","التحقق من الحساب الدولي"],deps:["Correspondent/Intermediary Bank"],iface:["Create Withdrawal Payment / Payment Confirmation"],ch:["تمييز Settled (وصل لحساب المدخر) عن Dispatched (وصل لبنك المستفيد) — متطلب صريح"]}
+}}
+};
+const EVENTS=[
+{n:"إنشاء حساب المدخر (D-Day)",t:["Member Account","Batch/Calculation Run"],a:["Member Account Update"],ac:[]},
+{n:"نشوء استحقاق الاشتراك",t:["Contribution Obligation","Contribution Ledger"],a:["Create Contribution Obligation"],ac:["Contribution Received"]},
+{n:"إصدار الفاتورة",t:["Billing Staging"],a:["Create/Update Billing Invoice"],ac:[]},
+{n:"التحصيل الكامل/الجزئي",t:["Collection"],a:["Collection Confirmation","Partial Payment Confirmation"],ac:["Cash Collection"]},
+{n:"تخصيص المبالغ للمدخر",t:["Contribution Allocation"],a:["Contribution Allocation"],ac:["Contribution Allocation / Saver Ledger Credit"]},
+{n:"احتساب العائد الشهري (2%)",t:["Return Accrual"],a:["Return Accrual Posting"],ac:["Minimum Return Accrual"]},
+{n:"إقفال السنة",t:["Batch/Calculation Run","Business Calendar"],a:[],ac:[]},
+{n:"إدخال العائد الفعلي المعتمد",t:["Return Rate Version"],a:[],ac:[]},
+{n:"إعادة احتساب الاستحقاق النهائي",t:["Annual Return Reconciliation"],a:[],ac:[]},
+{n:"Positive True-up (عائد أعلى)",t:["True-up Transaction"],a:["Contribution Adjustment"],ac:["Positive True-up"]},
+{n:"Reserve Top-up (عائد أقل)",t:["Reserve Ledger","True-up Transaction"],a:["Reserve Funding Posting"],ac:["Reserve Top-up"]},
+{n:"عدم سداد صاحب العمل",t:["Employer Default Financing"],a:["Employer Default Notification"],ac:["Employer Default Financing"]},
+{n:"استرداد من صاحب العمل",t:["Employer Recovery"],a:["Employer Recovery Confirmation"],ac:["Employer Recovery"]},
+{n:"طلب الصرف",t:["Withdrawal Request"],a:[],ac:[]},
+{n:"فحص الأهلية وتسوية المعلقات",t:["Withdrawal Settlement"],a:[],ac:["Withdrawal Liability"]},
+{n:"أمر الصرف (Oracle/الدفع)",t:["Oracle Finance Staging","Payment Staging"],a:["Create Withdrawal Payment","Post Financial Transaction"],ac:["Withdrawal Payment"]},
+{n:"تأكيد التسوية وإغلاق الحساب",t:["Payment Staging","Member Account"],a:["Payment Confirmation","Member Account Update"],ac:[]}
+];
+const FLOW=[
+["القنوات","بوابة المدخر / صاحب العمل / الجوال"],
+["↓",""],
+["نواة الادخار","الحسابات، الاستحقاقات، العائد، الاحتياطي، الصرف"],
+["↕ (side: طبقة التكامل: API Gateway, Eligibility Engine, Reconciliation, DLQ)",""],
+["أنظمة الصندوق","الفوترة ↔ Oracle ↔ الدفع ↔ Core/التأميني"],
+["↕ (side: جهات خارجية مؤكدة: البنك المركزي/المحلي، المجلس الأعلى للقضاء، مجلس الإدارة)",""],
+["↓",""],
+["المدخر","استلام فعلي في الحساب (Settled) — لا مجرد وصول لبنك المستفيد"]
+];
+const JOURNEY=[
+{p:"ما قبل التطبيق",i:["تجميد Registration قصير لأخذ Snapshot","محرك فحص الأهلية + المقارنة","التسجيل التلقائي للمؤهلين (Run_ID واحد)"]},
+{p:"الاشتراك الشهري",i:["استحقاق 9% من الأجر الأساسي","فاتورة → تحصيل (كامل/جزئي/معدوم) → تخصيص","عائد شهري 2% من الشهر التالي لكل إيداع"]},
+{p:"الإقفال السنوي (Q1)",i:["إقفال السنة وتجميد أساس الاحتساب","إعلان العائد الفعلي المعتمد من المجلس","إعادة احتساب كل إيداع بفترته Historical"]},
+{p:"True-up / Reserve",i:["أعلى من 2% → Positive True-up للمدخر","أقل من 2% → Reserve Top-up + قيد على الاحتياطي"]},
+{p:"أثناء الخدمة",i:["تغيير صاحب العمل — الحساب المالي واحد ومستمر","تصحيحات/عكس لأي حركة عبر Adjustment مستقل"]},
+{p:"الخروج/الاستحقاق",i:["مغادرة السلطنة / 3 أشهر بلا عقد / وفاة (حصر ورثة، وصاية)","إخطار الصندوق خلال شهر","توفير حساب دولي موثّق مسبقًا"]},
+{p:"الصرف",i:["فحص الأهلية وتسوية المعلقات","صافي المستحق → دفعة واحدة أو تقسيط","SPF → بنك وسيط → بنك المستفيد → حساب المدخر (Settled)"]},
+{p:"بعد المهلة القانونية",i:["بعد شهر بلا طلب: حد أدنى فقط لعام واحد","بعد عام: توقف العائد كليًا","بعد 5 سنوات: أموال غير مطالب بها → خزانة الصندوق"]},
+{p:"الإغلاق",i:["إغلاق الحساب عند اكتمال آخر قسط/دفعة واحدة","أو تحويل لأمانات إن لم يُطالَب به"]}
+];
+
+function renderArchGrid(items,path){
+  const g=document.getElementById('arch-grid');g.innerHTML='';
+  Object.keys(items).forEach(k=>{
+    const d=document.createElement('div');d.className='card';
+    d.innerHTML=`<b>${k}</b><span>${items[k].desc||'اضغط لعرض المكوّنات'}</span>`;
+    d.onclick=()=>{
+      if(items[k].comp){renderArchGrid(items[k].comp,[k]);document.getElementById('arch-crumb').innerHTML=`<b onclick="renderArchGrid(ARCH,[])">الطبقات</b> ← ${k}`;document.getElementById('arch-detail').innerHTML='';}
+      else{showArchDetail(k,items[k]);}
+    };
+    g.appendChild(d);
+  });
+}
+function showArchDetail(name,c){
+  document.getElementById('arch-detail').innerHTML=`<div class="detail"><h3>${name}</h3>
+  <h4>المهام</h4><ul>${c.tasks.map(x=>`<li>${x}</li>`).join('')}</ul>
+  <h4>الاعتماديات</h4><ul>${c.deps.map(x=>`<li>${x}</li>`).join('')}</ul>
+  <h4>الواجهات</h4><ul>${c.iface.map(x=>`<li>${x}</li>`).join('')}</ul>
+  <h4>التحديات</h4><ul>${c.ch.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+}
+renderArchGrid(ARCH,[]);
+
+const evList=document.getElementById('ev-list');
+EVENTS.forEach(ev=>{
+  const d=document.createElement('div');d.className='ev';
+  d.innerHTML=`<span>${ev.n}</span><small>${ev.t.length} جدول · ${ev.a.length} API</small>`;
+  d.onclick=()=>{
+    document.getElementById('ev-detail').innerHTML=`<div class="detail"><h3>${ev.n}</h3>
+    <h4>الجداول المنطقية</h4><ul>${ev.t.map(x=>`<li>${x}</li>`).join('')||'<li>لا يوجد</li>'}</ul>
+    <h4>APIs</h4><ul>${ev.a.map(x=>`<li>${x}</li>`).join('')||'<li>لا يوجد (داخلي/دفعي)</li>'}</ul>
+    <h4>الحركة المحاسبية</h4><ul>${ev.ac.map(x=>`<li>${x}</li>`).join('')||'<li>لا حركة محاسبية مباشرة</li>'}</ul></div>`;
+  };
+  evList.appendChild(d);
+});
+
+const fb=document.getElementById('flow-box');
+FLOW.forEach(([a,b])=>{
+  if(a==='↓'){fb.innerHTML+=`<div class="arrow">↓</div>`;}
+  else if(a.startsWith('↕')){fb.innerHTML+=`<div class="side">${a}</div>`;}
+  else{fb.innerHTML+=`<div class="lyr"><b>${a}</b>${b}</div>`;}
+});
+
+const jb=document.getElementById('journey-box');
+JOURNEY.forEach(s=>{jb.innerHTML+=`<div class="ph"><b>${s.p}</b><ul>${s.i.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;});
+
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.view').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on');document.getElementById('v-'+t.dataset.v).classList.add('on');
+  window.scrollTo(0,0);
+});
+</script>
+</body>
+</html>
