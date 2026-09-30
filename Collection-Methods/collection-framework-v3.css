@@ -392,7 +392,7 @@ body[data-view="session"] .enabler.expanded::after { content: "إخفاء الت
 .step h4 { margin-top: 8px; font-size: 13px; }
 .step p { margin-top: 3px; color: var(--ink-soft); font-size: 11px; }
 
-.indicator-dashboard { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 15px; }
+.indicator-dashboard { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; margin-top: 15px; }
 .indicator-dashboard article { min-width: 0; padding: 15px; border: 1px solid var(--border-soft); border-radius: 11px; background: var(--surface-soft); }
 .indicator-dashboard article.baseline { color: white; border-color: var(--green-700); background: var(--green-700); }
 .indicator-dashboard span, .indicator-dashboard strong, .indicator-dashboard small { display: block; }
