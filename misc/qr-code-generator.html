@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Generate downloadable QR codes for a web link in multiple resolutions.">
+  <title>QR Code Generator</title>
+  <style>
+    :root {
+      --ink: #10231d;
+      --muted: #63716c;
+      --green: #0d7a55;
+      --green-dark: #07583e;
+      --green-soft: #eaf6f1;
+      --line: #dce7e2;
+      --danger: #b42318;
+      --danger-soft: #fff1f0;
+      --surface: #ffffff;
+      --page: #f4f8f6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(13, 122, 85, .09), transparent 28%),
+        linear-gradient(180deg, #fbfdfc 0%, var(--page) 100%);
+    }
+
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 56px 0 72px;
+    }
+
+    .hero {
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      color: var(--green-dark);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 3px;
+      background: var(--green);
+      box-shadow: 0 0 0 5px var(--green-soft);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 48px);
+      letter-spacing: -.035em;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .generator {
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, .93);
+      box-shadow: 0 18px 55px rgba(16, 35, 29, .07);
+    }
+
+    .input-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .url-input {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 16px;
+      border: 1px solid #cbdad3;
+      border-radius: 12px;
+      outline: none;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .url-input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(13, 122, 85, .11);
+    }
+
+    .primary,
+    .secondary,
+    .download {
+      border: 0;
+      border-radius: 11px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform .15s, background .2s, opacity .2s;
+    }
+
+    .primary {
+      min-height: 52px;
+      padding: 0 24px;
+      color: #fff;
+      background: var(--green);
+      box-shadow: 0 8px 20px rgba(13, 122, 85, .2);
+    }
+
+    .primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+    .primary:disabled, .secondary:disabled { cursor: wait; opacity: .58; transform: none; }
+
+    .options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .resolution-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .resolution {
+      position: relative;
+    }
+
+    .resolution input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .resolution span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 35px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: #fff;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .2s;
+    }
+
+    .resolution input:checked + span {
+      border-color: #9acbb8;
+      color: var(--green-dark);
+      background: var(--green-soft);
+    }
+
+    .secondary {
+      min-height: 38px;
+      padding: 0 14px;
+      color: var(--green-dark);
+      background: var(--green-soft);
+    }
+
+    .secondary[hidden] { display: none; }
+    .secondary:hover { background: #d8eee5; }
+
+    .message {
+      min-height: 22px;
+      margin: 12px 2px 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .message.error {
+      padding: 9px 11px;
+      border: 1px solid #f1c5c1;
+      border-radius: 9px;
+      color: var(--danger);
+      background: var(--danger-soft);
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .results:empty { display: none; }
+
+    .qr-card {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .qr-preview {
+      display: grid;
+      place-items: center;
+      aspect-ratio: 1;
+      padding: 16px;
+      background:
+        linear-gradient(45deg, #f7faf8 25%, transparent 25%),
+        linear-gradient(-45deg, #f7faf8 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #f7faf8 75%),
+        linear-gradient(-45deg, transparent 75%, #f7faf8 75%);
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+      background-size: 16px 16px;
+    }
+
+    .qr-render {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .qr-render canvas,
+    .qr-render img {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      image-rendering: pixelated;
+    }
+
+    .qr-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .qr-meta strong { font-size: 14px; }
+    .qr-meta small { display: block; margin-top: 2px; color: var(--muted); }
+
+    .download {
+      min-height: 34px;
+      padding: 0 11px;
+      color: #fff;
+      background: var(--green-dark);
+      font-size: 12px;
+    }
+
+    .download:hover { background: #043e2c; }
+
+    .source-link {
+      overflow: hidden;
+      margin: 10px 2px 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 900px) {
+      .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 22px, 1180px); padding-top: 30px; }
+      .generator { padding: 15px; border-radius: 16px; }
+      .input-row { grid-template-columns: 1fr; }
+      .options { align-items: flex-start; flex-direction: column; }
+      .results { grid-template-columns: 1fr; }
+      .primary { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <span class="eyebrow">Link utility</span>
+      <h1>QR Code Generator</h1>
+      <p>Paste a web link, choose the required resolutions, and generate downloadable PNG QR codes.</p>
+    </header>
+
+    <section class="generator" aria-labelledby="generatorTitle">
+      <h2 id="generatorTitle" hidden>Generate QR codes</h2>
+      <div id="qrForm">
+        <div class="input-row">
+          <input id="urlInput" class="url-input" type="url" inputmode="url" autocomplete="url" placeholder="https://example.com" aria-label="Web link" required>
+          <button id="generateButton" class="primary" type="button">Generate QR codes</button>
+        </div>
+
+        <div class="options">
+          <div class="resolution-list" role="group" aria-label="QR code resolutions">
+            <label class="resolution"><input type="checkbox" name="resolution" value="256" checked><span>256 px</span></label>
+            <label class="resolution"><input type="checkbox" name="resolution" value="512" checked><span>512 px</span></label>
+            <label class="resolution"><input type="checkbox" name="resolution" value="1024" checked><span>1024 px</span></label>
+            <label class="resolution"><input type="checkbox" name="resolution" value="2048" checked><span>2048 px</span></label>
+          </div>
+          <button id="downloadAll" class="secondary" type="button" hidden>Download all</button>
+        </div>
+
+        <div id="message" class="message" role="status" aria-live="polite"></div>
+      </div>
+
+      <p id="sourceLink" class="source-link" hidden></p>
+      <div id="results" class="results" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const input = document.getElementById('urlInput');
+    const results = document.getElementById('results');
+    const message = document.getElementById('message');
+    const sourceLink = document.getElementById('sourceLink');
+    const generateButton = document.getElementById('generateButton');
+    const downloadAllButton = document.getElementById('downloadAll');
+
+    const setMessage = (text = '', isError = false) => {
+      message.textContent = text;
+      message.classList.toggle('error', isError);
+    };
+
+    const parseWebLink = (value) => {
+      const normalized = value.trim();
+      if (!normalized) throw new Error('Enter a web link first.');
+
+      let parsed;
+      try {
+        parsed = new URL(normalized);
+      } catch {
+        throw new Error('Enter a valid link, including https:// or http://.');
+      }
+
+      if (!['http:', 'https:'].includes(parsed.protocol)) {
+        throw new Error('Only HTTP and HTTPS links are supported.');
+      }
+      return parsed;
+    };
+
+    const selectedResolutions = () => [...document.querySelectorAll('input[name="resolution"]:checked')]
+      .map((item) => Number(item.value))
+      .sort((a, b) => a - b);
+
+    const safeFilePart = (value) => value
+      .toLowerCase()
+      .replace(/^www\./, '')
+      .replace(/[^a-z0-9.-]+/g, '-')
+      .replace(/^-+|-+$/g, '') || 'link';
+
+    const canvasFromCard = (card) => card.querySelector('canvas');
+
+    const downloadCanvas = (canvas, filename) => {
+      const link = document.createElement('a');
+      link.download = filename;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    };
+
+    const buildCard = (url, size) => {
+      const card = document.createElement('article');
+      card.className = 'qr-card';
+      card.dataset.size = String(size);
+
+      const preview = document.createElement('div');
+      preview.className = 'qr-preview';
+      const renderTarget = document.createElement('div');
+      renderTarget.className = 'qr-render';
+      preview.appendChild(renderTarget);
+
+      const meta = document.createElement('div');
+      meta.className = 'qr-meta';
+      meta.innerHTML = `<div><strong>${size} × ${size}</strong><small>PNG image</small></div>`;
+
+      const downloadButton = document.createElement('button');
+      downloadButton.className = 'download';
+      downloadButton.type = 'button';
+      downloadButton.textContent = 'Download';
+      meta.appendChild(downloadButton);
+
+      card.append(preview, meta);
+      results.appendChild(card);
+
+      new QRCode(renderTarget, {
+        text: url.href,
+        width: size,
+        height: size,
+        colorDark: '#000000',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      downloadButton.addEventListener('click', () => {
+        const canvas = canvasFromCard(card);
+        if (canvas) downloadCanvas(canvas, `qr-${safeFilePart(url.hostname)}-${size}px.png`);
+      });
+    };
+
+    const generateQrCodes = () => {
+      setMessage();
+      results.replaceChildren();
+      sourceLink.hidden = true;
+      downloadAllButton.hidden = true;
+
+      try {
+        if (typeof QRCode === 'undefined') {
+          throw new Error('The QR library could not load. Check your internet connection and try again.');
+        }
+
+        const url = parseWebLink(input.value);
+        const resolutions = selectedResolutions();
+        if (!resolutions.length) throw new Error('Select at least one resolution.');
+
+        generateButton.disabled = true;
+        resolutions.forEach((size) => buildCard(url, size));
+        sourceLink.textContent = url.href;
+        sourceLink.title = url.href;
+        sourceLink.hidden = false;
+        downloadAllButton.hidden = false;
+        setMessage(`${resolutions.length} QR code${resolutions.length === 1 ? '' : 's'} generated successfully.`);
+      } catch (error) {
+        setMessage(error.message || 'Unable to generate the QR codes.', true);
+      } finally {
+        generateButton.disabled = false;
+      }
+    };
+
+    generateButton.addEventListener('click', generateQrCodes);
+    input.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter') return;
+      event.preventDefault();
+      generateQrCodes();
+    });
+
+    downloadAllButton.addEventListener('click', () => {
+      const url = parseWebLink(input.value);
+      [...results.querySelectorAll('.qr-card')].forEach((card, index) => {
+        const canvas = canvasFromCard(card);
+        if (!canvas) return;
+        window.setTimeout(() => {
+          downloadCanvas(canvas, `qr-${safeFilePart(url.hostname)}-${card.dataset.size}px.png`);
+        }, index * 180);
+      });
+    });
+  </script>
+</body>
+</html>
