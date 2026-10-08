@@ -100,7 +100,16 @@ const ALLOWANCE_TEMPLATE = {
   },
 
   // Field Visits
+  // Each visit: { date, time, reason, staff, summary, results, attachments,
+  //               locationType ('branch' | 'map'), branchId, branchName, coordinates,
+  //               interviewees, notes, checklist: { 'CL-1': 'نعم' | 'لا' | 'لا ينطبق', ... } }
   fieldVisits: [], // Array of field visit objects
+
+  // External authorised investigation entity
+  externalEntity: null, // { entityId, entityName, checkedOutBy, checkedOutDate, slaDays, elapsedDays, submittedDate, returnCount, lastReturnNote }
+
+  // Ministry of Labour sharing
+  molShare: null, // { eligible, shared, sharedDate, sharedBy, shareId }
 
   // Sick Leave Periods
   sickLeavePeriods: [], // Array of sick leave period objects
@@ -373,7 +382,7 @@ const ALLOWANCES_DATA = [
       headDecision: null,
     },
     fieldVisits: [
-      { date: '2025-01-08', time: '10:00', reason: 'معاينة موقع الحادثة والتحقق من ملابسات الواقعة', staff: 'عائشة بنت محمد الرواحي، سليم بن راشد الغيلاني', summary: 'تم الاطلاع على موقع الحادثة وفحص الآلة المسببة للإصابة. تبيّن أن الآلة في وضع تشغيل اعتيادي وأن لوحات التحذير موجودة.', results: 'لا توجد مخالفات واضحة لمعايير السلامة في الموقع. الإصابة ناجمة عن ظرف طارئ غير متوقع.', attachments: ['صور_موقع_الحادثة.zip'] }
+      { date: '2025-01-08', time: '10:00', reason: 'معاينة موقع الحادثة والتحقق من ملابسات الواقعة', staff: 'عائشة بنت محمد الرواحي، سليم بن راشد الغيلاني', locationType: 'branch', branchId: 'BR-001', branchName: 'الفرع الرئيسي — مسقط (بوشر)', coordinates: '', interviewees: 'مشرف الوردية، مسؤول السلامة بالمنشأة', summary: 'تم الاطلاع على موقع الحادثة وفحص الآلة المسببة للإصابة. تبيّن أن الآلة في وضع تشغيل اعتيادي وأن لوحات التحذير موجودة.', results: 'لا توجد مخالفات واضحة لمعايير السلامة في الموقع. الإصابة ناجمة عن ظرف طارئ غير متوقع.', notes: 'لوحات التحذير غير مكتملة في محيط الآلة، ولم يُسجل الحادث في سجل حوادث المنشأة.', checklist: { 'CL-1': 'نعم', 'CL-2': 'نعم', 'CL-3': 'لا', 'CL-4': 'نعم', 'CL-5': 'نعم', 'CL-6': 'نعم', 'CL-7': 'لا' }, attachments: ['صور_موقع_الحادثة.zip'] }
     ],
     sickLeavePeriods: [],
     referral: null,
@@ -542,6 +551,116 @@ const ALLOWANCES_DATA = [
       { action: 'إحالة إلى لجنة الأمراض المهنية', actor: 'أحمد بن سليم المعمري', role: 'رئيس قسم التحقيق في الأمراض المهنية', time: '2025-01-20 10:30', fromStatus: 'بانتظار اعتماد رئيس قسم التحقيق في الأمراض المهنية', toStatus: 'بانتظار رأي لجنة الأمراض المهنية', note: 'يُطلب من اللجنة إبداء الرأي الفني الاستشاري', type: 'info', phone: '96895554444' },
     ],
     assignedTo: 'د. ناصر بن حمود الفارسي',
+    checkedOutBy: null,
+  }),
+
+  /* ── طلب لدى جهة خارجية مخولة — قيد التحقيق ── */
+  createAllowanceRequest({
+    id: 'WI-2025-001250',
+    type: 'إصابة عمل',
+    subtype: 'إصابة في موقع العمل',
+    status: 'قيد التحقيق — جهة خارجية مخولة',
+    submitDate: '2026-03-02',
+    lastUpdate: '2026-03-05 09:15',
+    lastUpdatedBy: 'مبارك بن حمد الرحبي',
+    expectedClosureDate: '2026-04-01',
+    remainingDays: 18,
+    applicant: { name: 'خالد بن سعيد البلوشي', civil: '9087654321', role: 'الشخص المفوض من جهة العمل', phone: '96891234567', email: 'khalid.b@company.com', region: 'محافظة مسقط', wilayat: 'بوشر', country: 'سلطنة عُمان' },
+    insured: { name: 'عامر بن سيف الشكيلي', civil: '9033445566', insurance: 'INS-770112', dob: '1991-04-09', gender: 'ذكر', nationality: 'عُماني', insuranceStatus: 'نشط', regDate: '2018-09-01', subType: 'إلزامي', phone: '96897778899', email: 'amer.sh@mail.com' },
+    employer: { name: 'مجموعة النور للإنشاءات ش.م.م', cr: '1234567', establishment: 'EST-0087654', jobTitle: 'فني كهرباء', joinDate: '2018-09-01', location: 'مسقط — الخوض', sector: 'الإنشاءات والمقاولات', employerType: 'خاص', branch: { id: 'BR-001', name: 'الفرع الرئيسي', state: 'مسقط', governorate: 'بوشر' }, phone: '96824112233' },
+    injury: { caseType: 'إصابة في موقع العمل', description: 'سقوط من سقالة أثناء تمديد أسلاك الكهرباء في الطابق الثاني.', location: 'موقع مشروع الخوض — المبنى ب', bodyPart: 'الكتف الأيسر', witnesses: 'نعم', witnessNames: 'سالم بن محمد الحجري، عبدالله بن راشد البلوشي', incidentDate: '2026-02-28', insuredStatus: 'تحت العلاج' },
+    investigation: { summary: 'قيد الإعداد من قبل الجهة الخارجية المخولة.', employeeRecommendation: '', employeeNotes: '' },
+    fieldVisits: [
+      {
+        date: '2026-03-04', time: '09:30',
+        reason: 'معاينة موقع الحادث والتحقق من إجراءات السلامة',
+        staff: 'مبارك بن حمد الرحبي، أمل بنت خالد البوسعيدية',
+        locationType: 'branch', branchId: 'BR-001', branchName: 'الفرع الرئيسي — مسقط (بوشر)', coordinates: '',
+        interviewees: 'سالم بن محمد الحجري (شاهد)، عبدالله بن راشد البلوشي (مشرف الموقع)',
+        summary: 'تمت معاينة السقالة المستخدمة وتبيّن عدم تثبيتها بالشكل المطلوب، وعدم توافر حزام أمان للعامل.',
+        results: 'مخالفة واضحة لإجراءات السلامة من جانب صاحب العمل.',
+        notes: 'السقالة غير مثبتة، ولا يتوفر حزام أمان، ولم تُسجل الحادثة في سجل حوادث المنشأة.',
+        checklist: { 'CL-1': 'نعم', 'CL-2': 'لا', 'CL-3': 'نعم', 'CL-4': 'لا', 'CL-5': 'لا', 'CL-6': 'نعم', 'CL-7': 'لا' },
+        attachments: ['صور_السقالة.zip'],
+      }
+    ],
+    attachments: [
+      { id: 'att250-1', type: 'تقرير طبي أولي', name: 'تقرير_مستشفى_الخوض.pdf', uploadDate: '2026-03-02', uploadedBy: 'خالد بن سعيد البلوشي', role: 'الشخص المفوض من جهة العمل', size: '1.1 MB', icon: 'pdf' },
+      { id: 'att250-2', type: 'خطاب جهة العمل', name: 'خطاب_جهة_العمل.pdf', uploadDate: '2026-03-02', uploadedBy: 'خالد بن سعيد البلوشي', role: 'الشخص المفوض من جهة العمل', size: '0.4 MB', icon: 'pdf' },
+    ],
+    notes: [],
+    timeline: [
+      { action: 'تقديم الطلب', actor: 'خالد بن سعيد البلوشي', role: 'الشخص المفوض من جهة العمل', time: '2026-03-02 08:40', fromStatus: 'مسودة', toStatus: 'تم تقديم الطلب — بانتظار تعيين المحقق المختص', note: '', type: 'default' },
+      { action: 'عرض الطلب على الجهات الخارجية المخولة', actor: 'النظام', role: 'النظام', time: '2026-03-02 08:41', fromStatus: 'تم تقديم الطلب — بانتظار تعيين المحقق المختص', toStatus: 'قيد التحقيق — جهة خارجية مخولة', note: 'مطابقة المحافظة: مسقط — الاختصاص: كلاهما', type: 'info' },
+      { action: 'حجز الطلب', actor: 'مبارك بن حمد الرحبي', role: 'الجهة الخارجية المخولة بالتحقيق — شركة خدمات الأمن والسلامة', time: '2026-03-03 11:05', fromStatus: 'قيد التحقيق — جهة خارجية مخولة', toStatus: 'قيد التحقيق — جهة خارجية مخولة', note: '', type: 'default' },
+      { action: 'إضافة زيارة ميدانية', actor: 'مبارك بن حمد الرحبي', role: 'الجهة الخارجية المخولة بالتحقيق — شركة خدمات الأمن والسلامة', time: '2026-03-04 14:20', fromStatus: 'قيد التحقيق — جهة خارجية مخولة', toStatus: 'قيد التحقيق — جهة خارجية مخولة', note: 'الحالة مستوفية لمعايير المشاركة مع وزارة العمل', type: 'warning' },
+    ],
+    externalEntity: {
+      entityId: 'EXT-001', entityName: 'شركة خدمات الأمن والسلامة',
+      checkedOutBy: 'مبارك بن حمد الرحبي', checkedOutDate: '2026-03-03',
+      slaDays: 10, elapsedDays: 5,
+      submittedDate: '', returnCount: 0, lastReturnNote: '',
+    },
+    molShare: { eligible: true, shared: false, sharedDate: '', sharedBy: '', shareId: '' },
+    assignedTo: '',
+    checkedOutBy: 'مبارك بن حمد الرحبي',
+  }),
+
+  /* ── طلب أنجزته جهة خارجية مخولة ورُفع لموظف قسم التحقيق للاطلاع ── */
+  createAllowanceRequest({
+    id: 'WI-2025-001251',
+    type: 'إصابة عمل',
+    subtype: 'حادث طريق',
+    status: 'قيد التحقيق — إصابات العمل',
+    submitDate: '2026-02-20',
+    lastUpdate: '2026-03-06 13:40',
+    lastUpdatedBy: 'أمل بنت خالد البوسعيدية',
+    expectedClosureDate: '2026-03-22',
+    remainingDays: 9,
+    applicant: { name: 'سعاد بنت علي الحارثية', civil: '9044556677', role: 'العامل / المؤمن عليه / المواطن', phone: '96896665544', email: 'suad.h@mail.com', region: 'محافظة شمال الباطنة', wilayat: 'صحار', country: 'سلطنة عُمان' },
+    insured: { name: 'سعاد بنت علي الحارثية', civil: '9044556677', insurance: 'INS-880345', dob: '1994-11-22', gender: 'أنثى', nationality: 'عُمانية', insuranceStatus: 'نشط', regDate: '2021-01-15', subType: 'إلزامي', phone: '96896665544', email: 'suad.h@mail.com' },
+    employer: { name: 'شركة أطلس الصناعية', cr: '3344556', establishment: 'EST-8812', jobTitle: 'فنية مختبر', joinDate: '2021-01-15', location: 'صحار', sector: 'الصناعة', employerType: 'خاص', branch: { id: 'BR-002', name: 'فرع صحار', state: 'شمال الباطنة', governorate: 'صحار' }, phone: '96826334455' },
+    injury: { caseType: 'حادث طريق', description: 'حادث مروري أثناء التوجه من محل الإقامة الدائم إلى مقر العمل.', location: 'طريق صحار — الباطنة السريع', bodyPart: 'الركبة اليمنى', witnesses: 'لا', witnessNames: '', incidentDate: '2026-02-18', accidentDirection: 'السكن الدائم إلى مقر العمل', insuredStatus: 'تحت العلاج' },
+    investigation: {
+      summary: 'تم التحقق من تقرير الشرطة ومن كشف الحضور والانصراف، وثبت أن الحادث وقع في المسار المعتاد وضمن الفترة الزمنية المعتادة للتوجه إلى العمل.',
+      findings: 'لا توجد مخالفة من المؤمن عليه ولا من صاحب العمل.',
+      employeeRecommendation: '', employeeNotes: '',
+    },
+    fieldVisits: [
+      {
+        date: '2026-03-01', time: '10:00',
+        reason: 'التحقق من كشف الحضور والانصراف ومسار التوجه إلى العمل',
+        staff: 'أمل بنت خالد البوسعيدية',
+        locationType: 'map', branchId: '', branchName: '', coordinates: '24.3478, 56.7094',
+        interviewees: 'مسؤول الموارد البشرية بالمنشأة',
+        summary: 'تم الاطلاع على كشف الحضور والانصراف ومطابقته مع توقيت الحادث، ولا توجد ملاحظات على إجراءات السلامة.',
+        results: 'الحادث ضمن المسار والفترة المعتادة.',
+        notes: 'لا توجد ملاحظات على التزام المنشأة بإجراءات السلامة.',
+        checklist: { 'CL-1': 'نعم', 'CL-2': 'نعم', 'CL-3': 'نعم', 'CL-4': 'نعم', 'CL-5': 'لا ينطبق', 'CL-6': 'نعم', 'CL-7': 'نعم' },
+        attachments: ['كشف_الحضور_والانصراف.pdf'],
+      }
+    ],
+    attachments: [
+      { id: 'att251-1', type: 'تقرير الشرطة', name: 'تقرير_الشرطة_صحار.pdf', uploadDate: '2026-02-20', uploadedBy: 'سعاد بنت علي الحارثية', role: 'العامل', size: '0.8 MB', icon: 'pdf' },
+      { id: 'att251-2', type: 'تقرير طبي أولي', name: 'تقرير_مستشفى_صحار.pdf', uploadDate: '2026-02-20', uploadedBy: 'سعاد بنت علي الحارثية', role: 'العامل', size: '1.0 MB', icon: 'pdf' },
+    ],
+    notes: [],
+    timeline: [
+      { action: 'تقديم الطلب', actor: 'سعاد بنت علي الحارثية', role: 'العامل / المؤمن عليه / المواطن', time: '2026-02-20 09:10', fromStatus: 'مسودة', toStatus: 'تم تقديم الطلب — بانتظار تعيين المحقق المختص', note: '', type: 'default' },
+      { action: 'عرض الطلب على الجهات الخارجية المخولة', actor: 'النظام', role: 'النظام', time: '2026-02-20 09:11', fromStatus: 'تم تقديم الطلب — بانتظار تعيين المحقق المختص', toStatus: 'قيد التحقيق — جهة خارجية مخولة', note: 'مطابقة المحافظة: شمال الباطنة — الاختصاص: إصابات العمل', type: 'info' },
+      { action: 'حجز الطلب', actor: 'أمل بنت خالد البوسعيدية', role: 'الجهة الخارجية المخولة بالتحقيق — شركة خدمات الأمن والسلامة', time: '2026-02-24 08:30', fromStatus: 'قيد التحقيق — جهة خارجية مخولة', toStatus: 'قيد التحقيق — جهة خارجية مخولة', note: '', type: 'default' },
+      { action: 'إضافة زيارة ميدانية', actor: 'أمل بنت خالد البوسعيدية', role: 'الجهة الخارجية المخولة بالتحقيق — شركة خدمات الأمن والسلامة', time: '2026-03-01 12:00', fromStatus: 'قيد التحقيق — جهة خارجية مخولة', toStatus: 'قيد التحقيق — جهة خارجية مخولة', note: 'الحالة غير مستوفية لمعايير المشاركة مع وزارة العمل', type: 'default' },
+      { action: 'توجيه الطلب إلى موظف قسم التحقيق', actor: 'أمل بنت خالد البوسعيدية', role: 'الجهة الخارجية المخولة بالتحقيق — شركة خدمات الأمن والسلامة', time: '2026-03-06 13:40', fromStatus: 'قيد التحقيق — جهة خارجية مخولة', toStatus: 'قيد التحقيق — إصابات العمل', note: 'اكتمل محضر التحقيق والزيارة الميدانية — مرفوع للاطلاع', type: 'success' },
+    ],
+    externalEntity: {
+      entityId: 'EXT-001', entityName: 'شركة خدمات الأمن والسلامة',
+      checkedOutBy: 'أمل بنت خالد البوسعيدية', checkedOutDate: '2026-02-24',
+      slaDays: 10, elapsedDays: 11,
+      submittedDate: '2026-03-06', returnCount: 0, lastReturnNote: '',
+      insuredViolation: 'لا', insuredViolationType: '', employerViolation: 'لا',
+    },
+    molShare: { eligible: false, shared: false, sharedDate: '', sharedBy: '', shareId: '' },
+    assignedTo: 'عائشة بنت محمد الرواحي',
     checkedOutBy: null,
   }),
   // Additional allowance requests would be added here with the same complete structure

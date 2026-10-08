@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة البيانات — الجهة الخارجية المخولة بالتحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'external-investigator', activePage: 'dashboard' });
+setBreadcrumb([{ label: 'لوحة البيانات' }]);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const me = WI_DATA.users.external_investigator.name;
+  const myEntity = getEntityOfUser(WI_DATA.users.external_investigator.civil);
+  const stats = WI_DATA.dashboardStats['external-investigator'];
+  const visible = getFilteredData({ role: 'external-investigator', data: WI_DATA.allowances });
+  const open = visible.filter(r => r.status === 'قيد التحقيق — جهة خارجية مخولة');
+  const checkedOut = visible.filter(r => r.checkedOutBy === me);
+
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>لوحة البيانات</h1>
+        <p>${myEntity ? myEntity.name : 'الجهة الخارجية المخولة بالتحقيق'} — ${me}</p>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      ${stats.map(s => `
+      <div class="scard ${s.type}" onclick="window.location.href='allowances-list.html'">
+        <div class="sc-lbl">${s.label}</div>
+        <div class="sc-val">${s.value}</div>
+      </div>`).join('')}
+    </div>
+
+    ${checkedOut.length ? `
+    <div class="alert alert-i">
+      ${ICONS.lock}
+      <div><strong>الطلبات التي حجزتها حالياً:</strong> ${checkedOut.map(r => `<a href="allowances-details.html?id=${r.id}" style="color:var(--primary)">${r.id}</a>`).join(' ، ')}</div>
+    </div>` : ''}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card">
+        <div class="ph"><h3><div class="pico bl">${ICONS.list}</div>الطلبات المعروضة — بانتظار الحجز</h3>
+          <a href="allowances-list.html" style="font-size:12px;color:var(--primary)">عرض الكل</a>
+        </div>
+        <div class="pb-0">
+          <table class="dtbl">
+            <thead><tr><th>رقم الطلب</th><th>نوع الطلب</th><th>المحافظة</th><th>التاريخ</th><th></th></tr></thead>
+            <tbody>
+              ${open.length === 0
+                ? '<tr><td colspan="5" style="text-align:center;padding:24px;color:var(--text3);font-size:12px">لا توجد طلبات معروضة حالياً</td></tr>'
+                : open.slice(0, 5).map(r => `
+              <tr>
+                <td style="font-family:monospace;font-size:11.5px;color:var(--primary)">${r.id}</td>
+                <td style="font-size:12px">${r.type}</td>
+                <td style="font-size:12px">${getRequestGovernorate(r) || '—'}</td>
+                <td style="font-size:11.5px">${r.submitDate}</td>
+                <td>
+                  ${!r.checkedOutBy
+                    ? `<button class="btn btn-primary btn-xs" onclick="checkOut('${r.id}')">حجز الطلب</button>`
+                    : `<span style="font-size:11px;color:var(--warning)">محجوز</span>`}
+                </td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ph"><h3><div class="pico tl">${ICONS.building}</div>نطاق اختصاص الجهة</h3></div>
+        <div class="pb-0">
+          <table class="dtbl">
+            <thead><tr><th>المحافظة</th><th>الاختصاص</th></tr></thead>
+            <tbody>
+              ${myEntity
+                ? myEntity.coverage.map(c => `<tr><td style="font-weight:600">${c.governorate}</td><td><span class="badge b-invest">${c.scope}</span></td></tr>`).join('')
+                : '<tr><td colspan="2" style="text-align:center;padding:24px;color:var(--text3);font-size:12px">لا يوجد نطاق مُعرَّف</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+        ${myEntity ? `
+        <div class="pb">
+          <div class="fg fg-2" style="gap:10px">
+            <div class="fgrp"><label class="flbl">المهلة التعاقدية</label><div class="fro">${myEntity.slaDays} يوم عمل</div></div>
+            <div class="fgrp"><label class="flbl">حالة التفعيل</label><div class="fro"><span class="badge ${myEntity.status === 'نشطة' ? 'b-approved' : 'b-rejected'}">${myEntity.status}</span></div></div>
+          </div>
+        </div>` : ''}
+      </div>
+    </div>`;
+});
+
+function checkOut(id) {
+  showToast(`تم حجز الطلب ${id} بنجاح`, 's');
+  setTimeout(() => window.location.href = `allowances-details.html?id=${id}`, 1000);
+}
+</script>
+</body>
+</html>

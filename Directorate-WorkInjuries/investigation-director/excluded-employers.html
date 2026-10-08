@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>جهات العمل المستثناة — مدير دائرة التحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'investigation-director', activePage: 'excluded-employers' });
+setBreadcrumb([{ label: 'الجهات الخارجية المخولة' }, { label: 'جهات العمل المستثناة' }]);
+
+const me = WI_DATA.users.investigation_director.name;
+
+document.addEventListener('DOMContentLoaded', render);
+
+function render() {
+  const rows = WI_DATA.excludedEmployers || [];
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>جهات العمل المستثناة من التوجيه للجهات الخارجية</h1>
+        <p>${rows.length} جهة عمل مستثناة — تُعالج طلباتها داخلياً حصراً</p>
+      </div>
+      <div class="pg-acts">
+        <button class="btn btn-primary" onclick="openExclusionForm()">${ICONS.plus} إضافة جهة عمل</button>
+      </div>
+    </div>
+
+    <div class="alert alert-i">
+      ${ICONS.info}
+      <span>لا تُعرض طلبات جهات العمل المدرجة في هذه القائمة على أي جهة خارجية مخولة، ويبقى التحقيق فيها داخلياً بواسطة قسم التحقيق المختص.</span>
+    </div>
+
+    <div class="card">
+      <div class="ph"><h3><div class="pico rd">${ICONS.shield}</div>قائمة الاستثناء</h3></div>
+      <div class="pb-0">
+        <div class="tbl-wrap">
+          <table class="dtbl">
+            <thead>
+              <tr>
+                <th>رقم السجل التجاري</th>
+                <th>اسم جهة العمل</th>
+                <th>سبب الاستثناء</th>
+                <th>تاريخ الإضافة</th>
+                <th>أضافها</th>
+                <th>الطلبات القائمة</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows.length === 0
+                ? '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text3)">لا توجد جهات عمل مستثناة</td></tr>'
+                : rows.map(r => {
+                  const count = (WI_DATA.allowances || []).filter(a => String(a.employer?.cr) === String(r.cr)).length;
+                  return `
+              <tr>
+                <td style="font-family:monospace;font-weight:700;color:var(--primary)">${r.cr}</td>
+                <td style="font-weight:600">${r.name}</td>
+                <td style="font-size:12px;color:var(--text2)">${r.reason}</td>
+                <td style="font-size:12px">${formatDate(r.date)}</td>
+                <td style="font-size:12px">${r.addedBy}</td>
+                <td style="font-size:12px">${count}</td>
+                <td>
+                  <button class="ibtn d" onclick="removeExclusion('${r.cr}')" title="إلغاء الاستثناء">${ICONS.trash}</button>
+                </td>
+              </tr>`;
+                }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+}
+
+function openExclusionForm() {
+  const employers = [];
+  const seen = new Set();
+  (WI_DATA.allowances || []).forEach(a => {
+    const cr = String(a.employer?.cr || '');
+    if (cr && !seen.has(cr)) { seen.add(cr); employers.push({ cr, name: a.employer.name }); }
+  });
+  const excluded = new Set((WI_DATA.excludedEmployers || []).map(e => String(e.cr)));
+  const available = employers.filter(e => !excluded.has(e.cr));
+
+  openModal({
+    title: 'إضافة جهة عمل إلى قائمة الاستثناء',
+    size: 'md',
+    body: `
+      <div class="fg" style="gap:14px">
+        <div class="fgrp">
+          <label class="flbl">جهة العمل <span class="req">*</span></label>
+          <select class="fc" id="excl-employer">
+            <option value="">-- اختر جهة العمل بالسجل التجاري --</option>
+            ${available.map(e => `<option value="${e.cr}|${e.name}">${e.cr} — ${e.name}</option>`).join('')}
+          </select>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">سبب الاستثناء <span class="req">*</span></label>
+          <textarea class="fc" id="excl-reason" rows="3" placeholder="اذكر سبب استثناء جهة العمل من التوجيه للجهات الخارجية..."></textarea>
+        </div>
+      </div>`,
+    footer: `
+      <button class="btn btn-primary" onclick="confirmExclusion()">${ICONS.check} إضافة</button>
+      <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+  });
+}
+
+function confirmExclusion() {
+  const val = document.getElementById('excl-employer')?.value;
+  const reason = document.getElementById('excl-reason')?.value?.trim();
+  if (!val) { showToast('يرجى اختيار جهة العمل', 'w'); return; }
+  if (!reason) { showToast('يرجى كتابة سبب الاستثناء', 'w'); return; }
+  const [cr, name] = val.split('|');
+  (WI_DATA.excludedEmployers || []).push({
+    cr, name, reason,
+    date: new Date().toISOString().slice(0, 10),
+    addedBy: me,
+  });
+  closeModal();
+  showToast('تم إضافة جهة العمل إلى قائمة الاستثناء — لن تُعرض طلباتها على الجهات الخارجية', 's');
+  render();
+}
+
+function removeExclusion(cr) {
+  const list = WI_DATA.excludedEmployers || [];
+  const i = list.findIndex(e => String(e.cr) === String(cr));
+  if (i === -1) return;
+  const name = list[i].name;
+  list.splice(i, 1);
+  showToast(`تم إلغاء استثناء ${name} — ستُعرض طلباتها على الجهات الخارجية المخولة`, 'w');
+  render();
+}
+</script>
+</body>
+</html>

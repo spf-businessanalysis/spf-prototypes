@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مستخدمو الجهات الخارجية — مدير دائرة التحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'investigation-director', activePage: 'external-entity-users' });
+setBreadcrumb([{ label: 'الجهات الخارجية المخولة' }, { label: 'مستخدمو الجهات' }]);
+
+const me = WI_DATA.users.investigation_director.name;
+let entityFilter = '';
+
+document.addEventListener('DOMContentLoaded', render);
+
+function render() {
+  const entities = WI_DATA.externalEntities || [];
+  const users = (WI_DATA.externalEntityUsers || []).filter(u => !entityFilter || u.entityId === entityFilter);
+
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>مستخدمو الجهات الخارجية المخولة</h1>
+        <p>${users.length} مستخدم — ${users.filter(u => u.status === 'نشط').length} نشط</p>
+      </div>
+      <div class="pg-acts">
+        <button class="btn btn-primary" onclick="openUserForm()">${ICONS.plus} إضافة مستخدم</button>
+      </div>
+    </div>
+
+    <div class="alert alert-i">
+      ${ICONS.info}
+      <span>تُدار حسابات مستخدمي الجهات الخارجية بواسطة دائرة التحقيق في إصابات العمل والأمراض المهنية، وجميع المستخدمين لهم <strong>دور وظيفي واحد موحد</strong> هو «الجهة الخارجية المخولة بالتحقيق». ويُربط كل مستخدم بجهة واحدة، ويُقصر ما يُعرض له على نطاق جهته واختصاصها في ذلك النطاق.</span>
+    </div>
+
+    <div class="card">
+      <div class="ph">
+        <h3><div class="pico bl">${ICONS.user}</div>قائمة المستخدمين</h3>
+        <select class="fc" style="width:260px" onchange="filterByEntity(this.value)">
+          <option value="">جميع الجهات</option>
+          ${entities.map(e => `<option value="${e.id}" ${entityFilter === e.id ? 'selected' : ''}>${e.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="pb-0">
+        <div class="tbl-wrap">
+          <table class="dtbl">
+            <thead>
+              <tr>
+                <th>رمز المستخدم</th>
+                <th>الاسم</th>
+                <th>الرقم المدني</th>
+                <th>الجهة الخارجية</th>
+                <th>الدور الوظيفي</th>
+                <th>الهاتف</th>
+                <th>تاريخ الإنشاء</th>
+                <th>الحالة</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${users.length === 0
+                ? '<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text3)">لا يوجد مستخدمون</td></tr>'
+                : users.map(u => {
+                  const ent = entities.find(e => e.id === u.entityId);
+                  return `
+              <tr>
+                <td style="font-family:monospace;font-weight:700;color:var(--primary)">${u.id}</td>
+                <td>${u.name}</td>
+                <td style="font-family:monospace;font-size:12px">${u.civil}</td>
+                <td style="font-size:12px">${ent ? ent.name : '—'}</td>
+                <td style="font-size:11.5px;color:var(--text2)">الجهة الخارجية المخولة بالتحقيق</td>
+                <td style="font-size:12px">${u.phone}</td>
+                <td style="font-size:12px">${formatDate(u.createdDate)}</td>
+                <td><span class="badge ${u.status === 'نشط' ? 'b-approved' : 'b-rejected'}">${u.status}</span></td>
+                <td>
+                  <div style="display:flex;gap:4px">
+                    <button class="ibtn" onclick="openUserForm('${u.id}')" title="تعديل">${ICONS.edit}</button>
+                    <button class="ibtn" onclick="toggleUserStatus('${u.id}')" title="${u.status === 'نشط' ? 'إيقاف المستخدم' : 'تفعيل المستخدم'}">${u.status === 'نشط' ? ICONS.lock : ICONS.unlock}</button>
+                  </div>
+                </td>
+              </tr>`;
+                }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+}
+
+function filterByEntity(v) { entityFilter = v; render(); }
+
+function openUserForm(id) {
+  const u = (WI_DATA.externalEntityUsers || []).find(x => x.id === id) || null;
+  const entities = (WI_DATA.externalEntities || []);
+  openModal({
+    title: u ? `تعديل بيانات المستخدم — ${u.name}` : 'إضافة مستخدم لجهة خارجية مخولة',
+    size: 'md',
+    body: `
+      <div class="fg fg-2" style="gap:14px">
+        <div class="fgrp span-full">
+          <label class="flbl">الجهة الخارجية المخولة <span class="req">*</span></label>
+          <select class="fc">
+            <option value="">-- اختر الجهة --</option>
+            ${entities.map(e => `<option value="${e.id}" ${u?.entityId === e.id ? 'selected' : ''}>${e.name} (${e.status})</option>`).join('')}
+          </select>
+        </div>
+        <div class="fgrp"><label class="flbl">الاسم الكامل <span class="req">*</span></label><input class="fc" value="${u?.name || ''}"></div>
+        <div class="fgrp"><label class="flbl">الرقم المدني <span class="req">*</span></label><input class="fc" value="${u?.civil || ''}"></div>
+        <div class="fgrp"><label class="flbl">الهاتف <span class="req">*</span></label><input class="fc" value="${u?.phone || ''}"></div>
+        <div class="fgrp"><label class="flbl">البريد الإلكتروني <span class="req">*</span></label><input class="fc" value="${u?.email || ''}"></div>
+        <div class="fgrp span-full">
+          <label class="flbl">الدور الوظيفي</label>
+          <div class="fro">الجهة الخارجية المخولة بالتحقيق — دور واحد موحد لجميع المستخدمين</div>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">حالة المستخدم</label>
+          <select class="fc"><option ${u?.status === 'نشط' ? 'selected' : ''}>نشط</option><option ${u?.status === 'موقوف' ? 'selected' : ''}>موقوف</option></select>
+        </div>
+        <div class="fgrp span-full">
+          <div class="alert alert-w" style="margin:0">${ICONS.warn}
+            <span>آلية مصادقة مستخدمي الجهات الخارجية عند الدخول إلى النظام من خارج الصندوق معلّقة على موافقة إدارة أمن المعلومات بالصندوق.</span>
+          </div>
+        </div>
+      </div>`,
+    footer: `
+      <button class="btn btn-primary" onclick="closeModal();showToast('${u ? 'تم تعديل بيانات المستخدم' : 'تم إضافة المستخدم'}','s')">${ICONS.check} حفظ</button>
+      <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+  });
+}
+
+function toggleUserStatus(id) {
+  const u = (WI_DATA.externalEntityUsers || []).find(x => x.id === id);
+  if (!u) return;
+  u.status = u.status === 'نشط' ? 'موقوف' : 'نشط';
+  showToast(`تم ${u.status === 'نشط' ? 'تفعيل' : 'إيقاف'} المستخدم ${u.name}`, u.status === 'نشط' ? 's' : 'w');
+  render();
+}
+</script>
+</body>
+</html>

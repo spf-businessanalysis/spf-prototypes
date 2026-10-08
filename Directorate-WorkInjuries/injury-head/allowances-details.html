@@ -16,6 +16,7 @@
 <script src="../shared/data-licensing.js"></script>
 <script src="../shared/data-sessions.js"></script>
 <script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
 <script src="../shared/data.js"></script>
 <script src="../shared/workflow-stages.js"></script>
 <script src="../shared/layout.js"></script>
@@ -25,6 +26,7 @@ initLayout({ role: 'injury-head', activePage: 'allowances-list' });
 const params = new URLSearchParams(window.location.search);
 const req = WI_DATA.allowances.find(r => r.id === params.get('id')) || WI_DATA.allowances[1];
 currentRequestId = req.id;
+const me = WI_DATA.users?.injury_head?.name || 'مستخدم غير معروف';
 setBreadcrumb([{ label: 'بدلات الانقطاع', page: 'allowances-list' }, { label: `تفاصيل ${req.id}` }]);
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -185,18 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="card card-cum">
       <div class="ph"><h3><div class="pico or">${ICONS.map}</div>الزيارات الميدانية والمعاينات</h3></div>
       <div class="pb">
-        ${req.fieldVisits.map(v => `
-        <div style="border-right:3px solid var(--accent);background:var(--g50);padding:14px;border-radius:10px;margin-bottom:12px">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-            <div>
-              <div style="font-size:11px;color:var(--text3);font-weight:600">${formatDate(v.date)}${v.time ? ` — ${v.time}` : ''}</div>
-              <div style="font-size:14px;font-weight:700;color:var(--primary);margin-top:2px">${normalizeDisplay(v.reason)}</div>
-            </div>
-            <span style="font-size:10px;display:flex;align-items:center;gap:4px;color:var(--success);font-weight:700"><span style="width:6px;height:6px;background:var(--success);border-radius:50%"></span> تم التنفيذ</span>
-          </div>
-          <div class="fgrp"><label class="flbl" style="margin-bottom:2px">الموظفون القائمون</label><div style="font-size:12.5px;color:var(--text2)">${normalizeDisplay(v.staff)}</div></div>
-          <div class="fgrp" style="margin-top:8px"><label class="flbl" style="margin-bottom:2px">ملخص الزيارة والنتائج</label><div style="font-size:13px;color:var(--text1);line-height:1.6">${normalizeDisplay(v.summary)}</div></div>
-        </div>`).join('')}
+        ${req.fieldVisits.map(v => renderFieldVisitCard(v)).join('')}
       </div>
     </div>` : ''}
 
@@ -339,20 +330,66 @@ function headDecision(type) {
       }
     });
   } else if (type === 'اعتماد') {
-    confirmAction({
+    /* الحالات المستوفية لمعايير قائمة التحقق تُشارك مع وزارة العمل فور اعتماد رئيس القسم */
+    const eligible = typeof isEligibleForMolShare === 'function' && isEligibleForMolShare(req);
+    const visit = (req.fieldVisits || []).find(v => typeof checklistTriggersMolShare === 'function' && checklistTriggersMolShare(v.checklist));
+    openModal({
       title: 'تأكيد الاعتماد',
-      msg: `هل أنت متأكد من اعتماد الطلب ${req.id} وتوجيهه إلى قسم الإجازات المرضية؟`,
-      confirmLabel: 'نعم، اعتماد وتوجيه',
-      confirmClass: 'btn-accent',
-      onConfirm: () => {
-        showToast('تم اعتماد الطلب وتوجيهه إلى قسم الإجازات المرضية', 's');
-        setTimeout(() => window.location.href = 'allowances-list.html', 1500);
-      }
+      size: eligible ? 'md' : 'sm',
+      body: `
+        <p style="font-size:13px;line-height:1.7;margin-top:10px">هل أنت متأكد من اعتماد الطلب <strong style="font-family:monospace">${req.id}</strong> وتوجيهه إلى قسم الإجازات المرضية؟</p>
+        ${eligible && visit ? `
+        <div class="alert alert-w" style="margin-top:14px">${ICONS.warn}
+          <span>هذه الحالة <strong>مستوفية لمعايير قائمة التحقق الميدانية</strong>، وستُشارك بياناتها مع وزارة العمل فور الاعتماد. الحقول التي ستُشارك:</span>
+        </div>
+        <div class="fg" style="gap:10px;margin-top:10px">
+          <div class="fgrp"><label class="flbl">تاريخ ووقت الزيارة</label><div class="fro">${formatDate(visit.date)}${visit.time ? ' — ' + visit.time : ''}</div></div>
+          <div class="fgrp"><label class="flbl">بيانات جهة العمل</label><div class="fro">${req.employer?.name || '—'} — س.ت ${req.employer?.cr || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">موقع الزيارة</label><div class="fro">${visit.locationType === 'map' ? 'تحديد على الخريطة — ' + (visit.coordinates || '—') : (visit.branchName || visit.branchId || '—')}</div></div>
+          <div class="fgrp"><label class="flbl">ملاحظات الزيارة</label><div class="fro" style="min-height:56px;align-items:flex-start;padding-top:10px">${visit.notes || '—'}</div></div>
+        </div>
+        <div style="font-size:11.5px;color:var(--text3);margin-top:10px">لا تتضمن حزمة المشاركة أي بيانات أو تقارير طبية. يُنفَّذ الإرسال متى ما توافر الربط الإلكتروني مع وزارة العمل.</div>
+        ` : `
+        <div class="alert alert-i" style="margin-top:14px">${ICONS.info}
+          <span>هذه الحالة غير مستوفية لمعايير قائمة التحقق الميدانية، ولن تُشارك بياناتها مع وزارة العمل.</span>
+        </div>`}`,
+      footer: `
+        <button class="btn btn-accent" onclick="confirmApproval(${eligible})">${ICONS.check} نعم، اعتماد وتوجيه</button>
+        <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
     });
   } else {
     showToast('تم إعادة الطلب إلى موظف قسم التحقيق', 'w');
     setTimeout(() => window.location.href = 'allowances-list.html', 1500);
   }
+}
+
+function confirmApproval(shareWithMol) {
+  closeModal();
+  if (shareWithMol) {
+    const visit = (req.fieldVisits || []).find(v => checklistTriggersMolShare(v.checklist));
+    const shareId = `MOL-2026-${String((WI_DATA.molShares || []).length + 1).padStart(4, '0')}`;
+    (WI_DATA.molShares || []).push({
+      id: shareId,
+      requestId: req.id,
+      sharedDate: new Date().toISOString().slice(0, 16).replace('T', ' '),
+      sharedBy: me,
+      status: 'تم الإرسال',
+      fields: {
+        visitDateTime: `${visit?.date || ''}${visit?.time ? ' — ' + visit.time : ''}`,
+        employer: `${req.employer?.name || ''} — س.ت ${req.employer?.cr || ''}`,
+        visitLocation: visit?.locationType === 'map'
+          ? `تحديد على الخريطة — ${visit?.coordinates || ''}`
+          : (visit?.branchName || visit?.branchId || ''),
+        visitNotes: visit?.notes || '',
+      },
+      failureReason: '',
+    });
+    req.molShare = { eligible: true, shared: true, sharedDate: new Date().toISOString().slice(0, 10), sharedBy: me, shareId };
+    showToast('تم اعتماد الطلب وتوجيهه إلى قسم الإجازات المرضية — وتمت مشاركة بيانات الزيارة الميدانية مع وزارة العمل', 's', 5000);
+  } else {
+    showToast('تم اعتماد الطلب وتوجيهه إلى قسم الإجازات المرضية', 's');
+  }
+  setTimeout(() => window.location.href = 'allowances-list.html', 1800);
 }
 </script>
 </body>

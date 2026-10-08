@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>متابعة أداء الجهات الخارجية — مدير دائرة التحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'investigation-director', activePage: 'external-entities-performance' });
+setBreadcrumb([{ label: 'الجهات الخارجية المخولة' }, { label: 'متابعة الأداء' }]);
+
+const me = WI_DATA.users.investigation_director.name;
+const myRole = WI_CONFIG.roles['investigation-director'].nameAr;
+let activeTab = 'kpi';
+let notesEntityFilter = '';
+
+document.addEventListener('DOMContentLoaded', render);
+
+function render() {
+  const entities = WI_DATA.externalEntities || [];
+  const atEntities = (WI_DATA.allowances || []).filter(r => r.externalEntity?.entityId);
+  const molShares = WI_DATA.molShares || [];
+  const notes = getEntityNotes(notesEntityFilter);
+  const allNotes = getEntityNotes('');
+
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>متابعة وتقييم أداء الجهات الخارجية المخولة</h1>
+        <p>مؤشرات الأداء تُقاس مقابل المهلة التعاقدية المنصوص عليها في عقد كل جهة</p>
+      </div>
+      <div class="pg-acts">
+        <button class="btn btn-secondary btn-sm" onclick="showToast('جارٍ تصدير التقرير...','i')">${ICONS.download} تصدير التقرير</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn ${activeTab === 'kpi' ? 'act' : ''}" onclick="switchTab('kpi')">
+        ${ICONS.chart} مؤشرات الأداء <span class="tab-cnt">${entities.length}</span>
+      </button>
+      <button class="tab-btn ${activeTab === 'requests' ? 'act' : ''}" onclick="switchTab('requests')">
+        ${ICONS.list} الطلبات لدى الجهات الخارجية <span class="tab-cnt">${atEntities.length}</span>
+      </button>
+      <button class="tab-btn ${activeTab === 'notes' ? 'act' : ''}" onclick="switchTab('notes')">
+        ${ICONS.note} الملاحظات التشغيلية <span class="tab-cnt">${allNotes.length}</span>
+      </button>
+      <button class="tab-btn ${activeTab === 'mol' ? 'act' : ''}" onclick="switchTab('mol')">
+        ${ICONS.refresh} المشاركة مع وزارة العمل <span class="tab-cnt">${molShares.length}</span>
+      </button>
+    </div>
+
+    <!-- تبويب مؤشرات الأداء -->
+    <div class="tab-pane ${activeTab === 'kpi' ? 'act' : ''}">
+      <div class="card">
+        <div class="ph"><h3><div class="pico bl">${ICONS.chart}</div>مؤشرات الأداء لكل جهة</h3></div>
+        <div class="pb-0">
+          <div class="tbl-wrap">
+            <table class="dtbl">
+              <thead>
+                <tr>
+                  <th>الجهة الخارجية</th>
+                  <th>حالة التفعيل</th>
+                  <th>المهلة التعاقدية</th>
+                  <th>إجمالي الطلبات</th>
+                  <th>الطلبات المفتوحة</th>
+                  <th>الطلبات المنجزة</th>
+                  <th>متوسط مدة الإنجاز</th>
+                  <th>نسبة الإنجاز في المهلة</th>
+                  <th>نسبة المحاضر المُعادة</th>
+                  <th>الملاحظات التشغيلية</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${entities.map(e => {
+                  const p = getEntityPerformance(e.id, WI_DATA.allowances);
+                  const n = getEntityNotes(e.id);
+                  const critical = n.filter(x => x.level === 'حرجة').length;
+                  const onTimeClass = p.onTimeRate >= 95 ? 'b-approved' : p.onTimeRate >= 80 ? 'b-returned' : 'b-rejected';
+                  const returnClass = p.returnRate <= 10 ? 'b-approved' : 'b-rejected';
+                  return `
+                <tr>
+                  <td style="font-weight:700">${e.name}</td>
+                  <td><span class="badge ${e.status === 'نشطة' ? 'b-approved' : 'b-rejected'}">${e.status}</span></td>
+                  <td style="font-size:12px">${e.slaDays} يوم عمل</td>
+                  <td style="font-weight:600">${p.total}</td>
+                  <td>${p.open}</td>
+                  <td>${p.done}</td>
+                  <td style="font-size:12px;font-weight:600;color:${p.avgDays > e.slaDays ? 'var(--danger)' : 'var(--text2)'}">${p.avgDays ? p.avgDays + ' يوم' : '—'}</td>
+                  <td><span class="badge ${onTimeClass}">${p.done ? p.onTimeRate + '%' : '—'}</span></td>
+                  <td><span class="badge ${returnClass}">${p.done ? p.returnRate + '%' : '—'}</span></td>
+                  <td>
+                    <button class="btn btn-secondary btn-xs" onclick="openEntityNotes('${e.id}')">
+                      ${n.length} ملاحظة${critical ? ` · ${critical} حرجة` : ''}
+                    </button>
+                  </td>
+                </tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="pb">
+          <div style="font-size:11.5px;color:var(--text3)">
+            المستهدفات المعتمدة: نسبة الإنجاز ضمن المهلة التعاقدية ≥ 95% · نسبة المحاضر المُعادة من موظف قسم التحقيق ≤ 10%
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- تبويب الطلبات لدى الجهات الخارجية -->
+    <div class="tab-pane ${activeTab === 'requests' ? 'act' : ''}">
+      <div class="card">
+        <div class="ph"><h3><div class="pico or">${ICONS.list}</div>الطلبات لدى الجهات الخارجية المخولة</h3></div>
+        <div class="pb-0">
+          <div class="tbl-wrap">
+            <table class="dtbl">
+              <thead>
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>الجهة الخارجية</th>
+                  <th>المستخدم الحاجز</th>
+                  <th>نوع الطلب</th>
+                  <th>المحافظة</th>
+                  <th>تاريخ الحجز</th>
+                  <th>الأيام المنقضية</th>
+                  <th>الحالة</th>
+                  <th>مرات الإعادة</th>
+                  <th>إجراءات</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${atEntities.length === 0
+                  ? '<tr><td colspan="10" style="text-align:center;padding:40px;color:var(--text3)">لا توجد طلبات لدى الجهات الخارجية</td></tr>'
+                  : atEntities.map(r => {
+                    const ext = r.externalEntity || {};
+                    const late = (ext.elapsedDays || 0) > (ext.slaDays || 0);
+                    return `
+                <tr>
+                  <td style="font-family:monospace;font-weight:700;color:var(--primary)">${r.id}</td>
+                  <td style="font-size:12px">${ext.entityName || '—'}</td>
+                  <td style="font-size:12px">${ext.checkedOutBy || '—'}</td>
+                  <td style="font-size:12px">${r.type}</td>
+                  <td style="font-size:12px">${getRequestGovernorate(r) || '—'}</td>
+                  <td style="font-size:12px">${formatDate(ext.checkedOutDate) || '—'}</td>
+                  <td style="font-size:12px;font-weight:600;color:${late ? 'var(--danger)' : 'var(--text2)'}">${ext.elapsedDays != null ? ext.elapsedDays + ' يوم' : '—'}${late ? ' (تجاوز المهلة)' : ''}</td>
+                  <td>${statusBadge(r.status)}</td>
+                  <td>${ext.returnCount || 0}</td>
+                  <td>
+                    <button class="ibtn" title="توثيق ملاحظة تشغيلية على الجهة" onclick="openAddEntityNote('${ext.entityId}','${r.id}')">${ICONS.note}</button>
+                  </td>
+                </tr>`;
+                  }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- تبويب الملاحظات التشغيلية -->
+    <div class="tab-pane ${activeTab === 'notes' ? 'act' : ''}">
+      <div class="alert alert-i">
+        ${ICONS.info}
+        <span>تُوثَّق هنا الملاحظات التشغيلية التي تُكتشف على أداء الجهات الخارجية المخولة. الملاحظة لا تغيّر حالة أي طلب، وتبقى مرئية لدائرة التحقيق فقط ولا تُعرض للجهة الخارجية.</span>
+      </div>
+
+      <div class="card">
+        <div class="ph">
+          <h3><div class="pico gy">${ICONS.note}</div>الملاحظات التشغيلية على الجهات الخارجية
+            <span style="font-size:11px;font-weight:400;color:var(--text3)">(${notes.length} ملاحظة)</span>
+          </h3>
+          <div style="display:flex;gap:8px;align-items:center">
+            <select class="fc" style="width:240px" onchange="filterNotes(this.value)">
+              <option value="">جميع الجهات</option>
+              ${entities.map(e => `<option value="${e.id}" ${notesEntityFilter === e.id ? 'selected' : ''}>${e.name}</option>`).join('')}
+            </select>
+            <button class="btn btn-primary btn-sm" style="white-space:nowrap" onclick="openAddEntityNote(notesEntityFilter || '')">${ICONS.plus} توثيق ملاحظة</button>
+          </div>
+        </div>
+        <div class="pb">
+          ${notes.length === 0
+            ? '<div style="text-align:center;padding:30px;color:var(--text3);font-size:12px">لا توجد ملاحظات تشغيلية موثقة</div>'
+            : notes.map(n => renderEntityNote(n, entities)).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- تبويب المشاركة مع وزارة العمل -->
+    <div class="tab-pane ${activeTab === 'mol' ? 'act' : ''}">
+      <div class="card">
+        <div class="ph"><h3><div class="pico tl">${ICONS.refresh}</div>سجل المشاركة مع وزارة العمل</h3>
+          <span style="font-size:11px;color:var(--text3)">يُنفَّذ متى ما توافر الربط الإلكتروني</span>
+        </div>
+        <div class="pb-0">
+          <div class="tbl-wrap">
+            <table class="dtbl">
+              <thead>
+                <tr>
+                  <th>رمز المشاركة</th>
+                  <th>رقم الطلب</th>
+                  <th>تاريخ الإرسال</th>
+                  <th>أرسلها</th>
+                  <th>الحالة</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                ${molShares.length === 0
+                  ? '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text3)">لا توجد عمليات مشاركة مسجلة</td></tr>'
+                  : molShares.map(s => `
+                <tr>
+                  <td style="font-family:monospace;font-weight:700;color:var(--primary)">${s.id}</td>
+                  <td style="font-family:monospace;font-size:12px">${s.requestId}</td>
+                  <td style="font-size:12px">${s.sharedDate}</td>
+                  <td style="font-size:12px">${s.sharedBy}</td>
+                  <td><span class="badge ${s.status === 'تم الإرسال' ? 'b-approved' : 'b-rejected'}">${s.status}</span></td>
+                  <td>
+                    <div style="display:flex;gap:4px">
+                      <button class="ibtn" onclick="viewShare('${s.id}')" title="عرض الحقول المشاركة">${ICONS.eye}</button>
+                      ${s.status !== 'تم الإرسال' ? `<button class="ibtn" onclick="retryShare('${s.id}')" title="إعادة المحاولة">${ICONS.refresh}</button>` : ''}
+                    </div>
+                  </td>
+                </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function switchTab(t) { activeTab = t; render(); }
+function filterNotes(v) { notesEntityFilter = v; render(); }
+
+function levelClass(level) {
+  return level === 'حرجة' ? 'b-rejected' : level === 'مهمة' ? 'b-returned' : 'b-draft';
+}
+
+function renderEntityNote(n, entities) {
+  const ent = (entities || []).find(e => e.id === n.entityId);
+  return `
+    <div class="note-item">
+      <div class="note-av">${(n.author || '؟').charAt(0)}</div>
+      <div class="note-c">
+        <div class="note-hd">
+          <span class="note-auth">${n.author}</span>
+          <span class="note-role">${n.role}</span>
+          <span class="note-time">${n.time}</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:6px">
+          <span class="badge b-invest">${ent ? ent.name : n.entityId}</span>
+          <span class="badge b-submitted">${n.category}</span>
+          <span class="badge ${levelClass(n.level)}">${n.level}</span>
+          ${n.requestId ? `<span class="badge b-draft" style="font-family:monospace">الطلب: ${n.requestId}</span>` : ''}
+        </div>
+        <div class="note-txt">${n.text}</div>
+      </div>
+    </div>`;
+}
+
+function openEntityNotes(entityId) {
+  notesEntityFilter = entityId;
+  activeTab = 'notes';
+  render();
+}
+
+function openAddEntityNote(entityId, requestId) {
+  const entities = WI_DATA.externalEntities || [];
+  const cats = window.ENTITY_NOTE_CATEGORIES || [];
+  const levels = window.ENTITY_NOTE_LEVELS || [];
+  const reqs = (WI_DATA.allowances || []).filter(r => r.externalEntity?.entityId);
+  openModal({
+    title: 'توثيق ملاحظة تشغيلية على جهة خارجية مخولة',
+    size: 'md',
+    body: `
+      <div class="alert alert-i" style="margin-bottom:12px">
+        ${ICONS.info}
+        <span>الملاحظة التشغيلية لا تغيّر حالة أي طلب، وتُسجَّل باسمك وتاريخ توثيقها، ولا تُعرض للجهة الخارجية.</span>
+      </div>
+      <div class="fg fg-2" style="gap:14px">
+        <div class="fgrp span-full">
+          <label class="flbl">الجهة الخارجية المخولة <span class="req">*</span></label>
+          <select class="fc" id="enn-entity">
+            <option value="">-- اختر الجهة --</option>
+            ${entities.map(e => `<option value="${e.id}" ${entityId === e.id ? 'selected' : ''}>${e.name} (${e.status})</option>`).join('')}
+          </select>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">تصنيف الملاحظة <span class="req">*</span></label>
+          <select class="fc" id="enn-category">${cats.map(c => `<option>${c}</option>`).join('')}</select>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">درجة الأهمية <span class="req">*</span></label>
+          <select class="fc" id="enn-level">${levels.map(l => `<option>${l}</option>`).join('')}</select>
+        </div>
+        <div class="fgrp span-full">
+          <label class="flbl">الطلب المرتبط <span style="font-weight:400;color:var(--text3)">(اختياري)</span></label>
+          <select class="fc" id="enn-request">
+            <option value="">-- ملاحظة عامة على الجهة دون ربطها بطلب --</option>
+            ${reqs.map(r => `<option value="${r.id}" ${requestId === r.id ? 'selected' : ''}>${r.id} — ${r.insured?.name || ''}</option>`).join('')}
+          </select>
+        </div>
+        <div class="fgrp span-full">
+          <label class="flbl">نص الملاحظة <span class="req">*</span></label>
+          <textarea class="fc" id="enn-text" rows="5" placeholder="اكتب الملاحظة التشغيلية التي تم اكتشافها على أداء الجهة..."></textarea>
+        </div>
+      </div>`,
+    footer: `
+      <button class="btn btn-primary" onclick="saveEntityNote()">${ICONS.check} حفظ الملاحظة</button>
+      <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+  });
+}
+
+function saveEntityNote() {
+  const entityId = document.getElementById('enn-entity')?.value;
+  const text = document.getElementById('enn-text')?.value?.trim();
+  if (!entityId) { showToast('يرجى اختيار الجهة الخارجية', 'w'); return; }
+  if (!text) { showToast('يرجى كتابة نص الملاحظة', 'w'); return; }
+  addEntityNote({
+    entityId,
+    category: document.getElementById('enn-category')?.value,
+    level: document.getElementById('enn-level')?.value,
+    requestId: document.getElementById('enn-request')?.value,
+    text,
+    author: me,
+    role: myRole,
+  });
+  closeModal();
+  showToast('تم توثيق الملاحظة التشغيلية على الجهة الخارجية', 's');
+  notesEntityFilter = entityId;
+  activeTab = 'notes';
+  render();
+}
+
+function viewShare(id) {
+  const s = (WI_DATA.molShares || []).find(x => x.id === id);
+  if (!s) return;
+  openModal({
+    title: `الحقول المشاركة مع وزارة العمل — ${s.requestId}`,
+    size: 'md',
+    body: `
+      <div class="alert alert-i" style="margin-top:10px">${ICONS.info}
+        <span>تقتصر المشاركة على الحقول الأربعة التالية، ولا تتضمن أي بيانات أو تقارير طبية.</span>
+      </div>
+      <div class="fg" style="gap:12px;margin-top:12px">
+        <div class="fgrp"><label class="flbl">تاريخ ووقت الزيارة</label><div class="fro">${s.fields.visitDateTime}</div></div>
+        <div class="fgrp"><label class="flbl">بيانات جهة العمل</label><div class="fro">${s.fields.employer}</div></div>
+        <div class="fgrp"><label class="flbl">موقع الزيارة</label><div class="fro">${s.fields.visitLocation}</div></div>
+        <div class="fgrp"><label class="flbl">ملاحظات الزيارة</label><div class="fro" style="min-height:60px;align-items:flex-start;padding-top:10px">${s.fields.visitNotes}</div></div>
+      </div>`,
+    footer: `<button class="btn btn-ghost" onclick="closeModal()">إغلاق</button>`
+  });
+}
+
+function retryShare(id) {
+  const s = (WI_DATA.molShares || []).find(x => x.id === id);
+  if (!s) return;
+  s.status = 'تم الإرسال';
+  s.failureReason = '';
+  showToast('تمت إعادة الإرسال إلى وزارة العمل بنجاح', 's');
+  render();
+}
+</script>
+</body>
+</html>

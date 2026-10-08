@@ -16,6 +16,7 @@
 <script src="../shared/data-licensing.js"></script>
 <script src="../shared/data-sessions.js"></script>
 <script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
 <script src="../shared/data.js"></script>
 <script src="../shared/workflow-stages.js"></script>
 <script src="../shared/layout.js"></script>
@@ -32,10 +33,14 @@ setBreadcrumb([{ label: 'بدلات الانقطاع', page: 'allowances-list' }
 document.addEventListener('DOMContentLoaded', () => {
   const isSamePerson = req.applicant?.civil && req.insured?.civil && req.applicant.civil === req.insured.civil;
   const canAct = (req.status === 'قيد التحقيق — إصابات العمل' || req.status.includes('بانتظار تعيين')) && isCheckedOutByMe;
+  const ext = req.externalEntity || null;
+  const fromExternal = !!(ext && ext.submittedDate);
   const actions = canAct ? [
     'إعادة الطلب الى جهة العمل',
     'اعادة الطلب الى المؤمن عليه',
     'تحويل إلى قسم الأمراض المهنية للاختصاص',
+    /* يُتاح إرجاع الطلب إلى الجهة الخارجية المخولة فقط إذا كانت هي من رفعته */
+    ...(fromExternal ? ['إعادة الطلب إلى الجهة الخارجية المخولة'] : []),
     'توصية بالموافقة وتوجيه لرئيس القسم',
     'توصية بالرفض وتوجيه لرئيس القسم',
   ] : [];
@@ -189,6 +194,35 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </div>
 
+    ${fromExternal ? `
+    <!-- نتيجة الجهة الخارجية المخولة -->
+    <div class="card" style="border-right:4px solid var(--accent)">
+      <div class="ph">
+        <h3><div class="pico tl">${ICONS.building}</div>نتيجة الجهة الخارجية المخولة بالتحقيق</h3>
+        <span style="font-size:11px;color:var(--text3)">للاطلاع — القرار يبقى لموظف قسم التحقيق ورئيس القسم</span>
+      </div>
+      <div class="pb">
+        <div class="fg fg-4">
+          <div class="fgrp"><label class="flbl">الجهة الخارجية</label><div class="fro" style="font-weight:700">${ext.entityName || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">المستخدم القائم بالتحقيق</label><div class="fro">${ext.checkedOutBy || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">تاريخ حجز الطلب</label><div class="fro">${formatDate(ext.checkedOutDate) || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">تاريخ التوجيه للقسم</label><div class="fro">${formatDate(ext.submittedDate) || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">المهلة التعاقدية</label><div class="fro">${ext.slaDays ? ext.slaDays + ' يوم عمل' : '—'}</div></div>
+          <div class="fgrp"><label class="flbl">الأيام المنقضية</label><div class="fro" style="color:${(ext.elapsedDays || 0) > (ext.slaDays || 0) ? 'var(--danger)' : 'var(--text2)'};font-weight:600">${ext.elapsedDays != null ? ext.elapsedDays + ' يوم' : '—'}${(ext.elapsedDays || 0) > (ext.slaDays || 0) ? ' (تجاوز المهلة)' : ''}</div></div>
+          <div class="fgrp"><label class="flbl">مرات الإعادة إلى الجهة</label><div class="fro">${ext.returnCount || 0}</div></div>
+          <div class="fgrp"><label class="flbl">عدد الزيارات الميدانية</label><div class="fro">${(req.fieldVisits || []).length}</div></div>
+          <div class="fgrp"><label class="flbl">مخالفة المؤمن عليه</label><div class="fro"><span class="badge ${ext.insuredViolation === 'نعم' ? 'b-rejected' : 'b-approved'}">${ext.insuredViolation || '—'}</span></div></div>
+          ${ext.insuredViolationType ? `<div class="fgrp"><label class="flbl">طبيعة المخالفة</label><div class="fro">${ext.insuredViolationType}</div></div>` : ''}
+          <div class="fgrp"><label class="flbl">مخالفة صاحب العمل</label><div class="fro"><span class="badge ${ext.employerViolation === 'نعم' ? 'b-rejected' : 'b-approved'}">${ext.employerViolation || '—'}</span></div></div>
+          <div class="fgrp"><label class="flbl">معايير المشاركة مع وزارة العمل</label><div class="fro"><span class="badge ${req.molShare?.eligible ? 'b-returned' : 'b-draft'}">${req.molShare?.eligible ? 'مستوفية' : 'غير مستوفية'}</span></div></div>
+        </div>
+        <div class="alert alert-i" style="margin-top:12px;margin-bottom:0">
+          ${ICONS.info}
+          <span>لم تُبدِ الجهة الخارجية المخولة أي توصية بالقبول أو الرفض — إبداء التوصية من اختصاص موظف قسم التحقيق.</span>
+        </div>
+      </div>
+    </div>` : ''}
+
     <!-- تقرير التحقيق — قابل للتعديل عند الحجز، للاطلاع فقط في حالات أخرى -->
     ${canAct ? `
     <div class="card">
@@ -259,18 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="pb">
         ${(req.fieldVisits || []).length === 0
           ? '<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">لا توجد زيارات ميدانية مسجلة</div>'
-          : (req.fieldVisits || []).map(v => `
-          <div style="border-right:3px solid var(--accent);background:var(--g50);padding:14px;border-radius:10px;margin-bottom:12px">
-            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-              <div>
-                <div style="font-size:11px;color:var(--text3);font-weight:600">${formatDate(v.date)}${v.time ? ` — ${v.time}` : ''}</div>
-                <div style="font-size:14px;font-weight:700;color:var(--primary);margin-top:2px">${normalizeDisplay(v.reason)}</div>
-              </div>
-              <span style="font-size:10px;display:flex;align-items:center;gap:4px;color:var(--success);font-weight:700"><span style="width:6px;height:6px;background:var(--success);border-radius:50%"></span> تم التنفيذ</span>
-            </div>
-            <div class="fgrp"><label class="flbl" style="margin-bottom:2px">الموظفون القائمون</label><div style="font-size:12.5px;color:var(--text2)">${normalizeDisplay(v.staff)}</div></div>
-            <div class="fgrp" style="margin-top:8px"><label class="flbl" style="margin-bottom:2px">ملخص الزيارة والنتائج</label><div style="font-size:13px;color:var(--text1);line-height:1.6">${normalizeDisplay(v.summary)}</div></div>
-          </div>`).join('')}
+          : (req.fieldVisits || []).map(v => renderFieldVisitCard(v)).join('')}
       </div>
     </div>
 
@@ -350,6 +373,23 @@ function toggleDiscussionFlag() {
 }
 
 function executeAction(a) {
+  if (a === 'إعادة الطلب إلى الجهة الخارجية المخولة') {
+    openModal({
+      title: `إعادة الطلب إلى ${req.externalEntity?.entityName || 'الجهة الخارجية المخولة'}`,
+      body: `
+        <div class="alert alert-i" style="margin-top:10px">${ICONS.info}
+          <span>يعود الطلب إلى حالة «قيد التحقيق — جهة خارجية مخولة»، وتظهر ملاحظتك للجهة أعلى شاشة تفاصيل الطلب.</span>
+        </div>
+        <div class="fgrp" style="margin-top:10px">
+          <label class="flbl">ملاحظة الإعادة <span class="req">*</span></label>
+          <textarea class="fc" id="ext-return-note" rows="3" placeholder="اذكر ما يلزم استكماله من الجهة الخارجية المخولة..."></textarea>
+        </div>`,
+      footer: `
+        <button class="btn btn-warning" onclick="confirmExternalReturn()">${ICONS.check} إعادة الطلب</button>
+        <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+    });
+    return;
+  }
   if (a === 'إعادة الطلب الى جهة العمل' || a === 'اعادة الطلب الى المؤمن عليه' || a === 'Send request to employer' || a === 'Send request to insured' || a === 'طلب استيفاء بيانات من مقدم الطلب') {
     const returnTarget = a === 'إعادة الطلب الى جهة العمل' || a === 'Send request to employer'
       ? 'employer'
@@ -394,9 +434,21 @@ function confirmReturn(returnTarget = 'both') {
   setTimeout(() => window.location.href = 'allowances-list.html', 1500);
 }
 
+function confirmExternalReturn() {
+  const note = document.getElementById('ext-return-note')?.value?.trim();
+  if (!note) { showToast('يرجى كتابة ملاحظة الإعادة', 'w'); return; }
+  if (req.externalEntity) {
+    req.externalEntity.returnCount = (req.externalEntity.returnCount || 0) + 1;
+    req.externalEntity.lastReturnNote = note;
+    req.externalEntity.submittedDate = '';
+  }
+  closeModal();
+  showToast(`تم إعادة الطلب إلى ${req.externalEntity?.entityName || 'الجهة الخارجية المخولة'} مع الملاحظة`, 'w');
+  setTimeout(() => window.location.href = 'allowances-list.html', 1500);
+}
+
 function doCheckout() { showToast('تم حجز الطلب بنجاح', 's'); }
 function doCheckin() { showToast('تم تحرير الطلب', 'i'); }
-function openAddVisitModal() { showToast('إضافة زيارة ميدانية — قيد التطوير', 'i'); }
 function openAddAttachmentModal() { showToast('إضافة مرفق', 'i'); }
 function quickAddNote() {
   const v = document.getElementById('quick-note-input')?.value?.trim();

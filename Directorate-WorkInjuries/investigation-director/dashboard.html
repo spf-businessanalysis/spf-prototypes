@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة البيانات — مدير دائرة التحقيق في إصابات العمل والأمراض المهنية</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'investigation-director', activePage: 'dashboard' });
+setBreadcrumb([{ label: 'لوحة البيانات' }]);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const me = WI_DATA.users.investigation_director.name;
+  const stats = WI_DATA.dashboardStats['investigation-director'];
+  const entities = WI_DATA.externalEntities || [];
+  const atEntities = (WI_DATA.allowances || []).filter(r => r.externalEntity?.entityId);
+  const late = atEntities.filter(r => (r.externalEntity?.elapsedDays || 0) > (r.externalEntity?.slaDays || 0));
+  const eligible = (WI_DATA.allowances || []).filter(r => r.molShare?.eligible && !r.molShare?.shared);
+
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>لوحة البيانات</h1>
+        <p>مدير دائرة التحقيق في إصابات العمل والأمراض المهنية — ${me}</p>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      ${stats.map(s => `
+      <div class="scard ${s.type}" onclick="window.location.href='external-entities-list.html'">
+        <div class="sc-lbl">${s.label}</div>
+        <div class="sc-val">${s.value}</div>
+      </div>`).join('')}
+    </div>
+
+    ${late.length ? `
+    <div class="alert alert-w">
+      ${ICONS.warn}
+      <div><strong>طلبات تجاوزت المهلة التعاقدية لدى الجهات الخارجية:</strong> ${late.map(r => `<a href="external-entities-performance.html" style="color:var(--primary)">${r.id}</a>`).join(' ، ')}</div>
+    </div>` : ''}
+
+    ${eligible.length ? `
+    <div class="alert alert-i">
+      ${ICONS.info}
+      <div><strong>طلبات مستوفية لمعايير المشاركة مع وزارة العمل وبانتظار اعتماد رئيس القسم:</strong> ${eligible.map(r => r.id).join(' ، ')}</div>
+    </div>` : ''}
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card">
+        <div class="ph"><h3><div class="pico tl">${ICONS.building}</div>الجهات الخارجية المخولة</h3>
+          <a href="external-entities-list.html" style="font-size:12px;color:var(--primary)">إدارة الجهات</a>
+        </div>
+        <div class="pb-0">
+          <table class="dtbl">
+            <thead><tr><th>الجهة</th><th>نطاق الاختصاص</th><th>المحافظات</th><th>الحالة</th></tr></thead>
+            <tbody>
+              ${entities.map(e => `
+              <tr>
+                <td style="font-weight:600;font-size:12.5px">${e.name}</td>
+                <td><span class="badge b-invest">${e.scope}</span></td>
+                <td style="font-size:11.5px;color:var(--text2)">${e.coverage.map(c => c.governorate).join(' ، ') || '—'}</td>
+                <td><span class="badge ${e.status === 'نشطة' ? 'b-approved' : 'b-rejected'}">${e.status}</span></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ph"><h3><div class="pico or">${ICONS.list}</div>الطلبات لدى الجهات الخارجية</h3>
+          <a href="external-entities-performance.html" style="font-size:12px;color:var(--primary)">عرض الكل</a>
+        </div>
+        <div class="pb-0">
+          <table class="dtbl">
+            <thead><tr><th>رقم الطلب</th><th>الجهة</th><th>الأيام المنقضية</th><th>الحالة</th></tr></thead>
+            <tbody>
+              ${atEntities.length === 0
+                ? '<tr><td colspan="4" style="text-align:center;padding:24px;color:var(--text3);font-size:12px">لا توجد طلبات لدى الجهات الخارجية</td></tr>'
+                : atEntities.slice(0, 6).map(r => {
+                  const ext = r.externalEntity || {};
+                  const isLate = (ext.elapsedDays || 0) > (ext.slaDays || 0);
+                  return `
+              <tr>
+                <td style="font-family:monospace;font-size:11.5px;color:var(--primary)">${r.id}</td>
+                <td style="font-size:11.5px">${ext.entityName || '—'}</td>
+                <td style="font-size:12px;font-weight:600;color:${isLate ? 'var(--danger)' : 'var(--text2)'}">${ext.elapsedDays != null ? ext.elapsedDays + ' يوم' : '—'}</td>
+                <td>${statusBadge(r.status)}</td>
+              </tr>`;
+                }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>

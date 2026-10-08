@@ -319,8 +319,104 @@ function removeVisitStaff(index) {
   renderVisitStaffTable();
 }
 
+/* بطاقة عرض زيارة ميدانية — تُستخدم في شاشات قسم التحقيق والجهة الخارجية المخولة */
+function renderFieldVisitCard(v) {
+  const items = window.FIELD_VISIT_CHECKLIST || [];
+  const hasChecklist = v.checklist && Object.keys(v.checklist).length;
+  const eligible = typeof checklistTriggersMolShare === 'function' && checklistTriggersMolShare(v.checklist);
+  const locationText = v.locationType === 'map'
+    ? `تحديد على الخريطة — ${v.coordinates || '—'}`
+    : (v.branchName || v.branchId || '—');
+  return `
+    <div style="border-right:3px solid var(--accent);background:var(--g50);padding:14px;border-radius:10px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div>
+          <div style="font-size:11px;color:var(--text3);font-weight:600">${formatDate(v.date)}${v.time ? ` — ${v.time}` : ''}</div>
+          <div style="font-size:14px;font-weight:700;color:var(--primary);margin-top:2px">${normalizeDisplay(v.reason)}</div>
+        </div>
+        <span style="font-size:10px;display:flex;align-items:center;gap:4px;color:var(--success);font-weight:700"><span style="width:6px;height:6px;background:var(--success);border-radius:50%"></span> تم التنفيذ</span>
+      </div>
+      <div class="fg fg-2" style="gap:10px">
+        <div class="fgrp"><label class="flbl" style="margin-bottom:2px">موقع الزيارة</label><div style="font-size:12.5px;color:var(--text2)">${locationText}</div></div>
+        <div class="fgrp"><label class="flbl" style="margin-bottom:2px">الموظفون القائمون</label><div style="font-size:12.5px;color:var(--text2)">${normalizeDisplay(v.staff)}</div></div>
+        <div class="fgrp span-full"><label class="flbl" style="margin-bottom:2px">من تمت مقابلتهم</label><div style="font-size:12.5px;color:var(--text2)">${normalizeDisplay(v.interviewees)}</div></div>
+      </div>
+      <div class="fgrp" style="margin-top:8px"><label class="flbl" style="margin-bottom:2px">ملخص الزيارة والنتائج</label><div style="font-size:13px;color:var(--text1);line-height:1.6">${normalizeDisplay(v.summary)}</div></div>
+      ${v.notes ? `<div class="fgrp" style="margin-top:8px"><label class="flbl" style="margin-bottom:2px">ملاحظات الزيارة</label><div style="font-size:13px;color:var(--text1);line-height:1.6">${v.notes}</div></div>` : ''}
+      ${hasChecklist ? `
+      <div style="margin-top:12px;border-top:1px dashed var(--border);padding-top:10px">
+        <label class="flbl" style="margin-bottom:6px">قائمة التحقق الميدانية</label>
+        <table class="dtbl" style="font-size:12px;background:#fff">
+          <thead><tr><th>البند</th><th style="width:110px">الإجابة</th></tr></thead>
+          <tbody>
+            ${items.map(it => {
+              const val = v.checklist[it.id] || '—';
+              const cls = val === 'لا' ? 'b-rejected' : val === 'نعم' ? 'b-approved' : 'b-draft';
+              return `<tr><td>${it.text}</td><td><span class="badge ${cls}">${val}</span></td></tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+        <div style="margin-top:8px;font-size:11.5px;color:${eligible ? 'var(--warning)' : 'var(--text3)'};font-weight:600">
+          ${eligible
+            ? 'الحالة مستوفية لمعايير المشاركة مع وزارة العمل — تتم المشاركة بعد اعتماد رئيس قسم التحقيق.'
+            : 'الحالة غير مستوفية لمعايير المشاركة مع وزارة العمل.'}
+        </div>
+      </div>` : ''}
+    </div>`;
+}
+
+/* موقع الزيارة — إما فرع المنشأة أو تحديده على الخريطة */
+function toggleVisitLocationMode(mode) {
+  const branchBox = document.getElementById('visit-location-branch');
+  const mapBox = document.getElementById('visit-location-map');
+  if (!branchBox || !mapBox) return;
+  branchBox.style.display = mode === 'branch' ? '' : 'none';
+  mapBox.style.display = mode === 'map' ? '' : 'none';
+}
+
+function renderVisitChecklist() {
+  const items = window.FIELD_VISIT_CHECKLIST || [];
+  if (!items.length) return '';
+  return `
+    <div class="fgrp span-full" style="border-top:1px dashed var(--border);padding-top:14px">
+      <label class="flbl" style="color:var(--primary);font-weight:700">قائمة التحقق الميدانية</label>
+      <div style="font-size:11.5px;color:var(--text3);margin-bottom:10px">
+        تحدد نتيجة هذه القائمة خضوع الحالة للمشاركة مع وزارة العمل — أي بند بالإجابة «لا» يجعل الحالة مستوفية لمعايير المشاركة.
+      </div>
+      <table class="dtbl" style="font-size:12.5px">
+        <thead><tr><th>البند</th><th style="width:150px">الإجابة</th></tr></thead>
+        <tbody>
+          ${items.map(it => `
+          <tr>
+            <td>${it.text}</td>
+            <td>
+              <select class="fc" id="chk-${it.id}" onchange="updateVisitChecklistHint()">
+                <option value="نعم">نعم</option>
+                <option value="لا">لا</option>
+                <option value="لا ينطبق">لا ينطبق</option>
+              </select>
+            </td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+      <div id="visit-checklist-hint" style="margin-top:10px"></div>
+    </div>`;
+}
+
+function updateVisitChecklistHint() {
+  const box = document.getElementById('visit-checklist-hint');
+  if (!box) return;
+  const items = window.FIELD_VISIT_CHECKLIST || [];
+  const failed = items.filter(it => document.getElementById(`chk-${it.id}`)?.value === 'لا');
+  box.innerHTML = failed.length
+    ? `<div class="alert alert-w">${ICONS.warn}<span>الحالة مستوفية لمعايير المشاركة مع وزارة العمل (${failed.length} بند بالإجابة «لا») — تتم المشاركة بعد اعتماد رئيس قسم التحقيق.</span></div>`
+    : `<div class="alert alert-i">${ICONS.info}<span>الحالة غير مستوفية لمعايير المشاركة مع وزارة العمل.</span></div>`;
+}
+
 function openAddVisitModal() {
   visitStaffState = [];
+  const req = (WI_DATA.allowances || []).find(r => r.id === window.currentRequestId) || null;
+  const branches = (WI_DATA.users?.employer_delegate?.branches) || [];
   openModal({
     title: 'إضافة زيارة ميدانية جديدة',
     size: 'md-lg',
@@ -329,19 +425,61 @@ function openAddVisitModal() {
         <div class="fgrp"><label class="flbl">تاريخ الزيارة <span class="req">*</span></label><input type="date" class="fc" value="${new Date().toISOString().split('T')[0]}"></div>
         <div class="fgrp"><label class="flbl">وقت الزيارة</label><input type="time" class="fc" value="09:00"></div>
         <div class="fgrp span-full"><label class="flbl">سبب الزيارة / الغرض <span class="req">*</span></label><textarea class="fc" rows="2" placeholder="مثال: معاينة موقع الحادث، التحقق من الشهود..."></textarea></div>
+
+        <div class="fgrp span-full" style="border-top:1px dashed var(--border);padding-top:14px">
+          <label class="flbl">موقع الزيارة <span class="req">*</span></label>
+          <div style="display:flex;gap:16px;margin-bottom:10px;font-size:12.5px">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+              <input type="radio" name="visit-loc-mode" value="branch" checked onchange="toggleVisitLocationMode('branch')"> اختيار فرع المنشأة
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+              <input type="radio" name="visit-loc-mode" value="map" onchange="toggleVisitLocationMode('map')"> تحديد الموقع على الخريطة
+            </label>
+          </div>
+          <div id="visit-location-branch">
+            <select class="fc" id="visit-branch">
+              <option value="">-- اختر الفرع --</option>
+              ${branches.map(b => `<option value="${b.id}">${b.id} — ${b.name} — ${b.state}${b.governorate ? ' (' + b.governorate + ')' : ''}</option>`).join('')}
+            </select>
+          </div>
+          <div id="visit-location-map" style="display:none">
+            <div style="background:var(--g50);border:1px dashed var(--border);border-radius:10px;padding:18px;text-align:center;color:var(--text3);font-size:12px">
+              ${ICONS.map} تحديد الموقع على الخريطة
+            </div>
+            <div class="fg fg-2" style="gap:10px;margin-top:10px">
+              <div class="fgrp"><label class="flbl">دائرة العرض</label><input class="fc" id="visit-lat" placeholder="23.5880"></div>
+              <div class="fgrp"><label class="flbl">خط الطول</label><input class="fc" id="visit-lng" placeholder="58.3829"></div>
+            </div>
+          </div>
+        </div>
+
         <div class="fgrp span-full">
           <label class="flbl">الموظفون القائمون بالزيارة <span class="req">*</span></label>
           <div id="visit-staff-table-container"></div>
         </div>
+        <div class="fgrp span-full"><label class="flbl">من تمت مقابلتهم أثناء الزيارة</label><textarea class="fc" id="visit-interviewees" rows="2" placeholder="الاسم والصفة لكل شخص تمت مقابلته..."></textarea></div>
         <div class="fgrp span-full"><label class="flbl">ملخص الزيارة والنتائج</label><textarea class="fc" rows="4" placeholder="اكتب ملخصاً لما تم خلال الزيارة..."></textarea></div>
+        <div class="fgrp span-full"><label class="flbl">ملاحظات الزيارة</label><textarea class="fc" id="visit-notes" rows="3" placeholder="الملاحظات التي قد تُشارك مع وزارة العمل عند استيفاء معايير المشاركة..."></textarea></div>
+        ${renderVisitChecklist()}
         <div class="fgrp span-full">
           <label class="flbl">مرفقات الزيارة (صور، تقارير، وثائق)</label>
           ${renderModernUploadComponent({ idPrefix: 'visit-att', subTitle: 'يمكن رفع عدة صور أو مستندات PDF' })}
         </div>
       </div>`,
-    footer: `<button class="btn btn-primary" onclick="closeModal();showToast('تم حفظ الزيارة الميدانية وتحديث السجل','s')">حفظ الزيارة</button><button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+    footer: `<button class="btn btn-primary" onclick="saveFieldVisit()">حفظ الزيارة</button><button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
   });
-  setTimeout(renderVisitStaffTable, 0);
+  setTimeout(() => { renderVisitStaffTable(); updateVisitChecklistHint(); }, 0);
+}
+
+function saveFieldVisit() {
+  const items = window.FIELD_VISIT_CHECKLIST || [];
+  const failed = items.filter(it => document.getElementById(`chk-${it.id}`)?.value === 'لا');
+  closeModal();
+  if (failed.length) {
+    showToast('تم حفظ الزيارة الميدانية — الحالة مستوفية لمعايير المشاركة مع وزارة العمل بعد اعتماد رئيس القسم', 'w', 5000);
+  } else {
+    showToast('تم حفظ الزيارة الميدانية وتحديث السجل', 's');
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -399,6 +537,22 @@ function isVisibleForRole(role, item) {
   const stages = WI_CONFIG.roleStages?.[role] || [];
   const assignedToMe = !!roleUser?.name && (item?.assignedTo === roleUser.name || item?.checkedOutBy === roleUser.name);
   const pendingForRole = stages.some(stage => status === stage || status.includes(stage) || stage.includes(status));
+
+  /* الجهة الخارجية المخولة بالتحقيق — العرض جماعي وليس إسناداً فردياً:
+     تظهر الطلبات تلقائياً وفق تطابق المحافظة مع النطاق الجغرافي للجهة،
+     وتطابق نوع الطلب مع اختصاص الجهة في تلك المحافظة تحديداً،
+     مع استثناء جهات العمل المدرجة في قائمة الجهات المستثناة. */
+  if (role === 'external-investigator') {
+    const entity = typeof getEntityOfUser === 'function'
+      ? getEntityOfUser(roleUser?.civil || roleUser?.name)
+      : null;
+    if (!entity) return false;
+    if (typeof isRequestVisibleToEntity !== 'function') return false;
+    if (!isRequestVisibleToEntity(item, entity)) return false;
+    /* الطلبات التي عملت عليها الجهة تبقى ظاهرة لها للاطلاع */
+    if (item?.externalEntity?.entityId === entity.id) return true;
+    return pendingForRole;
+  }
 
   if (roleConfig.type === 'external') {
     if (!roleUser) return true;

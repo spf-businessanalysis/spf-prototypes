@@ -16,6 +16,7 @@
 <script src="../shared/data-licensing.js"></script>
 <script src="../shared/data-sessions.js"></script>
 <script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
 <script src="../shared/data.js"></script>
 <script src="../shared/workflow-stages.js"></script>
 <script src="../shared/layout.js"></script>
@@ -177,18 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="card card-cum">
       <div class="ph"><h3><div class="pico or">${ICONS.map}</div>الزيارات الميدانية ومعاينة بيئة العمل</h3></div>
       <div class="pb">
-        ${req.fieldVisits.map(v => `
-        <div style="border-right:3px solid var(--accent);background:var(--g50);padding:14px;border-radius:10px;margin-bottom:12px">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
-            <div>
-              <div style="font-size:11px;color:var(--text3);font-weight:600">${formatDate(v.date)}${v.time ? ` — ${v.time}` : ''}</div>
-              <div style="font-size:14px;font-weight:700;color:var(--primary);margin-top:2px">${normalizeDisplay(v.reason)}</div>
-            </div>
-            <span style="font-size:10px;display:flex;align-items:center;gap:4px;color:var(--success);font-weight:700"><span style="width:6px;height:6px;background:var(--success);border-radius:50%"></span> تم التنفيذ</span>
-          </div>
-          <div class="fgrp"><label class="flbl" style="margin-bottom:2px">الموظفون القائمون</label><div style="font-size:12.5px;color:var(--text2)">${normalizeDisplay(v.staff)}</div></div>
-          <div class="fgrp" style="margin-top:8px"><label class="flbl" style="margin-bottom:2px">ملخص الزيارة والنتائج</label><div style="font-size:13px;color:var(--text1);line-height:1.6">${normalizeDisplay(v.summary)}</div></div>
-        </div>`).join('')}
+        ${req.fieldVisits.map(v => renderFieldVisitCard(v)).join('')}
       </div>
     </div>` : ''}
 

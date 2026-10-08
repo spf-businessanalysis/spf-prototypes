@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعريف الجهات الخارجية المخولة — مدير دائرة التحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'investigation-director', activePage: 'external-entities-list' });
+setBreadcrumb([{ label: 'الجهات الخارجية المخولة' }, { label: 'تعريف الجهات' }]);
+
+const GOVERNORATES = ['مسقط', 'ظفار', 'مسندم', 'البريمي', 'الداخلية', 'شمال الباطنة', 'جنوب الباطنة', 'شمال الشرقية', 'جنوب الشرقية', 'الظاهرة', 'الوسطى'];
+const SCOPES = ['إصابات العمل', 'الأمراض المهنية', 'كلاهما'];
+let coverageState = [];
+
+document.addEventListener('DOMContentLoaded', render);
+
+function render() {
+  const entities = WI_DATA.externalEntities || [];
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>تعريف الجهات الخارجية المخولة بالتحقيق</h1>
+        <p>${entities.length} جهة مُعرَّفة — ${entities.filter(e => e.status === 'نشطة').length} نشطة</p>
+      </div>
+      <div class="pg-acts">
+        <button class="btn btn-primary" onclick="openEntityForm()">${ICONS.plus} تعريف جهة جديدة</button>
+      </div>
+    </div>
+
+    <div class="alert alert-i">
+      ${ICONS.info}
+      <span>تُعرض طلبات التحقيق على الجهة تلقائياً وفق تطابق محافظة الطلب مع نطاقها الجغرافي، وتطابق نوع الطلب مع اختصاص الجهة في تلك المحافظة تحديداً، دون إسناد فردي.</span>
+    </div>
+
+    ${entities.map(e => `
+    <div class="card" style="border-right:4px solid ${e.status === 'نشطة' ? 'var(--accent)' : 'var(--text3)'}">
+      <div class="ph">
+        <h3><div class="pico tl">${ICONS.building}</div>${e.name}
+          <span class="badge ${e.status === 'نشطة' ? 'b-approved' : 'b-rejected'}" style="margin-right:8px">${e.status}</span>
+        </h3>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-secondary btn-xs" onclick="openEntityForm('${e.id}')">${ICONS.edit} تعديل</button>
+          <button class="btn ${e.status === 'نشطة' ? 'btn-warning' : 'btn-accent'} btn-xs" onclick="toggleEntityStatus('${e.id}')">
+            ${e.status === 'نشطة' ? 'إيقاف الجهة' : 'تفعيل الجهة'}
+          </button>
+        </div>
+      </div>
+      <div class="pb">
+        <div class="fg fg-4">
+          <div class="fgrp"><label class="flbl">رمز الجهة</label><div class="fro" style="font-family:monospace">${e.id}</div></div>
+          <div class="fgrp"><label class="flbl">رقم السجل التجاري</label><div class="fro" style="font-family:monospace">${e.cr}</div></div>
+          <div class="fgrp"><label class="flbl">رقم العقد</label><div class="fro" style="font-family:monospace">${e.contractNo}</div></div>
+          <div class="fgrp"><label class="flbl">مدة العقد</label><div class="fro">${formatDate(e.contractStart)} — ${formatDate(e.contractEnd)}</div></div>
+          <div class="fgrp"><label class="flbl">مسؤول التواصل</label><div class="fro">${e.contactPerson}</div></div>
+          <div class="fgrp"><label class="flbl">الهاتف</label><div class="fro">${e.phone}</div></div>
+          <div class="fgrp"><label class="flbl">البريد الإلكتروني</label><div class="fro">${e.email}</div></div>
+          <div class="fgrp"><label class="flbl">العنوان</label><div class="fro">${e.address}</div></div>
+          <div class="fgrp"><label class="flbl">نطاق الاختصاص العام</label><div class="fro"><span class="badge b-invest">${e.scope}</span></div></div>
+          <div class="fgrp"><label class="flbl">المهلة التعاقدية</label><div class="fro">${e.slaDays} يوم عمل</div></div>
+          <div class="fgrp"><label class="flbl">تاريخ السريان</label><div class="fro">${formatDate(e.activeFrom)}</div></div>
+          <div class="fgrp"><label class="flbl">عدد المستخدمين</label><div class="fro">${(WI_DATA.externalEntityUsers || []).filter(u => u.entityId === e.id).length}</div></div>
+        </div>
+
+        <div style="margin-top:14px;border-top:1px dashed var(--border);padding-top:12px">
+          <label class="flbl" style="margin-bottom:8px;color:var(--primary);font-weight:700">الاختصاص في كل نطاق جغرافي</label>
+          <div class="tbl-wrap">
+            <table class="dtbl">
+              <thead><tr><th>المحافظة</th><th>الولايات</th><th>الاختصاص في هذا النطاق</th></tr></thead>
+              <tbody>
+                ${e.coverage.length === 0
+                  ? '<tr><td colspan="3" style="text-align:center;padding:16px;color:var(--text3);font-size:12px">لم يُحدَّد نطاق جغرافي</td></tr>'
+                  : e.coverage.map(c => `
+                <tr>
+                  <td style="font-weight:700">${c.governorate}</td>
+                  <td style="font-size:12px;color:var(--text2)">${c.wilayats}</td>
+                  <td><span class="badge b-invest">${c.scope}</span></td>
+                </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        ${e.notes ? `<div class="fgrp" style="margin-top:12px"><label class="flbl">ملاحظات</label><div class="fro">${e.notes}</div></div>` : ''}
+      </div>
+    </div>`).join('')}`;
+}
+
+function renderCoverageEditor() {
+  const box = document.getElementById('coverage-editor');
+  if (!box) return;
+  box.innerHTML = `
+    <table class="dtbl" style="margin-bottom:8px;font-size:12.5px">
+      <thead><tr><th>المحافظة</th><th>الولايات</th><th>الاختصاص</th><th style="width:40px"></th></tr></thead>
+      <tbody>
+        ${coverageState.length === 0
+          ? '<tr><td colspan="4" style="text-align:center;color:var(--text3);padding:10px">لم يتم إضافة نطاق جغرافي بعد</td></tr>'
+          : coverageState.map((c, i) => `
+        <tr>
+          <td style="font-weight:600">${c.governorate}</td>
+          <td>${c.wilayats || 'جميع الولايات'}</td>
+          <td><span class="badge b-invest">${c.scope}</span></td>
+          <td><button class="ibtn d" onclick="removeCoverage(${i})">${ICONS.trash}</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+    <div class="fg fg-3" style="gap:8px;align-items:flex-end">
+      <div class="fgrp">
+        <label class="flbl">المحافظة</label>
+        <select class="fc" id="cov-gov">${GOVERNORATES.map(g => `<option value="${g}">${g}</option>`).join('')}</select>
+      </div>
+      <div class="fgrp">
+        <label class="flbl">الولايات</label>
+        <input class="fc" id="cov-wil" placeholder="جميع الولايات">
+      </div>
+      <div class="fgrp">
+        <label class="flbl">الاختصاص في هذا النطاق</label>
+        <select class="fc" id="cov-scope">${SCOPES.map(s => `<option value="${s}">${s}</option>`).join('')}</select>
+      </div>
+      <div class="fgrp span-full">
+        <button class="btn btn-secondary btn-sm" style="width:auto" onclick="addCoverage()">${ICONS.plus} إضافة النطاق</button>
+      </div>
+    </div>`;
+}
+
+function addCoverage() {
+  const gov = document.getElementById('cov-gov')?.value;
+  const wil = document.getElementById('cov-wil')?.value?.trim();
+  const scope = document.getElementById('cov-scope')?.value;
+  if (coverageState.some(c => c.governorate === gov)) { showToast('المحافظة مضافة مسبقاً', 'w'); return; }
+  coverageState.push({ governorate: gov, wilayats: wil || 'جميع الولايات', scope });
+  renderCoverageEditor();
+}
+
+function removeCoverage(i) { coverageState.splice(i, 1); renderCoverageEditor(); }
+
+function openEntityForm(id) {
+  const e = (WI_DATA.externalEntities || []).find(x => x.id === id) || null;
+  coverageState = e ? JSON.parse(JSON.stringify(e.coverage)) : [];
+  openModal({
+    title: e ? `تعديل بيانات الجهة — ${e.name}` : 'تعريف جهة خارجية مخولة جديدة',
+    size: 'md-lg',
+    body: `
+      <div class="fg fg-2" style="gap:14px">
+        <div class="fgrp span-full"><label class="flbl" style="color:var(--primary);font-weight:700">بيانات التعريف</label></div>
+        <div class="fgrp"><label class="flbl">اسم الجهة <span class="req">*</span></label><input class="fc" value="${e?.name || ''}"></div>
+        <div class="fgrp"><label class="flbl">رقم السجل التجاري <span class="req">*</span></label><input class="fc" value="${e?.cr || ''}"></div>
+        <div class="fgrp"><label class="flbl">رقم العقد <span class="req">*</span></label><input class="fc" value="${e?.contractNo || ''}"></div>
+        <div class="fgrp"><label class="flbl">نطاق الاختصاص العام <span class="req">*</span></label>
+          <select class="fc">${SCOPES.map(s => `<option ${e?.scope === s ? 'selected' : ''}>${s}</option>`).join('')}</select>
+        </div>
+        <div class="fgrp"><label class="flbl">تاريخ بدء العقد <span class="req">*</span></label><input type="date" class="fc" value="${e?.contractStart || ''}"></div>
+        <div class="fgrp"><label class="flbl">تاريخ انتهاء العقد <span class="req">*</span></label><input type="date" class="fc" value="${e?.contractEnd || ''}"></div>
+
+        <div class="fgrp span-full" style="border-top:1px dashed var(--border);padding-top:12px"><label class="flbl" style="color:var(--primary);font-weight:700">بيانات الاتصال</label></div>
+        <div class="fgrp"><label class="flbl">مسؤول التواصل <span class="req">*</span></label><input class="fc" value="${e?.contactPerson || ''}"></div>
+        <div class="fgrp"><label class="flbl">الهاتف <span class="req">*</span></label><input class="fc" value="${e?.phone || ''}"></div>
+        <div class="fgrp"><label class="flbl">البريد الإلكتروني <span class="req">*</span></label><input class="fc" value="${e?.email || ''}"></div>
+        <div class="fgrp"><label class="flbl">العنوان</label><input class="fc" value="${e?.address || ''}"></div>
+
+        <div class="fgrp span-full" style="border-top:1px dashed var(--border);padding-top:12px">
+          <label class="flbl" style="color:var(--primary);font-weight:700">النطاق الجغرافي والاختصاص في كل نطاق</label>
+          <div style="font-size:11.5px;color:var(--text3);margin-bottom:10px">يُحدَّد الاختصاص لكل محافظة على حدة، بحيث يمكن أن تتولى الجهة إصابات العمل في محافظة والأمراض المهنية في أخرى.</div>
+          <div id="coverage-editor"></div>
+        </div>
+
+        <div class="fgrp span-full" style="border-top:1px dashed var(--border);padding-top:12px"><label class="flbl" style="color:var(--primary);font-weight:700">المهلة وحالة التفعيل</label></div>
+        <div class="fgrp"><label class="flbl">المهلة التعاقدية (أيام عمل) <span class="req">*</span></label><input type="number" class="fc" value="${e?.slaDays || 10}"></div>
+        <div class="fgrp"><label class="flbl">حالة التفعيل</label>
+          <select class="fc"><option ${e?.status === 'نشطة' ? 'selected' : ''}>نشطة</option><option ${e?.status === 'موقوفة' ? 'selected' : ''}>موقوفة</option></select>
+        </div>
+        <div class="fgrp"><label class="flbl">تاريخ السريان</label><input type="date" class="fc" value="${e?.activeFrom || ''}"></div>
+        <div class="fgrp span-full"><label class="flbl">ملاحظات</label><textarea class="fc" rows="2">${e?.notes || ''}</textarea></div>
+      </div>`,
+    footer: `
+      <button class="btn btn-primary" onclick="closeModal();showToast('${e ? 'تم تعديل بيانات الجهة' : 'تم تعريف الجهة الخارجية المخولة'}','s')">${ICONS.check} حفظ</button>
+      <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+  });
+  setTimeout(renderCoverageEditor, 0);
+}
+
+function toggleEntityStatus(id) {
+  const e = (WI_DATA.externalEntities || []).find(x => x.id === id);
+  if (!e) return;
+  if (e.status === 'نشطة') {
+    const openCount = (WI_DATA.allowances || []).filter(r =>
+      r.externalEntity?.entityId === id && r.status === 'قيد التحقيق — جهة خارجية مخولة').length;
+    openModal({
+      title: `إيقاف الجهة — ${e.name}`,
+      body: `
+        <div class="alert alert-w" style="margin-top:10px">${ICONS.warn}
+          <span>لدى هذه الجهة <strong>${openCount}</strong> طلب مفتوح. آلية التعامل مع الطلبات المفتوحة عند إيقاف الجهة نقطة مفتوحة لم تُحسم بعد مع دائرة التحقيق.</span>
+        </div>
+        <div class="fgrp" style="margin-top:10px">
+          <label class="flbl">سبب الإيقاف <span class="req">*</span></label>
+          <textarea class="fc" id="stop-reason" rows="3" placeholder="اذكر سبب إيقاف الجهة..."></textarea>
+        </div>`,
+      footer: `
+        <button class="btn btn-warning" onclick="confirmToggle('${id}')">${ICONS.check} تأكيد الإيقاف</button>
+        <button class="btn btn-ghost" onclick="closeModal()">إلغاء</button>`
+    });
+  } else {
+    e.status = 'نشطة';
+    showToast(`تم تفعيل الجهة ${e.name}`, 's');
+    render();
+  }
+}
+
+function confirmToggle(id) {
+  const reason = document.getElementById('stop-reason')?.value?.trim();
+  if (!reason) { showToast('يرجى كتابة سبب الإيقاف', 'w'); return; }
+  const e = (WI_DATA.externalEntities || []).find(x => x.id === id);
+  if (e) { e.status = 'موقوفة'; e.notes = reason; }
+  closeModal();
+  showToast('تم إيقاف الجهة — لن تُعرض عليها طلبات جديدة', 'w');
+  render();
+}
+</script>
+</body>
+</html>

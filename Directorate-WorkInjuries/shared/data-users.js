@@ -55,6 +55,12 @@ const USERS_DATA = {
   supervisory_rapporteur: { name: 'مازن بن سعيد اللواتي', civil: '9066668888', phone: '96896668888', employeeId: 'SPF-0624', availability: { status: 'متاح', note: '' } },
   referral_coordinator: { name: 'عبدالله بن محمد العامري', civil: '9066669999', phone: '96896669999', employeeId: 'SPF-0645', availability: { status: 'متاح', note: '' } },
   direct_referral_employee: { name: 'ريم بنت عبدالله البلوشية', civil: '9055544332', phone: '96895554433', employeeId: 'SPF-0677', availability: { status: 'متاح', note: '' } },
+  investigation_director: { name: 'سيف بن عبدالله الكندي', civil: '9055512345', phone: '96895512345', employeeId: 'SPF-0045', availability: { status: 'متاح', note: '' } },
+  external_investigator: {
+    name: 'مبارك بن حمد الرحبي', civil: '9077771111', phone: '96893331111', email: 'mubarak.r@safety-services.om',
+    entityId: 'EXT-001', entityName: 'شركة خدمات الأمن والسلامة', entityCr: '1102233',
+    availability: { status: 'متاح', note: '' },
+  },
 };
 
 /* ================================================================

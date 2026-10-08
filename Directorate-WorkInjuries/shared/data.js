@@ -21,6 +21,13 @@ const WI_DATA = {
   /* ── طلبات بدلات الانقطاع عن العمل ── */
   allowances: window.ALLOWANCES_DATA || [],
 
+  /* ── الجهات الخارجية المخولة بالتحقيق ── */
+  externalEntities: window.EXTERNAL_ENTITIES_DATA || [],
+  externalEntityUsers: window.EXTERNAL_ENTITY_USERS_DATA || [],
+  entityNotes: window.ENTITY_NOTES_DATA || [],
+  excludedEmployers: window.EXCLUDED_EMPLOYERS_DATA || [],
+  molShares: window.MOL_SHARES_DATA || [],
+
   /* ── طلبات منفعة الإعاقة ── */
   disability: window.DISABILITY_DATA || [],
 
@@ -47,6 +54,18 @@ const WI_DATA = {
 
   /* ── مؤشرات لوحات البيانات ── */
   dashboardStats: {
+    'external-investigator': [
+      { label: 'الطلبات المعروضة ضمن نطاق الاختصاص', value: 2, type: 'p' },
+      { label: 'الطلبات التي حجزتها', value: 1, type: 'i' },
+      { label: 'طلبات وجّهتها إلى قسم التحقيق', value: 1, type: 's' },
+      { label: 'طلبات أُعيدت إلى الجهة بملاحظة', value: 0, type: 'w' },
+    ],
+    'investigation-director': [
+      { label: 'الجهات الخارجية المخولة النشطة', value: 1, type: 'p' },
+      { label: 'مستخدمو الجهات الخارجية النشطون', value: 3, type: 'i' },
+      { label: 'جهات العمل المستثناة', value: 1, type: 'w' },
+      { label: 'طلبات لدى الجهات الخارجية حالياً', value: 1, type: 's' },
+    ],
     'injury-investigator': [
       { label: 'الطلبات الجديدة في انتظار التحقيق', value: 7, type: 'p' },
       { label: 'الطلبات التي حجزتها (حجز الطلب)', value: 3, type: 'i' },

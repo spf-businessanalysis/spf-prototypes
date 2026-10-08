@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قائمة طلبات التحقيق — الجهة الخارجية المخولة بالتحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'external-investigator', activePage: 'allowances-list' });
+setBreadcrumb([{ label: 'طلبات التحقيق' }, { label: 'قائمة الطلبات' }]);
+
+const me = WI_DATA.users.external_investigator.name;
+const myEntity = getEntityOfUser(WI_DATA.users.external_investigator.civil);
+let searchQuery = '';
+let showAllStages = false;
+
+document.addEventListener('DOMContentLoaded', render);
+
+function render() {
+  const filtered = getFilteredData({
+    role: 'external-investigator',
+    data: WI_DATA.allowances,
+    query: searchQuery,
+    showAll: showAllStages
+  });
+
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div><h1>قائمة طلبات التحقيق في إصابات العمل والأمراض المهنية</h1>
+        <p>${myEntity ? myEntity.name : '—'} — ${filtered.length} طلب معروض ضمن نطاق اختصاص الجهة</p>
+      </div>
+    </div>
+
+    ${myEntity ? `
+    <div class="card" style="border-right:4px solid var(--primary)">
+      <div class="ph"><h3><div class="pico bl">${ICONS.building}</div>نطاق اختصاص الجهة</h3>
+        <span style="font-size:11px;color:var(--text3)">تظهر الطلبات تلقائياً وفق هذا النطاق دون إسناد فردي</span>
+      </div>
+      <div class="pb-0">
+        <div class="tbl-wrap">
+          <table class="dtbl">
+            <thead><tr><th>المحافظة</th><th>الولايات</th><th>الاختصاص</th></tr></thead>
+            <tbody>
+              ${myEntity.coverage.map(c => `
+              <tr>
+                <td style="font-weight:700">${c.governorate}</td>
+                <td style="font-size:12px;color:var(--text2)">${c.wilayats}</td>
+                <td><span class="badge b-invest">${c.scope}</span></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>` : `
+    <div class="alert alert-w">${ICONS.warn}<span>لا يوجد نطاق اختصاص مُعرَّف لهذه الجهة — يُرجى مراجعة دائرة التحقيق في إصابات العمل والأمراض المهنية.</span></div>`}
+
+    ${renderUnifiedFilterBar({
+      onSearch: 'updateSearch',
+      onToggleAll: 'toggleAll',
+      isAllVisible: showAllStages
+    })}
+
+    <div class="card">
+      <div class="pb-0">
+        <div class="tbl-wrap">
+          <table class="dtbl">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>نوع الطلب</th>
+                <th>المؤمن عليه</th>
+                <th>جهة العمل</th>
+                <th>المحافظة</th>
+                <th>الحالة</th>
+                <th>تاريخ التقديم</th>
+                <th>الأيام المتبقية</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${filtered.length === 0
+                ? `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text3)">لا توجد طلبات معروضة ضمن نطاق اختصاص الجهة</td></tr>`
+                : filtered.map(r => {
+                  const meta = deriveRequestSummaryMeta(r);
+                  const remainingDaysClass = getRemainingDaysClass(meta.remainingDays);
+                  const remainingDaysLabel = getRemainingDaysLabel(meta.remainingDays);
+                  const isOpen = r.status === 'قيد التحقيق — جهة خارجية مخولة';
+                  return `
+              <tr style="${r.checkedOutBy === me ? 'background:#f0fdf4' : ''}">
+                <td style="font-family:monospace;font-weight:700;color:var(--primary)">${r.id}</td>
+                <td style="font-size:12px">${r.type}</td>
+                <td>${r.insured?.name || r.applicant?.name}</td>
+                <td style="font-size:11.5px">${(r.employer?.name || '—').substring(0, 25)}</td>
+                <td style="font-size:12px">${getRequestGovernorate(r) || '—'}</td>
+                <td>${statusBadge(r.status)}</td>
+                <td style="font-size:12px">${r.submitDate}</td>
+                <td><span class="sla-days ${remainingDaysClass}">${remainingDaysLabel}</span></td>
+                <td>
+                  <div style="display:flex;gap:4px">
+                    <button class="ibtn" onclick="window.location.href='allowances-details.html?id=${r.id}'" title="عرض التفاصيل">${ICONS.eye}</button>
+                    ${isOpen
+                      ? !r.checkedOutBy
+                        ? `<button class="ibtn" onclick="doCheckout('${r.id}')" title="حجز الطلب للمعالجة">${ICONS.lock}</button>`
+                        : r.checkedOutBy === me
+                          ? `<button class="ibtn" onclick="doCheckin('${r.id}')" title="تحرير الطلب — إلغاء الحجز">${ICONS.unlock}</button>`
+                          : ''
+                      : ''}
+                  </div>
+                </td>
+              </tr>`;
+                }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+
+  if (searchQuery) {
+    const inp = document.getElementById('global-search-input');
+    if (inp) {
+      inp.value = searchQuery;
+      inp.focus();
+      inp.setSelectionRange(searchQuery.length, searchQuery.length);
+    }
+  }
+}
+
+function updateSearch(val) { searchQuery = val; render(); }
+function toggleAll() { showAllStages = !showAllStages; render(); }
+
+function doCheckout(id) {
+  const req = WI_DATA.allowances.find(r => r.id === id);
+  if (req) {
+    req.checkedOutBy = me;
+    req.externalEntity = req.externalEntity || {};
+    req.externalEntity.entityId = myEntity?.id || '';
+    req.externalEntity.entityName = myEntity?.name || '';
+    req.externalEntity.checkedOutBy = me;
+    req.externalEntity.checkedOutDate = new Date().toISOString().slice(0, 10);
+    req.externalEntity.slaDays = myEntity?.slaDays || 0;
+  }
+  showToast(`تم حجز الطلب ${id}`, 's');
+  render();
+}
+
+function doCheckin(id) {
+  const req = WI_DATA.allowances.find(r => r.id === id);
+  if (req) { req.checkedOutBy = null; }
+  showToast(`تم تحرير الطلب ${id}`, 'i');
+  render();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تفاصيل الطلب — الجهة الخارجية المخولة بالتحقيق</title>
+<link rel="stylesheet" href="../shared/style.css">
+</head>
+<body>
+<script src="../shared/config.js"></script>
+<script src="../shared/data-users.js"></script>
+<script src="../shared/data-allowances.js"></script>
+<script src="../shared/data-disability.js"></script>
+<script src="../shared/data-chronic.js"></script>
+<script src="../shared/data-appeals.js"></script>
+<script src="../shared/data-licensing.js"></script>
+<script src="../shared/data-sessions.js"></script>
+<script src="../shared/data-disability-retirement.js"></script>
+<script src="../shared/data-external-entities.js"></script>
+<script src="../shared/data.js"></script>
+<script src="../shared/workflow-stages.js"></script>
+<script src="../shared/layout.js"></script>
+<script src="../shared/utils.js"></script>
+<script>
+initLayout({ role: 'external-investigator', activePage: 'allowances-list' });
+const params = new URLSearchParams(window.location.search);
+const req = (WI_DATA.allowances || []).find(r => r.id === params.get('id')) || (WI_DATA.allowances || [])[0];
+currentRequestId = req.id;
+const me = WI_DATA.users?.external_investigator?.name || 'مستخدم غير معروف';
+const myEntity = getEntityOfUser(WI_DATA.users?.external_investigator?.civil);
+const isCheckedOutByMe = req.checkedOutBy === me;
+setBreadcrumb([{ label: 'طلبات التحقيق', page: 'allowances-list' }, { label: `تفاصيل ${req.id}` }]);
+
+document.addEventListener('DOMContentLoaded', () => {
+  const isOpen = req.status === 'قيد التحقيق — جهة خارجية مخولة';
+  const canAct = isOpen && isCheckedOutByMe;
+  /* الإجراء الوحيد المتاح للجهة الخارجية المخولة */
+  const actions = canAct ? ['توجيه الطلب إلى موظف قسم التحقيق'] : [];
+
+  const injury = req.injury || {};
+  const isWork = req.type === 'إصابة عمل';
+  const atts = req.attachments || [];
+  const tl = req.timeline || [];
+  const ext = req.externalEntity || {};
+
+  getContent().innerHTML = `
+    <div class="pg-head">
+      <div>
+        <h1>تفاصيل الطلب</h1>
+        <p>رقم الطلب: <strong style="font-family:monospace;color:var(--primary)">${req.id}</strong></p>
+      </div>
+      <div class="pg-acts">
+        ${!req.checkedOutBy && isOpen
+          ? `<button class="btn btn-primary" onclick="doCheckout()">${ICONS.lock} حجز الطلب</button>`
+          : isCheckedOutByMe
+            ? `<button class="btn btn-secondary" onclick="doCheckin()">${ICONS.unlock} تحرير الطلب</button>`
+            : req.checkedOutBy
+              ? `<span style="font-size:12px;color:var(--warning);padding:8px 14px;border:1px solid var(--warning-l);border-radius:var(--rsm);background:var(--warning-l)">${ICONS.lock} محجوز بواسطة: ${req.checkedOutBy}</span>`
+              : ''}
+        <button class="btn btn-secondary" onclick="window.location.href='allowances-list.html'">${ICONS.arrow_left} رجوع</button>
+      </div>
+    </div>
+
+    ${!isCheckedOutByMe && isOpen ? `
+    <div class="alert alert-w">
+      ${ICONS.warn}
+      <span>يجب حجز الطلب أولاً لتتمكن من اتخاذ إجراء على هذا الطلب وتجنب العمل المتزامن.</span>
+    </div>` : ''}
+
+    <div class="alert alert-i">
+      ${ICONS.info}
+      <span>
+        نطاق صلاحيات الجهة الخارجية المخولة محدد: تنفيذ الزيارة الميدانية وجمع الاستدلالات وإعداد محضر التحقيق وتحديد المخالفات،
+        ثم توجيه الطلب إلى موظف قسم التحقيق للاطلاع. ولا تملك الجهة صلاحية إبداء التوصية بالقبول أو الرفض،
+        ولا إعادة الطلب إلى مقدمه، ولا توجيهه إلى قسم التحقيق الآخر، ولا الاستعلام من نظام نهر الشفاء.
+      </span>
+    </div>
+
+    ${ext.returnCount ? `
+    <div class="alert alert-w">
+      ${ICONS.warn}
+      <span><strong>أُعيد الطلب من موظف قسم التحقيق (عدد مرات الإعادة: ${ext.returnCount}).</strong><br>ملاحظة الموظف: ${ext.lastReturnNote || '—'}</span>
+    </div>` : ''}
+
+    <!-- ملخص الطلب -->
+    <div class="card" style="border-right:4px solid var(--primary)">
+      <div class="pb-c">
+        <div class="req-summary-grid">
+          <div><div class="flbl" style="margin-bottom:4px">رقم الطلب</div><div style="font-size:15px;font-weight:800;color:var(--primary);font-family:monospace">${req.id}</div></div>
+          <div><div class="flbl" style="margin-bottom:4px">حالة الطلب</div>${statusBadge(req.status)}</div>
+          <div><div class="flbl" style="margin-bottom:4px">نوع الطلب</div><div style="font-size:12.5px;font-weight:600">${req.type}</div></div>
+          <div><div class="flbl" style="margin-bottom:4px">المحافظة</div><div style="font-size:12.5px">${getRequestGovernorate(req) || '—'}</div></div>
+          <div><div class="flbl" style="margin-bottom:4px">تاريخ التقديم</div><div style="font-size:12.5px">${formatDate(req.submitDate)}</div></div>
+          <div><div class="flbl" style="margin-bottom:4px">تاريخ حجز الطلب</div><div style="font-size:12.5px">${formatDate(ext.checkedOutDate) || '—'}</div></div>
+          <div><div class="flbl" style="margin-bottom:4px">المهلة التعاقدية</div><div style="font-size:12.5px">${ext.slaDays ? ext.slaDays + ' يوم عمل' : '—'}</div></div>
+          <div><div class="flbl" style="margin-bottom:4px">الأيام المنقضية</div><div style="font-size:12px;font-weight:600;color:${(ext.elapsedDays || 0) > (ext.slaDays || 0) ? 'var(--danger)' : 'var(--text2)'}">${ext.elapsedDays != null ? ext.elapsedDays + ' يوم' : '—'}</div></div>
+        </div>
+      </div>
+    </div>
+
+    ${renderWorkflowPath(req, 'allowances')}
+
+    <!-- بيانات المؤمن عليه — مقصورة على ما يلزم أعمال التحقيق -->
+    <div class="card card-ro">
+      <div class="ph"><h3><div class="pico bl">${ICONS.user}</div>بيانات المؤمن عليه</h3><span style="font-size:11px;color:var(--text3)">مقصورة على ما يلزم أعمال التحقيق</span></div>
+      <div class="pb">
+        <div class="fg fg-3">
+          <div class="fgrp"><label class="flbl">الاسم الكامل</label><div class="fro">${req.insured?.name || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">الرقم المدني</label><div class="fro" style="font-family:monospace">${req.insured?.civil || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">تاريخ الميلاد</label><div class="fro">${formatDate(req.insured?.dob)}</div></div>
+          <div class="fgrp"><label class="flbl">الجنس</label><div class="fro">${req.insured?.gender || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">الجنسية</label><div class="fro">${req.insured?.nationality || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">رقم الهاتف</label><div class="fro">${normalizeDisplay(req.insured?.phone || req.applicant?.phone, '96890000000')}</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- بيانات جهة العمل -->
+    <div class="card card-ro">
+      <div class="ph"><h3><div class="pico tl">${ICONS.building}</div>بيانات جهة العمل</h3></div>
+      <div class="pb">
+        <div class="fg fg-3">
+          <div class="fgrp"><label class="flbl">اسم جهة العمل</label><div class="fro" style="font-weight:700">${req.employer?.name || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">رقم السجل التجاري</label><div class="fro" style="font-family:monospace">${req.employer?.cr || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">رقم المنشأة</label><div class="fro" style="font-family:monospace">${normalizeDisplay(req.employer?.establishment)}</div></div>
+          <div class="fgrp"><label class="flbl">المسمى الوظيفي</label><div class="fro">${req.employer?.jobTitle || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">تاريخ الالتحاق بالعمل</label><div class="fro">${formatDate(req.employer?.joinDate)}</div></div>
+          <div class="fgrp"><label class="flbl">موقع العمل / الفرع</label><div class="fro">${req.employer?.location || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">القطاع</label><div class="fro">${req.employer?.sector || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">نوع جهة العمل</label><div class="fro">${req.employer?.employerType || '—'}</div></div>
+          ${req.employer?.branch ? `<div class="fgrp"><label class="flbl">الفرع</label><div class="fro">${req.employer.branch.id} — ${req.employer.branch.name} — ${req.employer.branch.state}</div></div>` : ''}
+          ${req.employer?.phone ? `<div class="fgrp"><label class="flbl">هاتف جهة العمل</label><div class="fro">${req.employer.phone}</div></div>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <!-- بيانات الإصابة / المرض -->
+    <div class="card card-ro">
+      <div class="ph"><h3><div class="pico rd">${ICONS.medical}</div>بيانات ${isWork ? 'الإصابة' : 'المرض المهني'}</h3></div>
+      <div class="pb">
+        <div class="fg fg-3">
+          <div class="fgrp"><label class="flbl">نوع الحالة</label><div class="fro">${normalizeDisplay(injury.caseType)}</div></div>
+          <div class="fgrp"><label class="flbl">${isWork ? 'تاريخ الإصابة' : 'تاريخ تشخيص المرض'}</label><div class="fro">${formatDate(injury.incidentDate || injury.firstSuspicion)}</div></div>
+          ${isWork ? `
+          <div class="fgrp"><label class="flbl">الجزء المصاب</label><div class="fro">${injury.bodyPart || '—'}</div></div>
+          <div class="fgrp span-full"><label class="flbl">مكان الواقعة</label><div class="fro">${injury.location || '—'}</div></div>
+          <div class="fgrp span-full"><label class="flbl">وصف تفصيلي للواقعة</label><div class="fro" style="min-height:60px;align-items:flex-start;padding-top:10px">${injury.description || '—'}</div></div>
+          ${injury.witnesses === 'نعم' ? `<div class="fgrp span-full"><label class="flbl">الشهود</label><div class="fro">${injury.witnessNames || '—'}</div></div>` : ''}
+          ${injury.accidentDirection ? `<div class="fgrp"><label class="flbl">اتجاه الحادث</label><div class="fro">${injury.accidentDirection}</div></div>` : ''}
+          ` : `
+          <div class="fgrp span-full"><label class="flbl">المواد / العوامل المسببة</label><div class="fro">${injury.chemicalAgents || '—'}</div></div>
+          <div class="fgrp"><label class="flbl">مدة التعرض المهني</label><div class="fro">${injury.exposureDuration || '—'}</div></div>
+          <div class="fgrp span-full"><label class="flbl">وصف بيئة العمل</label><div class="fro">${normalizeDisplay(injury.workEnvironment)}</div></div>
+          `}
+          ${injury.insuredStatus ? `<div class="fgrp"><label class="flbl">حالة المؤمن عليه</label><div class="fro">${injury.insuredStatus}</div></div>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <!-- محضر التحقيق -->
+    ${canAct ? `
+    <div class="card">
+      <div class="ph">
+        <h3><div class="pico pu">${ICONS.search}</div>محضر التحقيق</h3>
+        <span style="font-size:11px;background:#ede9fe;color:#7c3aed;padding:1px 7px;border-radius:10px;font-weight:600">قابل للتعديل</span>
+      </div>
+      <div class="pb">
+        <div class="fg" style="gap:14px">
+          <div class="fgrp">
+            <label class="flbl">محضر التحقيق</label>
+            <textarea class="fc" id="inv-summary" rows="6" placeholder="اكتب محضر التحقيق والاستدلالات التي تم جمعها...">${req.investigation?.summary || ''}</textarea>
+          </div>
+          <div style="border-top:1px dashed var(--border);padding-top:14px;margin-top:4px">
+            <div class="flbl" style="margin-bottom:10px;font-size:11.5px;color:var(--primary);font-weight:700">— نتائج التحقيق —</div>
+            <div class="fg fg-2" style="gap:12px">
+              <div class="fgrp">
+                <label class="flbl">هل المؤمن عليه مخالف؟</label>
+                <select class="fc" id="insured-violation" onchange="document.getElementById('violation-type-group').style.display=this.value==='نعم'?'':'none'">
+                  <option value="لا">لا</option>
+                  <option value="نعم">نعم</option>
+                </select>
+              </div>
+              <div class="fgrp" id="violation-type-group" style="display:none">
+                <label class="flbl">طبيعة المخالفة</label>
+                <select class="fc" id="violation-type">
+                  <option>تعمّد إصابة النفس</option>
+                  <option>تحت تأثير المؤثرات العقلية</option>
+                  <option>عدم الالتزام بإجراءات السلامة</option>
+                </select>
+              </div>
+              <div class="fgrp">
+                <label class="flbl">هل ثبتت مخالفة صاحب العمل لإجراءات السلامة؟</label>
+                <select class="fc" id="employer-violation">
+                  <option value="لا">لا</option>
+                  <option value="نعم">نعم</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width:auto;align-self:flex-start" onclick="showToast('تم حفظ محضر التحقيق كمسودة','s')">${ICONS.check} حفظ كمسودة</button>
+        </div>
+      </div>
+    </div>` : req.investigation?.summary ? `
+    <div class="card card-cum">
+      <div class="ph"><h3><div class="pico pu">${ICONS.search}</div>محضر التحقيق</h3><span class="stg-lbl">مرحلة التحقيق</span></div>
+      <div class="pb">
+        <div class="fgrp"><label class="flbl">محضر التحقيق</label><div class="fro" style="min-height:70px;align-items:flex-start;padding-top:10px">${req.investigation.summary}</div></div>
+      </div>
+    </div>` : ''}
+
+    <!-- الزيارات الميدانية -->
+    <div class="card card-cum">
+      <div class="ph">
+        <h3><div class="pico or">${ICONS.map}</div>الزيارات الميدانية والمعاينات</h3>
+        ${canAct ? `<button class="btn btn-secondary btn-xs" onclick="openAddVisitModal()">${ICONS.plus} إضافة زيارة</button>` : ''}
+      </div>
+      <div class="pb">
+        ${(req.fieldVisits || []).length === 0
+          ? '<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">لا توجد زيارات ميدانية مسجلة</div>'
+          : (req.fieldVisits || []).map(v => renderFieldVisitCard(v)).join('')}
+      </div>
+    </div>
+
+    <!-- المرفقات -->
+    <div class="card">
+      <div class="ph">
+        <h3><div class="pico or">${ICONS.upload}</div>المرفقات <span style="font-size:11px;font-weight:400;color:var(--text3)">(${atts.length} مرفق)</span></h3>
+      </div>
+      <div class="pb">
+        ${atts.length === 0 ? '<div style="text-align:center;padding:20px;color:var(--text3);font-size:12px">لا توجد مرفقات</div>' : atts.map(att => {
+          const ext2 = att.name?.split('.').pop()?.toLowerCase() || 'oth';
+          const icoMap = { pdf: 'file', doc: 'file', docx: 'file', jpg: 'img', jpeg: 'img', png: 'img' };
+          return `<div class="att-row"><div class="att-ico ${icoMap[ext2] || 'oth'}">${ICONS.file}</div><div class="att-info"><div class="att-name">${att.name}</div><div class="att-meta">${att.type} · رفعه: ${att.uploadedBy} (${att.role}) · ${att.uploadDate} · ${att.size || ''}</div></div><div class="att-acts"><button class="ibtn" title="تحميل" onclick="showToast('جارٍ تحميل الملف...','i')">${ICONS.download}</button></div></div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    ${actions.length > 0 ? `
+    <!-- الإجراءات المتاحة -->
+    <div class="dp">
+      <div class="ph"><h3><div class="pico bl">${ICONS.pen}</div>الإجراءات المتاحة</h3></div>
+      <div class="dp-body">
+        <div class="fgrp">
+          <label class="flbl">الملاحظات <span class="req">*</span></label>
+          <textarea class="fc" id="decision-notes" placeholder="أكتب ملاحظاتك قبل توجيه الطلب إلى موظف قسم التحقيق..." rows="3"></textarea>
+        </div>
+        <div class="fgrp">
+          <label class="flbl">إرفاق ملفات داعمة <span style="font-weight:400;color:var(--text3)">(اختياري)</span></label>
+          ${renderModernUploadComponent({ idPrefix: 'decision-att', subTitle: 'يمكن رفع عدة ملفات دفعة واحدة' })}
+        </div>
+        <div class="dp-acts">
+          ${actions.map(a => `<button class="btn ${WI_CONFIG.actionStyles[a] || 'btn-secondary btn-sm'}" onclick="executeAction('${a}')">${a}</button>`).join('')}
+        </div>
+      </div>
+    </div>` : ''}
+
+    <!-- السجل الزمني — يُعرض كاملاً للجهة الخارجية بما يشمل أسماء موظفي الصندوق -->
+    <div class="card">
+      <div class="ph"><h3><div class="pico gy">${ICONS.clock}</div>السجل الزمني الكامل للطلب</h3></div>
+      <div class="pb">
+        ${renderTimelineList(tl)}
+      </div>
+    </div>`;
+});
+
+function executeAction(a) {
+  const notes = document.getElementById('decision-notes')?.value?.trim();
+  if (!notes) { showToast('يرجى كتابة الملاحظات قبل توجيه الطلب', 'w'); return; }
+  showToast(`جارٍ تنفيذ: ${a}`, 'i');
+  setTimeout(() => {
+    showToast('تم توجيه الطلب إلى موظف قسم التحقيق للاطلاع', 's');
+    setTimeout(() => window.location.href = 'allowances-list.html', 1500);
+  }, 1200);
+}
+
+function doCheckout() { showToast('تم حجز الطلب بنجاح', 's'); }
+function doCheckin() { showToast('تم تحرير الطلب', 'i'); }
+</script>
+</body>
+</html>

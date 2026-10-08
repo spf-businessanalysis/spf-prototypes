@@ -377,7 +377,34 @@ const WI_CONFIG = {
       ]
     },
 
-    
+    'investigation-director': {
+      id: 23,
+      nameAr: 'مدير دائرة التحقيق في إصابات العمل والأمراض المهنية',
+      type: 'internal',
+      folder: 'investigation-director',
+      avatarInitials: 'مد',
+      canCheckout: false,
+      sidebar: [
+        { label: 'لوحة البيانات', page: 'dashboard', icon: 'home', badge: null },
+        { label: 'تعريف الجهات الخارجية المخولة', page: 'external-entities-list', icon: 'building', badge: null },
+        { label: 'مستخدمو الجهات الخارجية', page: 'external-entity-users', icon: 'user', badge: null },
+        { label: 'جهات العمل المستثناة', page: 'excluded-employers', icon: 'shield', badge: null },
+        { label: 'متابعة أداء الجهات الخارجية', page: 'external-entities-performance', icon: 'chart', badge: null },
+      ]
+    },
+
+    'external-investigator': {
+      id: 24,
+      nameAr: 'الجهة الخارجية المخولة بالتحقيق',
+      type: 'external',
+      folder: 'external-investigator',
+      avatarInitials: 'جخ',
+      canCheckout: true,
+      sidebar: [
+        { label: 'لوحة البيانات', page: 'dashboard', icon: 'home', badge: null },
+        { label: 'قائمة طلبات التحقيق في إصابات العمل والأمراض المهنية', page: 'allowances-list', icon: 'list', badge: 'allowances' },
+      ]
+    },
 
   },
 
@@ -387,6 +414,7 @@ const WI_CONFIG = {
     'تم تقديم الطلب — بانتظار تعيين المحقق المختص':                      'b-submitted',
     'قيد التحقيق — إصابات العمل':                                        'b-invest',
     'قيد التحقيق — الأمراض المهنية':                                     'b-invest',
+    'قيد التحقيق — جهة خارجية مخولة':                                    'b-invest',
     'بانتظار اعتماد رئيس قسم التحقيق في إصابات العمل':                   'b-phead',
     'بانتظار اعتماد رئيس قسم التحقيق في الأمراض المهنية':                'b-phead',
     'تم إعادة الطلب لاستيفاء البيانات':                                  'b-returned',
@@ -515,10 +543,14 @@ const WI_CONFIG = {
     'تأكيد تنفيذ القرار وإصدار الترخيص': 'btn-accent btn-sm',
     'تقديم طلب تجديد قبل انتهاء الصلاحية': 'btn-primary btn-sm',
     'تقديم طلب جديد':                 'btn-secondary btn-sm',
-    'تقديم طلب تجديد':                'btn-primary btn-sm'
+    'تقديم طلب تجديد':                'btn-primary btn-sm',
+    'توجيه الطلب إلى موظف قسم التحقيق': 'btn-accent btn-sm',
+    'إعادة الطلب إلى الجهة الخارجية المخولة': 'btn-warning btn-sm'
   },
   /* ── تعيين الحالات لكل دور (المرحلة الحالية) ── */
   roleStages: {
+    'external-investigator': ['قيد التحقيق — جهة خارجية مخولة'],
+    'investigation-director': [],
     'injury-investigator': ['تم تقديم الطلب — بانتظار تعيين المحقق المختص', 'قيد التحقيق — إصابات العمل', 'تم إعادة الطلب لاستيفاء البيانات'],
     'injury-head': ['بانتظار اعتماد رئيس قسم التحقيق في إصابات العمل'],
     'od-investigator': ['تم تقديم الطلب — بانتظار تعيين المحقق المختص', 'قيد التحقيق — الأمراض المهنية'],
