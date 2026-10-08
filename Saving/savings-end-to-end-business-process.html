@@ -1,990 +1,1093 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="الخريطة التفاعلية الشاملة لعمليات نظام الادخار من التسجيل حتى التسوية المالية وإغلاق الحساب">
-  <title>نظام الادخار | رحلة الأعمال من التسجيل إلى التسوية المالية</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800&display=swap');
-    :root {
-      /* نفس لوحة الألوان المعرّفة في Saving-Full-BRD.css */
-      --bg: #f4f6f9;
-      --paper: #ffffff;
-      --ink: #1f2937;
-      --muted: #5b6472;
-      --line: #d4dde6;
-      --primary: #14532d;
-      --primary-soft: #dff4e7;
-      --accent: #0f5132;
-      --accent-soft: #e7f5ec;
-      --hero: #0f3d2a;
-      --hero2: #14532d;
-      --page: var(--bg);
-      --surface: var(--paper);
-      --navy: var(--hero);
-      --teal: var(--primary);
-      --teal-soft: var(--primary-soft);
-      --gold: #b58a2b;
-      --gold-soft: #fdf7e8;
-      --blue: #3b5bdb;
-      --blue-soft: #f0f4ff;
-      --red: #b91c1c;
-      --red-soft: #fef2f2;
-      --green: var(--primary);
-      --green-soft: var(--accent-soft);
-      --violet: var(--accent);
-      --violet-soft: #f4f7fb;
-      --shadow: 0 10px 30px rgba(20, 83, 45, .08);
-      --radius: 20px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="خريطة إجراءات نظام الادخار: خمسة وعشرون إجراءً فرعياً موزعة على ست مراحل، مع مخطط تدفق لكل إجراء.">
+<title>نظام الادخار | خريطة الإجراءات الشاملة من التسجيل إلى التسوية المالية</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800&display=swap');
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
-    body {
-      margin: 0;
-      color: var(--ink);
-      background: radial-gradient(circle at top right, rgba(20,83,45,.08), transparent 28%), linear-gradient(180deg,#eef3f7 0%,var(--bg) 100%);
-      font-family: "Zain", "Tahoma", "Segoe UI", sans-serif;
-      line-height: 1.9;
-    }
-    button, a { font: inherit; }
-    a { color: inherit; }
-    button:focus-visible, a:focus-visible {
-      outline: 3px solid var(--gold);
-      outline-offset: 3px;
-    }
-    .skip-link {
-      position: fixed;
-      inset: 8px auto auto 8px;
-      z-index: 100;
-      padding: 9px 14px;
-      background: #fff;
-      color: var(--navy);
-      border-radius: 8px;
-      transform: translateY(-160%);
-    }
-    .skip-link:focus { transform: translateY(0); }
+:root{
+  --bg:#f4f6f9; --paper:#ffffff; --ink:#1b2430; --ink2:#2c3a49; --muted:#5b6472;
+  --line:#d8e0e8; --line2:#eaeff4;
+  --primary:#14532d; --primary-soft:#e4f3ea; --primary-mid:#1f7a46;
+  --hero:#0f3d2a; --hero2:#17603a;
+  --gold:#a57c20; --gold-soft:#fbf4e3;
+  --blue:#2f4f9e; --blue-soft:#eef2fc;
+  --red:#a3231f; --red-soft:#fdf0ef;
+  --violet:#5a4a8a; --violet-soft:#f2f0fa;
+  --teal:#0e6f68; --teal-soft:#e2f1f0;
+  --shadow:0 8px 26px rgba(20,83,45,.08);
+  --shadow-lg:0 16px 46px rgba(15,61,42,.14);
+  --r:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:104px}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Zain","Tahoma","Segoe UI",sans-serif;
+  font-size:16.5px; line-height:1.75; -webkit-text-size-adjust:100%;
+}
+button,a,input,select{font:inherit}
+a{color:var(--primary)}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
+h1,h2,h3,h4{margin:0; line-height:1.35; font-weight:800}
+p{margin:0}
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      padding: 12px clamp(18px, 4vw, 64px);
-      color: #fff;
-      background: rgba(15, 61, 42, .97);
-      box-shadow: 0 8px 24px rgba(15, 61, 42, .18);
-    }
-    .brand { display: flex; align-items: center; gap: 11px; font-weight: 800; }
-    .brand-mark {
-      display: grid;
-      place-items: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      color: var(--primary);
-      background: linear-gradient(135deg, #fff, var(--primary-soft));
-    }
-    .top-links { display: flex; gap: 8px; flex-wrap: wrap; }
-    .top-links a {
-      padding: 7px 11px;
-      border: 1px solid rgba(255,255,255,.24);
-      border-radius: 999px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 13px;
-    }
-    .top-links a:hover { background: rgba(255,255,255,.12); }
+/* ====== شريط علوي ====== */
+.topbar{
+  position:sticky; top:0; z-index:60; display:flex; align-items:center; gap:14px;
+  flex-wrap:wrap; padding:10px clamp(14px,3vw,40px);
+  background:rgba(15,61,42,.98); color:#fff; box-shadow:0 6px 20px rgba(15,61,42,.2);
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:15.5px; min-width:0}
+.brand-logo{height:30px; width:auto; display:block; flex:0 0 auto}
+.brand b{font-weight:800; white-space:nowrap}
+.brand-sub{font-weight:400; font-size:13.5px; color:rgba(255,255,255,.72); white-space:nowrap;
+  padding-inline-start:10px; border-inline-start:1px solid rgba(255,255,255,.26)}
+@media (max-width:760px){ .brand-sub{display:none} }
+.top-tools{display:flex; gap:7px; flex-wrap:wrap; margin-inline-start:auto}
+.tool-btn{
+  background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.26);
+  border-radius:999px; padding:5px 13px; font-size:13.5px; display:inline-flex; align-items:center; gap:6px;
+}
+.tool-btn:hover{background:rgba(255,255,255,.18)}
+.tool-btn[aria-pressed="true"]{background:#fff; color:var(--hero); border-color:#fff; font-weight:700}
+.tool-btn s{text-decoration:none; opacity:.75; font-size:12px}
+.top-links{display:flex; gap:6px; flex-wrap:wrap; margin-inline-start:auto}
+.top-links a{
+  padding:5px 11px; border:1px solid rgba(255,255,255,.22); border-radius:999px;
+  color:#fff; text-decoration:none; font-size:13px;
+}
+.top-links a:hover{background:rgba(255,255,255,.14)}
 
-    .hero {
-      overflow: hidden;
-      position: relative;
-      padding: clamp(54px, 8vw, 105px) clamp(20px, 6vw, 90px) 70px;
-      color: #fff;
-      background:
-        radial-gradient(circle at 12% 18%, rgba(223, 244, 231, .18), transparent 28%),
-        radial-gradient(circle at 84% 78%, rgba(181, 138, 43, .16), transparent 30%),
-        linear-gradient(135deg, var(--hero), var(--hero2));
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -8% -80px auto;
-      width: 340px;
-      height: 340px;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 50%;
-      box-shadow: 0 0 0 35px rgba(255,255,255,.025), 0 0 0 70px rgba(255,255,255,.02);
-    }
-    .hero-inner { position: relative; z-index: 1; max-width: 1180px; margin: auto; }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-      padding: 6px 12px;
-      color: #fffdf8;
-      background: rgba(255,255,255,.09);
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .hero h1 { max-width: 920px; margin: 0 0 16px; font-size: clamp(30px, 5vw, 58px); line-height: 1.25; }
-    .hero p { max-width: 840px; margin: 0; color: rgba(255,253,248,.92); font-size: clamp(16px, 2vw, 20px); }
-    .hero-stats { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-    .hero-stat {
-      min-width: 150px;
-      padding: 12px 16px;
-      border: 1px solid rgba(255,255,255,.17);
-      border-radius: 14px;
-      background: rgba(255,255,255,.07);
-    }
-    .hero-stat strong { display: block; font-size: 20px; color: #fff; }
-    .hero-stat span { color: rgba(255,253,248,.86); font-size: 12px; }
+/* ====== الواجهة ====== */
+.hero{
+  position:relative; overflow:hidden; color:#fff;
+  padding:clamp(18px,2.4vw,30px) clamp(18px,5vw,64px) clamp(20px,2.6vw,32px);
+  background:
+    radial-gradient(circle at 92% 14%, rgba(165,124,32,.22), transparent 36%),
+    radial-gradient(circle at 8% 86%, rgba(228,243,234,.16), transparent 34%),
+    linear-gradient(135deg,var(--hero),var(--hero2));
+}
+.hero-inner{max-width:1180px; margin:0 auto}
+.eyebrow{
+  display:inline-block; padding:4px 13px; border-radius:999px; font-size:13px;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.26); margin-bottom:14px;
+}
+.hero h1{font-size:clamp(20px,2.4vw,27px); margin-bottom:5px}
+.hero p.lead{font-size:15px; max-width:900px; color:rgba(255,255,255,.84)}
+.hero-stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-top:26px}
+.stat{background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); border-radius:13px; padding:12px 15px}
+.stat b{display:block; font-size:24px; line-height:1.2}
+.stat span{font-size:13.5px; color:rgba(255,255,255,.85)}
 
-    main { max-width: 1320px; margin: auto; padding: 36px clamp(16px, 4vw, 48px) 80px; }
-    .section { margin-top: 34px; padding: clamp(20px, 3vw, 38px); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
-    .section-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
-    .section-heading h2 { margin: 0 0 6px; font-size: clamp(24px, 3vw, 35px); line-height: 1.35; }
-    .section-heading p { max-width: 840px; margin: 0; color: var(--muted); }
-    .section-no { color: var(--teal); font-size: 13px; font-weight: 800; letter-spacing: .06em; white-space: nowrap; }
-    .notice {
-      padding: 15px 18px;
-      border: 1px solid #e2c98a;
-      border-right: 5px solid var(--gold);
-      border-radius: 13px;
-      color: #7a5a12;
-      background: var(--gold-soft);
-    }
-    .notice strong { color: #7a5a12; }
+/* ====== الأقسام ====== */
+main{max-width:1240px; margin:0 auto; padding:0 clamp(14px,3vw,34px) 70px}
+.section{margin-top:clamp(26px,3vw,40px)}
+.section-head{margin-bottom:22px; padding-bottom:14px; border-bottom:2px solid var(--line)}
+.kicker{display:block; font-size:13px; font-weight:700; color:var(--primary-mid); letter-spacing:.4px; margin-bottom:5px}
+.section-head h2{font-size:clamp(21px,2.6vw,30px); color:var(--hero)}
+.section-head p{color:var(--muted); margin-top:8px; font-size:15.5px; max-width:1000px}
 
-    .legend { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0; }
-    .legend span, .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      color: var(--muted);
-      background: #f4f7fb;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--blue); }
-    .legend .money i { background: var(--green); }
-    .legend .decision i { background: var(--gold); transform: rotate(45deg); border-radius: 2px; }
-    .legend .system i { background: var(--violet); }
+.callout{
+  background:var(--paper); border:1px solid var(--line); border-inline-start:5px solid var(--primary);
+  border-radius:var(--r); padding:15px 18px; box-shadow:var(--shadow); margin-bottom:18px;
+}
+.callout h3{font-size:16.5px; color:var(--primary); margin-bottom:6px}
+.callout p{font-size:15px; color:var(--ink2)}
+.callout.warn{border-inline-start-color:var(--gold); background:var(--gold-soft)}
+.callout.warn h3{color:#7d5c12}
 
-    .readiness-gate {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding: 16px 18px;
-      border: 1px dashed #e2c98a;
-      border-radius: 16px;
-      background: var(--gold-soft);
-    }
-    .gate-icon { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 14px; color: #fff; background: var(--gold); font-weight: 900; }
-    .readiness-gate strong { display: block; }
-    .readiness-gate p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
-    .status-pill { padding: 6px 10px; border-radius: 999px; color: #7a5a12; background: #f6ecd3; font-size: 12px; font-weight: 800; }
+/* ====== الخريطة الشاملة ====== */
+.map-shell{background:var(--paper); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow); padding:16px clamp(10px,2vw,20px) 20px}
+.map-legend{display:flex; flex-wrap:wrap; gap:8px 16px; margin-bottom:12px; font-size:13.5px; color:var(--ink2)}
+.map-legend span{display:inline-flex; align-items:center; gap:6px}
+.map-legend i{width:13px; height:13px; border-radius:4px; background:var(--primary); display:inline-block}
+.map-legend .l-prep i{background:#6b7f8f}
+.map-legend .l-reg i{background:var(--blue)}
+.map-legend .l-mon i{background:var(--primary)}
+.map-legend .l-ann i{background:var(--gold)}
+.map-legend .l-pay i{background:var(--teal)}
+.map-legend .l-sup i{background:var(--violet)}
+.map-scroll{overflow-x:auto; padding-bottom:6px}
+#archMap{display:block; width:100%; min-width:1000px; height:auto}
+#archMap .n-box{fill:var(--paper); stroke-width:1.6; transition:.18s}
+#archMap .n-g{cursor:pointer}
+#archMap .n-g:hover .n-box{fill:#fbfdfc}
+#archMap .n-g:hover .n-title{font-weight:800}
+#archMap .n-g:focus{outline:none}
+#archMap .n-g:focus .n-box{stroke-width:3.2}
+#archMap .n-g.sel .n-box{fill:#fdf6e6; stroke-width:3.4}
+#archMap .n-title{font-size:13.4px; fill:var(--ink); font-weight:700}
+#archMap .n-no{font-size:11px; font-weight:800; fill:#fff}
+#archMap .n-sm .n-title{font-size:12.4px}
+#archMap .band-lbl{font-size:14.5px; font-weight:800}
+#archMap .arw{stroke:#9fb0ae; stroke-width:1.7; fill:none}
+#archMap .arw-d{stroke:#b9a46f; stroke-width:1.7; fill:none; stroke-dasharray:6 5}
+#archMap .arw-lbl{font-size:10.8px; fill:#6d7c7a}
+#archMap .band-bg{fill:#fafcfb; stroke:var(--line2); stroke-width:1}
 
-    .process-map {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 44px 18px;
-      padding: 12px 0 4px;
-    }
-    .stage-wrap { position: relative; min-width: 0; }
-    .stage-wrap:not(:nth-child(4n))::after {
-      content: "←";
-      position: absolute;
-      top: 50%;
-      left: -27px;
-      color: var(--muted);
-      font-size: 25px;
-      font-weight: 900;
-      transform: translateY(-50%);
-    }
-    .stage-wrap:nth-child(4)::before {
-      content: "↓";
-      position: absolute;
-      bottom: -39px;
-      left: 50%;
-      color: var(--muted);
-      font-size: 25px;
-      font-weight: 900;
-    }
-    .stage-wrap:nth-child(n+5) { direction: ltr; }
-    .stage-wrap:nth-child(n+5) .stage-card { direction: rtl; }
-    .stage-wrap:nth-child(n+5):not(:nth-child(8))::after { content: "→"; right: -27px; left: auto; }
-    .stage-card {
-      width: 100%;
-      min-height: 215px;
-      padding: 18px;
-      text-align: right;
-      color: var(--ink);
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      cursor: pointer;
-      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-    }
-    .stage-card:hover, .stage-card[aria-current="step"] { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 13px 30px rgba(8,127,122,.14); }
-    .stage-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-    .stage-no { display: grid; place-items: center; width: 34px; height: 34px; color: #fff; background: var(--teal); border-radius: 10px; font-size: 13px; font-weight: 900; }
-    .stage-path { color: var(--muted); font-size: 11px; font-weight: 700; }
-    .stage-card h3 { margin: 14px 0 7px; font-size: 18px; line-height: 1.4; }
-    .stage-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.65; }
-    .handoff {
-      margin-top: 14px;
-      padding-top: 11px;
-      border-top: 1px dashed var(--line);
-      color: var(--blue);
-      font-size: 12px;
-      font-weight: 800;
-    }
-    .map-help { margin: 18px 0 0; text-align: center; color: var(--muted); font-size: 13px; }
+/* ====== لوحة الإجراء الفرعي ====== */
+.pick-hint{background:var(--paper); border:2px dashed var(--line); border-radius:var(--r); padding:40px 22px; text-align:center; color:var(--muted); font-size:17px}
+.detail-card{background:var(--paper); border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow); padding:18px clamp(14px,2vw,22px); scroll-margin-top:84px}
+.detail-head{display:flex; align-items:flex-start; gap:13px; flex-wrap:wrap; padding-bottom:14px; border-bottom:2px solid var(--line2)}
+.detail-head .d-no{flex:0 0 auto; width:50px; height:50px; border-radius:14px; display:grid; place-items:center; font-weight:800; font-size:16px; color:#fff}
+.detail-head .d-t{flex:1 1 300px; min-width:250px}
+.detail-head .d-phase{display:block; font-size:13px; color:var(--muted); margin-bottom:3px}
+.detail-head h3{font-size:20.5px; color:var(--hero)}
+.badges{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+.badge{font-size:12.4px; padding:2.5px 10px; border-radius:999px; border:1px solid var(--line); background:#fafcfb; color:var(--ink2); font-weight:700}
+.badge.mand{background:var(--primary-soft); border-color:#bcdcc9; color:var(--primary)}
+.badge.opt{background:var(--blue-soft); border-color:#ccd8f3; color:var(--blue)}
+.badge.both{background:var(--teal-soft); border-color:#c3e0dd; color:var(--teal)}
+.badge.freq{background:var(--gold-soft); border-color:#e9d9ab; color:#7d5c12}
+.d-nav{display:flex; gap:7px; flex:0 0 auto; align-items:center}
+.d-nav button{background:#fff; border:1px solid var(--line); color:var(--ink2); border-radius:999px; padding:6px 14px; font-size:13.5px}
+.d-nav button:hover:not(:disabled){border-color:var(--primary); color:var(--primary)}
+.d-nav button:disabled{opacity:.4; cursor:default}
+.shape-legend{display:flex; flex-wrap:wrap; gap:8px 16px; font-size:13px; color:var(--ink2); margin:14px 0 4px}
+.shape-legend span{display:inline-flex; align-items:center; gap:6px}
+.shape-legend i{width:15px; height:15px; border-radius:4px; display:inline-block; border:1.6px solid}
+.flow-wrap{overflow-x:auto}
+#flowSvg{display:block; width:100%; min-width:840px; height:auto; margin:0 auto}
+#flowSvg .s-ttl{font-size:15.5px; font-weight:700; fill:var(--ink)}
+#flowSvg .s-who{font-size:12.6px; fill:var(--muted)}
+#flowSvg .s-kind{font-size:11.6px; font-weight:800}
+#flowSvg .s-no{font-size:11.5px; font-weight:800; fill:#fff}
+#flowSvg .t-ttl{font-size:14.5px; font-weight:800; fill:#1f3b2e}
+#flowSvg .f-arw{stroke:#9fb0ae; stroke-width:1.8; fill:none}
+#flowSvg .f-lbl{font-size:12.8px; fill:#4a5a68}
+#flowSvg .f-box{fill:#f6fafc; stroke:#bcd0de; stroke-width:1.4; stroke-dasharray:5 4}
+#flowSvg .f-lbl-h{font-size:11.4px; font-weight:800; fill:#8a7435}
+.next-link{margin-top:14px; display:flex; align-items:center; gap:9px; flex-wrap:wrap; font-size:14.4px; background:var(--primary-soft); border:1px solid #c6e2d2; border-radius:11px; padding:10px 14px; color:var(--primary)}
+.next-link b{font-weight:800}
+.next-link a{cursor:pointer; text-decoration:underline}
+footer{margin-top:52px; padding:22px clamp(14px,3vw,34px); background:var(--hero); color:rgba(255,255,255,.88); font-size:14px; text-align:center}
 
-    .flow-strip {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-top: 22px;
-    }
-    .flow-layer { padding: 14px; border-radius: 14px; background: var(--primary-soft); border: 1px solid var(--line); }
-    .flow-layer strong { display: block; color: var(--blue); font-size: 13px; }
-    .flow-layer span { color: var(--muted); font-size: 12px; }
-
-    .process-detail { scroll-margin-top: 92px; margin-top: 24px; padding-top: 30px; border-top: 1px solid var(--line); }
-    .process-detail:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-    .detail-header { display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: start; }
-    .detail-number { display: grid; place-items: center; width: 48px; height: 48px; color: #fff; background: var(--navy); border-radius: 15px; font-weight: 900; }
-    .detail-header h3 { margin: 0 0 4px; font-size: 23px; }
-    .detail-header p { margin: 0; color: var(--muted); }
-    .path-tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-    .path-tags .mandatory { color: var(--primary); background: var(--primary-soft); }
-    .path-tags .optional { color: #7a5a12; background: var(--gold-soft); }
-    .path-tags .shared { color: var(--accent); background: var(--accent-soft); }
-
-    .context-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 18px 0; }
-    .context-card { padding: 13px 14px; background: #f4f7fb; border: 1px solid var(--line); border-radius: 13px; }
-    .context-card span { display: block; color: var(--muted); font-size: 11px; font-weight: 800; }
-    .context-card strong { display: block; margin-top: 3px; font-size: 13px; line-height: 1.6; }
-
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
-    .step { position: relative; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
-    .step::before { content: attr(data-step); position: absolute; top: 15px; left: 15px; color: var(--muted); font-size: 11px; font-weight: 900; }
-    .step-kind { display: inline-flex; padding: 4px 8px; margin-bottom: 11px; border-radius: 999px; color: var(--blue); background: var(--blue-soft); font-size: 10px; font-weight: 800; }
-    .step-kind.money { color: var(--green); background: var(--green-soft); }
-    .step-kind.decision { color: #7a5a12; background: var(--gold-soft); }
-    .step h4 { margin: 0 0 7px; font-size: 16px; }
-    .step p { margin: 0; color: var(--muted); font-size: 13px; }
-    .step-data { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 11px; color: var(--muted); }
-    .step-data strong { color: var(--ink); }
-    .financial-note { margin-top: 15px; padding: 13px 15px; color: var(--accent); background: var(--accent-soft); border-right: 4px solid var(--primary); border-radius: 12px; font-size: 13px; }
-    .detail-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 16px; }
-    .detail-footer a { color: var(--teal); text-decoration: none; font-size: 12px; font-weight: 800; }
-
-    .money-intro { display: grid; grid-template-columns: 1.2fr .8fr; gap: 16px; margin-bottom: 20px; }
-    .money-principle { padding: 19px; border-radius: 16px; color: #fff; background: linear-gradient(135deg, var(--hero), var(--hero2)); }
-    .money-principle h3 { margin: 0 0 7px; }
-    .money-principle p { margin: 0; color: rgba(255,253,248,.92); font-size: 14px; }
-    .money-levels { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .money-levels div { padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #f4f7fb; }
-    .money-levels strong { display: block; color: var(--blue); font-size: 12px; }
-    .money-levels span { color: var(--muted); font-size: 11px; }
-    .money-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 18px 0; }
-    .money-tabs button { padding: 8px 13px; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; font-weight: 700; }
-    .money-tabs button[aria-pressed="true"] { color: #fff; background: var(--teal); border-color: var(--teal); }
-    .money-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-    .money-case { padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
-    .money-case[data-hidden="true"] { display: none; }
-    .money-case-head { display: flex; justify-content: space-between; gap: 10px; align-items: start; }
-    .money-case h3 { margin: 0; font-size: 16px; }
-    .money-case .category { padding: 4px 8px; border-radius: 999px; font-size: 10px; font-weight: 800; white-space: nowrap; }
-    .category.in { color: var(--primary); background: var(--primary-soft); }
-    .category.out { color: var(--red); background: var(--red-soft); }
-    .category.adjust { color: var(--accent); background: var(--violet-soft); }
-    .money-route { display: flex; align-items: center; gap: 6px; margin: 14px 0; color: var(--blue); font-size: 12px; font-weight: 800; flex-wrap: wrap; }
-    .money-route i { color: var(--muted); font-style: normal; }
-    .money-case p { margin: 0; color: var(--muted); font-size: 13px; }
-    .accounting { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line); font-size: 11px; }
-    .accounting strong { color: var(--violet); }
-
-    .controls-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .control { padding: 17px; border-radius: 15px; background: #f4f7fb; border: 1px solid var(--line); }
-    .control strong { display: block; margin-bottom: 6px; color: var(--navy); }
-    .control p { margin: 0; color: var(--muted); font-size: 13px; }
-
-    .open-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .open-item { padding: 17px; border: 1px solid #e2c98a; border-radius: 15px; background: var(--gold-soft); }
-    .open-item strong { display: block; margin-bottom: 5px; color: #7a5a12; }
-    .open-item p { margin: 0; color: var(--muted); font-size: 13px; }
-    .open-item .owner { display: inline-block; margin-top: 10px; color: #7a5a12; font-size: 11px; font-weight: 800; }
-
-    footer { padding: 30px 20px 45px; text-align: center; color: var(--muted); font-size: 12px; }
-    .back-top { position: fixed; z-index: 40; left: 18px; bottom: 18px; display: none; width: 44px; height: 44px; border: 0; border-radius: 50%; color: #fff; background: var(--navy); box-shadow: 0 8px 22px rgba(23,63,95,.25); cursor: pointer; }
-    .back-top.show { display: block; }
-
-    @media (max-width: 1050px) {
-      .process-map { grid-template-columns: repeat(2, 1fr); }
-      .stage-wrap:not(:nth-child(4n))::after, .stage-wrap:nth-child(4)::before { display: none; }
-      .stage-wrap:nth-child(n+5) { direction: rtl; }
-      .stage-wrap:nth-child(n+5):not(:nth-child(8))::after { display: none; }
-      .steps, .money-grid { grid-template-columns: repeat(2, 1fr); }
-      .flow-strip { grid-template-columns: repeat(3, 1fr); }
-      .controls-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 720px) {
-      .topbar { align-items: flex-start; }
-      .top-links { display: none; }
-      .hero { padding-top: 55px; }
-      .hero-stat { flex: 1 1 130px; }
-      .section { padding: 18px; border-radius: 16px; }
-      .section-heading, .detail-header { grid-template-columns: 1fr; display: grid; }
-      .section-no { order: -1; }
-      .readiness-gate { grid-template-columns: auto 1fr; }
-      .readiness-gate .status-pill { grid-column: 1 / -1; width: fit-content; }
-      .process-map, .steps, .money-grid, .money-intro, .context-grid, .open-grid, .controls-grid { grid-template-columns: 1fr; }
-      .flow-strip { display: flex; overflow-x: auto; padding-bottom: 6px; }
-      .flow-layer { min-width: 190px; }
-      .path-tags { justify-content: flex-start; }
-      .stage-card { min-height: auto; }
-      .detail-footer { flex-direction: column; }
-    }
-    @media print {
-      .topbar, .back-top, .money-tabs, .map-help { display: none !important; }
-      body { background: #fff; }
-      .section { box-shadow: none; break-inside: avoid; }
-      .process-detail { break-inside: avoid; }
-    }
-
-    /* Journey-line presentation: one route, selectable stations, one detail view. */
-    .hero { padding-top: 54px; padding-bottom: 48px; }
-    .hero h1 { font-size: clamp(32px, 4.4vw, 52px); }
-    .hero-stats { display: none; }
-    main { max-width: 1440px; }
-    .section {
-      box-shadow: none;
-      border-radius: 8px;
-      border-color: var(--line);
-    }
-
-    .readiness-gate {
-      grid-template-columns: auto 1fr auto;
-      border: 0;
-      border-right: 4px solid var(--gold);
-      border-radius: 0;
-      background: linear-gradient(90deg, #fff 0%, var(--gold-soft) 100%);
-    }
-    .gate-icon { border-radius: 50%; }
-
-    .process-map {
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(8, minmax(128px, 1fr));
-      gap: 0;
-      min-width: 1100px;
-      padding: 8px 0 0;
-    }
-    .process-map::before {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      top: 37px;
-      right: 6%;
-      left: 6%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--navy), var(--teal));
-    }
-    .process-map::after {
-      content: "";
-      position: absolute;
-      z-index: 0;
-      top: 31px;
-      left: 5.4%;
-      width: 14px;
-      height: 14px;
-      border-top: 4px solid var(--navy);
-      border-left: 4px solid var(--navy);
-      transform: rotate(-45deg);
-    }
-    .stage-wrap, .stage-wrap:nth-child(n+5) { position: relative; z-index: 1; direction: rtl; }
-    .stage-wrap::before, .stage-wrap::after,
-    .stage-wrap:nth-child(4)::before,
-    .stage-wrap:nth-child(n+5):not(:nth-child(8))::after { display: none !important; }
-    .stage-card {
-      min-height: 174px;
-      padding: 0 9px 10px;
-      text-align: center;
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-      box-shadow: none;
-    }
-    .stage-card:hover, .stage-card[aria-current="step"] {
-      transform: none;
-      border-color: transparent;
-      box-shadow: none;
-    }
-    .stage-top { justify-content: center; }
-    .stage-no {
-      width: 62px;
-      height: 62px;
-      border: 7px solid #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 0 2px var(--teal);
-      transition: transform .18s ease, background .18s ease, box-shadow .18s ease;
-    }
-    .stage-card:hover .stage-no,
-    .stage-card[aria-current="step"] .stage-no {
-      transform: scale(1.1);
-      color: var(--navy);
-      background: var(--gold);
-      box-shadow: 0 0 0 3px var(--gold), 0 7px 18px rgba(181,138,43,.23);
-    }
-    .stage-path, .stage-card p { display: none; }
-    .stage-card h3 { margin: 16px auto 4px; max-width: 140px; font-size: 14px; }
-    .handoff {
-      margin: 0 auto;
-      padding: 0;
-      max-width: 145px;
-      border: 0;
-      color: var(--muted);
-      font-size: 10px;
-      font-weight: 600;
-      line-height: 1.45;
-    }
-
-    .flow-strip {
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .flow-layer {
-      position: relative;
-      padding: 12px 18px;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-    }
-    .flow-layer:not(:last-child) { border-left: 1px solid var(--line); }
-    .flow-layer strong { font-size: 12px; }
-
-    #processDetails { min-height: 620px; }
-    .process-detail { display: none; margin: 0; padding: 0; border: 0; }
-    .process-detail.is-active { display: block; }
-    .detail-number { border-radius: 50%; background: var(--teal); }
-    .context-grid {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      margin: 22px 0 30px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .context-card {
-      min-height: 82px;
-      padding: 13px 17px;
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-      text-decoration: none;
-    }
-    .context-card:not(:last-child) { border-left: 1px solid var(--line); }
-
-    .steps {
-      position: relative;
-      display: block;
-      max-width: 1040px;
-      margin: 18px auto 0;
-      padding-right: 42px;
-    }
-    .steps::before {
-      content: "";
-      position: absolute;
-      top: 16px;
-      right: 13px;
-      bottom: 17px;
-      width: 3px;
-      background: linear-gradient(var(--teal), var(--navy));
-    }
-    .step {
-      position: relative;
-      display: grid;
-      grid-template-columns: 120px minmax(190px, .75fr) 1.6fr;
-      align-items: start;
-      gap: 18px;
-      min-height: 92px;
-      padding: 8px 0 22px;
-      background: transparent;
-      border: 0;
-      border-radius: 0;
-    }
-    .step::before {
-      content: attr(data-step);
-      position: absolute;
-      top: 8px;
-      right: -42px;
-      left: auto;
-      z-index: 2;
-      display: grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      padding: 0;
-      color: #fff;
-      background: var(--teal);
-      border: 4px solid #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 0 2px var(--teal);
-      font-size: 10px;
-    }
-    .step-kind { width: fit-content; margin: 3px 0 0; }
-    .step h4 { margin-top: 2px; }
-    .step p { padding-left: 15px; }
-    .step-data {
-      grid-column: 2 / -1;
-      margin: -9px 0 0;
-      padding: 0;
-      border: 0;
-    }
-    .financial-note {
-      max-width: 1040px;
-      margin: 13px auto 0;
-      border-radius: 0;
-      border-right-width: 5px;
-    }
-
-    .money-intro { grid-template-columns: 1.3fr .7fr; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .money-principle { border-radius: 0; background: transparent; color: var(--ink); border-left: 1px solid var(--line); }
-    .money-principle h3 { color: var(--green); }
-    .money-principle p { color: var(--muted); }
-    .money-levels { gap: 0; }
-    .money-levels div { border: 0; border-radius: 0; background: transparent; }
-    .money-grid { display: block; border-top: 2px solid var(--navy); }
-    .money-case {
-      display: grid;
-      grid-template-columns: 210px 255px minmax(270px, 1fr) 250px;
-      gap: 20px;
-      align-items: center;
-      padding: 17px 8px;
-      border: 0;
-      border-bottom: 1px solid var(--line);
-      border-radius: 0;
-      background: transparent;
-    }
-    .money-case-head { display: block; }
-    .money-case h3 { margin-bottom: 6px; }
-    .money-route { margin: 0; }
-    .accounting { margin: 0; padding: 0; border: 0; }
-
-    .controls-grid, .open-grid { display: block; border-top: 2px solid var(--navy); }
-    .control, .open-item {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 20px;
-      padding: 14px 8px;
-      border: 0;
-      border-bottom: 1px solid var(--line);
-      border-radius: 0;
-      background: transparent;
-    }
-    .control strong, .open-item strong { margin: 0; }
-    .open-item { grid-template-columns: 250px 1fr 200px; }
-    .open-item .owner { margin: 0; text-align: left; }
-
-    @media (max-width: 900px) {
-      .process-map { grid-template-columns: repeat(8, 140px); }
-      .flow-strip { display: flex; overflow-x: auto; }
-      .flow-layer { min-width: 180px; }
-      .step { grid-template-columns: 100px 1fr; }
-      .step p { grid-column: 2; }
-      .step-data { grid-column: 2; margin-top: -15px; }
-      .money-case { grid-template-columns: 180px 1fr; }
-      .money-case p, .accounting { grid-column: 2; }
-    }
-    @media (max-width: 620px) {
-      .process-map { grid-template-columns: repeat(8, 125px); }
-      .stage-card h3 { font-size: 13px; }
-      .context-grid { display: block; }
-      .context-card:not(:last-child) { border-left: 0; border-bottom: 1px solid var(--line); }
-      .steps { padding-right: 36px; }
-      .step { display: block; padding-bottom: 25px; }
-      .step::before { right: -36px; }
-      .step-kind, .step h4, .step p, .step-data { margin-bottom: 7px; }
-      .step p { padding-left: 0; }
-      .money-intro { display: block; }
-      .money-principle { border-left: 0; border-bottom: 1px solid var(--line); }
-      .money-case, .control, .open-item { display: block; }
-      .money-route, .money-case p, .accounting, .control p, .open-item p, .open-item .owner { margin-top: 8px; }
-      .open-item .owner { text-align: right; }
-    }
-  </style>
+@media print{
+  .topbar,.minimap,.pager,.back-top{display:none}
+  body{font-size:12pt; background:#fff}
+  .proc,.fin-sub,.map-shell{box-shadow:none; break-inside:avoid}
+  .step-rule{display:block}
+}
+@media (max-width:640px){
+  .step{grid-template-columns:1fr}
+  .step-no{display:none}
+  .tr-row{grid-template-columns:1fr}
+  .lc{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
-  <a class="skip-link" href="#main">انتقل إلى المحتوى الرئيسي</a>
-  <header class="topbar">
-    <div class="brand"><span class="brand-mark">اد</span><span>نظام الادخار — خريطة عمليات الأعمال</span></div>
-    <nav class="top-links" aria-label="روابط الوثائق المرجعية">
-      <a href="savings-architecture-explorer.html">مستكشف المعمارية</a>
-      <a href="Full-BRD/Saving-Full-BRD.html">وثيقة المتطلبات</a>
-      <a href="11-optional-saving-inquiries.html">الاستفسارات</a>
-      <a href="spf-savings-interactive.html">العرض التفاعلي السابق</a>
-    </nav>
-  </header>
 
-  <section class="hero" id="top">
-    <div class="hero-inner">
-      <span class="eyebrow">نسخة أعمال تفاعلية • 7 أكتوبر 2026</span>
-      <h1>رحلة الادخار من التسجيل إلى التسوية المالية</h1>
-      <p>صورة واحدة توضّح كيف تبدأ علاقة المدخر، وكيف تنتقل البيانات والأموال بين الفوترة والتحصيل وحساب المدخر وOracle، ومتى يصبح طلب الصرف تسوية مالية مكتملة.</p>
+<header class="topbar">
+  <span class="brand"><img class="brand-logo" src="SPF_logo_gold.svg" alt="صندوق الحماية الاجتماعية"><b>نظام الادخار</b><span class="brand-sub">خريطة الإجراءات الشاملة</span></span>
+  <nav class="top-links no-present" aria-label="مراجع">
+    <a href="Full-BRD/Saving-Full-BRD.html">وثيقة المتطلبات</a>
+    <a href="savings-architecture-explorer.html">مستكشف المعمارية</a>
+    <a href="27-roi-simulation.html">محاكاة العائد</a>
+    <a href="11-optional-saving-inquiries.html">الاستفسارات</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <h1>خريطة إجراءات نظام الادخار</h1>
+    <p class="lead">المراحل الست وكل إجراء فرعي داخلها — اضغط على أي إجراء لعرض مخطط تدفقه.</p>
+  </div>
+</section>
+
+<main id="main">
+
+  <!-- ============ 01 الخريطة الشاملة ============ -->
+  <section class="section" id="holistic" aria-labelledby="h-holistic">
+    <div class="section-head">
+      <span class="kicker">القسم الأول</span>
+      <h2 id="h-holistic">الصورة الشاملة لإجراءات نظام الادخار</h2>
+      
     </div>
+
+    <div class="map-shell slide" data-cap="القسم الأول — الصورة الشاملة لإجراءات نظام الادخار">
+      <span class="slide-cap"></span>
+      <div class="map-legend" aria-label="دليل الألوان">
+        <span class="l-prep"><i></i> التهيئة قبل الإطلاق</span>
+        <span class="l-reg"><i></i> التسجيل وبناء العلاقة</span>
+        <span class="l-mon"><i></i> دورة الاحتساب</span>
+        <span class="l-ann"><i></i> الدورة السنوية</span>
+        <span class="l-pay"><i></i> الاستحقاق والصرف</span>
+        <span class="l-sup"><i></i> الإجراءات المساندة والاستثنائية</span>
+      </div>
+      <div class="map-scroll">
+        <svg id="archMap" viewBox="0 0 1280 1100" role="img" aria-label="خريطة المراحل والإجراءات الفرعية لنظام الادخار"></svg>
+      </div>
+      
+
+          </div>
   </section>
 
-  <main id="main">
-    <section class="section" aria-labelledby="overview-title">
-      <div class="section-heading">
-        <div>
-          <h2 id="overview-title">خط رحلة الادخار الشامل</h2>
-          <p>ثماني محطات متصلة تبدأ بإنشاء العلاقة والحساب وتنتهي بإثبات التسوية المالية. اختر محطة لعرض مسارها التفصيلي فقط.</p>
-        </div>
-        <span class="section-no">01 — HOLISTIC VIEW</span>
-      </div>
+  <!-- ============ 02 مخطط العملية الفرعية ============ -->
+  <section class="section" id="detail" aria-labelledby="h-detail">
+    <div class="section-head">
+      <span class="kicker">القسم الثاني</span>
+      <h2 id="h-detail">مخطط تدفق الإجراء الفرعي</h2>
+    </div>
+    <div id="detailRoot"></div>
+  </section>
 
-      <div class="readiness-gate">
-        <span class="gate-icon">✓</span>
-        <div><strong>بوابة جاهزية قبل الإطلاق</strong><p>حل مشكلات بيانات المشتركين والعقود العالقة، ثم أخذ Snapshot من بيانات وزارة العمل ومطابقتها مع بيانات الصندوق. يبلغ حجم العقود العالقة حاليًا نحو 258,000 حالة تقريبًا.</p></div>
-        <span class="status-pill">شرط سابق للإطلاق</span>
-      </div>
+</main>
 
-      <div class="legend" aria-label="دليل رموز الخريطة">
-        <span><i></i> حركة بيانات</span>
-        <span class="money"><i></i> حركة مالية</span>
-        <span class="decision"><i></i> قرار أو تحقق</span>
-        <span class="system"><i></i> ترحيل بين الأنظمة</span>
-      </div>
-      <div class="process-map" id="processMap" aria-label="مراحل العملية الشاملة"></div>
-      <p class="map-help">كل دائرة محطة أعمال. استخدم النقر أو Tab ثم Enter لفتح تفاصيل المحطة.</p>
+<footer>خريطة توضيحية للأعمال أُعدّت لعرضها على المستخدمين غير المتخصصين. المرجع الملزم عند التنفيذ التفصيلي هو وثيقة متطلبات الأعمال وقواعد العمل المعتمدة والنصوص القانونية الواردة فيها.</footer>
 
-      <div class="flow-strip" aria-label="طبقات تتبع الحركة المالية">
-        <div class="flow-layer"><strong>1. الاستحقاق</strong><span>المبلغ الواجب سداده وفق القاعدة</span></div>
-        <div class="flow-layer"><strong>2. الفاتورة</strong><span>المطالبة المالية ورقمها وحالتها</span></div>
-        <div class="flow-layer"><strong>3. التحصيل</strong><span>المبلغ المؤكد وصوله ومرجع السداد</span></div>
-        <div class="flow-layer"><strong>4. التخصيص</strong><span>نصيب كل مدخر ومصدر المبلغ</span></div>
-        <div class="flow-layer"><strong>5. القيد والتسوية</strong><span>قيد Oracle ونتيجة الدفع والمطابقة</span></div>
-      </div>
-    </section>
+<script>
+/* ====================================================================
+   بيانات المراحل والإجراءات الفرعية
+   ==================================================================== */
+const PHASES = [
+{
+  id:'ph0', no:'المرحلة الأولى', cls:'prep', color:'#6b7f8f', when:'تُنفَّذ مرة واحدة قبل الإطلاق',
+  title:'التهيئة والجاهزية قبل إطلاق المنظومة',
+  desc:'لا يمكن أن يبدأ النظام بإنشاء حسابات وفواتير على بيانات غير مطابقة. فتُعالَج فجوة البيانات بين الصندوق ووزارة العمل أولاً، ثم تُؤخذ نسخة ثابتة يُبنى عليها التسجيل التلقائي.',
+  mapW:230, mapCols:3,
+  procs:[
+  {
+    id:'p01', no:'٠١', title:'معالجة بيانات المشتركين والعقود العالقة قبل الإطلاق',
+    paths:['shared'], freq:'مرة واحدة — شرط سابق للإطلاق',
+    what:'تسوية الفجوة بين سجلات الصندوق وسجلات وزارة العمل، ومعالجة العقود التي لا تصلح حالتها لبناء استحقاق شهري عليها، قبل أن يُنشئ النظام أي حساب أو فاتورة.',
+    trigger:'قرار بدء التهيئة لإطلاق المنظومة',
+    actors:'دائرة بيانات المشتركين، دائرة النظم التكميلية والادخار، وزارة العمل',
+    systems:'نظام الاشتراكات، منظومة وزارة العمل، نظام الادخار',
+    input:'سجلات المشتركين لدى الصندوق، سجلات العمال والعقود لدى وزارة العمل',
+    output:'قائمة سجلات مطابقة صالحة للتسجيل، وقائمة حالات عالقة بمالك ومسار معالجة',
+    steps:[
+      {k:'نشاط', t:'تستخرج دائرة بيانات المشتركين أعداد السجلات لدى الصندوق ولدى وزارة العمل لقياس حجم الفجوة بينهما', p:'تُقارَن أعداد السجلات لدى الطرفين لتحديد حجم العمل المطلوب. وبالأرقام التقريبية المتاحة بنهاية سبتمبر ٢٠٢٦ يوجد نحو ١٫٠٦ مليون سجل لدى الصندوق مقابل نحو ١٫٤ مليون سجل لدى وزارة العمل.', who:'دائرة بيانات المشتركين', data:'عدد السجلات لدى كل جهة، وحجم الفرق، وتاريخ القياس'},
+      {k:'تحقق', t:'يستبعد الفريق السجلات التي لا تنطبق عليها اشتراطات التسجيل ويوثّق سبب استبعاد كل سجل', p:'تُستبعد السجلات التي لا تنطبق عليها اشتراطات التسجيل في فروع التأمين الاجتماعي، كالملاك الشركاء والمستثمرين ومن تجاوزوا سن الستين. وقد بلغ المستبعد في التحليل الأولي نحو ٥٥ ألف سجل.', who:'دائرة بيانات المشتركين', data:'سبب الاستبعاد لكل سجل وعدد المستبعدين'},
+      {k:'نشاط', t:'تعالج الدائرة مع وزارة العمل العقود العالقة حتى تصل كل حالة إلى وضع تعاقدي واضح', p:'تُعالَج العقود التي لا تصلح حالتها التعاقدية لبناء استحقاق شهري عليها، ويبلغ عددها حالياً نحو ٢٥٨٬٠٠٠ حالة تقريباً. ولا تُعد المنظومة جاهزة للإطلاق قبل الوصول بهذه الحالات إلى حالة تعاقدية واضحة.', who:'دائرة بيانات المشتركين مع وزارة العمل', data:'رقم العقد، نوع الإشكال، الإجراء المتخذ، تاريخ الإغلاق', rule:['أرقام تقريبية بنهاية سبتمبر ٢٠٢٦ — وثيقة المتطلبات، بيان المشكلة']},
+      {k:'تحقق', t:'تراجع دائرة النظم التكميلية والادخار نسبة التطابق وتصدر قرار جاهزية البيانات للإطلاق', p:'لا تُعلن الجاهزية إلا بعد بلوغ نسبة التطابق المستهدفة وإغلاق الحالات العالقة أو نقلها إلى مسار معالجة معروف المالك والمدة.', who:'دائرة النظم التكميلية والادخار', data:'نسبة التطابق، الحالات المتبقية، قرار الجاهزية وتاريخه'}
+    ],
+    fin:'لا أثر مالي في هذه العملية. لكن أي خطأ فيها يَنتقل مباشرةً إلى أرقام الاستحقاق الشهري والفواتير، فتُعالَج قبل الإطلاق لا بعده.',
+    handoff:{text:'بيانات مطابقة صالحة لأخذ النسخة الثابتة', to:'p02'}
+  },
+  {
+    id:'p02', no:'٠٢', title:'أخذ نسخة ثابتة من بيانات وزارة العمل ومطابقتها ببيانات الصندوق',
+    paths:['mandatory'], freq:'مرة واحدة عند بدء التشغيل',
+    what:'تثبيت صورة لحظية من بيانات العمال والعقود لدى وزارة العمل في وقت محدد، ليُبنى عليها التسجيل التلقائي بأرقام ثابتة لا تتغير أثناء المعالجة.',
+    trigger:'إقرار جاهزية البيانات في الإجراء السابق',
+    actors:'دائرة النظم التكميلية والادخار، الفريق التقني، وزارة العمل',
+    systems:'منظومة وزارة العمل، نظام الادخار، طبقة التكامل',
+    input:'بيانات العمال والعقود والأجور وحالة العامل لدى وزارة العمل',
+    output:'نسخة ثابتة مرقّمة بتاريخ ووقت، وتقرير مطابقة بين الجهتين',
+    steps:[
+      {k:'نشاط', t:'يحدد الفريق التقني تاريخاً ووقتاً مرجعيين تُقرأ عندهما بيانات وزارة العمل وتُنسب إليهما كل نتيجة لاحقة', p:'يُحدَّد تاريخ ووقت مرجعي واحد تُقرأ عنده البيانات، فتُنسب كل نتيجة لاحقة إلى هذه اللحظة بعينها ولا تُخلط بتحديثات وردت بعدها.', who:'الفريق التقني', data:'معرّف النسخة، تاريخها ووقتها، نطاق البيانات المشمولة'},
+      {k:'ترحيل', t:'تُنسخ بيانات العمال والعقود من وزارة العمل إلى الصندوق مع تجميد قصير يقتصر على مدة النسخ وحدها', p:'تُنسخ البيانات مع تجميد قصير يقتصر على مدة النسخ وحدها، ويُرفع التجميد فور اكتمالها. ولا تُربَط مدة التجميد بمدة المعالجة اللاحقة حتى لا يتعطل التسجيل في وزارة العمل.', who:'الفريق التقني مع وزارة العمل', data:'عدد السجلات المنسوخة، مدة التجميد الفعلية، حالة الاكتمال'},
+      {k:'تحقق', t:'يقارن النظام كل سجل في النسخة الثابتة بما لدى الصندوق ويستخرج الحقول المختلفة بين الجهتين', p:'تُطابَق كل سجل في النسخة بما لدى الصندوق لاستخراج المتطابق، والموجود عند جهة دون الأخرى، والمختلف في حقل جوهري كالأجر الأساسي أو حالة العامل أو تاريخ بدء العمل.', who:'دائرة بيانات المشتركين', data:'نتيجة المطابقة لكل سجل، والحقول المختلفة، وقيمة كل منها عند الطرفين'},
+      {k:'قرار', t:'تصنّف دائرة بيانات المشتركين كل سجل إلى مطابق أو يحتاج مراجعة بشرية أو مستبعد بسبب موثق', p:'يُصنَّف كل سجل إلى: مطابق جاهز للتسجيل، أو يحتاج مراجعة بشرية، أو مستبعد بسبب موثق. ولا يدخل سجل إلى التسجيل التلقائي إلا بتصنيف «مطابق».', who:'دائرة بيانات المشتركين', data:'التصنيف، سببه، والموظف المسؤول عن المراجعة'}
+    ],
+    fin:'لا أثر مالي مباشر. وتُعد النسخة الثابتة المرجع الذي تُقاس عليه صحة أعداد الحسابات والاستحقاقات في أول دورة شهرية بعد الإطلاق.',
+    handoff:{text:'نسخة ثابتة مصنّفة جاهزة لفحص الأهلية', to:'p03'}
+  },
+  {
+    id:'p03', no:'٠٣', title:'فحص الأهلية وتسجيل المؤهلين تلقائياً عند بدء التشغيل',
+    paths:['mandatory'], freq:'مرة واحدة عند بدء التشغيل',
+    what:'تطبيق شروط الأهلية على النسخة الثابتة، ثم إنشاء حسابات الادخار للمؤهلين في عملية واحدة مرقّمة، بدل أن يُسجَّل كل عامل يدوياً.',
+    trigger:'اكتمال النسخة الثابتة وتصنيف نتيجة المطابقة',
+    actors:'دائرة النظم التكميلية والادخار، الفريق التقني',
+    systems:'نظام الادخار، نظام الاشتراكات، طبقة التكامل',
+    input:'النسخة الثابتة المصنّفة، وقواعد الأهلية المعتمدة',
+    output:'حسابات ادخار منشأة بتاريخ تفعيل واحد، وقائمة مؤجلة، وقائمة تحتاج مراجعة',
+    steps:[
+      {k:'تحقق', t:'يطبّق النظام شروط الأهلية على كل سجل في النسخة الثابتة ويحدد من يشمله التسجيل الإلزامي', p:'يُفحَص كل سجل وفق شرط التسجيل الإلزامي: كل عامل غير عماني يُسجَّل في نظام الادخار حتى إذا لم يستوفِ شروط التسجيل في أي فرع آخر من فروع التأمين الاجتماعي، فلا يؤدي عدم تسجيله في فرع آخر إلى استبعاده من الادخار.', who:'نظام الادخار — فحص آلي', data:'نتيجة الأهلية لكل سجل وسببها', rule:['BR-REG-06','BR-REG-03','م. ٩٧ لائحة']},
+      {k:'قرار', t:'يُصنَّف السجل إلى مؤهل الآن أو مؤهل لاحقاً عند استكمال شرط ناقص أو يحتاج مراجعة بشرية', p:'يُصنَّف السجل إلى: مؤهل الآن فيُسجَّل تلقائياً، أو مؤهل لاحقاً عند استكمال شرط ناقص، أو يحتاج مراجعة بشرية قبل اتخاذ القرار.', who:'نظام الادخار / دائرة بيانات المشتركين', data:'التصنيف ومبرره ومالك المعالجة'},
+      {k:'نشاط', t:'ينشئ النظام حسابات المؤهلين ضمن عملية تشغيل واحدة لها معرّف يمكن تتبعها وإعادة تشغيلها', p:'تُنشأ حسابات المؤهلين ضمن عملية تشغيل واحدة لها معرّف، فيمكن تتبع كل حساب إلى العملية التي أنشأته وإعادة تشغيلها أو عكسها عند الحاجة دون لبس.', who:'الفريق التقني', data:'معرّف عملية التشغيل، عدد الحسابات المنشأة، تاريخ التفعيل الموحد'},
+      {k:'تحقق', t:'تطابق الدائرة عدد الحسابات المنشأة بعدد المؤهلين ولا تعتمد النتيجة عند وجود فرق غير مفسَّر', p:'يُطابَق عدد الحسابات المنشأة فعلاً بعدد المؤهلين الناتج عن الفحص، ولا تُعلن العملية ناجحة عند وجود أي فرق غير مفسَّر.', who:'دائرة النظم التكميلية والادخار', data:'المؤهلون، المنشأ فعلاً، الفرق وسببه'},
+      {k:'نشاط', t:'يعتمد النظام تاريخ بدء العمل الوارد من وزارة العمل بوصفه بداية العلاقة الخاضعة لنظام الادخار', p:'يُعتمد تاريخ استلام أو بدء العمل الوارد من وزارة العمل ضمن بيانات تسجيل العقد بوصفه تاريخ بداية علاقة العمل الخاضعة لنظام الادخار، فلا يُستنبط من تاريخ إنشاء الحساب.', who:'نظام الادخار', data:'تاريخ بدء العلاقة ومصدره', rule:['BR-REG-07']}
+    ],
+    fin:'إنشاء الحساب لا يعني وجود رصيد فيه. ولا ينشأ أول رصيد إلا بعد أول دورة استحقاق وتحصيل وتخصيص. لكن تاريخ بدء العلاقة المعتمد هنا هو ما يحدد أول شهر يُبنى عليه استحقاق.',
+    handoff:{text:'حسابات ادخار نشطة جاهزة لاستقبال الاستحقاقات', to:'p07'}
+  }]
+},
+{
+  id:'ph1', no:'المرحلة الثانية', cls:'reg', color:'#2f4f9e', when:'عند كل دخول جديد للنظام',
+  title:'التسجيل وبناء علاقة الادخار',
+  desc:'ثلاث طرق مختلفة يدخل بها المدخر إلى النظام: تسجيل إلزامي يُنشأ تلقائياً من علاقة العمل، وتسجيل اختياري يبدأ بطلب من المدخر وإيداع أولي، وتسوية مكافأة نهاية الخدمة السابقة لمن اختارت جهة عمله ترحيلها إلى النظام.',
+  mapW:230, mapCols:3,
+  procs:[
+  {
+    id:'p04', no:'٠٤', title:'التسجيل الإلزامي للعامل غير العماني في نظام الادخار',
+    paths:['mandatory'], freq:'عند كل عقد عمل جديد — خلال ٣٠ يوماً من الالتحاق',
+    what:'إنشاء حساب ادخار للعامل غير العماني وربطه بعلاقة عمله، ليصبح قابلاً لاستقبال الاشتراك الشهري الذي تلتزم به جهة العمل.',
+    trigger:'ورود عقد عمل جديد لعامل غير عماني من وزارة العمل',
+    actors:'جهة العمل، وزارة العمل، دائرة بيانات المشتركين',
+    systems:'منظومة وزارة العمل، نظام الاشتراكات، نظام الادخار',
+    input:'بيانات العقد، الرقم المدني أو رقم المقيم، الجنسية، الأجر الأساسي، تاريخ بدء العمل',
+    output:'حساب ادخار نشط، وتاريخ بدء علاقة خاضعة للنظام، وإشعار للعامل',
+    steps:[
+      {k:'تحقق', t:'يستقبل الصندوق بيانات عقد العامل غير العماني من وزارة العمل ويتحقق من اكتمال حقولها', p:'تلتزم جهة العمل بتسجيل العامل غير العماني خلال ثلاثين يوماً من تاريخ الالتحاق بالعمل، ويستقبل الصندوق بيانات العقد من وزارة العمل ويتحقق من اكتمالها.', who:'جهة العمل عبر وزارة العمل', data:'الرقم المدني، الجنسية، جهة العمل، الأجر الأساسي، تاريخ الالتحاق', rule:['BR-REG-01','م. ٩٧ لائحة']},
+      {k:'قرار', t:'يحدد النظام شمول العامل بالادخار الإلزامي ولو لم يستوفِ شروط التسجيل في فرع تأميني آخر', p:'يُسجَّل كل عامل غير عماني في نظام الادخار الإلزامي حتى إذا لم يستوفِ شروط التسجيل في فرع آخر من فروع التأمين الاجتماعي. ويُعدّ مسجلاً تلقائياً إذا كان مسجلاً في أي فرع.', who:'نظام الادخار — فحص آلي', data:'قرار الشمول وسببه', rule:['BR-REG-06','BR-REG-03']},
+      {k:'تحقق', t:'تسوّي دائرة بيانات المشتركين خدمة المنتقل من القطاع العسكري أو الأمني قبل بدء تسجيله', p:'عند انتقال العامل من القطاع العسكري أو الأمني إلى القطاع الخاص، تُسوّى المبالغ المستحقة له عن فترة خدمته السابقة أولاً، ثم يبدأ تسجيله استناداً إلى علاقة العمل الجديدة في القطاع الخاص.', who:'دائرة بيانات المشتركين', data:'نتيجة التسوية السابقة وتاريخ بدء العلاقة الجديدة', rule:['BR-REG-08']},
+      {k:'نشاط', t:'ينشئ النظام حساباً شخصياً واحداً بالريال العماني تُفصَل داخله أوعية مصادر الإيداع', p:'يُنشأ حساب شخصي واحد للمدخر بالريال العماني حصراً، تُحفظ داخله مصادر الإيداع كل في وعاء مستقل، فتبقى تجربة الحساب موحدة للمستخدم ويبقى الفصل بين المصادر قائماً للتقارير والقيود.', who:'نظام الادخار', data:'رقم الحساب، الأوعية المنشأة، تاريخ التفعيل', rule:['BR-DEP-03']},
+      {k:'نشاط', t:'يثبّت النظام سريان التسجيل حتى إيقافه، ويسجّل بأثر رجعي إذا ثبت عدم التسجيل في وقته', p:'يُعدّ التسجيل في النظام سارياً حتى إيقافه من المدخر أو من الصندوق، ولا يسقط بانتهاء عقد واحد. ويحق للصندوق التسجيل بأثر رجعي إذا ثبت عدم التسجيل في وقته.', who:'نظام الادخار / الصندوق', data:'حالة التسجيل، تاريخ السريان، مرجع الأثر الرجعي إن وُجد', rule:['BR-REG-04','BR-REG-02']},
+      {k:'نشاط', t:'يُشعر النظام العامل وجهة العمل بالأجر الأساسي المسجل وبتاريخ بدء مهلة الاعتراض عليه', p:'يُشعَر العامل بتسجيله وبالأجر الأساسي المسجل في الصندوق، لأن مدة الاعتراض على الأجر تبدأ من تاريخ التسجيل لا من تاريخ علمه به.', who:'نظام الادخار', data:'الأجر المسجل، تاريخ التسجيل، بقية مدة الاعتراض', rule:['BR-NOT-02','م. ٩٨ لائحة']}
+    ],
+    fin:'لا رصيد ولا قيد محاسبي عند التسجيل. والأثر المالي الوحيد أن العامل أصبح ضمن أساس الاستحقاق الشهري، فيُنشأ له بند ٩٪ في فاتورة جهة العمل من الشهر الذي يشمله تاريخ بدء العلاقة.',
+    handoff:{text:'عامل نشط مشمول بأساس الاستحقاق الشهري', to:'p07'},
+    statuses:['نشط مع جهة العمل','غير نشط — تارك عمل','غير نشط — حالة توقف تعاقدية','موقوف']
+  },
+  {
+    id:'p05', no:'٠٥', title:'التسجيل الاختياري للفئات المشمولة وإنشاء الحساب الشخصي',
+    paths:['optional'], freq:'عند الطلب — بمبادرة المدخر أو جهة العمل',
+    what:'تمكين الفئات التي حددها القانون من بناء مدخرات شخصية بإيداعات ذاتية أو من جهة العمل، ولا يكتمل التسجيل إلا بسداد إيداع أولي.',
+    trigger:'طلب تسجيل اختياري من المدخر، أو تسجيل ينفّذه موظف الصندوق عند الحاجة',
+    actors:'المدخر، جهة العمل، موظف الصندوق',
+    systems:'بوابة الهوية الرقمية «ثقة»، الأحوال المدنية، نظام الادخار، قنوات الدفع والتحصيل',
+    input:'هوية المدخر، الفئة المطلوبة، مصدر الإيداع، مبلغ الإيداع الأولي',
+    output:'حساب شخصي نشط، حساب داخلي مرتبط، فاتورة إيداع أولي مسددة',
+    steps:[
+      {k:'تحقق', t:'يدخل المستخدم عبر بوابة الهوية الرقمية فيُربَط ملفه التعريفي بدوره وصلاحياته في النظام', p:'يدخل المستخدم عبر بوابة الهوية الرقمية، فيُربَط ملفه بدوره وتُحدَّد له الشاشات والصلاحيات المناسبة.', who:'المدخر', data:'الرقم المدني، الدور، نتيجة المصادقة'},
+      {k:'تحقق', t:'يفحص النظام انطباق إحدى الفئات المحددة في القانون على مقدّم طلب التسجيل الاختياري', p:'الفئات الأربع للادخار الاختياري محددة في المادة ١٣٦، ويجوز لمجلس الإدارة إضافة فئات أخرى. ويُفحَص انطباق الفئة على مقدم الطلب قبل قبوله.', who:'نظام الادخار', data:'الفئة المختارة، نتيجة فحص الانطباق', rule:['BR-REG-05','م. ١٣٦ قانون']},
+      {k:'نشاط', t:'يستعلم النظام من الأحوال المدنية لاستكمال البيانات الأساسية غير المتوفرة لدى الصندوق', p:'إذا لم تتوفر بيانات المستخدم في قاعدة بيانات الصندوق، يُستعلَم آلياً من الأحوال المدنية بالرقم المدني وتاريخ انتهاء البطاقة لاستكمال البيانات الأساسية.', who:'نظام الادخار ← الأحوال المدنية', data:'البيانات الشخصية المستكملة ومصدرها ووقت الاستعلام'},
+      {k:'نشاط', t:'ينشئ النظام الحساب الشخصي وحساباً داخلياً مرتبطاً به ويربط مصادر الإيداع المعتمدة', p:'يُنشأ الحساب الشخصي، ويُنشأ معه حساب داخلي Virtual Account إن لم يكن موجوداً مسبقاً لنفس الرقم المدني، ثم تُربَط مصادر الإيداع المعتمدة. والحساب الداخلي كيان داخل النظام في هذه المرحلة ويجب مزامنته لحظياً مع الإيداع والتخصيص والصرف.', who:'نظام الادخار', data:'رقم الحساب، رقم الحساب الداخلي، مصادر الإيداع المربوطة', rule:['BR-DEP-05D']},
+      {k:'حركة مالية', t:'تُصدَر فاتورة إيداع أولي لا تقل عن الحد الأدنى المعتمد ويسددها المدخر عبر منافذ التحصيل', p:'لا يكتمل التسجيل الاختياري إلا بإصدار فاتورة إيداع أولي لا تقل عن الحد الأدنى المعتمد — وهو ١٠٠ ريال عماني حالياً — وسدادها عبر منافذ الدفع والتحصيل المعمول بها في الصندوق.', who:'المدخر عبر قناة الدفع', data:'رقم الفاتورة، المبلغ، مرجع السداد، حالة الفاتورة', rule:['BR-DEP-01','م. ١٠٠ لائحة']},
+      {k:'نشاط', t:'يفعّل النظام الحساب بعد تأكيد السداد والتخصيص ويُشعر المدخر برصيده الافتتاحي', p:'بعد تأكيد السداد والتخصيص يصبح الحساب نشطاً وقابلاً لاستقبال الإيداعات اللاحقة، ويُشعَر المدخر بحالة تسجيله ورصيده الافتتاحي.', who:'نظام الادخار', data:'حالة التسجيل، الرصيد الافتتاحي، سجل التدقيق'}
+    ],
+    fin:'أول رصيد حقيقي في هذا المسار ينشأ من فاتورة الإيداع الأولي بعد تأكيد سدادها وتخصيصها، ويُقيَّد في وعاء الادخار الاختياري بكود محاسبي مستقل عن الاشتراكات الإلزامية.',
+    handoff:{text:'حساب اختياري نشط جاهز للإيداعات اللاحقة', to:'p09'},
+    statuses:['مسودة الطلب','بانتظار سداد الإيداع الأولي','نشط','موقوف','خارج من النظام الاختياري']
+  },
+  {
+    id:'p06', no:'٠٦', title:'تسوية مكافأة نهاية الخدمة السابقة لتطبيق النظام — المادة ١٣٨',
+    paths:['mandatory'], freq:'مرة واحدة لكل عامل عند تطبيق النظام',
+    what:'حسم ما كان مستحقاً للعامل غير العماني كمكافأة نهاية خدمة عن فترة ما قبل تطبيق النظام: إمّا سُوّيت معه ودياً، أو رُحّلت إلى حساب ادخاره كمصدر مستقل.',
+    trigger:'تطبيق النظام على عامل له مدة خدمة سابقة لدى جهة العمل',
+    actors:'جهة العمل، العامل غير العماني، موظف الصندوق',
+    systems:'نظام الادخار، نظام الفوترة، قنوات الدفع والتحصيل',
+    input:'مدة الخدمة السابقة، الأجر، البيانات المرجعية، قرار جهة العمل لكل عامل',
+    output:'قرار موثق لكل عامل، وفاتورة تسوية عند اختيار الترحيل، ووعاء مستقل في الحساب',
+    steps:[
+      {k:'نشاط', t:'تستعلم جهة العمل عن مبلغ تسوية مكافأة نهاية الخدمة السابقة لعامل محدد أو لجميع عمالها', p:'يمكّن النظام جهة العمل من الاستعلام عن مبلغ التسوية لعامل محدد أو لجميع عمالها، محتسباً على مدة الخدمة والبيانات المرجعية المتاحة.', who:'جهة العمل', data:'مدة الخدمة لكل عامل، مبلغ التسوية المحتسب'},
+      {k:'قرار', t:'تختار جهة العمل لكل عامل على حدة: تسوية ودية معه أو ترحيل المبلغ إلى نظام الادخار', p:'تُلزَم جهة العمل باختيار واحد من إجراءين لكل عامل على حدة: «تمت التسوية مع العامل ودياً»، أو «تم ترحيلها إلى نظام الادخار». ولا يُقبل ترك الحالة دون اختيار.', who:'جهة العمل', data:'الخيار المختار لكل عامل وتاريخ تأكيده'},
+      {k:'نشاط', t:'يُخطَر العامل بالإجراء الذي اتخذته جهة عمله ويُتاح له الإقرار بالعلم أو تسجيل اعتراض', p:'يُخطَر العامل بما اختارته جهة عمله، وتُتاح له إمّا الإقرار بالعلم أو تسجيل اعتراض لأغراض التوثيق. ويعمل مسار التواصل بالتوازي مع التسوية المالية ولا يوقفها.', who:'نظام الادخار ← العامل', data:'حالة الإشعار، رد العامل، تاريخه'},
+      {k:'حركة مالية', t:'تُنشأ فاتورة على جهة العمل بمبالغ العمال المعتمدة عند اختيار ترحيلها إلى نظام الادخار', p:'إذا اختارت جهة العمل الترحيل، يُنفَّذ ذلك لعامل محدد أو عبر ملف يضم العمال والمبالغ المعتمدة لهم، ثم تُنشأ فاتورة على جهة العمل بهذه المبالغ عبر قنوات الدفع والتحصيل المعمول بها.', who:'نظام الادخار / نظام الفوترة', data:'رقم فاتورة التسوية، مبلغ كل عامل، إجمالي الفاتورة'},
+      {k:'حركة مالية', t:'يخصّص النظام المبالغ في حسابات العمال بعد تأكيد السداد فتظهر مصدراً مستقلاً في الحساب', p:'بعد تأكيد سداد فاتورة التسوية بنجاح، تُخصَّص المبالغ في الحسابات الشخصية للعمال المعنيين وفق المبلغ المعتمد لكل عامل، وتظهر كمصدر مستقل داخل الحساب.', who:'نظام الادخار', data:'المبلغ المخصص لكل عامل، مرجع السداد، رقم القيد'}
+    ],
+    fin:'تُحفظ مبالغ هذه التسوية في وعاء مستقل عن الاشتراك الشهري وعن الادخار الاختياري، وبقيد محاسبي منفصل، فيبقى معلوماً في أي وقت ما جاء من المكافأة السابقة وما جاء من الاشتراك الجاري.',
+    handoff:{text:'وعاء تسوية المادة ١٣٨ داخل الحساب', to:'p11'},
+    statuses:['قيد الاختيار من جهة العمل','تم تحديد آلية التسوية','فاتورة تسوية صادرة','بانتظار السداد','تم السداد','تم تخصيص المبلغ','مغلق']
+  }]
+},
+{
+  id:'ph2', no:'المرحلة الثالثة', cls:'mon', color:'#14532d', when:'تتكرر كل شهر',
+  title:'دورة الاحتساب للاشتراكات والإيداعات',
+  desc:'هذه هي الدورة التي يتحرك فيها المال فعلياً كل شهر: يُثبَّت الاستحقاق عند إغلاق دورة نهاية الشهر، ثم يُطالَب به في فاتورة، ثم يُحصَّل، ثم يُخصَّص في وعاء المدخر، وتُحتسب المبالغ الإضافية على ما تأخر.',
+  mapW:170, mapCols:6,
+  procs:[
+  {
+    id:'p07', no:'٠٧', title:'احتساب الاستحقاق الشهري وإغلاق دورة نهاية الشهر',
+    paths:['mandatory'], freq:'شهرياً — في آخر يوم من الشهر، وتستغرق حالياً ٤ إلى ٥ ساعات',
+    what:'تحويل بيانات العقد والأجر إلى مبلغ مستحق على جهة العمل لكل عامل غير عماني، وتثبيت هذا المبلغ عند لحظة إغلاق الدورة حتى لا يتغير بتحديثات لاحقة.',
+    trigger:'بلوغ آخر يوم في الشهر وبدء دورة الإغلاق',
+    actors:'نظام الفوترة، دائرة الاشتراكات، دائرة النظم التكميلية والادخار',
+    systems:'منظومة وزارة العمل، نظام الفوترة، نظام الاشتراكات، نظام الادخار',
+    input:'العمال النشطون مع جهة العمل، الأجر الأساسي، أيام الاشتراك، حالة العقد',
+    output:'استحقاق مثبّت لكل عامل، وأساس احتساب مقفل للدورة',
+    steps:[
+      {k:'نشاط', t:'يثبّت نظام الفوترة بيانات العمال والأجور عند إغلاق دورة نهاية الشهر فلا تتغير بتحديثات لاحقة', p:'يعتمد الاستحقاق الشهري البيانات والمبلغ المثبتين عند إغلاق دورة نهاية الشهر. ويحلل نظام الفوترة أثر التغييرات الواردة من وزارة العمل، ثم يرحّل الأثر المالي النهائي إلى حساب الادخار بعد انتهاء المعالجة.', who:'نظام الفوترة', data:'بيانات الدورة المثبتة، الأجر الأساسي، أيام الاشتراك', rule:['BR-DEP-08','BIL-01']},
+      {k:'حركة مالية', t:'يحتسب النظام اشتراك كل عامل غير عماني بنسبة ٩٪ من أجره الأساسي على عاتق صاحب العمل', p:'يُحتسب الاشتراك بنسبة ٩٪ من الأجر الأساسي للعامل غير العماني شهرياً، ويكون على عاتق صاحب العمل لا على العامل.', who:'نظام الفوترة', data:'الأجر الأساسي، النسبة، مبلغ الاستحقاق لكل عامل', rule:['BR-DEP-04','م. ١٣٩ قانون']},
+      {k:'حركة مالية', t:'يحتسب النظام اشتراك شهر الالتحاق أو الترك بالتناسب مع عدد أيام الاشتراك الفعلية', p:'إذا التحق العامل بالعمل أو تركه خلال الشهر، يُحتسب اشتراك ذلك الشهر بالتناسب مع عدد أيام الاشتراك الفعلية لا شهراً كاملاً، بأساس التناسب نفسه المعمول به في باقي بنود الفاتورة.', who:'نظام الفوترة', data:'أيام الاشتراك الفعلية، المبلغ المتناسب', rule:['BR-DEP-04B','BIL-03']},
+      {k:'تحقق', t:'يستمر احتساب الاشتراك خلال الإجازة بدون راتب ويتحمل صاحب العمل قيمته كاملة', p:'يستمر احتساب اشتراك الادخار للعامل غير العماني خلال فترة الإجازة بدون راتب، ويتحمل صاحب العمل قيمة الاشتراك.', who:'نظام الفوترة', data:'حالة الإجازة، تحمّل صاحب العمل، المبلغ المستحق', rule:['BR-DEP-07','م. ٢٩ لائحة']},
+      {k:'قرار', t:'يوقف النظام الاستحقاق تلقائياً للحالات غير النشطة فتتحول حالة البند إلى غير مطلوبة', p:'يُوقَف التحصيل الإلزامي تلقائياً للحالات غير النشطة مثل تارك العمل أو المحبوس أو أي حالة توقف تعاقدية مماثلة، فتتحول حالة البند إلى «غير مطلوبة».', who:'نظام الفوترة', data:'حالة العامل، سبب الإيقاف، تاريخه'},
+      {k:'ترحيل', t:'يرحّل نظام الفوترة النتيجة المالية النهائية إلى نظام الادخار بعد اعتماد نتيجة الدورة', p:'بعد انتهاء المعالجة واعتماد نتيجة الفوترة، تُرحَّل النتيجة المالية النهائية إلى نظام الادخار لقيدها في الحساب، فلا يقرأ نظام الادخار نتائج وسيطة أثناء المعالجة.', who:'نظام الفوترة ← نظام الادخار', data:'إجمالي الاستحقاق، تفصيله لكل عامل، مرجع الدورة'}
+    ],
+    fin:'المبلغ في هذه المرحلة «مستحق متوقع» ولا يظهر في رصيد المدخر. لكنه يدخل أساس احتساب العائد في المسار الإلزامي فوراً، لأن العائد يُحتسب على المتوقع تحصيله لا على المحصّل فعلاً.',
+    handoff:{text:'استحقاق مثبّت لكل عامل جاهز للفوترة', to:'p08'},
+    statuses:['مجدولة','صادرة','مستحقة','مسددة جزئياً','مسددة','متأخرة','مغلقة','غير مطلوبة']
+  },
+  {
+    id:'p08', no:'٠٨', title:'إصدار الفاتورة الشهرية الموحدة على صاحب العمل',
+    paths:['mandatory'], freq:'شهرياً بعد إغلاق الدورة',
+    what:'إظهار استحقاق الادخار كبند مستقل لكل عامل غير عماني داخل الفاتورة الشهرية الواحدة الصادرة على صاحب العمل، بنفس آلية الفوترة المعمول بها في فروع التأمين الاجتماعي.',
+    trigger:'اكتمال احتساب الاستحقاق الشهري',
+    actors:'نظام الفوترة، جهة العمل',
+    systems:'نظام الفوترة، نظام الاشتراكات، نظام الادخار',
+    input:'الاستحقاق المثبّت لكل عامل، بيانات جهة العمل',
+    output:'فاتورة شهرية موحدة برقم وحالة، وبند ادخار مستقل لكل عامل',
+    steps:[
+      {k:'نشاط', t:'يصدر نظام الفوترة فاتورة شهرية واحدة على صاحب العمل بالآلية المعمول بها في فروع التأمين', p:'تكون الفاتورة الشهرية على صاحب العمل فاتورة واحدة، وتُصدر عبر نفس الآلية المعمول بها حالياً في إصدار الفواتير الشهرية لفروع التأمين الاجتماعي، وللحالات النشطة مع جهة العمل فقط.', who:'نظام الفوترة', data:'رقم الفاتورة، الفترة، تاريخ الاستحقاق، إجمالي البنود', rule:['BR-DEP-04A']},
+      {k:'نشاط', t:'يضيف النظام داخل الفاتورة بند ادخار مستقلاً لكل عامل غير عماني ضمن إجمالي البنود', p:'يُضاف داخل الفاتورة بند مستقل بنسبة ٩٪ من الأجر الأساسي لكل عامل غير عماني، وتُحتسب قيمته الإجمالية ضمن إجمالي بنود الفاتورة القائمة، فيبقى مميزاً ومقروءاً لا مدموجاً في رقم واحد.', who:'نظام الفوترة', data:'بند الادخار لكل عامل، الأجر، النسبة، المبلغ', rule:['BR-DEP-04A']},
+      {k:'تحقق', t:'تُقفل الفاتورة بعد صدورها فلا تُعدَّل، ويُؤجَّل أي فرق لاحق إلى فاتورة الشهر التالي', p:'لا يمكن التعديل على الفاتورة بعد صدورها. وكل فرق ينشأ لاحقاً — زيادةً كان أو نقصاً — يُعالَج بنداً مستقلاً في فاتورة الشهر التالي ولا يُعدَّل على الفاتورة الأصلية.', who:'نظام الفوترة', data:'حالة الفاتورة، مرجع الفرق المؤجَّل', rule:['BR-PEN-03A','BIL-09','BIL-02']},
+      {k:'نشاط', t:'يُشعر النظام جهة العمل بالمبلغ المستحق وتاريخه، ويُشعر المدخر بما يخص رصيده منها', p:'تُشعَر جهة العمل بالفاتورة ومبلغها وتاريخ استحقاقها، ويُشعَر المدخر بما يخص رصيده منها دون كشف بيانات لا تخصه.', who:'نظام الادخار', data:'المبلغ المستحق، تاريخ الاستحقاق، قناة الإشعار', rule:['BR-NOT-01']}
+    ],
+    fin:'الفاتورة مطالبة مالية لا تحصيل. فحالة المبلغ تنتقل من «مستحق متوقع» إلى «مُطالب به»، ولا يزيد رصيد المدخر بشيء في هذه الخطوة.',
+    handoff:{text:'فاتورة صادرة قابلة للسداد', to:'p10'}
+  },
+  {
+    id:'p09', no:'٠٩', title:'إنشاء فواتير الادخار الاختياري الفردية والجماعية',
+    paths:['optional'], freq:'عند الطلب — بلا دورية ثابتة',
+    what:'تحويل رغبة المدخر أو جهة العمل في الإيداع الاختياري إلى فاتورة قابلة للسداد، بعد فحص الحد الأدنى لكل إيداع والسقف السنوي لكل مصدر.',
+    trigger:'طلب إيداع اختياري من المدخر عن نفسه، أو من جهة العمل عن عامل أو عدة عمال',
+    actors:'المدخر، جهة العمل، موظف الصندوق',
+    systems:'نظام الادخار، نظام الفوترة، قنوات الدفع والتحصيل',
+    input:'مصدر الإيداع، المبلغ، العامل أو قائمة العمال وجدول التوزيع',
+    output:'فاتورة فردية أو جماعية برقم وحالة، وجدول توزيع معتمد',
+    steps:[
+      {k:'تحقق', t:'يفحص النظام ألا يقل مبلغ الإيداع — ولا نصيب أي عامل في الفاتورة الجماعية — عن الحد الأدنى', p:'الحد الأدنى لأي إيداع أو ادخار اختياري في كل مرة هو ١٠٠ ريال عماني. وفي الإيداع الجماعي يجب ألا يقل مبلغ كل عامل عن ١٠٠ ريال وإلا يُرفَض إكمال العملية.', who:'نظام الادخار', data:'المبلغ لكل عامل، نتيجة فحص الحد الأدنى', rule:['BR-DEP-01','BR-DEP-05','م. ١٠٠ لائحة']},
+      {k:'تحقق', t:'يفحص النظام السقف السنوي لكل مصدر إيداع على حدة ويعرض المستهلك منه والمتبقي', p:'الحد السنوي الأقصى هو اثنا عشر ضعف سقف أجر الاشتراك لكل من المدخر وجهة العمل منفصلاً. وسقف أجر الاشتراك ٣٠٠٠ ريال شهرياً، فيكون الحد السنوي ٣٦٬٠٠٠ ريال لكل مصدر. ويُطبَّق السقف على كل مصدر إيداع على حدة لا على الحساب مجتمعاً، ويُعرض للمدخر ما استُهلك من سقف كل مصدر وما تبقّى.', who:'نظام الادخار', data:'المصدر، المستهلك من سقفه، المتبقي', rule:['BR-DEP-02','BR-DEP-02B','SAV-02']},
+      {k:'نشاط', t:'يُنشئ المدخر أو جهة العمل فاتورة فردية أو جماعية بجدول يحدد نصيب كل عامل منها', p:'تُنشأ فاتورة فردية لعامل واحد، أو فاتورة جماعية مرتبطة بعدة عمال مع جدول يحدد نصيب كل عامل. ولا تُعد العملية مكتملة إلا بعد تخصيص المبالغ المعتمدة لكل عامل بنجاح.', who:'المدخر أو جهة العمل', data:'رقم الفاتورة، نوعها، المبلغ، جدول التوزيع'},
+      {k:'قرار', t:'يحدد النظام قاعدة السداد: الفردية تقبل الجزئي بحد أدنى، والجماعية لا تقبله إطلاقاً', p:'الفاتورة الاختيارية الفردية تقبل السداد الجزئي فقط إذا كانت كل دفعة جزئية تساوي الحد الأدنى أو تزيد عليه. أما الفاتورة الجماعية فلا تقبل السداد الجزئي إطلاقاً، ولا يُرحَّل منها أي مبلغ إلى حسابات العمال إلا بعد سداد كامل قيمتها بنجاح.', who:'نظام الادخار', data:'قاعدة السداد المطبقة، الحد الأدنى للدفعة', rule:['BR-DEP-05B']},
+      {k:'تحقق', t:'يمنع النظام إلغاء الفاتورة إذا كانت مدفوعة كلياً أو جزئياً أو عليها محاولة دفع جارية', p:'لا يجوز إلغاء الفاتورة الاختيارية إلا إذا كانت غير مدفوعة كلياً أو جزئياً، ولم تكن عليها محاولة دفع جارية وقت طلب الإلغاء. ويُتحقَّق من صلاحيتها قبل قبول أي سداد.', who:'نظام الادخار ← قناة الدفع', data:'حالة الفاتورة، وجود محاولة دفع جارية، نتيجة الإلغاء', rule:['BR-DEP-05C']},
+      {k:'نشاط', t:'يتيح النظام الدفع الإلكتروني المباشر والإيداع الذاتي الفوري إلى جانب مسار الفاتورة', p:'يُعد الدفع الإلكتروني المباشر عبر البوابة والإيداع الذاتي الفوري من الطرق المتاحة إلى جانب مسار الفاتورة. وفي جميع الطرق يُرجَع مرجع السداد وحالة العملية إلى النظام لتخصيص المبلغ.', who:'المدخر', data:'قناة الإيداع، مرجع السداد، حالة العملية', rule:['BR-DEP-05A']}
+    ],
+    fin:'الفاتورة الاختيارية مطالبة على المدخر أو على جهة العمل بحسب المصدر. والسقف السنوي المستقل لكل مصدر يعني أن المبلغ يجب أن يُنسب إلى مصدره الصحيح لحظة الإنشاء، لأن النسبة تحدد أي سقف يُستهلك.',
+    handoff:{text:'فاتورة اختيارية صادرة مع جدول توزيعها', to:'p10'},
+    statuses:['تم إنشاء الفاتورة','بانتظار السداد','مسددة جزئياً','مسددة','قيد التخصيص','تم التخصيص','فشل التخصيص','ملغاة']
+  },
+  {
+    id:'p10', no:'١٠', title:'التحصيل وتأكيد السداد عبر قنوات الدفع والتحصيل',
+    paths:['shared'], freq:'مستمر — عند كل محاولة سداد',
+    what:'استقبال المبلغ من جهة العمل أو المدخر عبر قناة دفع معتمدة، والتحقق من صلاحية الفاتورة، وإرجاع تأكيد سداد بمرجع مالي فريد لا يتكرر.',
+    trigger:'محاولة سداد على فاتورة قائمة',
+    actors:'جهة العمل، المدخر، قنوات الدفع والتحصيل',
+    systems:'قنوات الدفع والتحصيل، نظام الفوترة، نظام الاشتراكات، نظام الادخار',
+    input:'فاتورة صالحة، مبلغ الدفعة، قناة السداد',
+    output:'مبلغ محصّل مؤكد، مرجع مالي فريد، حالة الفاتورة والرصيد المتبقي',
+    steps:[
+      {k:'تحقق', t:'تتحقق قناة الدفع من صلاحية الفاتورة وحالتها الحالية قبل قبول أي مبلغ عليها', p:'قبل إتمام أي عملية سداد يتحقق النظام من صلاحية الفاتورة وحالتها الحالية وعدم إلغائها، فلا يُقبل مبلغ على فاتورة غير صالحة.', who:'نظام الفوترة ← قناة الدفع', data:'رقم الفاتورة، حالتها، تاريخ صلاحيتها'},
+      {k:'حركة مالية', t:'تستقبل قناة التحصيل المبلغ من جهة العمل أو المدخر وتصدر له مرجعاً مالياً فريداً', p:'تستقبل القناة المبلغ كلياً أو جزئياً وفق قاعدة السداد الخاصة بنوع الفاتورة. والقنوات المتاحة حالياً: OIFC، وONEIC، والحساب الافتراضي، وبنك صحار، والخصم المباشر من بنك مسقط. وعند ورود الإشعار تُسوّى العملية فوراً.', who:'قنوات الدفع والتحصيل', data:'المبلغ، القناة، وقت السداد، المرجع المالي', rule:['BIL-05']},
+      {k:'تحقق', t:'لا يُعد المبلغ محصّلاً إلا بوصول نتيجة مؤكدة من القناة، لا بمجرد بدء محاولة الدفع', p:'لا يُعد المبلغ محصّلاً بمجرد بدء محاولة الدفع. فيلزم وصول نتيجة مؤكدة من قناة التحصيل: ناجح أو فاشل أو قيد التنفيذ، ولا يُبنى على المحاولة أي تخصيص.', who:'قناة الدفع ← نظام الفوترة', data:'نتيجة السداد، المرجع، وقت التأكيد'},
+      {k:'حركة مالية', t:'يوزّع نظام الفوترة المبلغ المحصّل على الالتزامات من الأقدم إلى الأحدث بما فيها الغرامات', p:'يُسوّى المبلغ المحصّل من الأقدم إلى الأحدث بما في ذلك الغرامات، ولا توجد أولوية بين فروع التأمين الاجتماعي. ويحدد هذا الترتيب أي التزام أُطفئ فعلاً بالمبلغ الوارد.', who:'نظام الفوترة', data:'الالتزامات المسوّاة بالترتيب، المبلغ المخصص لكل منها', rule:['BIL-06']},
+      {k:'نشاط', t:'يحدّث النظام حالة الفاتورة إلى مسددة أو مسددة جزئياً ويحتفظ بالرصيد المتبقي حتى اكتماله', p:'تُحدَّث حالة الفاتورة إلى مسددة أو مسددة جزئياً، ويُحتفَظ بالرصيد المتبقي وحالته حتى التسوية الكاملة. ويجوز السداد الجزئي للفاتورة الشهرية للإلزامي وتبقى «مسددة جزئياً» حتى اكتمال المبلغ.', who:'نظام الفوترة', data:'إجمالي المحصّل، المتبقي، حالة الفاتورة', rule:['BR-DEP-06']},
+      {k:'ترحيل', t:'يرسل نظام الفوترة حزمة التحصيل مع جدول المستفيدين إلى نظام الادخار لتخصيص المبالغ', p:'يُرسَل الدفع المؤكد مع الفاتورة وجدول المستفيدين ومرجع السداد إلى عملية التخصيص، فتكون كل بيانات نسبة المبلغ إلى مصدره حاضرة قبل القيد.', who:'نظام الفوترة ← نظام الادخار', data:'حزمة التحصيل: المبلغ، المرجع، الفاتورة، جدول التوزيع'}
+    ],
+    fin:'التحصيل يثبت وصول المال إلى الصندوق، لا زيادة رصيد المدخر. فحالة المبلغ تنتقل إلى «محصّل»، ويبقى في الحساب الداخلي حتى ينجح التخصيص.',
+    handoff:{text:'دفع مؤكد بمرجع مالي فريد', to:'p11'}
+  },
+  {
+    id:'p11', no:'١١', title:'تخصيص المبالغ المحصّلة في حسابات المدخرين وقيدها محاسبياً',
+    paths:['shared'], freq:'بعد كل تحصيل مؤكد',
+    what:'توزيع المبلغ المحصّل على المستفيدين وعلى الوعاء الصحيح داخل كل حساب، ثم تكوين القيد المحاسبي القابل للمطابقة. وهنا فقط يزيد رصيد المدخر.',
+    trigger:'وصول حزمة تحصيل مؤكدة',
+    actors:'نظام الادخار، الإدارة المالية',
+    systems:'نظام الادخار، الحساب الداخلي، نظام Oracle المالي',
+    input:'دفع مؤكد، جدول التوزيع، نوع المصدر، مرجع السداد',
+    output:'حركة رصيد في وعاء المدخر، رقم قيد Oracle، حالة ترحيل',
+    steps:[
+      {k:'تحقق', t:'ينسب نظام الادخار المبلغ إلى نوع مصدره فيتحدد به الوعاء والكود المحاسبي والسقف المستهلك', p:'يُربَط المبلغ بفاتورته ونوعه: اشتراك إلزامي، أو ادخار اختياري من المدخر، أو ادخار اختياري من جهة العمل، أو تسوية المادة ١٣٨، أو فائض اشتراكات، أو إيداع مباشر من نظام مصدر. ويحدد هذا التصنيف الوعاء والكود المحاسبي والسقف المستهلك.', who:'نظام الادخار', data:'نوع المصدر، مرجع الفاتورة، مرجع العملية'},
+      {k:'تحقق', t:'يتحقق النظام من عدم سبق معالجة المرجع الفريد ومن وجود حساب نشط للمدخر وينشئه إن لزم', p:'يتحقق النظام قبل التنفيذ من عدم سبق معالجة المرجع الفريد للعملية، ومن وجود حساب ادخار نشط للمدخر، فإن لم يكن موجوداً أنشأه ثم نفّذ الإيداع.', who:'نظام الادخار', data:'المرجع الفريد، نتيجة فحص التكرار، حالة الحساب'},
+      {k:'حركة مالية', t:'يوزّع النظام المبلغ على المستفيدين وفق جدول الفاتورة دون ازدواجية أو تجاوز للمبلغ المحصّل', p:'يُخصَّص المبلغ لعامل واحد أو لعدة عمال وفق جدول التوزيع المعتمد على الفاتورة، دون تداخل أو ازدواجية، ودون أن يتجاوز مجموع المخصص المبلغ المحصّل.', who:'نظام الادخار', data:'نصيب كل مدخر، مجموع المخصص، الرصيد قبل وبعد'},
+      {k:'نشاط', t:'يزيد رصيد الوعاء المعني داخل الحساب الموحد ويُحدَّث الحساب الداخلي المرتبط لحظياً', p:'يزيد رصيد الوعاء المعني داخل الحساب الموحد، ويُحدَّث الحساب الداخلي المرتبط لحظياً، فتبقى تجربة المدخر حساباً واحداً مع بقاء الفصل بين المصادر قائماً.', who:'نظام الادخار', data:'الوعاء المتأثر، الرصيد قبل وبعد، وقت التحديث', rule:['BR-DEP-05D']},
+      {k:'حركة مالية', t:'تُرحَّل الحركة إلى حساب وقطاع محاسبيين مستقلين داخل دفتر الأستاذ العام في Oracle', p:'تُرحَّل الحركة إلى حساب وقطاع محاسبيين مستقلين داخل دفتر الأستاذ العام الحالي في Oracle، دون خلطها بحسابات فروع التأمين الاجتماعي الأخرى، وبكود مستقل لنوع المبلغ.', who:'نظام الادخار ← Oracle', data:'رمز الحساب، القطاع، قيمة القيد، رقم القيد', rule:['BR-GL-01','BR-GL-02']},
+      {k:'تحقق', t:'يحفظ النظام رقم القيد وحالة الترحيل ومرجع العكس، ولا يعدّ العملية مسوّاة عند وجود فرق', p:'تُحفَظ مع كل حركة هوية الحساب والقطاع ورقم القيد وحالة الترحيل وتاريخه ومرجع العكس إن وُجد، بما يتيح المطابقة من الحركة التشغيلية إلى القيد المحاسبي والعكس. ولا تُعد العملية مسوّاة عند وجود أي فرق.', who:'نظام الادخار / الإدارة المالية', data:'رقم القيد، حالة الترحيل، نتيجة المطابقة أو سبب الفرق', rule:['BR-GL-03']},
+      {k:'نشاط', t:'يُشعر النظام المدخر بنوع الحركة ومبلغها وتاريخها ورصيده قبلها وبعدها ورقم العملية', p:'يُشعَر المدخر بنوع الحركة ومبلغها وتاريخها ورصيده قبلها وبعدها ورقم العملية، دون أن يتوقف ذلك على دخوله إلى النظام.', who:'نظام الادخار', data:'نص الإشعار، قناته، حالة وصوله', rule:['BR-NOT-01']}
+    ],
+    fin:'هذه هي اللحظة الوحيدة التي يزيد فيها رصيد المدخر من مال وارد. وتُحفَظ القيمة كاملة دون تقريب في سجل الحساب، ولا يُقرَّب أي مبلغ إلا عند القيد المالي النهائي.',
+    handoff:{text:'رصيد مخصص ومقيَّد يبدأ أثره في العائد من الشهر التالي', to:'p15'}
+  },
+  {
+    id:'p12', no:'١٢', title:'احتساب المبالغ الإضافية والغرامات على التأخر في السداد',
+    paths:['mandatory'], freq:'شهرياً — على ما تأخر سداده',
+    what:'احتساب مبلغ إضافي على جهة العمل عند التأخر في سداد بند الادخار أو السداد على أساس أجر غير حقيقي، بالآلية نفسها المتبعة في باقي بنود الاشتراكات مع اختلاف النسبة.',
+    trigger:'بلوغ تاريخ الاستحقاق دون سداد، أو اكتشاف سداد على أجر غير حقيقي',
+    actors:'دائرة بيانات المشتركين، دائرة الاشتراكات، جهة العمل',
+    systems:'نظام الادخار، نظام الفوترة، نظام الاشتراكات، نظام Oracle المالي',
+    input:'أصل المبلغ المتأخر، تاريخ الاستحقاق، أيام التأخير، الأجر الصحيح',
+    output:'مبلغ إضافي محتسب ومميّز في الفاتورة، وقيد محاسبي مستقل',
+    steps:[
+      {k:'حركة مالية', t:'يحتسب النظام المبلغ الإضافي بنسبة ٨٪ سنوياً على أصل المبلغ المتأخر بعدد أيام التأخير', p:'تُحتسب الغرامة بالمعادلة: أصل المبلغ المتأخر × ٨٪ × (أيام التأخير ÷ ٣٦٠). وهي الآلية والمعادلة نفسها المتبعة في غرامة التأخر على باقي بنود الاشتراكات، مع اختلاف النسبة فقط لتصبح ٨٪ سنوياً بدل ٥٫٥٪.', who:'نظام الادخار / نظام الفوترة', data:'أصل المتأخر، النسبة، أيام التأخير، المبلغ الإضافي', rule:['BR-PEN-01','SAV-03','م. ١٠٢ لائحة']},
+      {k:'تحقق', t:'يقتصر وعاء الاحتساب على أصل المبلغ المتأخر وحده، فلا تُحتسب غرامة على غرامة سابقة', p:'وعاء الاحتساب هو أصل المبلغ المتأخر وحده، ولا تدخل فيه الغرامات المستحقة عن فترات سابقة مهما طال التأخير.', who:'نظام الفوترة', data:'وعاء الاحتساب، المستبعد منه', rule:['BR-PEN-01A']},
+      {k:'تحقق', t:'تُحتسب مدة التأخير على أساس ٣٦٠ يوماً في السنة بعدد أيام التأخير الفعلية', p:'تُحتسب المدة على أساس ٣٦٠ يوماً في السنة بعدد أيام التأخير الفعلية، فيعادل شهر التأخير الكامل ثلاثين من ثلاثمائة وستين من النسبة السنوية.', who:'نظام الفوترة', data:'أيام التأخير الفعلية، الأساس المطبق', rule:['BR-PEN-01B','BIL-07']},
+      {k:'نشاط', t:'يميّز النظام المبلغ الإضافي في الفاتورة ويعرض تفصيل احتساب كل غرامة على حدة', p:'يُميَّز المبلغ الإضافي في الفاتورة وفي الاحتساب، مع عرض تفصيل الغرامات وطريقة احتساب كل منها، فلا يُدمَج مع أصل الاشتراك في رقم واحد.', who:'نظام الفوترة', data:'بند المبلغ الإضافي، تفصيل احتسابه', rule:['BR-PEN-01']},
+      {k:'حركة مالية', t:'يُقيَّد المبلغ الإضافي في حساب وقطاع محاسبيين مستقلين عن أصل الاشتراك في Oracle', p:'تُقيَّد الغرامات والمبالغ الإضافية في حساب وقطاع محاسبيين مستقلين عن أصل الاشتراكات في Oracle، ولا يجوز دمجهما في قيد أو رصيد واحد يحجب قيمة كل منهما.', who:'نظام الادخار ← Oracle', data:'كود الغرامات، القطاع، رقم القيد', rule:['BR-GL-04']},
+      {k:'قرار', t:'يُعفى صاحب العمل من المبالغ الإضافية في القوة القاهرة الموثقة وفق ضوابط مجلس الإدارة', p:'يجوز إعفاء جهة العمل من المبالغ الإضافية في حالات القوة القاهرة الموثقة وفق ضوابط مجلس الإدارة، وتظهر الحالة «تم تعليق الغرامة لسبب قهري» مع حفظ المبرر.', who:'دائرة بيانات المشتركين / مجلس الإدارة', data:'سبب الإعفاء، مرجع الاعتماد، الموظف وتاريخه', rule:['BR-PEN-05']}
+    ],
+    fin:'المبلغ الإضافي إيراد للصندوق لا للمدخر، فلا يُضاف إلى رصيد المدخر ولا يدخل أساس احتساب عائده. وهو أحد المصادر التي يُعوَّض بها الصندوق عن تمويله عائد الاشتراكات غير المحصّلة.',
+    handoff:{text:'مبلغ إضافي مميّز في فاتورة جهة العمل', to:'p10'},
+    statuses:['تم إنشاء الغرامة','تم تفعيل الغرامة','تم تحصيل الغرامة','تم تعليق الغرامة لسبب قهري']
+  }]
+},
+{
+  id:'ph3', no:'المرحلة الرابعة', cls:'ann', color:'#a57c20', when:'تتكرر كل سنة — تُعلَن قبل ٣١ مارس',
+  title:'الدورة السنوية لعوائد الاستثمار',
+  desc:'الرصيد ينمو بعائد سنوي لا يُعلَن إلا بعد إقفال السنة ومعرفة الأداء الفعلي. وتُحدَّد النسبة بعد خصم المصروفات ومخصصات الاحتياطيات، ثم تُوزَّع شهراً بشهر على الحسابات الفردية بمعامل شهري واحد.',
+  mapW:230, mapCols:4,
+  procs:[
+  {
+    id:'p16', no:'١٣', title:'تحويل فائض اشتراكات المؤمن عليه العماني إلى وعاء الادخار',
+    paths:['optional'], freq:'سنوياً — تحويل آلي',
+    what:'إيداع ما سُدِّد من اشتراكات المؤمن عليه العماني فوق سقف أجر الاشتراك في وعاء مستقل داخل حساب ادخاره، بدل أن يبقى فائضاً معلقاً.',
+    trigger:'وجود فائض اشتراكات يتجاوز سقف أجر الاشتراك للسنة',
+    actors:'دائرة الاشتراكات، دائرة بيانات المشتركين',
+    systems:'نظام الاشتراكات، نظام الادخار، نظام Oracle المالي',
+    input:'قيمة الفائض عن السنة، الرقم المدني، مرجع فريد للعملية، النظام المصدر',
+    output:'وعاء فائض اشتراكات مستقل داخل الحساب، وحركة إيداع منفَّذة',
+    steps:[
+      {k:'حركة مالية', t:'يحوّل نظام الاشتراكات الفائض فوق سقف أجر الاشتراك تلقائياً إلى وعاء مستقل في حساب الادخار', p:'يُحوَّل فائض اشتراكات المؤمن عليه العماني التي تتجاوز سقف أجر الاشتراك تلقائياً إلى وعاء مالي مستقل داخل حساب الادخار.', who:'نظام الاشتراكات ← نظام الادخار', data:'قيمة الفائض، السنة التي يخصها، مرجع العملية', rule:['BR-SUR-01','م. ١١٠ لائحة']},
+      {k:'تحقق', t:'يتحقق النظام من عدم تكرار المرجع الفريد وينشئ حساب الادخار أولاً إن لم يكن موجوداً', p:'يُنشأ حساب الادخار أولاً إن لم يكن موجوداً، ثم يُنفَّذ الإيداع. ويتحقق النظام قبل التنفيذ من عدم سبق معالجة المرجع الفريد ومن وجود حساب نشط للمدخر.', who:'نظام الادخار', data:'حالة الحساب، نتيجة فحص تكرار المرجع', rule:['BR-SUR-01']},
+      {k:'نشاط', t:'يستبعد النظام الفائض المحوَّل من احتساب السقف السنوي لأي من المدخر أو جهة العمل', p:'الفائض المحوَّل لا يُحتسب ضمن سقف الادخار الاختياري السنوي لأي من الطرفين، فلا يستهلك شيئاً من سقف المدخر ولا من سقف جهة العمل.', who:'نظام الادخار', data:'المبلغ، استبعاده من احتساب السقف', rule:['BR-SUR-03']},
+      {k:'تحقق', t:'يُظهر النظام الفائض وعاءً مستقلاً في الرصيد وكشف الحساب والتقارير والقيود المحاسبية', p:'يُعامَل فائض الاشتراكات كوعاء مالي مستقل عن الادخار الاختياري والإلزامي، ويظهر بهذا الوصف في الرصيد وكشف الحساب والتقارير والقيود المحاسبية.', who:'نظام الادخار', data:'اسم الوعاء، رصيده، الكود المحاسبي', rule:['BR-SUR-04']},
+      {k:'نشاط', t:'يسجّل نظام الادخار الإيداع المنفَّذ فقط، ويتولى النظام المصدر احتساب المبلغ ومراجعته', p:'يُحتسَب المبلغ ويُراجَع في النظام المُنشئ للعملية، ولا يسجل نظام الادخار إلا الإيداع المنفَّذ، فلا توجد لديه حالات وسيطة ولا حالة مراجعة ولا حالة تعذُّر. وتتضمن الحركة الواردة الرقم المدني والمبلغ ونوع الحركة ومرجعاً فريداً والنظام المصدر وتاريخ القيمة.', who:'نظام الاشتراكات ← نظام الادخار', data:'عناصر الحركة الواردة كاملة، سجل التدقيق'},
+      {k:'نشاط', t:'يُشعر النظام المدخر بإضافة الفائض لأن له قاعدة عائد وصرف تختلف عن بقية رصيده', p:'يُشعَر المدخر بإضافة فائض اشتراكات إلى حسابه، لأن له حالة صرف خاصة لا تنطبق على بقية رصيده.', who:'نظام الادخار', data:'المبلغ، السنة، قناة الإشعار', rule:['BR-NOT-01']}
+    ],
+    fin:'يُقيَّد الفائض بكود محاسبي مستقل. والقاعدة الخاصة به: لا يُحتسب عليه عائد عند صرف فائض العام في نهاية السنة، بينما يُحتسب عليه العائد إذا بقي في الحساب وتحققت إحدى حالات الاستحقاق المنصوص عليها في المادة ١٤٣.',
+    handoff:{text:'وعاء فائض اشتراكات مستقل داخل الحساب', to:'p17'},
+    statuses:['تم الإيداع']
+  },
+  {
+    id:'p13', no:'١٤', title:'إقفال السنة المالية وتحديد صافي العائد القابل للتوزيع',
+    paths:['shared'], freq:'سنوياً — بعد انتهاء السنة المالية',
+    what:'حساب ما تبقّى من عائد الاستثمار المحقق بعد خصم المصروفات المعتمدة ومخصصات الاحتياطيات، فهذا الصافي وحده هو ما يجوز توزيعه على حسابات المدخرين.',
+    trigger:'انتهاء السنة المالية ومعرفة الأداء الاستثماري',
+    actors:'الإدارة المالية، إدارة الاستثمار، مجلس الإدارة',
+    systems:'نظام الاستثمار، نظام Oracle المالي، نظام الادخار',
+    input:'إجمالي عائد الاستثمار المحقق أو المقدر، المصروفات المعتمدة، مخصصات الاحتياطيات',
+    output:'صافي العائد القابل للتوزيع، وكل عنصر من عناصره محفوظاً بقيمته ومرجع اعتماده',
+    steps:[
+      {k:'نشاط', t:'تحصر إدارة الاستثمار إجمالي العائد المحقق أو المقدر على أصول الادخار للسنة المنتهية', p:'يُحصَر العائد الاستثماري المحقق أو المقدر على أصول الادخار للسنة المنتهية، بوصفه أعلى رقم في التسلسل المالي وليس هو الرقم الذي يُوزَّع.', who:'إدارة الاستثمار', data:'إجمالي العائد، الفترة، مصدر الاحتساب'},
+      {k:'حركة مالية', t:'تخصم الإدارة المالية المصروفات الإدارية والتشغيلية المعتمدة وتحفظ قيمتها ومرجعها مستقلين', p:'تُخصَم المصروفات الإدارية والتشغيلية المعتمدة من إجمالي العائد قبل أي توزيع، ويُحفَظ عنصر المصروفات بقيمته ومرجع اعتماده بصورة مستقلة قابلة للتدقيق.', who:'الإدارة المالية', data:'قيمة المصروفات، مرجع الاعتماد، الكود المحاسبي', rule:['BR-INV-12','م. ١٠٦ لائحة']},
+      {k:'حركة مالية', t:'تخصم الإدارة المالية مخصصات الاحتياطيات التي يُموَّل منها ضمان الحد الأدنى للعائد', p:'تُخصَم مخصصات الاحتياطيات، وهي التي يُموَّل منها ضمان الحد الأدنى ٢٪ عندما يقصّر العائد الفعلي عنه. ويُحفَظ المخصص بقيمته ومرجعه مستقلاً.', who:'الإدارة المالية', data:'قيمة المخصص، مرجع الاعتماد، الكود المحاسبي', rule:['BR-INV-12','BR-INV-01']},
+      {k:'نشاط', t:'يُثبَّت صافي العائد القابل للتوزيع بعد الخصمين، وهو وحده أساس تحديد النسبة السنوية', p:'التسلسل المالي: إجمالي عائد الاستثمار − المصروفات الإدارية والتشغيلية المعتمدة − مخصصات الاحتياطيات = صافي العائد القابل للتوزيع. وهذا الصافي هو أساس تحديد النسبة.', who:'الإدارة المالية', data:'الصافي، وكل عنصر من عناصره بقيمته', rule:['BR-INV-12']},
+      {k:'قرار', t:'يتقرر الفصل المحاسبي بين المسارين بعوائد واحتياطيات مستقلة لكل مسار عند اعتماده', p:'يجوز للصندوق الفصل المحاسبي بين أموال الادخار الإلزامي والاختياري بما يشمل عوائد واحتياطيات مستقلة لكل مسار. وبناءً عليه يجوز اعتماد نسبة واحدة للمسارين أو نسبة مختلفة لكل منهما.', who:'الإدارة المالية / مجلس الإدارة', data:'قرار الفصل، النسبة لكل مسار إن اختلفت', rule:['BR-INV-05','م. ١٠٨ لائحة']}
+    ],
+    fin:'هذه العملية تحدد حجم المال الذي سيُضاف إلى أرصدة المدخرين كاملاً. والمصروفات والاحتياطيات تُخصَم قبل التوزيع، فلا تظهر خصماً على حساب المدخر بعده.',
+    handoff:{text:'صافي العائد القابل للتوزيع', to:'p14'}
+  },
+  {
+    id:'p14', no:'١٥', title:'اعتماد نسبة العائد السنوي وإعلانها قبل نهاية الربع الأول',
+    paths:['shared'], freq:'سنوياً — قبل ٣١ مارس من العام اللاحق',
+    what:'تحويل صافي العائد القابل للتوزيع إلى نسبة سنوية معتمدة لا تقل عن الحد الأدنى المضمون، ثم إعلانها وإشعار المدخرين بها.',
+    trigger:'تثبيت صافي العائد القابل للتوزيع',
+    actors:'مجلس الإدارة، الإدارة المالية',
+    systems:'نظام الادخار، نظام Oracle المالي',
+    input:'صافي العائد القابل للتوزيع، إجمالي الأرصدة المؤهلة، الحد الأدنى المضمون',
+    output:'نسبة سنوية معتمدة بسنتها ومرجع اعتمادها، ومعامل شهري مشتق منها',
+    steps:[
+      {k:'حركة مالية', t:'تُموَّل الفجوة من مخصصات الاحتياطيات إذا جاء العائد الفعلي دون الحد الأدنى المضمون ٢٪', p:'الحد الأدنى لعائد الاستثمار ٢٪ سنوياً مضمون من احتياطيات الصندوق. فإذا جاء العائد الفعلي أقل من ٢٪، تُموَّل الفجوة من الاحتياطيات ولا تُنقَل إلى المدخر.', who:'الإدارة المالية', data:'العائد الفعلي، الحد الأدنى، قيمة الفجوة الممولة', rule:['BR-INV-01','م. ١٠٤ لائحة']},
+      {k:'قرار', t:'يعتمد مجلس الإدارة نسبة العائد السنوي ويعلنها قبل ٣١ مارس من العام اللاحق', p:'يُعلَن عن نسبة العائد السنوي قبل انتهاء الربع الأول من العام اللاحق، أي قبل ٣١ مارس. ولا تُعتمد النسبة النهائية إلا بعد انتهاء السنة ومعرفة الأداء الاستثماري الفعلي.', who:'مجلس الإدارة', data:'النسبة المعتمدة، السنة التي تخصها، مرجع الاعتماد وتاريخه', rule:['BR-INV-02','م. ١٠٦ لائحة']},
+      {k:'نشاط', t:'يشتق النظام من النسبة السنوية معاملاً شهرياً ثابتاً لا يتغير بتغير الشهر', p:'يُشتق من النسبة السنوية معامل شهري ثابت لجميع أشهر السنة لا يتغير بتغير الشهر، بالمعادلة: (١ + النسبة السنوية) مرفوعة للقوة (١ ÷ ١٢) − ١. ولم تُعتمد القسمة المباشرة على اثني عشر لأنها تنتج عائداً فعلياً أعلى من المعلن.', who:'نظام الادخار', data:'النسبة السنوية، المعامل الشهري بكل خاناته', rule:['BR-INV-03','م. ١٠٧ لائحة']},
+      {k:'نشاط', t:'تصدر الإدارة المالية ملخصاً سنوياً معتمداً يوضح عناصر العائد والمصروفات والمخصصات', p:'يُصدر الصندوق ملخصاً مالياً سنوياً معتمداً للمحفظة يوضح إجمالي العائد والمصروفات ومخصصات الاحتياطيات وصافي العائد القابل للتوزيع والنسبة المعتمدة وإجمالي العائد الموزع، ويُتاح للمدخرين دون كشف تفاصيل استثمارية حساسة.', who:'الإدارة المالية', data:'عناصر الملخص وقيمها ومرجع اعتماد كل منها', rule:['BR-INV-13']},
+      {k:'نشاط', t:'يُشعر النظام جميع المدخرين بالنسبة المعتمدة وبالسنة التي تخصها عند إعلانها', p:'يُشعَر جميع المدخرين باعتماد النسبة عند إعلانها، ويتضمن الإشعار النسبة المعتمدة والسنة التي تخصها. وهذا إشعار بقاعدة تسري على الرصيد كله لا بمبلغ بعينه.', who:'نظام الادخار', data:'النسبة، السنة، قناة الإشعار، حالة وصوله', rule:['BR-NOT-03']}
+    ],
+    fin:'النسبة المعتمدة هي الرابط بين الأداء الاستثماري للصندوق ورصيد كل مدخر. وما بين العائد الفعلي والحد الأدنى المضمون يتحمله الصندوق من احتياطياته، لا المدخر.',
+    handoff:{text:'نسبة معتمدة ومعامل شهري جاهزان للتوزيع', to:'p15'}
+  },
+  {
+    id:'p15', no:'١٦', title:'احتساب العائد الشهري وتوزيعه على الحسابات الفردية',
+    paths:['shared'], freq:'شهرياً على أساس الرصيد الافتتاحي، بالنسبة المعتمدة للسنة',
+    what:'تطبيق المعامل الشهري على الرصيد الافتتاحي لكل شهر وحده، ثم إضافة عائد الشهر وحركاته ليصير الناتج أساس احتساب الشهر التالي.',
+    trigger:'اعتماد النسبة السنوية ومعاملها الشهري',
+    actors:'نظام الادخار، الإدارة المالية',
+    systems:'نظام الادخار، نظام Oracle المالي',
+    input:'الرصيد الافتتاحي لكل شهر، حركات الشهر، المعامل الشهري',
+    output:'عائد شهري لكل حساب ووعاء، ورصيد مرحّل إلى الشهر التالي',
+    steps:[
+      {k:'حركة مالية', t:'يحتسب النظام عائد الشهر بضرب الرصيد الافتتاحي لذلك الشهر وحده في المعامل الشهري', p:'عائد الشهر = الرصيد الافتتاحي لذلك الشهر × المعامل الشهري. والرصيد الافتتاحي هو المرحّل من الشهر السابق، فلا تدخل حركات الشهر نفسه في أساس احتسابه.', who:'نظام الادخار', data:'الرصيد الافتتاحي، المعامل، عائد الشهر', rule:['BR-INV-03']},
+      {k:'نشاط', t:'يجمع النظام الرصيد الافتتاحي وعائد الشهر وصافي حركاته ليصير أساس احتساب الشهر التالي', p:'الرصيد بعد الشهر = الرصيد الافتتاحي + عائد الشهر + صافي حركات الشهر. وينتقل هذا الرصيد إلى الشهر التالي فيكون أساس احتسابه، فيتراكم العائد داخل السنة ولا يكسب عائد الشهر عائداً في شهره هو.', who:'نظام الادخار', data:'الرصيد بعد الشهر، صافي الحركات، الرصيد المرحّل', rule:['BR-INV-11']},
+      {k:'تحقق', t:'يبدأ أثر أي إيداع أو سحب من الشهر التالي، فلا يستحق إيداع ديسمبر عائداً عن سنته', p:'يبدأ أثر أي إيداع أو سحب من الشهر التالي لشهر تنفيذه. وعليه لا يستحق إيداع ديسمبر عائداً عن السنة نفسها، ويبدأ احتسابه من يناير التالي.', who:'نظام الادخار', data:'تاريخ الحركة، الشهر الذي يبدأ منه أثرها', rule:['BR-INV-10']},
+      {k:'حركة مالية', t:'يُحتسب العائد في المسار الإلزامي على المبالغ المتوقع تحصيلها لا على ما حُصِّل فعلاً', p:'يُحتسب العائد في المسار الإلزامي على المبالغ المتوقع تحصيلها لا على ما تم تحصيله فعلياً، فيستحق العامل عائد اشتراكاته المقررة ولو تأخرت جهة العمل في توريدها.', who:'نظام الادخار', data:'المتوقع تحصيله، المحصّل فعلاً، فجوة التمويل', rule:['BR-INV-06','ROI-03']},
+      {k:'حركة مالية', t:'تُعامَل المبالغ المصروفة والخصومات قيماً سالبة في شهرها فيُستبعد عائدها عما بعده', p:'تُعامَل المبالغ المصروفة وخصم الالتزامات وصرف فائض الاشتراكات قيماً سالبة في شهر تنفيذها، فتخفض الرصيد الافتتاحي للشهر التالي ويُستبعد عائدها عن الأشهر التالية لشهر الصرف. والقاعدة واحدة للحركة الموجبة والسالبة.', who:'نظام الادخار', data:'المبلغ السالب، شهر تنفيذه، أثره على الأشهر التالية', rule:['BR-INV-07','ROI-02']},
+      {k:'تحقق', t:'يحفظ النظام القيم كاملة دون تقريب، ولا يُقرَّب أي مبلغ إلا عند القيد المالي النهائي', p:'تُستخدم النسبة ومعاملها الشهري كما هما دون تقريب في كل خطوات الاحتساب، ولا يُقرَّب أي مبلغ إلا عند القيد المالي النهائي. ويُحفَظ الرقم الكامل في سجل الحساب حتى يمكن إعادة الاحتساب والتحقق منه لاحقاً.', who:'نظام الادخار', data:'القيمة الكاملة المحفوظة، القيمة المقرَّبة عند القيد', rule:['BR-INV-08','NFR-04']},
+      {k:'قرار', t:'يُطبَّق الحد الأدنى ٢٪ عن الفترة المعلقة إذا استحق المدخر مدخراته قبل إعلان النسبة', p:'إذا استحق المدخر مدخراته قبل إعلان النسبة، يُطبَّق الحد الأدنى المضمون ٢٪ عن الفترة المعلقة حتى تاريخ الصرف، دون تسوية رجعية إذا جاءت النسبة النهائية أعلى.', who:'نظام الادخار', data:'الفترة المعلقة، النسبة المطبقة، قرار عدم التسوية الرجعية', rule:['BR-INV-04']}
+    ],
+    fin:'ضابط الإقفال: يجب أن يتوافق مجموع أرصدة الحسابات بعد التوزيع مع القيمة الإجمالية لأصول الصندوق في نهاية السنة. والعائد يُقيَّد بكود محاسبي مستقل عن أصل الاشتراكات والادخار الاختياري.',
+    handoff:{text:'رصيد نامٍ بالعائد قابل للصرف عند الاستحقاق', to:'p17'}
+  },]
+},
+{
+  id:'ph4', no:'المرحلة الخامسة', cls:'pay', color:'#0e6f68', when:'عند تحقق شرط الاستحقاق',
+  title:'الاستحقاق وطلب الصرف والتسوية المالية',
+  desc:'لا تُصرف المدخرات إلا عند تحقق أحد شروط الاستحقاق، ويكون الصرف عندها لكامل الرصيد المستحق بعد خصم الالتزامات. ولا تُسجَّل حالة «تم الصرف» قبل وصول النتيجة النهائية من النظام المالي والبنك ونجاح المطابقة.',
+  mapW:205, mapCols:5,
+  procs:[
+  {
+    id:'p17', no:'١٧', title:'تحقق شرط الاستحقاق وتقديم طلب صرف المدخرات',
+    paths:['mandatory','optional'], freq:'عند وقوع سبب الاستحقاق',
+    what:'إثبات أن حالة المدخر تنطبق على أحد شروط الصرف المنصوص عليها، ثم تقديم طلب يحتسب النظام مبلغه آلياً دون أن يُدخله المدخر أو يعدّله.',
+    trigger:'انتهاء علاقة العمل، أو استحقاق معاش، أو بلوغ ١٨٠ شهراً، أو عجز دائم، أو وفاة',
+    actors:'المدخر، الوكيل عند وجوده، موظف الصندوق',
+    systems:'وزارة العمل، الجوازات والإقامة، الأحوال المدنية، ملاءة، نظام المستحقات، نظام الادخار',
+    input:'سبب الصرف، حالة العامل، الرصيد وأوعيته، الحساب البنكي، المستندات',
+    output:'طلب صرف بحالة نظامية، ومبلغ محتسب آلياً، وطريقة صرف مختارة',
+    steps:[
+      {k:'تحقق', t:'يفحص النظام انطباق أحد شروط الاستحقاق الخمسة ولا يعرض للمدخر إلا ما ينطبق على حالته', p:'الشروط هي: انتهاء علاقة العمل لغير العماني بضوابطها، أو انتهاء خدمة العماني واستحقاقه معاشاً فيما عدا معاش العجز المهني الجزئي الدائم أو استحقاقه مكافأة فقد معاش، أو سداد اشتراكات أو إيداعات شهرية مدة لا تقل عن ١٨٠ شهراً، أو الوفاة، أو العجز الدائم. ولا يعرض النظام للمدخر إلا الشروط التي تنطبق على حالته.', who:'نظام الادخار — فحص آلي', data:'الشرط المنطبق، مصدر التحقق، سبب عدم الأهلية إن وُجد', rule:['BR-DIS-02','BR-DIS-03','BR-DIS-07','BR-DIS-04','م. ١٤٣ قانون']},
+      {k:'قرار', t:'يحدد النظام مسار العامل غير العماني: انتهاء العلاقة والمغادرة، أو البقاء بعد ثلاثة أشهر', p:'يشترك المساران في وجوب انتهاء علاقة العمل، أي أن تكون حالة العامل في وزارة العمل «ملغي». ثم يختلفان: المسار الأول انتهاء العلاقة والمغادرة، والمسار الثاني البقاء في السلطنة بعد انقضاء ثلاثة أشهر من انتهاء العلاقة بشرط عدم الارتباط بعقد عمل آخر عند تقديم الطلب.', who:'نظام الادخار', data:'حالة العامل، تاريخ الإلغاء، المسار المحدد', rule:['BR-DIS-03','م. ١٠٩ لائحة']},
+      {k:'نشاط', t:'يقدّم العامل طلبه قبل السفر فيُحفَظ مسودةً، ويتحول آلياً عند تغيّر حالته في وزارة العمل', p:'في مسار المغادرة يقدم العامل الطلب قبل سفره وهو ما يزال داخل السلطنة ليتحقق من بياناته، فيُحفَظ الطلب بحالة «مسودة» ولا يُسمح بتعديله. ثم يتحول تلقائياً إلى «بانتظار معالجة الطلب» عند تأكد تغيّر حالته في وزارة العمل إلى «ملغي»، وعندها تبدأ الدورة المستندية.', who:'المدخر', data:'تاريخ التقديم، حالة الطلب، تاريخ تغيّر حالة العامل'},
+      {k:'تحقق', t:'يتحقق النظام من الضوابط الأربعة لمسار البقاء ويعرض للعامل المستوفى منها والناقص', p:'يلزم التحقق من أربعة ضوابط مجتمعة: أن تكون حالة العامل «ملغي» من وزارة العمل، وأن يكون قد مضى على الإلغاء أكثر من ثلاثة أشهر، ونوع التأشيرة الجديدة الصادرة له من الجوازات والإقامة، وألا يكون مرتبطاً بعقد عمل آخر. ويعرض النظام للعامل الضوابط المستوفاة والناقصة وتاريخ اكتمال مدة الثلاثة أشهر.', who:'نظام الادخار ← وزارة العمل والجوازات', data:'نتيجة كل ضابط ومصدره، تاريخ اكتمال المدة'},
+      {k:'تحقق', t:'يستعلم النظام عن الحساب البنكي النشط من المصدر الرسمي ولا يُدخَل أي حساب يدوياً', p:'لا يُدخَل أي حساب بنكي يدوياً عند الصرف إطلاقاً. فتُستعلَم الحسابات البنكية المحلية النشطة إلكترونياً من «ملاءة»، وإذا لم يكن للمستحق حساب نشط وجب إنشاؤه أولاً لدى البنك ليظهر في النظام. وتسري هذه القاعدة على كل صرف.', who:'نظام الادخار ← ملاءة', data:'البنك، رقم الحساب أو IBAN، حالة التحقق'},
+      {k:'حركة مالية', t:'يحتسب النظام كامل الرصيد المستحق آلياً بعد خصم الالتزامات دون تدخل من المدخر', p:'لا يوجد صرف جزئي. فلا تُصرف المدخرات إلا عند تحقق أحد الشروط، ويكون الصرف لكامل الرصيد المستحق بعد خصم الالتزامات القائمة، والمبلغ محتسب آلياً وغير قابل للتعديل من المدخر. والصرف دفعة واحدة أو على أقساط طريقة سداد للمبلغ كاملاً لا صرف جزئي.', who:'نظام الادخار', data:'رصيد كل وعاء، العوائد، الالتزامات، الصافي المستحق', rule:['BR-DIS-06','BR-DIS-01']},
+      {k:'قرار', t:'يختار المدخر الصرف دفعة واحدة أو على أقساط سنوية أو شهرية محددة مسبقاً', p:'يختار المدخر الصرف دفعة واحدة أو على أقساط سنوية أو شهرية، مع استمرار احتساب العوائد على الرصيد المتبقي في حالة التقسيط.', who:'المدخر', data:'طريقة الصرف، عدد الأقساط إن اختير التقسيط', rule:['BR-DIS-01']}
+    ],
+    fin:'الالتزامات تُخصَم قبل تكوين الصافي لا بعده. ويبقى الرصيد في الحساب إذا لم يتحقق شرط: فالخروج من النظام الاختياري لا يُنشئ حق صرف، بل يتوقف المدخر عن الإيداع ويبقى رصيده مستحقاً للعائد حتى يتحقق أحد الشروط.',
+    handoff:{text:'طلب بحالة «بانتظار معالجة الطلب» مع صافي محتسب', to:'p18'},
+    statuses:['مسودة','بانتظار معالجة الطلب','قيد المراجعة','بانتظار مستندات إضافية','موقوف لحين إنشاء حساب بنكي','معتمد','مرفوض','قيد التحويل','تم الصرف']
+  },
+  {
+    id:'p18', no:'١٨', title:'مراجعة طلب الصرف واعتماده لدى موظف الصندوق',
+    paths:['shared'], freq:'عند كل طلب صرف',
+    what:'مراجعة بشرية تبني على نتيجة التحقق الآلي: يراجع الموظف الأهلية والمبالغ والبيانات البنكية والالتزامات، ثم يعتمد أو يرفض أو يطلب وثائق، مع تسجيل مبرر يظهر للمدخر.',
+    trigger:'وصول الطلب إلى حالة «بانتظار معالجة الطلب»',
+    actors:'موظف دائرة النظم التكميلية والادخار',
+    systems:'نظام الادخار، وزارة العمل، نظام المستحقات، ملاءة',
+    input:'الطلب وسببه، نتيجة التحقق الآلي، تفصيل المبالغ، الالتزامات، البيانات البنكية',
+    output:'قرار معتمد أو مرفوض أو طلب وثائق، ومبرر موثق، وتعليمات صرف عند الاعتماد',
+    steps:[
+      {k:'نشاط', t:'يراجع موظف الصندوق قائمة الطلبات المعلقة ويصفّيها بالرقم المدني أو سبب الصرف أو الحالة', p:'يراجع الموظف الطلبات المعلقة مع إمكانية البحث والتصفية بالرقم المدني أو سبب الصرف أو الحالة أو الفترة الزمنية.', who:'موظف الصندوق', data:'قائمة الطلبات، معايير التصفية المستخدمة'},
+      {k:'تحقق', t:'يقرأ الموظف نتيجة التحقق الآلي من حالة العامل والالتزامات القائمة والعجز ومدة الاشتراك', p:'يُجري النظام تلقائياً تحققاً من الضوابط بناءً على سبب الصرف: حالة العامل في منظومة وزارة العمل، وفحص الالتزامات المالية القائمة، ووجود عجز كلي، وهل سُدِّدت الاشتراكات مدة ١٨٠ شهراً.', who:'نظام الادخار — تحقق آلي', data:'نتيجة كل ضابط ومصدره ووقت الاستعلام'},
+      {k:'تحقق', t:'يراجع الموظف تفصيل المبالغ بحسب مصدرها وبيانات الحساب البنكي المحلي أو الدولي', p:'يراجع الموظف تفصيل المبالغ — ما جاء من إيداع المدخر الذاتي، وما جاء من صاحب العمل، والعوائد — وبيانات الحساب البنكي المحلي أو الدولي بحسب سبب الصرف: البنك ورقم الحساب و IBAN.', who:'موظف الصندوق', data:'تفصيل المبالغ بالمصدر، بيانات الحساب، حالة تحققها'},
+      {k:'قرار', t:'تُعرض الالتزامات المستحقة على المدخر للموظف المختص لاتخاذ قرار بتسويتها أو تأجيلها', p:'تُعرض الالتزامات المستحقة على المدخر عند معالجة الطلب، وللموظف إمّا تأكيد تسويتها من الرصيد أو تأجيلها، ويُسجَّل القرار ومبرره.', who:'موظف الصندوق', data:'الالتزامات المعروضة، قرار التسوية أو التأجيل، المبرر', rule:['PAY-04']},
+      {k:'نشاط', t:'يدوّن الموظف مبررات قراره، وهي التي تظهر للمدخر في إشعار نتيجة الطلب', p:'يُدخل الموظف مبررات القرار، وهي تظهر للمدخر في إشعار النتيجة، فلا يصل المدخر قرار بلا سبب مقروء.', who:'موظف الصندوق', data:'نص المبرر، هوية الموظف، تاريخ القرار'},
+      {k:'قرار', t:'يعتمد الموظف الصرف أو يرفض الطلب بأسبابه أو يطلب وثائق إضافية محددة', p:'للموظف ثلاثة مسارات: اعتماد الصرف فيُدفَع المبلغ ويُشعَر المدخر، أو رفض الطلب بإشعار يبين الأسباب، أو طلب وثائق إضافية بإشعار يحدد المستندات المطلوبة.', who:'موظف الصندوق', data:'القرار، الإشعار المرسل، حالة الطلب الجديدة'},
+      {k:'نشاط', t:'يُحفَظ إقرار العامل بأن سعر الصرف والرسوم تُحدَّد وقت التنفيذ في حالات الصرف الدولي', p:'في الصرف الدولي لا يُقبل تقديم الطلب إلا بعد إقرار صريح من العامل بأن معامل تحويل العملة خاضع للقيمة السائدة وقت الصرف الفعلي، وأن أي قيمة تُعرض قبل ذلك استرشادية فقط، وأن الرسوم تُحدد كذلك عند التنفيذ. ويُحفَظ الإقرار بتاريخه ووقته في سجل الطلب.', who:'المدخر / نظام الادخار', data:'نص الإقرار، تاريخه ووقته، مرجع الطلب'}
+    ],
+    fin:'الاعتماد لا يساوي الصرف. فحالة الطلب تنتقل إلى «معتمد» ويتكوّن التزام مالي على الصندوق تجاه المدخر، لكن لم يخرج المال بعد ولم يُقفل الالتزام.',
+    handoff:{text:'طلب معتمد بتعليمات صرف بالريال العماني', to:'p19'}
+  },
+  {
+    id:'p19', no:'١٩', title:'دفع المعاملة إلى النظام المالي Oracle وتنفيذ التحويل البنكي',
+    paths:['shared'], freq:'عند كل طلب معتمد',
+    what:'تحويل الطلب المعتمد إلى معاملة مالية في Oracle، ثم إنشاء التحويل الفعلي مع البنك من قسم المصروفات، واستقبال النتيجة النهائية.',
+    trigger:'اعتماد طلب الصرف',
+    actors:'الإدارة المالية، قسم المصروفات، البنك',
+    systems:'نظام الادخار، نظام Oracle المالي، قسم المصروفات، البنك',
+    input:'طلب معتمد، الصافي بالريال العماني، بيانات المستفيد وبيانات التحويل',
+    output:'مرجع معاملة Oracle، ومرجع بنكي، ونتيجة نهائية ناجحة أو مرتدة',
+    steps:[
+      {k:'ترحيل', t:'يدفع نظام الادخار المعاملة إلى Oracle بالريال العماني مع بيانات المستفيد ومرجع الطلب', p:'يدفع النظام المعاملة Push إلى نظام Oracle المالي متضمنةً المبلغ بالريال العماني وبيانات المستفيد وبيانات التحويل الدولي ومرجع الطلب. ونظام الادخار لا يصدر أوامر تحويل إلى البنوك مباشرة ولا يتولى تنفيذ الصرف الأجنبي.', who:'نظام الادخار ← Oracle', data:'المبلغ، المستفيد، بيانات التحويل، مرجع الطلب'},
+      {k:'نشاط', t:'يستقبل النظام من Oracle تأكيد الاستلام ومرجعه فتنتقل حالة الطلب إلى قيد التحويل', p:'يستقبل النظام من Oracle تأكيد استلام المعاملة ومرجعها، فتنتقل حالة الطلب إلى «قيد التحويل».', who:'Oracle ← نظام الادخار', data:'مرجع Oracle، حالة الترحيل، تاريخه'},
+      {k:'حركة مالية', t:'ينشئ قسم المصروفات التحويل الفعلي مع البنك ويحدد عندها سعر الصرف والرسوم', p:'يتولى قسم المصروفات إنشاء عملية التحويل الفعلية وتنفيذها مع البنك، ويحدد عندها سعر الصرف والرسوم بحسب الإجراءات المالية المعتمدة. وتبقى جميع أرصدة الحساب بالريال العماني ويتم تحويل العملة عند التنفيذ فقط.', who:'قسم المصروفات ← البنك', data:'أمر الدفع، سعر الصرف، الرسوم، المرجع البنكي'},
+      {k:'قرار', t:'يستقبل النظام من Oracle نتيجة التنفيذ النهائية: ناجح أو مرتد مع بيان سبب الارتداد', p:'يستقبل النظام من Oracle نتيجة التنفيذ النهائية: ناجح أو مرتد، مع سبب الارتداد عند الفشل، فيحدّث حالة الطلب ويُشعر العامل.', who:'Oracle ← نظام الادخار', data:'نتيجة التنفيذ، سبب الارتداد، تاريخ النتيجة'},
+      {k:'نشاط', t:'يبقى الطلب مفتوحاً عند الارتداد وتُحفَظ نتيجته ويُطلب من العامل تصحيح بياناته', p:'إذا ارتدت العملية، تُحفَظ نتيجة الارتداد وسببه ويُطلب من العامل تصحيح بياناته، ولا يُغلَق الطلب ولا يُعد مدفوعاً. وآلية إعادة الصرف النهائية ما زالت محل حسم.', who:'نظام الادخار / موظف الصندوق', data:'سبب الارتداد، المطلوب من العامل، حالة الطلب المفتوحة'},
+      {k:'نشاط', t:'تُحال الحالة إلى معالجة يدوية موثقة بمدة إنجاز إذا تعذّر التنفيذ أو التحقق من الهوية', p:'إذا لم تتوفر بيانات تحويل صحيحة بعد المغادرة، أو تعذر التحقق من هوية العامل، تُحال الحالة إلى معالجة يدوية موثقة لدى موظف الصندوق مع تحديد مدة للإنجاز، ويُشعَر العامل بحالة طلبه وبما هو مطلوب منه.', who:'موظف الصندوق', data:'سبب التعذر، مالك المعالجة، المدة المحددة'}
+    ],
+    fin:'لا تُسجَّل حالة «تم الصرف» إلا بعد النتيجة النهائية الناجحة من Oracle والبنك. والفرق بين إرسال المعاملة ووصول المال إلى حساب المستفيد فرق جوهري في التسوية ولا يجوز طمسه.',
+    handoff:{text:'نتيجة دفع نهائية مع مرجعها البنكي', to:'p21'}
+  },
+  {
+    id:'p20', no:'٢٠', title:'الصرف على أقساط ومتابعة الرصيد المتبقي المستثمر',
+    paths:['shared'], freq:'شهرياً أو سنوياً حتى آخر قسط',
+    what:'سداد المبلغ المستحق كاملاً على دفعات محددة مسبقاً، مع بقاء الرصيد غير المصروف مستثمراً ومستحقاً للعائد حتى آخر قسط.',
+    trigger:'اعتماد طلب صرف اختير فيه التقسيط',
+    actors:'نظام الادخار، الإدارة المالية',
+    systems:'نظام الادخار، نظام Oracle المالي، قسم المصروفات',
+    input:'المبلغ المعتمد، عدد الأقساط، تاريخ الاعتماد، الحد الأدنى للقسط',
+    output:'خطة أقساط، وحركة سالبة لكل قسط، ورصيد متبقٍ نامٍ بالعائد',
+    steps:[
+      {k:'نشاط', t:'يحدد النظام عدد الأقساط مسبقاً ويقسّم المبلغ المعتمد عليها بالتساوي بحد أدنى لكل قسط', p:'عند اعتماد الصرف على أقساط يُحدَّد عدد الأقساط مسبقاً، ويُقسَّم المبلغ المعتمد بالتساوي عليها، ولا يجوز أن تقل قيمة القسط عن الحد الأدنى الشهري المحدد في إعدادات النظام.', who:'نظام الادخار', data:'عدد الأقساط، قيمة القسط، الحد الأدنى المعتمد', rule:['BR-DIS-01A']},
+      {k:'نشاط', t:'يبدأ صرف أول قسط من الشهر التالي لتاريخ الاعتماد لا من شهر الاعتماد نفسه', p:'يبدأ صرف أول قسط من الشهر التالي لتاريخ الاعتماد، فلا يُصرف قسط في شهر الاعتماد نفسه.', who:'نظام الادخار', data:'تاريخ الاعتماد، تاريخ أول قسط، جدول الاستحقاق', rule:['BR-DIS-01A']},
+      {k:'حركة مالية', t:'يُعامَل كل قسط قيمة سالبة في شهر تنفيذه ويبدأ أثره من الشهر الذي يليه', p:'يُعامَل كل قسط قيمة سالبة في شهر تنفيذه، ويبدأ أثره من الشهر التالي، وينتقل الرصيد بعده إلى الشهر الذي يليه كأي رصيد مرحّل.', who:'نظام الادخار', data:'قيمة القسط، شهر تنفيذه، الرصيد قبل وبعد', rule:['BR-INV-09','ROI-05']},
+      {k:'حركة مالية', t:'يبقى الرصيد المتبقي مستثمراً فيستحق العائد بالطريقة المعتادة نفسها حتى آخر قسط', p:'يبقى الرصيد المتبقي أثناء الصرف على أقساط مستثمراً في حساب الصندوق فيستحق العائد بالطريقة المعتادة نفسها، ولا يتوقف العائد بمجرد بدء الصرف.', who:'نظام الادخار', data:'الرصيد المتبقي، عائد الشهر عليه', rule:['BR-DIS-01','BR-INV-09']},
+      {k:'ترحيل', t:'يُنشأ لكل قسط قيد محاسبي مستقل مرتبط بخطة الصرف ومرجع الطلب', p:'يُنشأ لكل قسط قيد محاسبي مستقل مرتبط بخطة الصرف ومرجع الطلب، فلا تُدمَج الأقساط في قيد واحد.', who:'نظام الادخار ← Oracle', data:'رقم قيد كل قسط، مرجع خطة الصرف'},
+      {k:'تحقق', t:'يبقى الحساب نشطاً والطلب مفتوحاً حتى نجاح صرف آخر قسط ومطابقته', p:'يبقى الحساب نشطاً والرصيد قائماً طوال مدة التقسيط، فلا يُغلَق الطلب ولا الحساب قبل نجاح صرف آخر قسط ومطابقته.', who:'نظام الادخار', data:'الأقساط المصروفة والمتبقية، حالة الحساب'}
+    ],
+    fin:'التقسيط يغيّر توقيت خروج المال لا مقداره. فالمبلغ المستحق كامل، ويظل المتبقي ينمو بالعائد، فيكون إجمالي ما يستلمه المدخر أعلى من المبلغ المعتمد في تاريخ الاعتماد.',
+    handoff:{text:'آخر قسط ناجح يفتح إقفال الطلب', to:'p21'}
+  },
+  {
+    id:'p21', no:'٢١', title:'المطابقة المالية وإغلاق الطلب وتحديد حالة الحساب',
+    paths:['shared'], freq:'دورياً ومع كل طلب',
+    what:'مطابقة سلسلة المراجع كاملة من الفاتورة إلى النتيجة البنكية، ومعالجة أي فرق كحركة مستقلة، ثم إقفال الطلب وتحديد ما إذا كان الحساب يُغلق أو يستمر.',
+    trigger:'وصول نتيجة دفع نهائية، أو بلوغ موعد المطابقة الدورية',
+    actors:'الإدارة المالية، نظام الادخار',
+    systems:'نظام الفوترة، قنوات التحصيل، نظام الادخار، Oracle، البنك',
+    input:'كل المراجع من الاستحقاق حتى نتيجة الدفع',
+    output:'حالة تسوية، فروق معالجة بقيود مستقلة، وقرار إغلاق أو استمرار',
+    steps:[
+      {k:'تحقق', t:'تطابق الإدارة المالية الفاتورة والمحصّل والمخصص وحركة الحساب وقيد Oracle ونتيجة البنك', p:'تُطابَق الفاتورة والمبلغ المحصّل والمخصص وحركة حساب المدخر ورقم قيد Oracle ونتيجة الدفع البنكية باستخدام المراجع نفسها، فيمكن الانتقال من الحركة التشغيلية إلى القيد المحاسبي والعكس.', who:'الإدارة المالية', data:'سلسلة المراجع والمبالغ عند كل محطة', rule:['BR-GL-03']},
+      {k:'قرار', t:'يُفتَح استثناء مالي بمالك ومدة معالجة عند ظهور أي فرق، ولا تُقفل الفترة قبل تسويته', p:'إذا ظهر فرق، يُفتح استثناء مالي بمالك ومدة معالجة، ولا تُغلق الفترة أو الحالة حتى معرفة السبب وتصحيحه أو عكسه. ويُشعَر فوراً عند اكتشاف أي عدم تطابق.', who:'الإدارة المالية', data:'قيمة الفرق، سببه، مالك معالجته، مدتها'},
+      {k:'حركة مالية', t:'تُسجَّل معالجة الفرق حركةً مستقلة تحفظ مرجع الأصل ومرجع العكس دون تعديل الحركة المرحّلة', p:'تُسجَّل معالجة الفرق كحركة مستقلة تحفظ مرجع الأصل ومرجع العكس والقيد الجديد. ولا تُعدَّل الحركة المرحّلة ولا تُحذف المعالجة السابقة.', who:'الإدارة المالية ← Oracle', data:'مرجع الأصل، مرجع العكس، قيد التسوية', rule:['BR-GL-03','NFR-03']},
+      {k:'قرار', t:'يحدد النظام حالة الحساب بعد الصرف: إغلاق عند انعدام الرصيد أو استمرار مع رصيد قائم', p:'الدفعة الواحدة الناجحة قد تُغلق الطلب والحساب عند انعدام الرصيد، أما التقسيط فيُبقي الرصيد والحساب نشطين حتى آخر قسط. وقد يبقى الحساب نشطاً مع رصيد في أوعية لم يتحقق شرط صرفها.', who:'نظام الادخار', data:'الرصيد المتبقي في كل وعاء، جدول الأقساط، حالة الحساب'},
+      {k:'نشاط', t:'يُغلَق الطلب بعد نجاح الدفع والمطابقة وتُحفَظ أدلته في سجل تدقيق غير قابل للتعديل', p:'يُغلَق الطلب فقط بعد نجاح الدفع ونجاح المطابقة، وتُحفَظ جميع الأدلة والموافقات والإشعارات في سجل تدقيق غير قابل للتعديل.', who:'نظام الادخار / الإدارة المالية', data:'حالة «تم الصرف»، أدلة الإغلاق، سجل التدقيق', rule:['NFR-03']},
+      {k:'نشاط', t:'تتحدث مؤشرات التحصيل والصرف والفروق والعوائد مع بيان تاريخ آخر تحديث', p:'تتحدث مؤشرات التحصيل والصرف والفروق والعوائد والاحتياطيات مع بيان تاريخ آخر تحديث، فتُقرأ الأرقام بسياقها الزمني.', who:'نظام الادخار', data:'المؤشرات المحدَّثة، تاريخ آخر تحديث', rule:['NFR-08']}
+    ],
+    fin:'التسوية تعني أن الأرصدة التشغيلية والقيود المحاسبية ونتيجة البنك متفقة، لا أن المعاملة أُرسلت. وهذا هو الضابط الذي يمنع ظهور رصيد في حساب المدخر لا يقابله قيد، أو قيد لا يقابله مال.',
+    handoff:{text:'حالة مسوّاة ومغلقة، أو حساب مستمر برصيد قائم', to:null}
+  }]
+},
+{
+  id:'ph5', no:'المرحلة السادسة', cls:'sup', color:'#5a4a8a', when:'تُستدعى عند وقوع الحدث في أي مرحلة',
+  title:'الإجراءات المساندة والاستثنائية',
+  desc:'هذه العمليات ليست محطات في خط زمني واحد، بل تُستدعى عند وقوع حدث بعينه فتتداخل مع المراحل السابقة وتعدّل نتائجها. وتجاهلها هو ما يجعل أي خريطة للنظام ناقصة.',
+  mapW:185, mapCols:5, linear:false,
+  procs:[
+  {
+    id:'p22', no:'٢٢', title:'الاعتراض على الأجر الأساسي المسجل ورد جهة العمل',
+    paths:['mandatory'], freq:'عند التسجيل أو تعديل الأجر — مهلة ٩٠ يوماً',
+    what:'تمكين العامل غير العماني من تصحيح الأجر الأساسي المسجل في الصندوق، لأن الأجر هو أساس احتساب الاشتراك ٩٪ وأي خطأ فيه يُفسد كل استحقاق لاحق.',
+    trigger:'تسجيل أجر أساسي جديد أو تعديله، وإشعار العامل به',
+    actors:'العامل غير العماني، جهة العمل، دائرة بيانات المشتركين، وزارة العمل',
+    systems:'نظام الادخار، نظام الاشتراكات، وزارة العمل، تكامل الشكاوى العمالية المغلقة',
+    input:'الأجر المعترض عليه، الأجر الصحيح المقترح، تاريخ بدء تقاضيه، المستندات',
+    output:'أجر أساسي معتمد، وأثر رجعي على الاشتراكات والمبالغ الإضافية',
+    steps:[
+      {k:'نشاط', t:'يُشعر النظام العامل بالأجر المسجل وبأي تعديل عليه، وتبدأ مهلة الاعتراض من تاريخ التسجيل', p:'يُشعَر العامل بشكل مستمر بالأجر المسجل في الصندوق وأي تعديل يطرأ عليه. ومدة الاعتراض تسعون يوماً تبدأ من تاريخ تسجيل الأجر أو تعديله لا من تاريخ علم العامل، فلذلك يُحفَظ تاريخ إرسال الإشعار لأنه يفيد عند النظر في أي اعتراض متأخر.', who:'نظام الادخار ← العامل وجهة العمل', data:'الأجر قبل وبعد، تاريخ السريان، بقية المهلة، تاريخ الإشعار', rule:['BR-PEN-03','BR-NOT-02','م. ٩٨ لائحة']},
+      {k:'نشاط', t:'يقدّم العامل اعتراضه محدداً الأجر الصحيح وتاريخ بدء تقاضيه ومرفقاته، فتُشعَر جهة العمل', p:'يُلزَم العامل عند الاعتراض بتحديد الأجر الأساسي الصحيح وتاريخ بدء تقاضيه، وتُتاح له إرفاق المستندات الداعمة، ثم تُشعَر جهة العمل لحظياً ببيانات الاعتراض.', who:'العامل', data:'الأجر المقترح، تاريخ بدء التقاضي، المرفقات'},
+      {k:'قرار', t:'ترد جهة العمل خلال المهلة النظامية، وعدم ردها يعني اعتماد الأجر الذي حدده العامل', p:'تلتزم جهة العمل بالرد خلال ثلاثين يوماً. فقبولها الاعتراض — أو عدم ردها خلال المهلة — يعني اعتماد الأجر المحدد من العامل وتاريخ بدء تقاضيه، وتكون حالة الطلب «مقبول من جهة العمل» أو «مقبول حكماً» بحسب الحالة.', who:'جهة العمل', data:'الرد، تاريخه، حالة الطلب الناتجة', rule:['BR-PEN-03','BR-PEN-06']},
+      {k:'قرار', t:'يُشعَر العامل بمسار الشكوى العمالية لدى وزارة العمل عند رفض جهة العمل للاعتراض', p:'عند رفض جهة العمل، يُشعَر العامل بمسار تقديم شكوى عمالية لدى وزارة العمل باستخدام تصنيف شكاوى عقود العمل ونوع الشكوى «عدم صحة الأجر الأساسي المسجل في العقد»، وتصبح حالة الطلب «مرفوض من جهة العمل».', who:'نظام الادخار ← العامل', data:'تصنيف الشكوى، نوعها، إشعار المسار', rule:['BR-PEN-07']},
+      {k:'نشاط', t:'يحدّث العامل طلبه بنتيجة الشكوى أو الحكم فيُحال إلى دائرة بيانات المشتركين للمراجعة', p:'بعد تقديم الشكوى العمالية يجوز للعامل تحديث طلب الاعتراض بنتيجة بحث الشكوى أو حكم المحكمة، فيُحال الطلب إلى دائرة بيانات المشتركين لمراجعة النتيجة وتعديل الأجر الأساسي إن تطلب الأمر.', who:'العامل / دائرة بيانات المشتركين', data:'رقم الشكوى، تواريخها، سبب الإغلاق، محضر الإغلاق'},
+      {k:'حركة مالية', t:'يظهر فرق الأجر الرجعي بنداً مستقلاً في فاتورة الشهر التالي دون تعديل الفاتورة الصادرة', p:'لا تُعدَّل الفاتورة بعد صدورها. فكل فرق ينشأ عن تصحيح الأجر بأثر رجعي — زيادةً كان أو نقصاً — يُعالَج بنداً مستقلاً في فاتورة الشهر التالي، ويُقيَّد ما يخص الادخار منه في حساب المدخر عند سداده.', who:'نظام الفوترة ← نظام الادخار', data:'قيمة الفرق، الفترة التي يخصها، بند الفاتورة اللاحقة', rule:['BR-PEN-03A','BIL-02']},
+      {k:'تحقق', t:'يحمي النظام الأجر المعتمد من الكتابة فوقه بتحديثات وزارة العمل إلا إذا تغيّر حقل الأجر صراحةً', p:'إذا اعتُمد أجر أساسي جديد نتيجة اعتراض أو شكوى، فلا يجوز استبداله تلقائياً بأي قيمة واردة لاحقاً من وزارة العمل إلا إذا كان التحديث يتضمن تعديلاً فعلياً على حقل الأجر نفسه. وتُطبَّق الحقول المتغيرة فقط، فيمكن تحديث المهنة أو حالة العامل دون المساس بالأجر المعتمد.', who:'طبقة التكامل مع وزارة العمل', data:'الحقول المتغيرة فعلاً، الأجر المعتمد، مصدر التحديث', rule:['BR-PEN-08']}
+    ],
+    fin:'أثر هذه العملية مالي بالكامل: تصحيح الأجر يغيّر أصل الاشتراك ٩٪ للفترة الماضية، وقد يُنشئ مبالغ إضافية على السداد بأجر غير حقيقي. ويظهر الفرق حركة مستقلة مرتبطة بأصلها لا تعديلاً على القيد السابق.',
+    handoff:{text:'أجر معتمد وفرق مستقل في فاتورة الشهر التالي', to:'p08'},
+    statuses:['تم تقديم الطلب','تم إشعار جهة العمل','قيد الرد','مقبول من جهة العمل','مرفوض من جهة العمل','مقبول حكماً','بانتظار نتيجة الشكوى العمالية','قيد مراجعة دائرة بيانات المشتركين','مغلق']
+  },
+  {
+    id:'p23', no:'٢٣', title:'سداد الالتزامات المالية المستحقة من رصيد المدخرات',
+    paths:['shared'], freq:'عند طلب المدخر، أو عند طلب نظام تحصيل الالتزامات',
+    what:'استخدام رصيد الادخار في سداد ما على المدخر من التزامات للصندوق. وهو مسار مستقل بنص خاص ولا يُعد صرفاً للمدخرات.',
+    trigger:'طلب من المدخر، أو طلب خصم من النظام المسؤول عن تحصيل الالتزامات',
+    actors:'المدخر، نظام تحصيل الالتزامات، موظف الصندوق',
+    systems:'نظام الادخار، نظام المستحقات، نظام الاشتراكات',
+    input:'الالتزامات المستحقة ومبالغها، الرصيد المتاح في كل وعاء',
+    output:'مبلغ مخصوم بتفصيل مصدره، ومرجع العملية، والرصيد المتبقي في كل وعاء',
+    steps:[
+      {k:'تحقق', t:'يعرض النظام الالتزامات التي يجوز سدادها من الرصيد بتاريخ استحقاقها ومبلغها وحالتها', p:'يجوز السداد من الرصيد لاشتراكات فرع كبار السن والعجز والوفاة، ولاشتراكات فرع تأمين إصابات العمل والأمراض المهنية، ولأي التزام مالي آخر على المدخر للصندوق.', who:'نظام الادخار', data:'نوع الالتزام، مبلغه، تاريخ استحقاقه، حالته'},
+      {k:'حركة مالية', t:'يُخصَم المبلغ من الرصيد الاختياري أولاً ثم الإلزامي مع حفظ أثر الخصم من كل وعاء مستقلاً', p:'يبدأ السداد في الطريقتين من الرصيد الاختياري، ثم يُستخدم الرصيد الإلزامي لتغطية المتبقي عند عدم كفايته، مع حفظ أثر الخصم من كل وعاء بصورة مستقلة.', who:'نظام الادخار', data:'المخصوم من كل وعاء، الرصيد قبل وبعد لكل منهما', rule:['BR-OBL — قواعد سداد الالتزامات','م. ١١١ لائحة']},
+      {k:'قرار', t:'في مسار طلب المدخر لا يُسدَّد الالتزام إلا كاملاً، ويُمنع التأكيد عند عدم كفاية الرصيدين', p:'يعرض النظام الالتزامات ليختار المدخر واحداً أو أكثر، ويمنع التأكيد إذا تجاوز المجموع الرصيدين المتاحين. ولا يُسدَّد أي التزام إلا كاملاً، فإن لم يكفِ مجموع الرصيدين لالتزام معين بقي دون سداد.', who:'المدخر', data:'الالتزامات المختارة، مجموعها، الرصيد المتاح، نتيجة التأكيد'},
+      {k:'قرار', t:'في مسار نظام تحصيل الالتزامات يجوز خصم ما يتوفر فتظهر الحالة «تم الخصم جزئياً»', p:'حساب الادخار هنا إحدى وسائل التحصيل المتاحة، ونظام الادخار منفِّذ لا مقرِّر. فيستعلم النظام الطالب عن الرصيد المتاح، ثم يرسل طلب خصم بمبلغ محدد، فيُخصَم ما يتوفر بالترتيب نفسه وتظهر الحالة «تم الخصم جزئياً» عند عدم الكفاية.', who:'نظام تحصيل الالتزامات ← نظام الادخار', data:'المبلغ المطلوب، المخصوم فعلاً، تفصيل مصدره، الرصيد المتبقي', rule:['PAY-05']},
+      {k:'نشاط', t:'يرد نظام الادخار بالمبلغ المخصوم فعلياً وتفصيل مصدره ومرجعه والرصيد المتبقي في كل وعاء', p:'لا يتولى نظام الادخار تحديد من تأخر عن السداد، ولا متى يبدأ الخصم، ولا إشعار المدخر قبله — فهذه كلها من مسؤولية النظام الطالب. ويرد نظام الادخار بالمبلغ المخصوم فعلياً وتفصيل مصدره ومرجع العملية وتاريخها والرصيد المتبقي في كل وعاء.', who:'نظام الادخار', data:'الرد المرجَع إلى النظام الطالب بعناصره كاملة'},
+      {k:'نشاط', t:'يقرأ المدخر في سجل معاملاته بيان الخصم ومقابله والرصيد قبله وبعده ورقم العملية', p:'يجب أن يقرأ المدخر بوضوح ما حدث في حسابه بالصيغة: «تم خصم مبلغ (المبلغ) من رصيدك بتاريخ (التاريخ) مقابل (الالتزام)»، مع بيان الرصيد قبل الخصم وبعده ورقم العملية.', who:'نظام الادخار ← المدخر', data:'نص البيان، الرصيد قبل وبعد، رقم العملية', rule:['BR-NOT-01']}
+    ],
+    fin:'الخصم حركة سالبة في شهر تنفيذه تُعامَل بقاعدة العائد نفسها، فتخفض الرصيد الافتتاحي للشهر التالي ويُستبعد عائدها عن الأشهر التالية. وهو ليس صرفاً للمدخرات ولا يحتاج تحقق شرط استحقاق.',
+    handoff:{text:'رصيد منقوص بقيمة الخصم مع تحديث الالتزام لدى مصدره', to:'p15'},
+    statuses:['بانتظار الدفع','قيد التنفيذ','تم الدفع بنجاح','تم الخصم جزئياً','بانتظار تحديث بيان الالتزام','فشل التحديث']
+  },
+  {
+    id:'p25', no:'٢٤', title:'صرف مدخرات المدخر المتوفى إلى الورثة الشرعيين',
+    paths:['shared'], freq:'عند تسجيل واقعة الوفاة',
+    what:'صرف المدخرات بوصفها تركة تؤول إلى الورثة الشرعيين بموجب إعلام وراثة شرعي، ولكل وريث نصيبه على حسابه البنكي هو. وهي تختلف كلياً عن معاش الوفاة.',
+    trigger:'وفاة المدخر وتقديم طلب صرف «عن الغير»',
+    actors:'أي شخص لديه صلاحية دخول، الورثة، موظف قسم الادخار',
+    systems:'الأحوال المدنية، نظام الادخار، ملاءة، نظام المستحقات',
+    input:'الرقم المدني للمتوفى، إعلام الوراثة الشرعي، جدول الورثة، صلة القرابة',
+    output:'نصيب كل وريث مصروفاً على حسابه، وقرار بشأن الالتزامات القائمة',
+    steps:[
+      {k:'تحقق', t:'يميّز النظام المدخرات بوصفها تركة تخضع لإعلام الوراثة الشرعي، بخلاف معاش الوفاة', p:'معاش الوفاة ليس تركة ولا يخضع لإعلام الوراثة الشرعي، بينما المدخرات تركة تؤول إلى الورثة الشرعيين ولا تُصرف إلا بموجب إعلام وراثة شرعي يحدد الورثة وأنصبتهم. وفي غياب المستحقين تؤول المدخرات إلى نظام الادخار.', who:'موظف قسم الادخار', data:'نوع الاستحقاق، المستند الحاكم', rule:['BR-DIS-04','م. ١٤٣ قانون']},
+      {k:'نشاط', t:'يقدّم أي شخص لديه صلاحية دخول طلباً «عن الغير» ببيانات المتوفى وإعلام الوراثة', p:'لا يقتصر التقديم على فئة محددة. فأي شخص لديه صلاحية دخول يفتح شاشة طلب صرف المدخرات ويختار «عن الغير»، ويُدخل الرقم المدني للمتوفى وتاريخ انتهاء بطاقته وصلة القرابة — وتشمل القائمة الجار والصديق — ويرفق إعلام الوراثة، وشهادة الوفاة اختيارية.', who:'مقدّم الطلب', data:'بيانات المتوفى، صلة القرابة، المستندات المرفقة'},
+      {k:'نشاط', t:'يُدخَل جدول الورثة بالاسم والرقم المدني وصلة القرابة والنسبة الواردة في الإعلام', p:'يُدخَل في الجدول كل وريث وارد في إعلام الوراثة بالاسم والرقم المدني وتاريخ الميلاد وصلة القرابة بالمتوفى والنسبة من الإرث إن وُجدت في الإعلام، مع إمكانية إضافة أكثر من وريث.', who:'مقدّم الطلب', data:'حقول كل وريث، عددهم، مجموع الأنصبة'},
+      {k:'تحقق', t:'يتحقق النظام آلياً من واقعة الوفاة لدى الأحوال المدنية ومن وجود مدخرات للرقم المدني', p:'يتحقق النظام آلياً من أن حالة صاحب الرقم المدني «متوفى» من الأحوال المدنية، ومن أن للرقم المدني مدخرات قائمة. وعند إخفاق الثاني تكون الرسالة عامة لا تبيّن السبب، حمايةً لبيانات المدخرين، لأن توضيحه يكشف لأي شخص ما إذا كان لآخر مدخرات لدى الصندوق.', who:'نظام الادخار', data:'نتيجة كل تحقق، نص الرسالة المعروضة', rule:['NFR-09']},
+      {k:'تحقق', t:'يطابق موظف قسم الادخار بيانات الورثة وأنصبتهم بإعلام الوراثة المرفق ويعدّلها عند اللزوم', p:'يطّلع الموظف على إعلام الوراثة المرفق، ويطابق بيانات الورثة المدخلة في الجدول به، ويتحقق من صحة الأسماء والأنصبة، ويجوز له تعديلها. وتُعرض حالة المدخر من الأحوال المدنية للتحقق الآلي من واقعة الوفاة دون طلب مستند إضافي.', who:'موظف قسم الادخار', data:'الأسماء والأنصبة المعتمدة، التعديلات وسببها'},
+      {k:'تحقق', t:'يوقف النظام المعالجة إن لم يوجد حساب بنكي نشط لكل وريث لدى المصدر الرسمي', p:'يتحقق النظام إلزامياً من وجود حساب بنكي لكل وريث ويوقف المعالجة إن لم يوجد لأحدهم حساب. والصرف دائماً إلى الحساب البنكي للمستحق نفسه لا إلى حساب الوكيل أو من ينوب عنه، وفقاً للمادة ٤ من قانون الحماية الاجتماعية.', who:'نظام الادخار ← ملاءة', data:'حساب كل وريث، حالته، نتيجة التحقق'},
+      {k:'قرار', t:'تُعرض الالتزامات المستحقة على المدخر للموظف المختص لاتخاذ قرار بتسويتها أو تأجيلها', p:'تُعرض الالتزامات المستحقة على المدخر، ويقرر الموظف تأكيد تسويتها من الرصيد أو تأجيلها، قبل تحديد نصيب كل وريث.', who:'موظف قسم الادخار', data:'الالتزامات، قرار التسوية أو التأجيل، المبرر'},
+      {k:'حركة مالية', t:'يُصرف نصيب كل وريث على حسابه البنكي هو بقيد وحركة مستقلين عن بقية الورثة', p:'يُصرف نصيب كل وريث على حسابه البنكي هو، ولا يُصرف لمقدّم الطلب بصفته تلك. ويُنشأ لكل نصيب قيد وحركة منفصلان.', who:'نظام الادخار ← Oracle ← البنك', data:'نصيب كل وريث، حسابه، مرجع القيد ونتيجة الدفع'},
+      {k:'نشاط', t:'ينشئ النظام طلب صرف المدخرات تلقائياً عند تقديم طلب معاش الوفاة لمن له مدخرات', p:'تسهيلاً على مقدّم الطلب، يتحقق النظام تلقائياً عند تقديم طلب معاش الوفاة مما إذا كان للمتوفى مدخرات، فإن وُجدت أنشأ طلب صرف مدخرات تلقائياً بالآلية نفسها ويُعالَج بالضوابط نفسها، لأن البيانات المطلوبة في الطلبين واحدة.', who:'نظام الادخار', data:'وجود مدخرات، الطلب المنشأ تلقائياً، مرجع الربط'},
+      {k:'تحقق', t:'تنتهي جميع التوكيلات القائمة على الحساب فور تسجيل واقعة الوفاة ويُشعَر الوكلاء بذلك', p:'يوقف النظام جميع التوكيلات القائمة على الحساب فور تسجيل واقعة الوفاة ويُشعِر الوكلاء، لأن الوكالة تنتهي بموت موكِّلها ولأن المدخرات تؤول عندها إلى الورثة. ولا يلزم في هذه الحالة توكيل ولا تسجيل ممثل للورثة.', who:'نظام الادخار', data:'التوكيلات الموقوفة، تاريخ الإيقاف، الإشعارات', rule:['BR-AGT-10','BR-AGT-06']}
+    ],
+    fin:'يُقسَّم الرصيد المستحق إلى أنصبة بعدد الورثة، فتصبح حركة صرف واحدة عدة حركات وقيود مستقلة. وقيد النطاق: ما ورد هنا يخص المدخر العماني المتوفى مؤمَّناً عليه كان أو غير مؤمَّن عليه، أما غير العماني المتوفى فآليته غير مقررة حتى تاريخه.',
+    handoff:{text:'أنصبة مصروفة لكل وريث على حسابه', to:'p21'}
+  },
+  {
+    id:'p30', no:'٢٥', title:'استقبال الشكاوى والاستفسارات ومتابعتها حتى الإغلاق',
+    paths:['shared'], freq:'عند الطلب — بمدة رد محددة لكل تصنيف',
+    what:'قناة رسمية داخل النظام لما عدا اعتراض الأجر من استفسارات وشكاوى تخص الادخار، مثل مبلغ لم يظهر في الحساب أو خصم غير مفهوم أو طلب صرف تأخرت معالجته.',
+    trigger:'تقديم شكوى أو استفسار من المدخر أو جهة العمل',
+    actors:'المدخر، جهة العمل، موظف الصندوق المختص',
+    systems:'نظام الادخار',
+    input:'موضوع الشكوى، نصها، المستندات المرفقة',
+    output:'شكوى مصنّفة لها جهة مختصة ومدة رد، ورد موثق، وقياس رضا عند الإغلاق',
+    steps:[
+      {k:'نشاط', t:'يقدّم المدخر أو جهة العمل الشكوى من داخل النظام باختيار الموضوع وكتابتها وإرفاق مستند', p:'يقدّمها المدخر عن حسابه، أو جهة العمل عمّا يخصها من فواتير واشتراكات وبيانات عمالها. ويكون التقديم من داخل النظام في خطوة واحدة: اختيار الموضوع، وكتابة الشكوى، وإرفاق مستند عند الحاجة.', who:'المدخر أو جهة العمل', data:'الموضوع، النص، المرفقات، تاريخ التقديم'},
+      {k:'نشاط', t:'يصنّف النظام الشكوى إلى موضوع معروف فتتحدد به الجهة المختصة بالمعالجة ومدة الرد', p:'تُصنَّف الشكوى عند تقديمها إلى موضوع معروف — رصيد وحركات، أو طلب صرف، أو فاتورة ومبلغ إضافي، أو بيانات تحويل، أو أجر أساسي، أو غير ذلك — ويحدد التصنيف الجهة المختصة بالمعالجة ومدة الرد.', who:'نظام الادخار', data:'التصنيف، الجهة المختصة، مدة الرد المحددة'},
+      {k:'تحقق', t:'ينبّه النظام الموظف المختص ويصعّد الشكوى إذا قاربت مدة الرد على الانتهاء دون رد', p:'لكل تصنيف مدة رد محددة تبدأ من تاريخ التقديم. فإذا قاربت المدة على الانتهاء دون رد، نُبِّه الموظف المختص وصُعِّدت الشكوى وفق الضوابط المعتمدة.', who:'نظام الادخار / الموظف المختص', data:'المدة المنقضية، المتبقية، حالة التصعيد'},
+      {k:'نشاط', t:'تُتاح متابعة الشكوى وتبادل الردود عليها أكثر من مرة وتُحفَظ كلها في سجل الشكوى', p:'تُتاح متابعة الشكوى وتبادل الردود عليها أكثر من مرة، فلا تُغلق برد واحد إن بقي للشاكي ما يستوضحه، وتبقى الردود كلها محفوظة في سجل الشكوى.', who:'الشاكي / الموظف المختص', data:'سلسلة الردود بتواريخها وأصحابها'},
+      {k:'نشاط', t:'تُغلق الشكوى برد موثق ويُقاس رضا مقدّمها فتتغذى مؤشرات جودة الخدمة بالنتيجة', p:'تُغلق الشكوى برد موثق، ويُقاس رضا مقدّمها عن المعالجة، فتتغذى مؤشرات جودة الخدمة من النتيجة.', who:'الموظف المختص', data:'سبب الإغلاق، الرد النهائي، نتيجة قياس الرضا'},
+      {k:'تحقق', t:'يبقى اعتراض الأجر الأساسي بمساره المستقل، فلا تُستخدم قناة الشكاوى بديلاً عنه', p:'يتعامل النظام مع الاعتراض على الأجر الأساسي بمسار مستقل ومفصّل له مدده وحالاته الخاصة. فلا تُستخدم قناة الشكاوى بديلاً عنه، ولا يفقد الشاكي مهلة الاعتراض النظامية بتقديمه شكوى عامة.', who:'نظام الادخار', data:'نوع الطلب، المسار الصحيح، إشعار التحويل إن لزم'}
+    ],
+    fin:'لا أثر مالي مباشر. لكن غياب هذه القناة هو ما يجعل الفروق المالية تُطرح في قنوات غير رسمية فلا يبقى لها أثر يمكن متابعته أو قياس مدة معالجته.',
+    handoff:{text:'شكوى مغلقة برد موثق ومؤشر رضا', to:null}
+  }]
+}
+];
 
-    <section class="section" aria-labelledby="details-title">
-      <div class="section-heading">
-        <div><h2 id="details-title">تفاصيل العمليات خطوة بخطوة</h2><p>كل عملية أدناه توضّح المسؤول، والمدخلات، والأنظمة، والمخرج الذي ينتقل إلى العملية التالية، مع بيان الأثر المالي عند وجوده.</p></div>
-        <span class="section-no">02 — SUB-PROCESSES</span>
-      </div>
-      <div id="processDetails"></div>
-    </section>
+/* ====================================================================
+   بيانات النموذج المالي والضوابط والنقاط المعلقة
+   ==================================================================== */
+/* تسميات عقد الخريطة واسم ما ينتقل إلى الإجراء التالي */
+const MAPMETA = {
+  p01:{l:['معالجة بيانات المشتركين','والعقود العالقة'], out:'بيانات مطابقة'},
+  p02:['أخذ نسخة ثابتة','ومطابقتها ببيانات الصندوق'],
+  p03:['فحص الأهلية والتسجيل','التلقائي للمؤهلين'],
+  p04:['التسجيل الإلزامي','للعامل غير العماني'],
+  p05:['التسجيل الاختياري','وإنشاء الحساب الشخصي'],
+  p06:['تسوية مكافأة نهاية','الخدمة السابقة — م.١٣٨'],
+  p07:['احتساب الاستحقاق','الشهري وإغلاق الدورة'],
+  p08:['إصدار الفاتورة','الشهرية الموحدة'],
+  p09:['فواتير الادخار','الاختياري'],
+  p10:['التحصيل وتأكيد','السداد'],
+  p11:['التخصيص والقيد','في حساب المدخر'],
+  p12:['المبالغ الإضافية','والغرامات'],
+  p13:['إقفال السنة وصافي','العائد القابل للتوزيع'],
+  p14:['اعتماد نسبة العائد','السنوي وإعلانها'],
+  p15:['احتساب العائد الشهري','وتوزيعه'],
+  p16:['تحويل فائض','الاشتراكات'],
+  p17:['تحقق الاستحقاق','وتقديم طلب الصرف'],
+  p18:['مراجعة الطلب','واعتماده'],
+  p19:['دفع المعاملة إلى Oracle','وتنفيذ التحويل'],
+  p20:['الصرف على أقساط','ومتابعة المتبقي'],
+  p21:['المطابقة المالية','والإغلاق'],
+  p22:['الاعتراض على','الأجر المسجل'],
+  p23:['سداد الالتزامات','من الرصيد'],
+  p25:['صرف مدخرات','المتوفى للورثة'],
+  p30:['الشكاوى','والاستفسارات']
+};
 
-    <section class="section" id="financial-cases" aria-labelledby="money-title">
-      <div class="section-heading">
-        <div><h2 id="money-title">المعالجة المالية لجميع الحالات</h2><p>يعرض هذا الجزء وجهة كل مبلغ منذ نشأته حتى ظهوره في حساب المدخر ودفتر الأستاذ، أو حتى خروجه بالتسوية. استخدم المرشحات للتركيز على نوع حركة محدد.</p></div>
-        <span class="section-no">03 — MONEY TREATMENT</span>
-      </div>
-      <div class="money-intro">
-        <div class="money-principle"><h3>قاعدة القراءة المالية</h3><p>الاشتراكات والإيداعات المخصصة للمدخر ليست إيرادًا تشغيليًا للصندوق داخل هذه الخريطة؛ بل أموال مرتبطة بحسابات المدخرين. لذلك تُعرض منفصلة عن عائد الاستثمار والمصروفات والاحتياطيات والغرامات، وبأكواد محاسبية مستقلة في Oracle.</p></div>
-        <div class="money-levels">
-          <div><strong>متوقع</strong><span>استحقاق لم يُحصّل بعد</span></div>
-          <div><strong>محصّل</strong><span>دفع مؤكد بمرجع</span></div>
-          <div><strong>مخصّص</strong><span>قُيّد للمدخر</span></div>
-          <div><strong>مسوّى</strong><span>طابق القيد أو اكتمل الدفع</span></div>
-        </div>
-      </div>
-      <div class="money-tabs" role="group" aria-label="تصفية الحالات المالية">
-        <button type="button" aria-pressed="true" data-filter="all">كل الحالات</button>
-        <button type="button" aria-pressed="false" data-filter="in">أموال داخلة</button>
-        <button type="button" aria-pressed="false" data-filter="out">أموال خارجة</button>
-        <button type="button" aria-pressed="false" data-filter="adjust">تسويات وتعديلات</button>
-      </div>
-      <div class="money-grid" id="moneyGrid"></div>
-    </section>
+const ALLPROCS = PHASES.flatMap(ph => ph.procs.map(p => ({...p, phase:ph})));
+const BY_ID = Object.fromEntries(ALLPROCS.map(p => [p.id, p]));
+const arNum = s => String(s).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const lbl = id => { const m = MAPMETA[id]; return Array.isArray(m) ? m : (m && m.l) || [id]; };
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-    <section class="section" aria-labelledby="control-title">
-      <div class="section-heading">
-        <div><h2 id="control-title">ضوابط لا تنقطع خلال الرحلة</h2><p>هذه الضوابط تعمل عبر جميع العمليات، وليست مرحلة منفصلة في نهاية المسار.</p></div>
-        <span class="section-no">04 — CROSS-CUTTING</span>
-      </div>
-      <div class="controls-grid" id="controlsGrid"></div>
-    </section>
+/* ---------- 1) رسم الخريطة الشاملة ---------- */
+(function drawMap(){
+  const W = 1280, NH = 78, VGAP = 16, BAND_GAP = 44, LBL_H = 34;
+  let y = 18, svg = '', bands = [];
 
-    <section class="section" aria-labelledby="open-title">
-      <div class="section-heading">
-        <div><h2 id="open-title">نقاط يجب حسمها قبل التصميم التفصيلي</h2><p>تم فصل هذه النقاط عن المسار المعتمد حتى لا تظهر للمستخدم كقرارات تشغيلية نهائية.</p></div>
-        <span class="section-no">05 — OPEN DECISIONS</span>
-      </div>
-      <div class="open-grid" id="openGrid"></div>
-    </section>
+  PHASES.forEach(ph => {
+    const bandTop = y;
+    const nodesTop = y + LBL_H;
+    const cols = ph.mapCols, w = ph.mapW, gap = cols >= 5 ? 34 : 40;
+    const rows = [];
+    for (let i = 0; i < ph.procs.length; i += cols) rows.push(ph.procs.slice(i, i + cols));
+    let body = '';
 
-    <section class="section" aria-labelledby="sources-title">
-      <div class="section-heading">
-        <div><h2 id="sources-title">مرجعية بناء الخريطة</h2><p>جُمّعت العملية من وثيقة متطلبات الأعمال، ومستكشف المعمارية، والعرض التفاعلي السابق. استُخدمت مبادئ BPMN لتمييز النشاط والقرار والتدفق والعملية الفرعية، مع تبسيط الشكل لغير المتخصصين.</p></div>
-        <span class="section-no">06 — TRACEABILITY</span>
-      </div>
-      <div class="context-grid">
-        <a class="context-card" href="Full-BRD/Saving-Full-BRD.html"><span>المصدر الوظيفي والتنظيمي</span><strong>Saving Full BRD</strong></a>
-        <a class="context-card" href="savings-architecture-explorer.html"><span>الأنظمة والتكاملات</span><strong>Savings Architecture Explorer</strong></a>
-        <a class="context-card" href="spf-savings-interactive.html"><span>الأحداث والقيود المالية</span><strong>SPF Savings Interactive</strong></a>
-        <a class="context-card" href="11-optional-saving-inquiries.html"><span>القرارات والاستفسارات المفتوحة</span><strong>Saving Inquiries</strong></a>
-      </div>
-    </section>
-  </main>
+    rows.forEach((row, ri) => {
+      const n = row.length, total = n * w + (n - 1) * gap;
+      const startX = (W - total) / 2, rightmost = startX + total - w;
+      const ny = nodesTop + ri * (NH + VGAP);
 
-  <button class="back-top" type="button" aria-label="العودة إلى أعلى الصفحة">↑</button>
-  <footer>خريطة توضيحية للأعمال — يُرجع إلى وثيقة متطلبات الأعمال والقواعد المعتمدة عند التنفيذ التفصيلي.</footer>
+      row.forEach((p, i) => {
+        const x = rightmost - i * (w + gap);
+        const lines = lbl(p.id);
+        const firstY = ny + 32 + (NH - 32) / 2 - (lines.length - 1) * 10 + 5;
+        const t = lines.map((ln, k) =>
+          `<text class="n-title" x="${x + w / 2}" y="${firstY + k * 20}" text-anchor="middle">${esc(ln)}</text>`).join('');
+        body += `<g class="n-g" tabindex="0" role="button" data-target="${p.id}" aria-label="عرض تفاصيل الإجراء ${esc(p.title)}">
+          <rect class="n-box" x="${x}" y="${ny}" width="${w}" height="${NH}" rx="13" stroke="${ph.color}"></rect>
+          <rect x="${x + w - 42}" y="${ny + 9}" width="34" height="19" rx="6" fill="${ph.color}"></rect>
+          <text class="n-no" x="${x + w - 25}" y="${ny + 23}" text-anchor="middle">${p.no}</text>
+          ${t}</g>`;
 
-  <script>
-    const processes = [
-      {
-        id: 'registration', no: '01', title: 'التسجيل وإنشاء العلاقة', path: 'إلزامي + اختياري',
-        summary: 'تحديد المسار، تثبيت هوية المدخر وعلاقة العمل، وإنشاء حساب شخصي واحد متعدد المصادر.',
-        handoff: 'المخرج: حساب نشط + هوية علاقة الادخار', owner: 'دائرة بيانات المشتركين / المدخر / جهة العمل',
-        systems: 'وزارة العمل، الأحوال المدنية، ثقة، نظام الادخار', input: 'هوية المدخر، العقد، تاريخ بدء العمل، الفئة', output: 'رقم حساب الادخار، حالة التسجيل، مصدر المسار',
-        paths: ['mandatory','optional'],
-        steps: [
-          ['تحقق','استقبال الهوية والبيانات المرجعية','يستقبل النظام هوية المستخدم وبيانات العامل أو الفئة المؤهلة من المصدر الرسمي، مع حفظ المصدر ووقت الاستلام.','الهوية، الجنسية، حالة العامل، العقد'],
-          ['قرار','تحديد مسار التسجيل','غير العماني يسجّل إلزاميًا حتى إن لم تنطبق عليه شروط بقية فروع التأمين؛ أما الاختياري فيخضع للفئة وطلب الانضمام.','نوع المسار وسبب الأهلية'],
-          ['تحقق','فحص الحالات الخاصة','تُسوّى خدمة المنتقل من القطاع العسكري أو الأمني قبل بدء تسجيل علاقته الجديدة في القطاع الخاص، وتُعالج حالات نقص البيانات قبل الإطلاق.','نتيجة التسوية أو حالة الاستثناء'],
-          ['نشاط','إنشاء حساب موحد','ينشئ النظام حسابًا شخصيًا واحدًا بالريال العماني، ويحفظ داخله كل مصدر في وعاء مستقل للتتبع والتقارير.','رقم الحساب، الأوعية، تاريخ التفعيل'],
-          ['نشاط','إكمال التسجيل الاختياري','يصدر إيداع أولي لا يقل عن 100 ر.ع ويصبح التسجيل الاختياري مكتملاً بعد تأكيد السداد والتخصيص.','فاتورة الإيداع الأولي'],
-          ['نشاط','تسجيل الأثر والإشعار','تُحفظ نتيجة التسجيل ويُشعر المدخر، ويصبح الحساب جاهزًا لاستقبال الاستحقاقات أو الإيداعات.','حالة التسجيل وسجل التدقيق']
-        ],
-        finance: 'إنشاء الحساب لا يعني وجود رصيد. الرصيد ينشأ فقط بعد تأكيد مبلغ مالي وتخصيصه إلى مصدره الصحيح.'
-      },
-      {
-        id: 'calculation', no: '02', title: 'احتساب الاستحقاق والفوترة', path: 'شهري + عند الطلب',
-        summary: 'تحويل بيانات العقد أو طلب الإيداع إلى مبلغ مستحق وفاتورة قابلة للتحصيل.',
-        handoff: 'المخرج: فاتورة + جدول توزيع', owner: 'نظام الفوترة / نظام الادخار',
-        systems: 'وزارة العمل، نظام الاشتراكات، الفوترة، الادخار', input: 'الحساب النشط، الأجر، حالة العقد، نوع الإيداع', output: 'رقم فاتورة، مبلغ مستحق، تفاصيل المستفيدين',
-        paths: ['mandatory','optional'],
-        steps: [
-          ['تحقق','تثبيت بيانات دورة الشهر','يعتمد الإلزامي بيانات العامل والمبلغ المثبتين عند إغلاق دورة نهاية الشهر بعد تحليل تغييرات وزارة العمل.','Snapshot الدورة، الأجر، أيام الاشتراك'],
-          ['حركة مالية','احتساب الاشتراك الإلزامي','يحتسب 9% من الأجر الأساسي على صاحب العمل، مع التناسب لأيام الالتحاق أو الترك، ويستمر أثناء الإجازة بلا راتب.','الاستحقاق لكل عامل'],
-          ['نشاط','إنشاء بند الفاتورة الشهرية','يظهر الادخار كبند مستقل لكل عامل ضمن فاتورة جهة العمل الموحدة، مع فصل الأصل عن أي مبلغ إضافي.','الفاتورة الشهرية وتفاصيل البنود'],
-          ['نشاط','إنشاء فاتورة اختيارية','ينشئ المدخر أو صاحب العمل فاتورة فردية أو جماعية بعد فحص الحد الأدنى والسقف السنوي لكل مصدر.','المبلغ، العامل/العمال، جدول التوزيع'],
-          ['نشاط','فواتير المصادر الخاصة','تُنشأ فاتورة مستقلة لمكافأة نهاية الخدمة السابقة عند اختيار ترحيلها إلى النظام.','مرجع المادة 138 ومبالغ العمال'],
-          ['قرار','تحديد قابلية السداد الجزئي','الإلزامي يقبل السداد الجزئي؛ الاختياري الفردي يقبله بشرط الحد الأدنى؛ الجماعي لا يخصّص إلا بعد السداد الكامل.','قاعدة الدفع وحالة الفاتورة']
-        ],
-        finance: 'المبلغ في هذه المرحلة «مستحق» وليس رصيدًا للمدخر بعد. لا يبدأ التخصيص إلا بعد وصول تأكيد سداد صالح.'
-      },
-      {
-        id: 'collection', no: '03', title: 'التحصيل وتأكيد السداد', path: 'كل الفواتير',
-        summary: 'استقبال الدفع، التحقق من الفاتورة، وربط المبلغ المحصّل بمرجع مالي لا يتكرر.',
-        handoff: 'المخرج: دفع مؤكد + مرجع مالي', owner: 'قنوات الدفع والتحصيل / الفوترة',
-        systems: 'قناة الدفع، الفوترة، نظام الاشتراكات، الادخار', input: 'فاتورة صالحة ومحاولة دفع', output: 'مبلغ محصّل، وقت السداد، المرجع، الرصيد المتبقي',
-        paths: ['shared'],
-        steps: [
-          ['تحقق','فحص الفاتورة قبل الدفع','يتحقق النظام من صلاحية الفاتورة وحالتها وعدم إلغائها قبل قبول المبلغ.','رقم الفاتورة، الحالة، تاريخ الصلاحية'],
-          ['حركة مالية','تنفيذ التحصيل','تستقبل قناة الدفع المبلغ كليًا أو جزئيًا وفق نوع الفاتورة وتصدر مرجعًا ماليًا فريدًا.','قيمة الدفعة ومرجعها'],
-          ['تحقق','تأكيد نتيجة السداد','لا يُعتبر المبلغ محصّلًا بمجرد بدء المحاولة؛ يلزم وصول نتيجة مؤكدة من قناة التحصيل.','ناجح، فاشل، قيد التنفيذ'],
-          ['نشاط','تحديث الفاتورة','تُحدث حالة الفاتورة إلى مسددة أو مسددة جزئيًا، ويُحتفظ بالمتبقي حتى التسوية الكاملة.','إجمالي المحصّل والمتبقي'],
-          ['حركة مالية','احتساب التأخير','يُحسب مبلغ إضافي 8% سنويًا على أصل المتأخر فقط وفق أيام التأخير/360، دون غرامة على غرامة.','الأصل، أيام التأخير، المبلغ الإضافي'],
-          ['نشاط','إرسال نتيجة قابلة للتخصيص','يُرسل الدفع المؤكد مع الفاتورة وجدول المستفيدين إلى عملية التخصيص.','حزمة التحصيل والتوزيع']
-        ],
-        finance: 'التحصيل يثبت وصول المال، لكنه لا يثبت بعد أن رصيد كل مدخر قد زاد؛ يلزم نجاح التخصيص والمطابقة.'
-      },
-      {
-        id: 'allocation', no: '04', title: 'التخصيص والقيد في حساب المدخر', path: 'بعد التحصيل',
-        summary: 'توزيع المبلغ المؤكد على المستفيدين والأوعية الصحيحة وتكوين الحركة المحاسبية القابلة للمطابقة.',
-        handoff: 'المخرج: حركة رصيد + قيد Oracle', owner: 'نظام الادخار / الإدارة المالية',
-        systems: 'الادخار، الحساب الداخلي، Oracle', input: 'دفع مؤكد، جدول توزيع، مصدر المبلغ', output: 'حركة حساب، رقم قيد، حالة ترحيل',
-        paths: ['shared'],
-        steps: [
-          ['تحقق','مطابقة الدفع بالمصدر','يربط النظام المبلغ بفاتورته ونوعه: إلزامي، اختياري، تسوية سابقة، فائض أو إيداع مباشر.','مرجع المصدر والعملية'],
-          ['حركة مالية','توزيع المبلغ','يخصّص المبلغ للعامل الواحد أو عدة عمال حسب الجدول المعتمد، مع منع الازدواجية أو تجاوز المحصّل.','نصيب كل مدخر'],
-          ['نشاط','تحديث الوعاء الصحيح','يزيد رصيد المصدر داخل الحساب الموحد ويُحدّث الحساب الداخلي/الافتراضي عند انطباقه.','الرصيد قبل وبعد ومصدره'],
-          ['حركة مالية','إنشاء الأثر المحاسبي','تُرحل الحركة إلى كود وقطاع مستقلين في Oracle، مع فصل أصل الاشتراك عن الغرامة والعائد والاحتياطي.','كود GL، القطاع، قيمة القيد'],
-          ['تحقق','مطابقة الحركة والقيد','يحفظ النظام رقم قيد Oracle وحالة الترحيل، ويمنع اعتبار العملية مسوّاة عند وجود فرق.','نتيجة المطابقة أو سبب الفرق'],
-          ['نشاط','إشعار المدخر','يُشعر المدخر بنوع الحركة ومبلغها وتاريخها ورصيده بعدها.','إشعار وسجل تدقيق']
-        ],
-        finance: 'كل حركة تحفظ المصدر والقيمة الكاملة دون تقريب حتى القيد النهائي، ويمكن تتبعها من الحساب إلى Oracle وبالعكس.'
-      },
-      {
-        id: 'balance', no: '05', title: 'إدارة الرصيد والعوائد والالتزامات', path: 'طوال مدة الحساب',
-        summary: 'تنمية الرصيد، معالجة التصحيحات، وتسوية الالتزامات دون فقد فصل المصادر.',
-        handoff: 'المخرج: رصيد متاح ومفسّر', owner: 'الادخار / الاستثمار / المستحقات',
-        systems: 'الادخار، الاستثمار، المستحقات، الاشتراكات، Oracle', input: 'حركات الرصيد، نسبة العائد، الالتزامات والتعديلات', output: 'رصيد حسب الوعاء، عائد، خصومات وتسويات',
-        paths: ['shared'],
-        steps: [
-          ['حركة مالية','احتساب العائد الشهري','يبدأ أثر الإيداع أو السحب من الشهر التالي، ويتراكم العائد شهريًا وفق النسبة السنوية المعتمدة دون تقريب وسيط.','رصيد أول الشهر والحركات'],
-          ['قرار','اعتماد العائد السنوي','تُحدد النسبة بعد إجمالي عائد الاستثمار وخصم المصروفات المعتمدة ومخصصات الاحتياطيات، وبحد أدنى مضمون 2%.','النسبة ومرجع الاعتماد'],
-          ['حركة مالية','توزيع العائد','يضاف نصيب العائد إلى الأوعية المستحقة، مع إمكان الفصل بين الإلزامي والاختياري وحفظ إجمالي الموزع.','عائد كل حساب ووعاء'],
-          ['حركة مالية','سداد الالتزامات','يُستخدم الرصيد الاختياري أولًا ثم الإلزامي. سداد المدخر يتطلب التغطية الكاملة، وطلب نظام التحصيل قد يخصم المتاح جزئيًا.','المخصوم من كل وعاء'],
-          ['نشاط','تصحيح وعكس مستقل','فرق الأجر الرجعي يظهر بندًا في فاتورة لاحقة، وأي عكس أو تصحيح يبقى حركة مستقلة مرتبطة بالأصل.','مرجع الأصل ومرجع العكس'],
-          ['نشاط','إصدار الإفصاح السنوي','يُتاح ملخص يوضح إجمالي العائد والمصروفات والاحتياطيات وصافي القابل للتوزيع والنسبة والموزع.','ملخص مالي معتمد']
-        ],
-        finance: 'يظل الفرق واضحًا بين إجمالي عائد الاستثمار، والمصروفات، وتحويل الاحتياطي، وصافي العائد الموزع فعليًا للمدخرين.'
-      },
-      {
-        id: 'eligibility', no: '06', title: 'الاستحقاق وطلب الصرف', path: 'عند تحقق السبب',
-        summary: 'إثبات سبب الصرف، مراجعة الحساب والالتزامات والبنك، وتكوين صافي مبلغ قابل للاعتماد.',
-        handoff: 'المخرج: طلب معتمد + صافي مستحق', owner: 'المدخر / موظف الصندوق',
-        systems: 'وزارة العمل، الجوازات، الأحوال المدنية، ملاءة، المستحقات، الادخار', input: 'سبب الصرف، حالة العامل، الرصيد، البنك، المستندات', output: 'قرار الأهلية، صافي المبلغ، طريقة الصرف',
-        paths: ['mandatory','optional'],
-        steps: [
-          ['نشاط','تقديم الطلب','يحدد المدخر سبب الصرف وطريقة الدفعة الواحدة أو الأقساط ويرفق المطلوب حسب حالته.','سبب الصرف وبيانات مقدم الطلب'],
-          ['تحقق','التحقق من السبب','يتحقق النظام من انتهاء العلاقة والمغادرة أو مرور ثلاثة أشهر بلا عقد جديد، أو من سبب الاختياري/الوفاة/العجز حسب الحالة.','نتيجة المصادر الرسمية'],
-          ['تحقق','فحص بيانات البنك','يُستخدم حساب محلي نشط من ملاءة، أو بيانات دولية متحقق منها باسم العامل، وتبقى القيمة بالريال حتى التنفيذ.','IBAN/SWIFT وحالة التحقق'],
-          ['حركة مالية','حساب صافي الاستحقاق','يجمع الرصيد المستحق وعوائده ثم يخصم الالتزامات المقرر تسويتها ويعرض تفصيل كل مصدر.','الإجمالي، الخصومات، الصافي'],
-          ['قرار','مراجعة الموظف','يعتمد الموظف أو يرفض بسبب واضح أو يطلب وثائق إضافية، مع حفظ المبررات وإشعار مقدم الطلب.','قرار ومبرر وسجل تدقيق'],
-          ['نشاط','تثبيت تعليمات الصرف','يُنشئ النظام تعليمات مالية معتمدة بالمبلغ بالريال وبيانات المستفيد وطريقة الصرف.','مرجع طلب معتمد']
-        ],
-        finance: 'الصرف يكون لكامل الرصيد المستحق، مع استثناء صرف فائض اشتراكات العام المنصرم وفق ضوابطه. ويبقى رصيد الأقساط مستثمرًا.'
-      },
-      {
-        id: 'payment', no: '07', title: 'تنفيذ الصرف المالي', path: 'Oracle + قسم المصروفات',
-        summary: 'تحويل الطلب المعتمد إلى معاملة مالية، ثم تنفيذ الدفع الفعلي واستقبال نتيجة البنك.',
-        handoff: 'المخرج: نتيجة دفع نهائية', owner: 'الإدارة المالية / قسم المصروفات',
-        systems: 'نظام الادخار، Oracle، قسم المصروفات، البنك', input: 'طلب معتمد وصافي المبلغ وبيانات المستفيد', output: 'مرجع Oracle، مرجع البنك، ناجح أو مرتجع',
-        paths: ['shared'],
-        steps: [
-          ['حركة مالية','دفع المعاملة إلى Oracle','يرسل نظام الادخار المعاملة المعتمدة إلى Oracle بالريال العماني ولا يرسل أمرًا مباشرًا إلى البنك.','المبلغ، المستفيد، مرجع الطلب'],
-          ['نشاط','استلام مرجع المعاملة','يعيد Oracle تأكيد الاستلام والمرجع، فتنتقل الحالة إلى «قيد التحويل».','مرجع Oracle وحالة الترحيل'],
-          ['حركة مالية','تنفيذ التحويل','ينشئ قسم المصروفات التحويل الفعلي. في الدولي يحدد سعر الصرف والرسوم وقت التنفيذ.','أمر الدفع ومرجع البنك'],
-          ['قرار','استقبال النتيجة النهائية','يرسل Oracle نتيجة التنفيذ: ناجح أو مرتجع، مع سبب الارتداد عند الفشل.','حالة البنك وسبب الارتداد'],
-          ['نشاط','معالجة الارتداد','لا يُغلق الطلب؛ تُحفظ النتيجة ويُطلب تصحيح البيانات، وتبقى إعادة الصرف خاضعة للآلية النهائية المعتمدة.','حالة معلقة وتصحيح مطلوب'],
-          ['نشاط','إشعار المستفيد','يُشعر المستفيد بنتيجة التنفيذ والمبلغ والمرجع، دون إظهار بيانات مالية غير لازمة.','إشعار نتيجة الدفع']
-        ],
-        finance: 'الاعتماد لا يساوي الصرف. لا تُسجل الحالة «تم الصرف» إلا بعد النتيجة النهائية الناجحة من Oracle/البنك.'
-      },
-      {
-        id: 'settlement', no: '08', title: 'التسوية المالية والمطابقة والإغلاق', path: 'نهاية الدورة',
-        summary: 'مطابقة كل أثر تشغيلي ومالي، معالجة الفروق، ثم إغلاق الطلب أو إبقاء الحساب مستمرًا.',
-        handoff: 'النهاية: مسوّى ومغلق أو مستمر', owner: 'الإدارة المالية / نظام الادخار',
-        systems: 'الفوترة، التحصيل، الادخار، Oracle، البنك', input: 'كل المراجع من الاستحقاق حتى الدفع', output: 'حالة تسوية، فروق معالجة، إغلاق أو استمرار',
-        paths: ['shared'],
-        steps: [
-          ['تحقق','مطابقة من البداية للنهاية','تُطابق الفاتورة والمحصّل والتخصيص وحركة الحساب وقيد Oracle ونتيجة الدفع باستخدام المراجع نفسها.','سلسلة المراجع والمبالغ'],
-          ['قرار','هل يوجد فرق؟','إذا ظهر فرق، يُفتح استثناء مالي ولا تُغلق الفترة أو الحالة حتى معرفة السبب وتصحيحه أو عكسه.','قيمة الفرق وسببه ومسؤوله'],
-          ['حركة مالية','تسجيل التسوية أو العكس','تُسجل معالجة الفرق كحركة مستقلة تحفظ الأصل والقيد الجديد ومرجع العكس.','قيد تسوية قابل للتدقيق'],
-          ['قرار','تحديد حالة الحساب','الدفعة الواحدة الناجحة قد تغلق الطلب والحساب عند انعدام الرصيد؛ الأقساط تبقي الرصيد والحساب نشطين.','الرصيد المتبقي وجدول الأقساط'],
-          ['نشاط','تأكيد الإغلاق','يُغلق الطلب فقط بعد نجاح الدفع والمطابقة، وتُحفظ جميع الأدلة والموافقات والإشعارات.','حالة «تم الصرف/مغلق»'],
-          ['نشاط','التقارير والرقابة','تتحدث مؤشرات التحصيل والصرف والفروق والعوائد والاحتياطيات، مع تاريخ آخر تحديث.','لوحات المتابعة والتقارير']
-        ],
-        finance: 'تعني التسوية أن الأرصدة التشغيلية والقيود المحاسبية ونتيجة البنك متفقة، لا أن المعاملة أُرسلت فقط.'
+        if (ph.linear !== false && i < n - 1) {
+          const ay = ny + NH / 2;
+          body += `<path class="arw" d="M ${x - 5} ${ay} L ${x - gap + 7} ${ay}" marker-end="url(#ah)"></path>`;
+        }
+      });
+
+      if (ph.linear !== false && ri < rows.length - 1) {
+        const fromY = ny + NH, toY = ny + NH + VGAP;
+        body += `<path class="arw" d="M ${W / 2} ${fromY + 2} L ${W / 2} ${toY - 2}" marker-end="url(#ah)"></path>`;
       }
-    ];
-
-    const moneyCases = [
-      {type:'in', title:'الاشتراك الإلزامي الشهري', route:'جهة العمل ← التحصيل ← حساب المدخر', text:'9% من الأجر الأساسي. يظهر أولًا استحقاقًا وفاتورة، ثم يخصّص بعد تأكيد التحصيل. استحقاق عائد العامل لا يتوقف على تأخر جهة العمل وفق القرار الموثق.', gl:'أصل الاشتراك الإلزامي مستقل عن الغرامات.'},
-      {type:'in', title:'الادخار الاختياري الذاتي', route:'المدخر ← فاتورة/دفع مباشر ← الوعاء الذاتي', text:'يخضع للحد الأدنى والسقف السنوي لمصدر المدخر، ويخصّص بعد تأكيد الدفع مع حفظ المرجع.', gl:'رمز الادخار الاختياري مع تعريف مصدر «المدخر».'},
-      {type:'in', title:'إيداع جهة العمل الاختياري', route:'جهة العمل ← فاتورة جماعية ← حسابات العمال', text:'لكل عامل حد أدنى وسقف مستقل للمصدر. لا تقبل الفاتورة الجماعية السداد الجزئي ولا يبدأ التخصيص قبل سدادها بالكامل.', gl:'اختياري — مصدر جهة العمل، مع جدول توزيع.'},
-      {type:'in', title:'تسوية مكافأة الخدمة السابقة', route:'جهة العمل ← فاتورة المادة 138 ← وعاء مستقل', text:'عند اختيار الترحيل إلى النظام، تُصدر فاتورة بالمبالغ المعتمدة لكل عامل وتظهر بعد السداد كمصدر مستقل في حسابه.', gl:'تسوية سابقة مفصولة عن الاشتراك الشهري.'},
-      {type:'in', title:'الإيداعات المباشرة من الأنظمة', route:'النظام المصدر ← مرجع فريد ← حساب المدخر', text:'تشمل فائض الاشتراكات وصافي الاشتراكات عند فقد/سحب الجنسية ونصيب البرنامج التكميلي عند إلغائه. يتحقق النظام من عدم تكرار المرجع وينشئ الحساب إن لزم.', gl:'كود حسب نوع الإيداع والنظام المصدر.'},
-      {type:'in', title:'عائد الاستثمار', route:'إجمالي العائد ← مصروفات واحتياطيات ← صافي موزع', text:'تُعتمد النسبة السنوية قبل نهاية الربع الأول وبحد أدنى 2%، ثم يوزع الصافي على الأرصدة المؤهلة وفق طريقة الاحتساب المعتمدة.', gl:'العائد والمصروفات والاحتياطيات أكواد منفصلة.'},
-      {type:'adjust', title:'غرامات ومبالغ التأخير', route:'أصل متأخر ← 8% سنويًا ← مبلغ إضافي', text:'تحتسب على أصل المبلغ فقط وبعدد أيام التأخير/360. لا تُفرض غرامة على غرامة، ويجوز الإعفاء في القوة القاهرة وفق الضوابط.', gl:'حساب مستقل عن أصل الاشتراك.'},
-      {type:'adjust', title:'تصحيح الأجر والأثر الرجعي', route:'قرار الاعتراض ← فرق مستقل ← فاتورة لاحقة', text:'لا تعدّل الفاتورة الصادرة. يظهر فرق الزيادة أو النقص كبند مستقل في الشهر التالي، ويرتبط بالحركة الأصلية.', gl:'قيد فرق/تسوية مستقل مع مرجع الأصل.'},
-      {type:'adjust', title:'سداد الالتزامات من الرصيد', route:'اختياري أولًا ← إلزامي ثانيًا ← نظام المستحقات', text:'يسجل مقدار الخصم من كل وعاء. الخصم النظامي قد يكون جزئيًا، بينما سداد المدخر يتطلب تغطية الالتزام كاملًا.', gl:'حركة سالبة ونتيجة مرجعة لنظام المستحقات.'},
-      {type:'out', title:'صرف دفعة واحدة', route:'رصيد مستحق ← صافي بعد الالتزامات ← Oracle/البنك', text:'ينتقل الطلب المعتمد إلى Oracle ثم قسم المصروفات. لا يُغلق إلا بعد نجاح التنفيذ والمطابقة.', gl:'الصرف وقيد إقفال الالتزام تجاه المدخر.'},
-      {type:'out', title:'الصرف على أقساط', route:'رصيد الحساب ← كل قسط ← رصيد مستمر', text:'كل قسط حركة سالبة في شهره، ويبقى المتبقي مستثمرًا ويستحق العائد وفق القاعدة نفسها حتى آخر قسط.', gl:'قيد مستقل لكل قسط وربطه بخطة الصرف.'},
-      {type:'out', title:'التحويل الدولي أو المرتجع', route:'ريال عماني ← Oracle ← بنك المستفيد', text:'تحدد العملة والرسوم وقت التنفيذ. عند الارتداد لا يعتبر الصرف مكتملًا وتبقى الحالة مفتوحة حتى التصحيح وإعادة المعالجة.', gl:'نتيجة الدفع ومرجع الارتداد؛ آلية الإعادة النهائية معلقة.'}
-    ];
-
-    const controls = [
-      ['هوية ومرجع فريد','كل حساب وحركة وفاتورة وطلب وقيد له معرف يمنع التكرار ويربط الرحلة كاملة.'],
-      ['فصل المصادر','الحساب واحد للمستخدم، لكن الإلزامي والاختياري والفائض والتسويات والعوائد تبقى قابلة للفصل.'],
-      ['سجل تدقيق','يحفظ من فعل ماذا ومتى، والقرار والمبرر والقيمة قبل وبعد، ولا تُحذف المعالجة السابقة.'],
-      ['مطابقة مالية','مطابقة دورية بين الفاتورة والتحصيل والتخصيص وحساب المدخر وOracle ونتيجة الدفع.'],
-      ['إدارة الاستثناء','أي نقص بيانات أو فشل تكامل أو فرق مالي ينتقل إلى حالة معلومة بمالك ومدة معالجة.'],
-      ['إشعارات واضحة','يُشعر المدخر بكل حركة على رصيده، وتُشعر جهة العمل بما يخص التزاماتها أو تغير الأجر.'],
-      ['عدم التقريب المبكر','تحفظ القيم الكاملة في الحسابات، ولا يتم التقريب إلا عند القيد المالي النهائي.'],
-      ['فصل الصلاحيات','الإنشاء والمراجعة والاعتماد والتنفيذ والمطابقة موزعة حسب الدور ولا يجمعها مستخدم واحد دون ضابط.']
-    ];
-
-    const openItems = [
-      ['اعتراض تسوية مكافأة الخدمة السابقة','ما زالت الآلية النهائية لمعالجة الاعتراضات المرتبطة بتسوية مكافأة نهاية الخدمة السابقة قيد النقاش، ويجب الرجوع إلى مدير المشروع للتحقق من الآلية النهائية المتفق عليها قبل اعتماد التنفيذ التفصيلي لأي تغيير مرتبط بهذا المسار.','مدير المشروع'],
-      ['فائض الاشتراكات','التفاصيل التشغيلية النهائية ما زالت بانتظار الحسم بين دائرة الاشتراكات ودائرة بيانات المشتركين، مع بقاء القاعدة النظامية العامة موثقة.','الاشتراكات / بيانات المشتركين'],
-      ['إعادة التحويل الدولي المرتجع','يلزم حسم خطوات تصحيح البيانات وإعادة الصرف ومعالجة الرسوم، مع إبقاء الطلب مفتوحًا وعدم اعتباره مدفوعًا قبل النجاح.','الإدارة المالية / قسم المصروفات'],
-      ['العائد على فرق الأجر الرجعي','لم يُحسم ما إذا كان العائد يبدأ من شهر الاستحقاق الأصلي أم من شهر القيد الفعلي للفرق.','الجهة المختصة بالسياسات'],
-      ['صرف مدخرات غير العماني المتوفى','تحتاج آلية حصر الورثة والتحقق منهم والصرف لهم إلى اعتماد قانوني وتشغيلي نهائي؛ تعمل الحالة مؤقتًا بمسار يدوي مضبوط.','الدائرة القانونية / المستحقات'],
-      ['المعاملة الضريبية عند الصرف','يلزم تحديد ما إذا كانت الضريبة — عند انطباقها — تخص كامل الرصيد أم العوائد فقط، وضوابط تنفيذها.','المالية / القانونية / الضرائب']
-    ];
-
-    const kindClass = kind => kind === 'حركة مالية' ? 'money' : kind === 'قرار' ? 'decision' : '';
-    const pathLabel = path => path === 'mandatory' ? ['إلزامي','mandatory'] : path === 'optional' ? ['اختياري','optional'] : ['مشترك','shared'];
-
-    document.getElementById('processMap').innerHTML = processes.map((p, index) => `
-      <div class="stage-wrap">
-        <button class="stage-card" type="button" data-target="${p.id}" aria-label="عرض تفاصيل محطة ${p.title}" ${index === 0 ? 'aria-current="step"' : ''}>
-          <span class="stage-top"><span class="stage-no">${p.no}</span><span class="stage-path">${p.path}</span></span>
-          <h3>${p.title}</h3><p>${p.summary}</p><div class="handoff">${p.handoff}</div>
-        </button>
-      </div>`).join('');
-
-    document.getElementById('processDetails').innerHTML = processes.map((p, index) => `
-      <article class="process-detail ${index === 0 ? 'is-active' : ''}" id="${p.id}" tabindex="-1" aria-labelledby="${p.id}-title" ${index === 0 ? '' : 'hidden'}>
-        <div class="detail-header">
-          <span class="detail-number">${p.no}</span>
-          <div><h3 id="${p.id}-title">${p.title}</h3><p>${p.summary}</p></div>
-          <div class="path-tags">${p.paths.map(path => { const [label,cls] = pathLabel(path); return `<span class="tag ${cls}">${label}</span>`; }).join('')}</div>
-        </div>
-        <div class="context-grid">
-          <div class="context-card"><span>المسؤول الرئيسي</span><strong>${p.owner}</strong></div>
-          <div class="context-card"><span>الأنظمة المشاركة</span><strong>${p.systems}</strong></div>
-          <div class="context-card"><span>المدخل</span><strong>${p.input}</strong></div>
-          <div class="context-card"><span>المخرج</span><strong>${p.output}</strong></div>
-        </div>
-        <div class="steps">
-          ${p.steps.map((s,i) => `<div class="step" data-step="${String(i+1).padStart(2,'0')}"><span class="step-kind ${kindClass(s[0])}">${s[0]}</span><h4>${s[1]}</h4><p>${s[2]}</p><div class="step-data"><strong>البيانات:</strong> ${s[3]}</div></div>`).join('')}
-        </div>
-        <div class="financial-note"><strong>الأثر المالي:</strong> ${p.finance}</div>
-        <div class="detail-footer"><a href="#overview-title">↑ العودة إلى الخريطة الشاملة</a><a href="#financial-cases">عرض الحالات المالية المرتبطة ↓</a></div>
-      </article>`).join('');
-
-    const categoryLabel = {in:'أموال داخلة', out:'أموال خارجة', adjust:'تسوية/تعديل'};
-    document.getElementById('moneyGrid').innerHTML = moneyCases.map(c => `
-      <article class="money-case" data-type="${c.type}">
-        <div class="money-case-head"><h3>${c.title}</h3><span class="category ${c.type}">${categoryLabel[c.type]}</span></div>
-        <div class="money-route">${c.route.split('←').map((x,i,a) => `${x.trim()}${i < a.length-1 ? '<i>←</i>' : ''}`).join('')}</div>
-        <p>${c.text}</p><div class="accounting"><strong>المعالجة المحاسبية:</strong> ${c.gl}</div>
-      </article>`).join('');
-
-    document.getElementById('controlsGrid').innerHTML = controls.map(c => `<div class="control"><strong>${c[0]}</strong><p>${c[1]}</p></div>`).join('');
-    document.getElementById('openGrid').innerHTML = openItems.map(i => `<div class="open-item"><strong>${i[0]}</strong><p>${i[1]}</p><span class="owner">جهة الحسم: ${i[2]}</span></div>`).join('');
-
-    document.querySelectorAll('.stage-card').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.stage-card').forEach(b => b.removeAttribute('aria-current'));
-        button.setAttribute('aria-current','step');
-        const target = document.getElementById(button.dataset.target);
-        document.querySelectorAll('.process-detail').forEach(detail => {
-          detail.classList.remove('is-active');
-          detail.hidden = true;
-        });
-        target.hidden = false;
-        target.classList.add('is-active');
-        target.scrollIntoView({behavior:'smooth', block:'start'});
-        setTimeout(() => target.focus({preventScroll:true}), 450);
-      });
     });
 
-    document.querySelectorAll('.money-tabs button').forEach(button => {
-      button.addEventListener('click', () => {
-        document.querySelectorAll('.money-tabs button').forEach(b => b.setAttribute('aria-pressed','false'));
-        button.setAttribute('aria-pressed','true');
-        const filter = button.dataset.filter;
-        document.querySelectorAll('.money-case').forEach(card => card.dataset.hidden = filter !== 'all' && card.dataset.type !== filter ? 'true' : 'false');
-      });
-    });
+    const bandBottom = nodesTop + rows.length * (NH + VGAP) - VGAP;
+    svg += `<rect class="band-bg" x="10" y="${bandTop}" width="${W - 20}" height="${bandBottom - bandTop + 14}" rx="16"></rect>
+      <text class="band-lbl" x="${W - 28}" y="${bandTop + 24}" text-anchor="start" fill="${ph.color}">${esc(ph.no)} — ${esc(ph.title)}</text>` + body;
 
-    const backTop = document.querySelector('.back-top');
-    window.addEventListener('scroll', () => backTop.classList.toggle('show', window.scrollY > 700), {passive:true});
-    backTop.addEventListener('click', () => document.getElementById('top').scrollIntoView({behavior:'smooth'}));
-  </script>
+    bands.push({ bandBottom, nodesTop, ph });
+    y = bandBottom + 14 + BAND_GAP;
+  });
+
+  for (let i = 0; i < bands.length - 1; i++) {
+    const a = bands[i], b = bands[i + 1];
+    const dashed = b.ph.linear === false;
+    svg += `<path class="${dashed ? 'arw-d' : 'arw'}" d="M ${W / 2} ${a.bandBottom + 18} L ${W / 2} ${b.nodesTop - 10}" marker-end="url(#${dashed ? 'ahd' : 'ah'})"></path>`;
+  }
+
+  const el = document.getElementById('archMap');
+  el.setAttribute('viewBox', `0 0 ${W} ${y - BAND_GAP + 16}`);
+  el.innerHTML = `<defs>
+      <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#9fb0ae"></path></marker>
+      <marker id="ahd" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#b9a46f"></path></marker>
+    </defs>` + svg;
+})();
+
+/* ---------- 2) مخطط تدفق الإجراء الفرعي ---------- */
+const KIND = {
+  'نشاط'       : {fill:'#ffffff', stroke:'#4a6b5c', tag:'#3d5f50', shape:'rect'},
+  'تحقق'       : {fill:'#eef3fb', stroke:'#3f63b5', tag:'#2f4f9e', shape:'rect'},
+  'قرار'       : {fill:'#f4f1fb', stroke:'#6f5da8', tag:'#5a4a8a', shape:'hex'},
+  'حركة مالية' : {fill:'#fdf6e6', stroke:'#c09633', tag:'#8a6616', shape:'rect'},
+  'ترحيل'      : {fill:'#e7f3f1', stroke:'#2f8c84', tag:'#0e6f68', shape:'dash'}
+};
+const PATHLBL = {mandatory:['إلزامي','mand'], optional:['اختياري','opt'], shared:['مشترك','both']};
+
+const FONT = 'Zain, Tahoma, "Segoe UI", sans-serif';
+const F_TTL = '700 15.5px ' + FONT, F_TERM = '800 14.5px ' + FONT,
+      F_LBL = '12.8px ' + FONT, F_LBLH = '800 11.4px ' + FONT;
+const _ctx = document.createElement('canvas').getContext('2d');
+function textW(txt, font){ _ctx.font = font; return _ctx.measureText(txt).width; }
+function wrap(txt, maxPx, font){
+  _ctx.font = font;
+  const words = String(txt).split(/\s+/), out = [];
+  let line = '';
+  words.forEach(w => {
+    if (!line) { line = w; return; }
+    const cand = line + ' ' + w;
+    if (_ctx.measureText(cand).width <= maxPx) line = cand; else { out.push(line); line = w; }
+  });
+  if (line) out.push(line);
+  return out;
+}
+function widest(lines, font){ return lines.reduce((m, l) => Math.max(m, textW(l, font)), 0); }
+
+const FW = 1060, NX = 220, NW = 620, CX = NX + NW / 2;
+const TTL_W = NW - 44, TERM_W = NW - 76, LBL_W = 560;
+
+function nodeSvg(s, idx){
+  const k = KIND[s.k] || KIND['نشاط'];
+  const title = wrap(s.t, TTL_W, F_TTL);
+  const who = 'المسؤول: ' + s.who;
+  const h = 56 + title.length * 22 + 24;
+  return {h, draw(y){
+    let shape;
+    if (k.shape === 'hex') {
+      const c = 22;
+      shape = '<polygon points="' + (NX+c) + ',' + y + ' ' + (NX+NW-c) + ',' + y + ' ' + (NX+NW) + ',' + (y+h/2) +
+        ' ' + (NX+NW-c) + ',' + (y+h) + ' ' + (NX+c) + ',' + (y+h) + ' ' + NX + ',' + (y+h/2) +
+        '" fill="' + k.fill + '" stroke="' + k.stroke + '" stroke-width="1.8"></polygon>';
+    } else {
+      shape = '<rect x="' + NX + '" y="' + y + '" width="' + NW + '" height="' + h + '" rx="13" fill="' + k.fill +
+        '" stroke="' + k.stroke + '" stroke-width="1.8"' + (k.shape === 'dash' ? ' stroke-dasharray="7 5"' : '') + '></rect>';
+    }
+    const tTop = y + 56;
+    return '<g>' + shape + '<title>' + esc(s.p) + '</title>' +
+      '<rect x="' + (NX + NW - 54) + '" y="' + (y + 14) + '" width="34" height="19" rx="6" fill="' + k.stroke + '"></rect>' +
+      '<text class="s-no" x="' + (NX + NW - 37) + '" y="' + (y + 28) + '" text-anchor="middle">' + arNum(idx + 1) + '</text>' +
+      '<text class="s-kind" x="' + (NX + NW - 64) + '" y="' + (y + 28) + '" text-anchor="start" fill="' + k.tag + '">' + esc(s.k) + '</text>' +
+      title.map((ln, i) => '<text class="s-ttl" x="' + (NX + NW - 20) + '" y="' + (tTop + i * 22) + '" text-anchor="start">' + esc(ln) + '</text>').join('') +
+      '<text class="s-who" x="' + (NX + NW - 20) + '" y="' + (tTop + (title.length - 1) * 22 + 22) + '" text-anchor="start">' + esc(who) + '</text>' +
+      '</g>';
+  }};
+}
+
+function termSvg(kicker, txt){
+  const lines = wrap(kicker + ' ' + txt, TERM_W, F_TERM), h = 30 + lines.length * 21;
+  return {h, draw(y){
+    return '<g><rect x="' + NX + '" y="' + y + '" width="' + NW + '" height="' + h + '" rx="' + (h / 2) +
+      '" fill="#dff0e6" stroke="#9cc6ae" stroke-width="1.8"></rect>' +
+      lines.map((ln, i) => '<text class="t-ttl" x="' + CX + '" y="' + (y + 26 + i * 21) +
+        '" text-anchor="middle">' + esc(ln) + '</text>').join('') + '</g>';
+  }};
+}
+
+const HDR = 'البيانات المنتقلة إلى الخطوة التالية';
+
+function renderFlow(p){
+  const items = [{t: termSvg('يبدأ عند:', p.trigger), lbl: null}];
+  p.steps.forEach((s, i) => items.push({t: nodeSvg(s, i), lbl: s.data}));
+  items.push({t: termSvg('المخرَج:', p.handoff.text), lbl: null});
+
+  let y = 10, svg = '';
+  items.forEach((it, i) => {
+    svg += it.t.draw(y);
+    y += it.t.h;
+    if (i < items.length - 1) {
+      const lines = items[i + 1].lbl ? wrap(items[i + 1].lbl, LBL_W, F_LBL) : [];
+      const arrow = (a, b) => '<path class="f-arw" d="M ' + CX + ' ' + a + ' L ' + CX + ' ' + b + '" marker-end="url(#fa)"></path>';
+      if (!lines.length) {
+        svg += arrow(y + 3, y + 43);
+        y += 48;
+      } else {
+        const inner = Math.max(widest(lines, F_LBL), textW(HDR, F_LBLH));
+        const bw = Math.min(640, Math.max(240, inner + 34));
+        const bh = 40 + lines.length * 17;
+        const bx = CX - bw / 2, by = y + 20;
+        svg += arrow(y + 3, by - 4) +
+          '<rect class="f-box" x="' + bx + '" y="' + by + '" width="' + bw + '" height="' + bh + '" rx="10"></rect>' +
+          '<text class="f-lbl-h" x="' + CX + '" y="' + (by + 20) + '" text-anchor="middle">' + HDR + '</text>' +
+          lines.map((ln, k) => '<text class="f-lbl" x="' + CX + '" y="' + (by + 39 + k * 17) + '" text-anchor="middle">' + esc(ln) + '</text>').join('') +
+          arrow(by + bh + 4, by + bh + 36);
+        y += 20 + bh + 40;
+      }
+    }
+  });
+
+  return '<svg id="flowSvg" viewBox="0 0 ' + FW + ' ' + (y + 12) + '" role="img" aria-label="مخطط تدفق ' + esc(p.title) + '">' +
+    '<defs><marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">' +
+    '<path d="M 0 0 L 10 5 L 0 10 z" fill="#9fb0ae"></path></marker></defs>' + svg + '</svg>';
+}
+
+/* ---------- 3) عرض الإجراء المختار ---------- */
+const detailRoot = document.getElementById('detailRoot');
+let curId = null;
+
+function showProc(id, noScroll){
+  const p = BY_ID[id];
+  if (!p) return;
+  curId = id;
+  const i = ALLPROCS.findIndex(x => x.id === id);
+  const prev = ALLPROCS[i - 1], next = ALLPROCS[i + 1];
+  const nx = p.handoff.to && BY_ID[p.handoff.to];
+
+  detailRoot.innerHTML =
+    '<div class="detail-card" id="detailCard" tabindex="-1">' +
+      '<div class="detail-head">' +
+        '<span class="d-no" style="background:' + p.phase.color + '">' + p.no + '</span>' +
+        '<div class="d-t">' +
+          '<span class="d-phase">' + esc(p.phase.no) + ' — ' + esc(p.phase.title) + '</span>' +
+          '<h3>' + esc(p.title) + '</h3>' +
+          '<div class="badges">' +
+            p.paths.map(x => '<span class="badge ' + PATHLBL[x][1] + '">' + PATHLBL[x][0] + '</span>').join('') +
+            '<span class="badge freq">' + esc(p.freq) + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="d-nav">' +
+          '<button type="button" id="dPrev"' + (prev ? '' : ' disabled') + '>الإجراء السابق ›</button>' +
+          '<button type="button" id="dNext"' + (next ? '' : ' disabled') + '>‹ الإجراء التالي</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="shape-legend">' +
+        '<span><i style="background:#fff;border-color:#4a6b5c"></i> نشاط</span>' +
+        '<span><i style="background:#eef3fb;border-color:#3f63b5"></i> تحقق</span>' +
+        '<span><i style="background:#f4f1fb;border-color:#6f5da8;border-radius:0;transform:rotate(45deg)"></i> قرار</span>' +
+        '<span><i style="background:#fdf6e6;border-color:#c09633"></i> حركة مالية</span>' +
+        '<span><i style="background:#e7f3f1;border-color:#2f8c84;border-style:dashed"></i> ترحيل بين الأنظمة</span>' +
+      '</div>' +
+      '<div class="flow-wrap">' + renderFlow(p) + '</div>' +
+      (nx ? '<div class="next-link"><b>تنتقل إلى:</b> <a data-goto="' + nx.id + '">' + esc(nx.no) + ' — ' + esc(nx.title) + '</a></div>' : '') +
+    '</div>';
+
+  if (prev) document.getElementById('dPrev').onclick = () => showProc(prev.id);
+  if (next) document.getElementById('dNext').onclick = () => showProc(next.id);
+
+  document.querySelectorAll('#archMap .n-g').forEach(g => g.classList.toggle('sel', g.dataset.target === id));
+
+  const card = document.getElementById('detailCard');
+  if (!noScroll) {
+    card.scrollIntoView({behavior:'smooth', block:'start'});
+    setTimeout(() => card.focus({preventScroll:true}), 400);
+  }
+  try { if (location.hash.slice(1) !== id) history.replaceState(null, '', '#' + id); } catch (err) {}
+}
+
+detailRoot.innerHTML = '<p class="pick-hint">اضغط على أي إجراء في الخريطة أعلاه لعرض مخطط تدفقها.</p>';
+
+document.getElementById('archMap').addEventListener('click', e => {
+  const g = e.target.closest('[data-target]');
+  if (g) showProc(g.dataset.target);
+});
+document.getElementById('archMap').addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const g = e.target.closest('[data-target]');
+  if (g) { e.preventDefault(); showProc(g.dataset.target); }
+});
+detailRoot.addEventListener('click', e => {
+  const a = e.target.closest('a[data-goto]');
+  if (a) { e.preventDefault(); showProc(a.dataset.goto); }
+});
+document.addEventListener('keydown', e => {
+  if (!curId) return;
+  const i = ALLPROCS.findIndex(x => x.id === curId);
+  if (e.key === 'ArrowLeft' && ALLPROCS[i + 1]) { e.preventDefault(); showProc(ALLPROCS[i + 1].id); }
+  if (e.key === 'ArrowRight' && ALLPROCS[i - 1]) { e.preventDefault(); showProc(ALLPROCS[i - 1].id); }
+});
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(() => { if (curId) showProc(curId, true); });
+}
+
+const h0 = location.hash.slice(1);
+if (h0 && BY_ID[h0]) requestAnimationFrame(() => showProc(h0));
+</script>
 </body>
 </html>
