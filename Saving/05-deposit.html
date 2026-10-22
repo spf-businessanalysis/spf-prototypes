@@ -44,8 +44,29 @@
                                 <div class="mb-4">
                                     <label class="form-label">مبلغ الإيداع (الحد الأدنى 100 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع">)</label>
                                     <div class="input-group">
-                                        <input type="number" id="depositAmount" class="form-control form-control-lg" value="100" min="100">
+                                        <input type="number" id="depositAmount" class="form-control form-control-lg" value="100" min="100" oninput="checkSelfCap()">
                                         <span class="input-group-text"><img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></span>
+                                    </div>
+                                    <div id="selfCapMsg" class="small mt-2"></div>
+                                </div>
+
+                                <!-- السقف السنوي لمصدر المدخر - BR-DEP-02 / BR-DEP-02B -->
+                                <div class="mb-4 p-3 rounded" style="background:#f3f8f5;border:1px solid #d8e6de">
+                                    <div class="fw-800 text-spf mb-2" style="font-size:.85rem">السقف السنوي لإيداعاتك الذاتية</div>
+                                    <div class="d-flex justify-content-between small mb-1">
+                                        <span>المستهلك من السقف</span>
+                                        <b><span id="capUsed">0.000</span> من <span id="capMax">0</span> <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></b>
+                                    </div>
+                                    <div class="progress" style="height:8px">
+                                        <div id="capBar" class="progress-bar bg-success" style="width:0%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between small mt-2">
+                                        <span class="text-muted">المتبقي المتاح للإيداع</span>
+                                        <b class="text-spf"><span id="capLeft">0.000</span> <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></b>
+                                    </div>
+                                    <div class="text-muted mt-2" style="font-size:.72rem">
+                                        الحد الأقصى السنوي اثنا عشر ضعف سقف أجر الاشتراك، ويُحتسب لكل مصدر إيداع على حدة وعلى مستوى كل مدخر على حدة.
+                                        ولإيداع جهة العمل عنك سقف مستقل لا يستهلك من سقفك.
                                     </div>
                                 </div>
 
@@ -241,6 +262,7 @@
                                         <th>العامل</th>
                                         <th>الأجر الأساسي</th>
                                         <th>المبلغ المودع</th>
+                                        <th>المتبقي من سقف جهة العمل</th>
                                         <th>الحالة</th>
                                     </tr>
                                 </thead>
@@ -365,11 +387,14 @@
                     const row = check.closest('tr');
                     const name = row.cells[1].innerText;
                     const salary = 800; // Simulated
+                    const cid = (row.cells[2] ? row.cells[2].innerText : '').trim();
+                    const capLeft = workerCapLeft(cid);
                     list.innerHTML += `
-                        <tr data-salary="${salary}">
+                        <tr data-salary="${salary}" data-capleft="${capLeft}">
                             <td>${name}</td>
                             <td>${salary} <img src="omr_icon.svg" class="currency-icon" alt=""></td>
                             <td><input type="number" class="form-control form-control-sm worker-amount-input" value="100" min="0" oninput="calculateTotal()"></td>
+                            <td class="cap-cell">${fmt3(capLeft)} <img src="omr_icon.svg" class="currency-icon" alt=""></td>
                             <td class="status-cell"></td>
                         </tr>
                     `;
@@ -381,14 +406,22 @@
                 // Final validation: amount > 100
                 const amounts = document.querySelectorAll('.worker-amount-input');
                 let allValid = true;
+                let belowMin = false;
+                const overCap = [];
                 amounts.forEach(input => {
                     const val = parseFloat(input.value) || 0;
                     const row = input.closest('tr');
                     const statusCell = row.querySelector('.status-cell');
+                    const capLeft = parseFloat(row.dataset.capleft) || 0;
                     if (val < 100) {
                         input.classList.add('worker-invalid');
                         statusCell.innerHTML = '<span class="text-danger small"><i class="fas fa-times-circle"></i> اقل من 100</span>';
+                        allValid = false; belowMin = true;
+                    } else if (val > capLeft) {
+                        input.classList.add('worker-invalid');
+                        statusCell.innerHTML = '<span class="text-danger small"><i class="fas fa-times-circle"></i> يتجاوز السقف</span>';
                         allValid = false;
+                        overCap.push(row.cells[0].innerText.trim() + ' (المتاح ' + fmt3(capLeft) + ' ر.ع)');
                     } else {
                         input.classList.remove('worker-invalid');
                         statusCell.innerHTML = '<span class="text-success small"><i class="fas fa-check-circle"></i> مقبول</span>';
@@ -396,7 +429,13 @@
                 });
 
                 if (!allValid) {
-                    spf.showError('عذراً، يجب أن يكون مبلغ الإيداع لكل عامل 100 ريال أو أكثر للمتابعة.');
+                    let msg = '';
+                    if (belowMin) msg += 'يجب أن يكون مبلغ الإيداع لكل عامل 100 ريال أو أكثر. ';
+                    if (overCap.length) {
+                        msg += (belowMin ? 'و' : '') + 'يتجاوز السقف السنوي المتاح لمصدر جهة العمل لدى: ' + overCap.join('، ')
+                             + '. عدّل المبالغ لهؤلاء العمال، ويمكن إتمام الإيداع لبقيتهم.';
+                    }
+                    spf.showError(msg.trim());
                     return;
                 }
             }
@@ -453,11 +492,80 @@
             calculateTotal();
         }
 
+        /* ===== السقف السنوي - BR-DEP-02 / BR-DEP-02B / BR-DEP-02C ===== */
+        var WAGE_CAP = 3000;                 // سقف أجر الاشتراك المعتمد (قابل للتهيئة)
+        var ANNUAL_CAP = WAGE_CAP * 12;      // 36,000 ر.ع لكل مصدر ولكل مدخر على حدة
+        var SELF_USED = 362.250;             // المستهلك من سقف المدخر عن نفسه خلال السنة
+
+        function fmt3(v) {
+            return v.toLocaleString('en-US', { minimumFractionDigits: 3, maximumFractionDigits: 3 });
+        }
+
+        /* المستهلك من سقف جهة العمل لكل عامل - مطابق لما تعرضه لوحة جهة العمل */
+        var EMP_USED_BY_CID = {
+            '87654321': 34820.000,
+            '44556677': 27300.000,
+            '10002001': 12450.500,
+            '10002002':  4800.000,
+            '10002003':  1080.000
+        };
+
+        /* المتبقي من سقف جهة العمل لكل عامل على حدة - BR-DEP-02B / BR-DEP-02C */
+        function workerCapLeft(cid) {
+            var used = EMP_USED_BY_CID[cid];
+            if (used === undefined) {
+                var s = 0, i;
+                for (i = 0; i < cid.length; i++) { s += cid.charCodeAt(i) * (i + 1); }
+                used = s % 30000;
+            }
+            return Math.round((ANNUAL_CAP - used) * 1000) / 1000;
+        }
+
+        function checkSelfCap() {
+            var maxEl = document.getElementById('capMax');
+            if (!maxEl) return;
+            var left = ANNUAL_CAP - SELF_USED;
+            var amtEl = document.getElementById('depositAmount');
+            var amount = amtEl ? (parseFloat(amtEl.value) || 0) : 0;
+            var pctUsed = Math.min(100, SELF_USED / ANNUAL_CAP * 100);
+
+            maxEl.innerText = ANNUAL_CAP.toLocaleString('en-US');
+            document.getElementById('capUsed').innerText = fmt3(SELF_USED);
+            document.getElementById('capLeft').innerText = fmt3(left);
+            var barEl = document.getElementById('capBar');
+            barEl.style.width = pctUsed + '%';
+            barEl.className = 'progress-bar ' + (pctUsed >= 90 ? 'bg-danger' : (pctUsed >= 70 ? 'bg-warning' : 'bg-success'));
+
+            var msg = document.getElementById('selfCapMsg');
+            var btn = document.querySelector('button[onclick="processDeposit()"]');
+            if (amount > left) {
+                msg.className = 'small mt-2 text-danger fw-700';
+                msg.innerHTML = '<i class="fas fa-times-circle"></i> المبلغ يتجاوز المتبقي من سقفك السنوي. المتاح ' + fmt3(left) + ' ر.ع.';
+                if (btn) btn.disabled = true;
+            } else if (amount > 0 && amount < 100) {
+                msg.className = 'small mt-2 text-danger fw-700';
+                msg.innerHTML = '<i class="fas fa-times-circle"></i> الحد الأدنى للإيداع الواحد 100 ر.ع.';
+                if (btn) btn.disabled = true;
+            } else {
+                msg.className = 'small mt-2 text-muted';
+                msg.innerHTML = amount > 0 ? ('المتبقي بعد هذا الإيداع ' + fmt3(left - amount) + ' ر.ع.') : '';
+                if (btn) btn.disabled = false;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', checkSelfCap);
+
         function calculateTotal() {
             let total = 0;
             const amounts = document.querySelectorAll('.worker-amount-input');
             amounts.forEach(input => {
                 total += parseFloat(input.value) || 0;
+                const row = input.closest('tr');
+                const capCell = row.querySelector('.cap-cell');
+                if (capCell) {
+                    const over = (parseFloat(input.value) || 0) > (parseFloat(row.dataset.capleft) || 0);
+                    capCell.classList.toggle('text-danger', over);
+                    capCell.classList.toggle('fw-800', over);
+                }
             });
             document.getElementById('empSelCount').innerText = amounts.length;
             document.getElementById('finalTotal').innerText = total.toFixed(3);

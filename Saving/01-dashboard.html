@@ -538,6 +538,16 @@
 
         /* بيانات جهة العمل */
         var EMP_WORKERS = { registered: 389, pending: 23, noAccount: 11 };
+
+        /* المتبقي من السقف السنوي لمصدر جهة العمل — لكل عامل على حدة — BR-DEP-02B / BR-DEP-02C */
+        var EMP_CAP_MAX = 36000;
+        var EMP_CAP_WORKERS = [
+            { name: 'عمر بن خالد الهنائي',  cid: '87654321', used: 34820.000 },
+            { name: 'سالم بن حمد الجابري', cid: '44556677', used: 27300.000 },
+            { name: 'محمد أحمد',            cid: '10002001', used: 12450.500 },
+            { name: 'فاطمة علي',            cid: '10002002', used:  4800.000 },
+            { name: 'جون سميث',             cid: '10002003', used:  1080.000 }
+        ];
         var EMP_INVOICES = [
             { ref: 'INV-2026-04417', month: 'سبتمبر 2026', amount: 35010, status: 'مستحقة',  extra: 0 },
             { ref: 'INV-2026-04302', month: 'أغسطس 2026',  amount: 34650, status: 'متأخرة',  extra: 231 },
@@ -700,13 +710,34 @@
                       + '</div>';
                   }).join('')
                 + '<p class="dash-note mb-0">الحد الأقصى السنوي هو اثنا عشر ضعف سقف أجر الاشتراك، '
-                + 'ويُحتسب لكل مصدر إيداع على حدة لا على الحساب مجتمعًا. والحد الأدنى للإيداع الواحد مئة ريال.</p></div>';
+                + 'ويُحتسب على مستوى كل مدخر على حدة، ولكل مصدر إيداع على حدة لا على الحساب مجتمعًا. '
+                + 'وسقف جهة العمل يخصّك وحدك ولا يتأثر بما تودعه لغيرك من العمال. '
+                + 'والحد الأدنى للإيداع الواحد مئة ريال.</p></div>';
 
             host.innerHTML = card('رصيدك مفصّلًا بمصدره',
                 tbl(['المسار', 'مصدر الإيداع', 'الرصيد', 'الحصة', 'العائد'], rows, foot) + capNote);
         }
 
         /* ================= لوحة صاحب العمل ================= */
+        function renderCapWorkers() {
+            var rows = EMP_CAP_WORKERS.map(function (w) {
+                var left = EMP_CAP_MAX - w.used;
+                var p = pct(w.used, EMP_CAP_MAX);
+                var cls = p >= 90 ? 'bad' : (p >= 70 ? 'warn' : '');
+                return '<tr>'
+                    + '<td class="fw-700">' + w.name + '</td>'
+                    + '<td class="dim">' + w.cid + '</td>'
+                    + '<td>' + omr(w.used) + '</td>'
+                    + '<td class="fw-800">' + omr(left) + '</td>'
+                    + '<td style="min-width:120px">' + bar(p, cls) + '</td>'
+                + '</tr>';
+            }).join('');
+            return tbl(['العامل', 'الرقم المدني', 'المستهلك', 'المتبقي', ''], rows)
+                + '<p class="dash-note mb-0">السقف السنوي لإيداعاتك الاختيارية '
+                + omr(EMP_CAP_MAX, 0) + ' ر.ع <b>لكل عامل على حدة</b>، لا على إجمالي عمالك مهما بلغ عددهم. '
+                + 'ولا يستهلك إيداعك عن العامل من سقف إيداعه عن نفسه.</p>';
+        }
+
         function renderEmployer() {
             var host = document.getElementById('employerExtra');
             if (!host) return;
@@ -753,7 +784,8 @@
                         tbl(['البند', 'العدد', 'النسبة'], wRows)
                         + '<p class="dash-note mb-0">العامل الذي لا يملك حسابًا بنكيًا نشطًا تتوقف معالجة صرف مدخراته '
                         + 'حتى ينشئ الحساب، فيحسن تنبيهه مبكرًا.</p>')
-                + '</div></div>';
+                + '</div></div>'
+                + card('المتبقي من السقف السنوي للإيداع الاختياري — لكل عامل على حدة', renderCapWorkers());
         }
 
         document.addEventListener('DOMContentLoaded', function () {
