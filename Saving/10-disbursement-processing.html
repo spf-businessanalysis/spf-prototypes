@@ -91,6 +91,7 @@
                         <option>مسودة</option>
                         <option>بانتظار معالجة الطلب</option>
                         <option>قيد المراجعة</option>
+                        <option>موقوف بانتظار التسوية</option>
                         <option>تم الاعتماد</option>
                         <option>مرفوض</option>
                         <option>قيد التحويل</option>
@@ -121,6 +122,8 @@
                                         <th>المدخر</th>
                                         <th>الرقم المدني</th>
                                         <th>المبلغ المطلوب</th>
+                                        <th>نوع التسوية</th>
+                                        <th>صافي الصرف</th>
                                         <th>سبب الصرف</th>
                                         <th>تاريخ الطلب</th>
                                         <th>الحالة</th>
@@ -131,6 +134,8 @@
                                     <tr>
                                         <td class="fw-700">أحمد بن سالم الحبسي <span class="badge-status info ms-1">عن الغير</span></td>
                                         <td>12345678</td>
+                                        <td>12,480.500 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                        <td><span class="badge-status info">توزيع تركة</span></td>
                                         <td>12,480.500 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
                                         <td>وفاة المدخر — صرف للورثة</td>
                                         <td>05/07/2026</td>
@@ -143,6 +148,8 @@
                                         <td class="fw-700">سعيد بن راشد المعمري</td>
                                         <td>88223344</td>
                                         <td>2,150.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                        <td><span class="badge-status warning">تقديرية — عماني</span></td>
+                                        <td>1,084.750 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
                                         <td>استحقاق معاش تقاعدي</td>
                                         <td>20/02/2026</td>
                                         <td><span class="badge-status pending">قيد المراجعة</span></td>
@@ -153,6 +160,8 @@
                                     <tr>
                                         <td class="fw-700">ليلى بنت محمود الزدجالية</td>
                                         <td>77665544</td>
+                                        <td>4,800.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                        <td><span class="badge-status warning">تقديرية — عماني</span></td>
                                         <td>4,800.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
                                         <td>استحقاق معاش تقاعدي</td>
                                         <td>18/02/2026</td>
@@ -165,9 +174,11 @@
                                         <td class="fw-700">راجيش كومار شارما</td>
                                         <td>44556677</td>
                                         <td>2,150.000 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
+                                        <td><span class="badge-status danger">إلزامية — غير عماني</span></td>
+                                        <td>1,706.667 <img src="omr_icon.svg" class="currency-icon" alt="ر.ع"></td>
                                         <td>مغادرة السلطنة <span class="badge-status info ms-1">تحويل دولي</span></td>
                                         <td>21/02/2026</td>
-                                        <td><span class="badge-status pending">قيد المراجعة</span></td>
+                                        <td><span class="badge-status warning">موقوف بانتظار التسوية</span></td>
                                         <td>
                                             <button class="btn btn-sm btn-spf-outline py-1" onclick="openRequest('DSB-2026-00397')"><i class="fas fa-eye me-1"></i> عرض التفاصيل</button>
                                         </td>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدخول من خارج السلطنة - نظام الادخار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .external-shell { max-width: 980px; margin: 0 auto; padding: 28px 24px 64px; }
+        .external-header { background: var(--gup-color-background-base); border-bottom: 1px solid var(--gup-color-border-low); }
+        .external-header-inner { max-width: 1200px; min-height: 76px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+        .external-brand { display: flex; align-items: center; gap: 12px; color: var(--gup-color-content-primary); text-decoration: none; font-weight: 700; }
+        .external-brand-icon { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: var(--gup-color-brand-medium); color: var(--gup-color-brand-contrast); }
+        .login-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+        .login-card, .login-aside { background: var(--gup-color-background-base); border: 1px solid var(--gup-color-border-low); border-radius: var(--gup-radius-card); padding: 24px; box-shadow: var(--gup-shadow-card); }
+        .login-card h1 { color: var(--gup-color-content-primary); font-size: 2rem; font-weight: 700; }
+        .login-aside ul { margin: 0; padding-inline-start: 20px; display: grid; gap: 10px; color: var(--gup-color-content-secondary); }
+        .step-label { color: var(--gup-color-content-secondary); font-size: .9rem; }
+        .countdown { font-size: 1.5rem; font-weight: 700; color: var(--gup-color-brand-xhigh); direction: ltr; }
+        .masked-email { padding: 12px 16px; border-radius: var(--gup-radius-component-default); background: var(--gup-color-background-overcanvas); color: var(--gup-color-content-primary); font-weight: 700; }
+        .otp-input { direction: ltr; text-align: center; letter-spacing: .5rem; font-size: 1.35rem; font-weight: 700; }
+        @media (max-width: 768px) { .login-layout { grid-template-columns: 1fr; } .external-shell { padding: 20px 16px 48px; } }
+    </style>
+</head>
+<body class="no-sidebar">
+    <a href="#mainContent" class="skip-link">تخطي إلى المحتوى الرئيسي</a>
+    <header class="external-header">
+        <div class="external-header-inner">
+            <a class="external-brand" href="index.html">
+                <span class="external-brand-icon"><i class="fas fa-shield-halved"></i></span>
+                <span>صندوق الحماية الاجتماعية</span>
+            </a>
+            <a href="index.html" class="btn btn-spf-outline"><i class="fas fa-house me-1"></i> الصفحة الرئيسية</a>
+        </div>
+    </header>
+
+    <main class="external-shell" id="mainContent">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li>
+                <li class="breadcrumb-item active">الدخول من خارج السلطنة</li>
+            </ol>
+        </nav>
+
+        <div class="login-layout">
+            <section class="login-card" aria-labelledby="loginTitle">
+                <div id="identityStep">
+                    <div class="step-label mb-2">الخطوة 1 من 2</div>
+                    <h1 id="loginTitle">الدخول المحدود من خارج السلطنة</h1>
+                    <p class="text-muted mb-4">أدخل البيانات الثلاثة كما هي مسجلة ومتحقق منها في ملفك. لن تعتمد العملية على صلاحية بطاقة الإقامة.</p>
+
+                    <div class="alert-spf alert-info mb-4">
+                        <i class="fas fa-circle-info"></i>
+                        <div>لن نوضح أي حقل غير متطابق حمايةً لبياناتك. إذا تعذر الدخول، راجع بيانات التواصل عبر القنوات الرسمية للصندوق.</div>
+                    </div>
+
+                    <form id="identityForm" onsubmit="requestPassword(event)">
+                        <div class="mb-3">
+                            <label class="form-label fw-700" for="civilId">الرقم المدني (رقم المقيم)</label>
+                            <input class="form-control" id="civilId" inputmode="numeric" autocomplete="username" value="12345678" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-700" for="phone">رقم الهاتف</label>
+                            <input class="form-control" id="phone" type="tel" autocomplete="tel" value="+91 98200 12345" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-700" for="email">البريد الإلكتروني</label>
+                            <input class="form-control" id="email" type="email" autocomplete="email" value="r.sharma@example.com" required>
+                        </div>
+                        <button class="btn btn-spf w-100" type="submit">مطابقة البيانات وإرسال كلمة المرور <i class="fas fa-arrow-left ms-1"></i></button>
+                    </form>
+                </div>
+
+                <div id="otpStep" class="d-none">
+                    <div class="step-label mb-2">الخطوة 2 من 2</div>
+                    <h1>أدخل كلمة المرور العشوائية</h1>
+                    <p class="text-muted mb-3">أرسلنا كلمة مرور أحادية الاستخدام إلى البريد الإلكتروني المسجل.</p>
+                    <div class="masked-email mb-3">r.s*****@example.com</div>
+                    <div class="d-flex align-items-center justify-content-between gap-3 mb-4">
+                        <span class="text-muted">تنتهي صلاحيتها بعد</span>
+                        <span class="countdown" id="countdown" aria-live="polite">05:00</span>
+                    </div>
+                    <form onsubmit="verifyPassword(event)">
+                        <div class="mb-3">
+                            <label class="form-label fw-700" for="otp">كلمة المرور العشوائية</label>
+                            <input class="form-control otp-input" id="otp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" required>
+                            <div class="form-text">لأغراض النموذج استخدم: 482731</div>
+                        </div>
+                        <div class="alert-spf alert-danger d-none mb-3" id="otpError" role="alert">
+                            <i class="fas fa-circle-xmark"></i><div id="otpErrorText"></div>
+                        </div>
+                        <button class="btn btn-spf w-100 mb-2" id="verifyBtn" type="submit">تسجيل الدخول</button>
+                        <button class="btn btn-spf-outline w-100" id="resendBtn" type="button" onclick="resendPassword()" disabled>طلب كلمة مرور جديدة</button>
+                    </form>
+                </div>
+            </section>
+
+            <aside class="login-aside">
+                <h2 class="h5 fw-700 mb-3">الخدمات المتاحة بعد الدخول</h2>
+                <ul>
+                    <li>عرض الرصيد وسجل المعاملات.</li>
+                    <li>تحديث بيانات التحويل الدولي.</li>
+                    <li>تقديم طلب الصرف ومتابعته.</li>
+                    <li>رفع المستندات المطلوبة.</li>
+                </ul>
+                <hr>
+                <p class="small text-muted mb-0"><i class="fas fa-lock me-1"></i> لا يمكن تغيير البريد الإلكتروني أو رقم الهاتف من خلال هذا المسار المحدود.</p>
+            </aside>
+        </div>
+    </main>
+
+    <script>
+        var secondsRemaining = 300;
+        var timerId = null;
+        var attempts = 0;
+
+        function requestPassword(event) {
+            event.preventDefault();
+            var civilId = document.getElementById('civilId').value.trim();
+            var phone = document.getElementById('phone').value.trim();
+            var email = document.getElementById('email').value.trim().toLowerCase();
+            var matched = civilId === '12345678' && phone.replace(/\s/g, '') === '+919820012345' && email === 'r.sharma@example.com';
+            if (!matched) {
+                showGenericIdentityError();
+                return;
+            }
+            document.getElementById('identityStep').classList.add('d-none');
+            document.getElementById('otpStep').classList.remove('d-none');
+            startTimer();
+            document.getElementById('otp').focus();
+        }
+
+        function showGenericIdentityError() {
+            alert('تعذر مطابقة البيانات أو أنها غير متحقق منها. راجع البيانات المسجلة أو تواصل مع الصندوق.');
+        }
+
+        function startTimer() {
+            clearInterval(timerId);
+            secondsRemaining = 300;
+            attempts = 0;
+            document.getElementById('otp').disabled = false;
+            document.getElementById('verifyBtn').disabled = false;
+            document.getElementById('resendBtn').disabled = true;
+            updateTimer();
+            timerId = setInterval(function () {
+                secondsRemaining--;
+                updateTimer();
+                if (secondsRemaining <= 0) expirePassword();
+            }, 1000);
+        }
+
+        function updateTimer() {
+            var minutes = String(Math.floor(secondsRemaining / 60)).padStart(2, '0');
+            var seconds = String(secondsRemaining % 60).padStart(2, '0');
+            document.getElementById('countdown').textContent = minutes + ':' + seconds;
+        }
+
+        function expirePassword() {
+            clearInterval(timerId);
+            document.getElementById('otp').disabled = true;
+            document.getElementById('verifyBtn').disabled = true;
+            document.getElementById('resendBtn').disabled = false;
+            showOtpError('انتهت صلاحية كلمة المرور. اطلب كلمة مرور جديدة للمتابعة.');
+        }
+
+        function verifyPassword(event) {
+            event.preventDefault();
+            if (secondsRemaining <= 0) {
+                expirePassword();
+                return;
+            }
+            attempts++;
+            if (document.getElementById('otp').value.trim() === '482731') {
+                clearInterval(timerId);
+                sessionStorage.setItem('spf-external-session', 'active');
+                localStorage.setItem('spf-user-role', 'saver');
+                window.location.href = '30-external-dashboard.html';
+                return;
+            }
+            if (attempts >= 3) {
+                secondsRemaining = 0;
+                expirePassword();
+                showOtpError('تم إيقاف المحاولة مؤقتًا بعد تكرار الإدخال غير الصحيح. اطلب كلمة مرور جديدة.');
+                return;
+            }
+            showOtpError('كلمة المرور غير صحيحة أو غير صالحة.');
+        }
+
+        function showOtpError(message) {
+            document.getElementById('otpErrorText').textContent = message;
+            document.getElementById('otpError').classList.remove('d-none');
+        }
+
+        function resendPassword() {
+            document.getElementById('otp').value = '';
+            document.getElementById('otpError').classList.add('d-none');
+            startTimer();
+            document.getElementById('otp').focus();
+        }
+    </script>
+</body>
+</html>

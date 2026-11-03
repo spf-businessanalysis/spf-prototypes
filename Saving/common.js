@@ -37,7 +37,7 @@ function initLayout() {
 
             <div class="notification-bell" id="notifBell">
                 <i class="far fa-bell"></i>
-                <span class="badge rounded-pill bg-danger">3</span>
+                <span class="badge rounded-pill bg-danger">5</span>
                 
                 <div class="notification-panel" id="notifPanel">
                     <div class="panel-header">
@@ -56,6 +56,14 @@ function initLayout() {
                         <div class="notif-item unread">
                             <div class="notif-title">نسبة العائد السنوي لعام 2025 قيد المراجعة</div>
                             <div class="notif-time">منذ يوم واحد</div>
+                        </div>
+                        <div class="notif-item unread">
+                            <div class="notif-title">يرجى مراجعة البريد الإلكتروني ورقم الهاتف والتحقق منهما</div>
+                            <div class="notif-time">إجراء مطلوب</div>
+                        </div>
+                        <div class="notif-item unread">
+                            <div class="notif-title">طلب الصرف DSB-2026-00397 موقوف بانتظار التسوية</div>
+                            <div class="notif-time">منذ 3 ساعات</div>
                         </div>
                     </div>
                 </div>
@@ -76,6 +84,7 @@ function initLayout() {
     <aside class="spf-sidebar" id="mainSidebar">
         <div class="sidebar-header">القائمة الرئيسية</div>
         <ul class="sidebar-nav">
+            <li id="li-external-home" style="display:none"><a href="30-external-dashboard.html" id="link-30"><i class="fas fa-shield-halved"></i> الخدمات الخارجية المحددة</a></li>
             <li class="nav-saver nav-employer nav-staff"><a href="index.html" id="link-index"><i class="fas fa-home"></i> الصفحة الرئيسية</a></li>
             <li class="nav-saver nav-employer nav-staff"><a href="01-dashboard.html" id="link-01"><i class="fas fa-th-large"></i> لوحة التحكم</a></li>
             <li class="nav-staff"><a href="15-reports.html" id="link-15"><i class="fas fa-chart-pie"></i> التقارير والتحليل</a></li>
@@ -207,6 +216,37 @@ function applyRoleVisibility(role) {
             badge.innerText = 'موظف الصندوق';
         }
     });
+
+    applyExternalSessionRestrictions();
+}
+
+function applyExternalSessionRestrictions() {
+    if (sessionStorage.getItem('spf-external-session') !== 'active') return;
+
+    document.body.setAttribute('data-user-role', 'saver');
+    const toggle = document.getElementById('globalUserToggle');
+    if (toggle) toggle.style.display = 'none';
+
+    const sidebar = document.getElementById('mainSidebar');
+    if (sidebar) {
+        sidebar.querySelectorAll('.sidebar-nav li').forEach(li => { li.style.display = 'none'; });
+        ['li-external-home', 'link-14', 'link-17', 'link-08', 'link-26'].forEach(id => {
+            const item = document.getElementById(id);
+            const li = item && (item.tagName === 'LI' ? item : item.closest('li'));
+            if (li) li.style.display = 'block';
+        });
+        const requestLink = document.getElementById('link-26');
+        if (requestLink) requestLink.setAttribute('href', '26-request-details.html?ref=DSB-2026-00397&external=1');
+    }
+
+    document.querySelectorAll('.user-badge span').forEach(el => { el.textContent = 'راجيش كومار شارما'; });
+    document.querySelectorAll('.user-avatar').forEach(el => { el.textContent = 'ر'; });
+    document.querySelectorAll('.spf-navbar .navbar-brand, .spf-navbar > .navbar-actions > .nav-link').forEach(link => {
+        link.setAttribute('href', '30-external-dashboard.html');
+    });
+    document.querySelectorAll('a[href="01-dashboard.html"], a[href="index.html"]').forEach(link => {
+        link.setAttribute('href', '30-external-dashboard.html');
+    });
 }
 
 function initNotifications() {
@@ -231,7 +271,8 @@ function initNotifications() {
 
 function highlightActiveLink() {
     const currentPath = window.location.pathname.split('/').pop();
-    const activeLink = document.querySelector(`.sidebar-nav a[href="${currentPath}"]`);
+    const activeLink = document.querySelector(`.sidebar-nav a[href="${currentPath}"]`) ||
+        document.querySelector(`.sidebar-nav a[href^="${currentPath}?"]`);
     if (activeLink) {
         activeLink.classList.add('active');
     }

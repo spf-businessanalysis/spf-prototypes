@@ -263,6 +263,21 @@
                                 </div>
                             </div>
 
+                            <div class="alert-spf alert-warning mb-4 d-none" id="settlementPreview">
+                                <i class="fas fa-scale-balanced"></i>
+                                <div class="w-100">
+                                    <div class="fw-800 mb-2" id="settlementPreviewTitle"></div>
+                                    <div id="settlementPreviewText" class="small mb-3"></div>
+                                    <div class="row g-2 small">
+                                        <div class="col-md-3"><div class="p-2 bg-white rounded border"><span class="text-muted d-block">الرصيد الإجمالي</span><strong>1,450.000 ر.ع</strong></div></div>
+                                        <div class="col-md-3"><div class="p-2 bg-white rounded border"><span class="text-muted d-block">استحقاقات مضافة</span><strong>75.000 ر.ع</strong></div></div>
+                                        <div class="col-md-3"><div class="p-2 bg-white rounded border"><span class="text-muted d-block">التزامات قائمة</span><strong>318.333 ر.ع</strong></div></div>
+                                        <div class="col-md-3"><div class="p-2 bg-white rounded border"><span class="text-muted d-block">صافي تقديري</span><strong>1,206.667 ر.ع</strong></div></div>
+                                    </div>
+                                    <div class="form-text mt-2">القيم استرشادية عند تقديم الطلب، ويُعتمد الصافي بعد تحقق الموظف من الاستحقاقات والالتزامات القائمة.</div>
+                                </div>
+                            </div>
+
                             <div class="row g-3 mb-4" id="payoutRow">
                                 <div class="col-md-6">
                                     <label class="form-label fw-700">طريقة سداد المبلغ الكامل</label>
@@ -508,6 +523,13 @@
                 return;
             }
 
+            if (sessionStorage.getItem('spf-external-session') === 'active') {
+                document.getElementById('natSim').value = 'non-omani';
+                document.getElementById('natSim').disabled = true;
+                document.getElementById('whoSim').value = 'self';
+                document.getElementById('whoSim').disabled = true;
+            }
+
             applyNationality();
         });
 
@@ -520,6 +542,7 @@
             document.getElementById("path1Block").classList.add("d-none");
             document.getElementById("path2Block").classList.add("d-none");
             document.getElementById("surplusNote").classList.add("d-none");
+            document.getElementById("settlementPreview").classList.add("d-none");
             document.getElementById("payoutRow").classList.remove("d-none");
             updateBankBlocks();
         }
@@ -565,6 +588,18 @@
             // مسارا العامل غير العماني: المغادرة أو البقاء في السلطنة
             document.getElementById('path1Block').classList.toggle('d-none', reason !== '1');
             document.getElementById('path2Block').classList.toggle('d-none', reason !== '2');
+
+            const isMandatorySettlement = reason === '1' || reason === '2';
+            const isOmaniSettlement = reason === '3' || reason === '4' || reason === '6';
+            const preview = document.getElementById('settlementPreview');
+            preview.classList.toggle('d-none', !(isMandatorySettlement || isOmaniSettlement));
+            if (isMandatorySettlement) {
+                document.getElementById('settlementPreviewTitle').textContent = 'تسوية إلزامية قبل صرف مدخرات العامل غير العماني';
+                document.getElementById('settlementPreviewText').textContent = 'سيحصر النظام الاستحقاقات والالتزامات القائمة ويوقف الطلب بانتظار التسوية. لا يُنفذ الصرف إلا بعد إتمام التسوية واعتماد صافي المبلغ.';
+            } else if (isOmaniSettlement) {
+                document.getElementById('settlementPreviewTitle').textContent = 'قرار التسوية للمدخر العماني تقديري';
+                document.getElementById('settlementPreviewText').textContent = 'يعرض النظام الاستحقاقات والالتزامات للموظف المختص، ويقرر الخصم من مبلغ الصرف أو توثيق تسوية بديلة أو تعليق الطلب مع تسجيل المبرر.';
+            }
 
             updateBankBlocks();
         }
@@ -636,6 +671,11 @@
                 msg = "تم استلام طلب صرف المدخرات. لن ينتقل الطلب إلى (بانتظار معالجة الطلب) إلا بعد استيفاء ضوابط المسار: الإلغاء لدى وزارة العمل، ومضي أكثر من 3 أشهر عليه، ونوع التأشيرة، وعدم الارتباط بعقد عمل آخر.";
             } else if (isIntl) {
                 msg = "تم حفظ طلب صرف المدخرات بحالة (مسودة) ولا يمكن تعديله. عند تأكد إلغاء علاقة عملك لدى وزارة العمل سيتحول تلقائياً إلى (بانتظار معالجة الطلب) وتبدأ الدورة المستندية، ويصلك إشعار بذلك.";
+            }
+            if (reason === '1' || reason === '2') {
+                msg += ' وعند بدء المعالجة سيصبح الطلب موقوفاً بانتظار التسوية الإلزامية للاستحقاقات والالتزامات القائمة قبل اعتماد صافي مبلغ الصرف.';
+            } else if (reason === '3' || reason === '4' || reason === '6') {
+                msg += ' سيعرض النظام الاستحقاقات والالتزامات القائمة على الموظف المختص لاتخاذ قرار التسوية التقديري وتوثيق مبرره.';
             }
             spf.showSuccess(msg);
             setTimeout(() => {

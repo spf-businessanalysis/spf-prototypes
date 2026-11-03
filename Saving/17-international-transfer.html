@@ -244,35 +244,71 @@
             <!-- ======= الدخول من خارج السلطنة ======= -->
             <div class="tab-pane fade" id="tabAccess">
                 <div class="row g-4">
-                    <div class="col-lg-5">
-                        <div class="spf-card">
-                            <div class="card-header-custom">جهّز دخولك قبل السفر</div>
+                    <div class="col-lg-7">
+                        <div class="spf-card mb-4">
+                            <div class="card-header-custom">
+                                <span>بيانات التواصل المستخدمة للدخول من الخارج</span>
+                                <span class="badge-status warning" id="contactOverallStatus">تحتاج مراجعة</span>
+                            </div>
                             <div class="card-body">
-                                <div class="small text-muted mb-3">
-                                    استكمل هذه العناصر الآن لتتمكن من الدخول إلى حسابك بعد مغادرتك السلطنة.
-                                </div>
-                                <div class="list-group mb-3">
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>بريد إلكتروني شخصي</span>
-                                        <i class="fas fa-check-circle text-success"></i>
-                                    </div>
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>رقم هاتف دولي في بلدك</span>
-                                        <i class="fas fa-check-circle text-success"></i>
-                                    </div>
-                                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                                        <span>رموز دخول احتياطية</span>
-                                        <i class="fas fa-exclamation-triangle text-warning" title="لم تُصدر بعد"></i>
+                                <div class="alert-spf alert-warning mb-4" id="contactWarning">
+                                    <i class="fas fa-triangle-exclamation"></i>
+                                    <div>
+                                        <strong>راجع بياناتك وتحقق منها قبل المغادرة.</strong>
+                                        البريد الإلكتروني ورقم الهاتف واردان من عقد العمل، وأي تعديل يعيد الحقل إلى حالة <strong>غير متحقق</strong> حتى إتمام التحقق مجددًا.
                                     </div>
                                 </div>
-                                <button class="btn btn-spf w-100" onclick="issueCodes()">
-                                    <i class="fas fa-key me-1"></i> إصدار رموز الدخول الاحتياطية
-                                </button>
+
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="small text-muted mb-1">الرقم المدني (رقم المقيم)</div>
+                                        <div class="d-flex justify-content-between align-items-center border rounded p-3">
+                                            <div>
+                                                <div class="fw-800">12345678</div>
+                                                <div class="small text-muted">المعرّف المستخدم لمطابقة ملفك عند الدخول</div>
+                                            </div>
+                                            <span class="badge-status success"><i class="fas fa-circle-check me-1"></i> متحقق</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-700" for="accessEmail">البريد الإلكتروني</label>
+                                        <input type="email" class="form-control" id="accessEmail" value="r.sharma@example.com" disabled>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <span class="small text-muted">المصدر: عقد العمل</span>
+                                            <span class="badge-status success" id="emailStatus"><i class="fas fa-circle-check me-1"></i> متحقق</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-700" for="accessPhone">رقم الهاتف</label>
+                                        <input type="tel" class="form-control" id="accessPhone" value="+91 98200 12345" disabled>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <span class="small text-muted">المصدر: عقد العمل</span>
+                                            <span class="badge-status success" id="phoneStatus"><i class="fas fa-circle-check me-1"></i> متحقق</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex gap-2 flex-wrap mt-4">
+                                    <button class="btn btn-spf-outline" id="editContactBtn" onclick="editContacts()">
+                                        <i class="fas fa-pen me-1"></i> تحديث البريد أو الهاتف
+                                    </button>
+                                    <button class="btn btn-spf d-none" id="saveContactBtn" onclick="saveContacts()">
+                                        <i class="fas fa-floppy-disk me-1"></i> حفظ التعديل
+                                    </button>
+                                    <button class="btn btn-spf d-none" id="verifyContactBtn" onclick="verifyContacts()">
+                                        <i class="fas fa-shield-halved me-1"></i> التحقق من البيانات المعدلة
+                                    </button>
+                                </div>
+
+                                <div class="small text-muted border-top pt-3 mt-4">
+                                    <i class="fas fa-clock-rotate-left me-1"></i>
+                                    آخر تحقق ناجح: 15/01/2026، 10:30 صباحًا
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-7">
                         <div class="spf-card mb-4">
                             <div class="card-header-custom">مسارات الدخول المتاحة لك من الخارج</div>
                             <div class="card-body">
@@ -286,8 +322,8 @@
                                             <td class="small">إذا كانت هويتك الرقمية ما زالت سارية، تدخل عبرها كالمعتاد.</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-700">المسار البديل</td>
-                                            <td class="small">برقم جوازك وجنسيتك وتاريخ ميلادك، مع رمز تحقق يصلك على بريدك وهاتفك الدولي المسجلين مسبقاً.</td>
+                                            <td class="fw-700">الدخول المحدود من الخارج</td>
+                                            <td class="small">تدخل الرقم المدني (رقم المقيم) ورقم الهاتف والبريد الإلكتروني. وبعد مطابقة البيانات الثلاثة تُرسل كلمة مرور عشوائية أحادية الاستخدام إلى بريدك المسجل، وتكون صالحة لمدة 5 دقائق فقط.</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-700">عبر وكيل داخل السلطنة</td>
@@ -299,14 +335,21 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div class="text-start mt-3">
+                                    <a href="29-external-login.html" class="btn btn-spf">
+                                        تجربة الدخول من خارج السلطنة <i class="fas fa-arrow-left ms-1"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="col-lg-5">
                         <div class="spf-card">
-                            <div class="card-header-custom">ماذا تستطيع فعله في المسار البديل</div>
+                            <div class="card-header-custom">صلاحيات الدخول المحدود</div>
                             <div class="card-body">
                                 <div class="row g-3 small">
-                                    <div class="col-md-6">
+                                    <div class="col-12">
                                         <div class="fw-700 text-success mb-2"><i class="fas fa-check me-1"></i> متاح</div>
                                         <ul class="ps-3 mb-0">
                                             <li>عرض الرصيد وسجل المعاملات</li>
@@ -315,10 +358,12 @@
                                             <li>رفع المستندات المطلوبة</li>
                                         </ul>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-12 border-top pt-3">
                                         <div class="fw-700 text-danger mb-2"><i class="fas fa-xmark me-1"></i> غير متاح</div>
                                         <ul class="ps-3 mb-0">
                                             <li>تغيير بريدك الإلكتروني أو رقم هاتفك</li>
+                                            <li>الإيداع أو سداد الالتزامات</li>
+                                            <li>إدارة الوكالات أو تعديل الملف الشخصي</li>
                                         </ul>
                                     </div>
                                     <div class="col-12 border-top pt-3 text-muted">
@@ -343,11 +388,23 @@
             IN: 'IFSC', PK: 'رمز الفرع', BD: 'Routing Number',
             PH: 'رمز البنك المحلي', EG: 'رمز الفرع', GB: 'Sort Code'
         };
+        let verifiedEmailValue = 'r.sharma@example.com';
+        let verifiedPhoneValue = '+91 98200 12345';
 
         document.addEventListener('DOMContentLoaded', function() {
             const role = localStorage.getItem('spf-user-role') || 'saver';
             if (role !== 'saver') {
                 document.body.innerHTML = '<div class="container mt-5 text-center"><div class="alert alert-warning">عذراً، هذه الشاشة مخصصة للمدخرين الأفراد غير العمانيين.</div><a href="01-dashboard.html" class="btn btn-spf">العودة للوحة التحكم</a></div>';
+                return;
+            }
+            const trigger = document.querySelector('[data-bs-target="#tabAccess"]');
+            const externalSession = sessionStorage.getItem('spf-external-session') === 'active';
+            if (externalSession) {
+                if (trigger && trigger.closest('li')) trigger.closest('li').classList.add('d-none');
+                document.getElementById('tabAccess').classList.add('d-none');
+                if (window.location.hash === '#tabAccess') history.replaceState(null, '', window.location.pathname + window.location.search);
+            } else if (window.location.hash === '#tabAccess') {
+                if (trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
             }
         });
 
@@ -374,8 +431,69 @@
             spf.showError('تم تجميد حسابك فوراً وإحالة البلاغ إلى المراجعة. سيتم التواصل معك على وسائل تواصلك المسجلة.');
         }
 
-        function issueCodes() {
-            spf.showSuccess('تم إصدار رموز الدخول الاحتياطية. احتفظ بها في مكان آمن، فستحتاجها للدخول إلى حسابك من خارج السلطنة.');
+        function editContacts() {
+            document.getElementById('accessEmail').disabled = false;
+            document.getElementById('accessPhone').disabled = false;
+            document.getElementById('editContactBtn').classList.add('d-none');
+            document.getElementById('saveContactBtn').classList.remove('d-none');
+        }
+
+        function saveContacts() {
+            const email = document.getElementById('accessEmail').value.trim();
+            const phone = document.getElementById('accessPhone').value.trim();
+            if (!email || !phone) {
+                spf.showError('يجب إدخال البريد الإلكتروني ورقم الهاتف قبل الحفظ.');
+                return;
+            }
+            const emailChanged = email !== verifiedEmailValue;
+            const phoneChanged = phone !== verifiedPhoneValue;
+            if (!emailChanged && !phoneChanged) {
+                spf.showError('لم يتم إجراء أي تعديل على البريد الإلكتروني أو رقم الهاتف.');
+                return;
+            }
+            document.getElementById('accessEmail').disabled = true;
+            document.getElementById('accessPhone').disabled = true;
+            document.getElementById('saveContactBtn').classList.add('d-none');
+            document.getElementById('verifyContactBtn').classList.remove('d-none');
+            if (emailChanged) setFieldVerification('emailStatus', false);
+            if (phoneChanged) setFieldVerification('phoneStatus', false);
+            updateOverallVerification();
+            spf.showError('تم حفظ التعديل. أصبح كل حقل تم تغييره غير متحقق منه ولن يُستخدم للدخول الخارجي حتى إتمام التحقق مجددًا.');
+        }
+
+        function verifyContacts() {
+            setVerificationState(true);
+            verifiedEmailValue = document.getElementById('accessEmail').value.trim();
+            verifiedPhoneValue = document.getElementById('accessPhone').value.trim();
+            document.getElementById('verifyContactBtn').classList.add('d-none');
+            document.getElementById('editContactBtn').classList.remove('d-none');
+            spf.showSuccess('تم التحقق من البريد الإلكتروني ورقم الهاتف، ويمكن استخدامهما الآن للدخول من خارج السلطنة.');
+        }
+
+        function setVerificationState(verified) {
+            setFieldVerification('emailStatus', verified);
+            setFieldVerification('phoneStatus', verified);
+            updateOverallVerification();
+        }
+
+        function setFieldVerification(id, verified) {
+            const statusClass = verified ? 'badge-status success' : 'badge-status warning';
+            const statusHtml = verified
+                ? '<i class="fas fa-circle-check me-1"></i> متحقق'
+                : '<i class="fas fa-triangle-exclamation me-1"></i> غير متحقق';
+            const el = document.getElementById(id);
+            el.className = statusClass;
+            el.innerHTML = statusHtml;
+        }
+
+        function updateOverallVerification() {
+            const verified = ['emailStatus', 'phoneStatus'].every(function(id) {
+                return document.getElementById(id).classList.contains('success');
+            });
+            const overall = document.getElementById('contactOverallStatus');
+            overall.className = verified ? 'badge-status success' : 'badge-status warning';
+            overall.textContent = verified ? 'البيانات جاهزة' : 'تحتاج تحقق';
+            document.getElementById('contactWarning').classList.toggle('d-none', verified);
         }
     </script>
 </body>

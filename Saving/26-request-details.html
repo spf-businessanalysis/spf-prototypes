@@ -64,7 +64,7 @@
         .ob-btn.on-settle { background: var(--spf-green); border-color: var(--spf-green); color: #fff; }
         .ob-btn.on-defer { background: #6b5010; border-color: #6b5010; color: #fff; }
         .oblig-summary {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
             background: var(--spf-green-lighter); border: 1px solid #cfe6d9;
             border-radius: var(--spf-radius); padding: 13px 16px;
         }
@@ -265,8 +265,26 @@
                         </div>
                     </div>
 
-                    <!-- ===== الالتزامات المستحقة ===== -->
-                    <h6 class="fw-800 text-spf mb-3">الالتزامات المالية المستحقة على المدخر</h6>
+                    <!-- ===== الاستحقاقات والالتزامات المستحقة ===== -->
+                    <h6 class="fw-800 text-spf mb-3">الاستحقاقات والالتزامات القائمة على المدخر</h6>
+                    <div class="alert-spf alert-info mb-3" id="settlementPolicy"></div>
+
+                    <div class="tbl-scroll mb-3">
+                        <table class="spf-table oblig-table">
+                            <thead>
+                                <tr><th>الاستحقاق</th><th>المصدر</th><th>المرجع</th><th>القيمة</th><th>الحالة</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="fw-700">مبلغ مستحق للمدخر من تسوية اشتراكات سابقة</td>
+                                    <td class="small text-muted">نظام المستحقات</td>
+                                    <td>ENT-2026-00814</td>
+                                    <td class="fw-800">75.000 ر.ع</td>
+                                    <td><span class="badge-status success">مؤكد</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="tbl-scroll mb-2">
                         <table class="spf-table oblig-table">
                             <thead>
@@ -283,6 +301,10 @@
                     </div>
                     <div class="oblig-summary mb-4">
                         <div>
+                            <div class="os-lbl">إجمالي الاستحقاقات</div>
+                            <div class="os-val text-spf">75.000 ر.ع</div>
+                        </div>
+                        <div>
                             <div class="os-lbl">إجمالي الالتزامات</div>
                             <div class="os-val" id="obligTotal">0.000 ر.ع</div>
                         </div>
@@ -297,6 +319,30 @@
                         <div>
                             <div class="os-lbl">صافي المبلغ المصروف بعد التسوية</div>
                             <div class="os-val" id="netAfterOblig">0.000 ر.ع</div>
+                        </div>
+                    </div>
+
+                    <div class="spf-card mb-4 d-none" id="omaniSettlementDecision">
+                        <div class="card-header-custom">قرار تسوية المدخر العماني</div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label fw-700" for="settlementDecision">قرار الموظف</label>
+                                    <select class="form-select" id="settlementDecision" onchange="applySettlementDecision()">
+                                        <option value="deduct">التسوية من مبلغ المدخرات</option>
+                                        <option value="alternative">التسوية بطريقة أخرى</option>
+                                        <option value="hold">إيقاف الطلب لحين الاستكمال</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-700" for="alternativeRef">مرجع التسوية البديلة</label>
+                                    <input class="form-control" id="alternativeRef" placeholder="مثال: ALT-2026-000184" disabled>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label fw-700" for="settlementReason">مبرر القرار</label>
+                                    <input class="form-control" id="settlementReason" placeholder="المبرر إلزامي عند اعتماد القرار">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -376,19 +422,19 @@
         var REQUESTS = {
             'DSB-2026-00418': {
                 name: 'أحمد بن سالم الحبسي', meta: 'طلب مقدَّم عن الغير — وفاة المدخر · قُدِّم في 05/07/2026',
-                amount: 12480.500, status: 'قيد المراجعة', intl: false, deceased: true
+                amount: 12480.500, status: 'قيد المراجعة', intl: false, deceased: true, settlementMode: 'inheritance'
             },
             'DSB-2026-00402': {
                 name: 'سعيد بن راشد المعمري', meta: 'استحقاق معاش تقاعدي · قُدِّم في 20/02/2026',
-                amount: 2150.000, status: 'قيد المراجعة', intl: false, deceased: false
+                amount: 2150.000, status: 'قيد المراجعة', intl: false, deceased: false, settlementMode: 'discretionary'
             },
             'DSB-2026-00411': {
                 name: 'هدى بنت خلفان الزدجالية', meta: 'بلوغ 180 شهرًا من الاشتراكات والإيداعات · قُدِّم في 19/02/2026',
-                amount: 3920.000, status: 'قيد المراجعة', intl: false, deceased: false
+                amount: 3920.000, status: 'قيد المراجعة', intl: false, deceased: false, settlementMode: 'discretionary'
             },
             'DSB-2026-00397': {
                 name: 'راجيش كومار شارما', meta: 'انتهاء علاقة العمل ومغادرة السلطنة · قُدِّم في 18/02/2026',
-                amount: 1706.667, status: 'قيد المراجعة', intl: true, deceased: false
+                amount: 2150.000, status: 'موقوف بانتظار التسوية', intl: true, deceased: false, settlementMode: 'mandatory'
             }
         };
 
@@ -456,24 +502,32 @@
         }
 
         /* ================= الالتزامات المستحقة ================= */
-        var OBLIGATIONS = [
-            { t: 'قسط قرض اجتماعي متأخر', src: 'نظام المستحقات', due: '15/05/2026', amt: 320.000, state: 'settle' },
-            { t: 'مبلغ مصروف بدون وجه حق', src: 'نظام المبالغ المصروفة بدون وجه حق', due: '02/03/2026', amt: 745.250, state: 'settle' },
-            { t: 'اشتراكات متأخرة — فرع كبار السن', src: 'نظام الاشتراكات', due: '28/02/2026', amt: 180.000, state: 'defer' }
-        ];
+        var OBLIGATIONS = REQ.settlementMode === 'mandatory'
+            ? [
+                { t: 'اشتراكات مستحقة قبل الخروج من التغطية', src: 'نظام الاشتراكات', due: '31/10/2026', amt: 318.333, state: 'pending' },
+                { t: 'مبلغ إضافي قائم', src: 'نظام المستحقات', due: '31/10/2026', amt: 200.000, state: 'pending' }
+              ]
+            : [
+                { t: 'قسط قرض اجتماعي متأخر', src: 'نظام المستحقات', due: '15/05/2026', amt: 320.000, state: 'settle' },
+                { t: 'مبلغ مصروف بدون وجه حق', src: 'نظام المبالغ المصروفة بدون وجه حق', due: '02/03/2026', amt: 745.250, state: 'settle' },
+                { t: 'اشتراكات متأخرة — فرع كبار السن', src: 'نظام الاشتراكات', due: '28/02/2026', amt: 180.000, state: 'defer' }
+              ];
 
         function renderObligations() {
             var body = document.getElementById('obligList');
             if (!body) return;
             var editable = ROLE === 'staff';
             body.innerHTML = OBLIGATIONS.map(function (o, i) {
+                var mandatory = REQ.settlementMode === 'mandatory';
                 var decision = editable
-                    ? '<div class="ob-choice">' +
-                        '<button class="ob-btn' + (o.state === 'settle' ? ' on-settle' : '') + '" onclick="setOblig(' + i + ',\'settle\')">تأكيد التسوية</button>' +
-                        '<button class="ob-btn' + (o.state === 'defer' ? ' on-defer' : '') + '" onclick="setOblig(' + i + ',\'defer\')">تأجيل</button>' +
-                      '</div>'
+                    ? (mandatory
+                        ? '<button class="ob-btn' + (o.state === 'settle' ? ' on-settle' : '') + '" onclick="setOblig(' + i + ',\'settle\')">' + (o.state === 'settle' ? 'تمت التسوية' : 'تنفيذ التسوية الإلزامية') + '</button>'
+                        : '<div class="ob-choice">' +
+                            '<button class="ob-btn' + (o.state === 'settle' ? ' on-settle' : '') + '" onclick="setOblig(' + i + ',\'settle\')">التسوية من المدخرات</button>' +
+                            '<button class="ob-btn' + (o.state === 'defer' ? ' on-defer' : '') + '" onclick="setOblig(' + i + ',\'defer\')">تسوية بديلة</button>' +
+                          '</div>')
                     : '<span class="badge-status ' + (o.state === 'settle' ? 'success' : 'pending') + '">' +
-                        (o.state === 'settle' ? 'تُسوَّى من مبلغ الصرف' : 'مؤجَّلة') + '</span>';
+                        (o.state === 'settle' ? 'تُسوَّى من مبلغ الصرف' : (mandatory ? 'بانتظار التسوية الإلزامية' : 'تسوية بديلة')) + '</span>';
                 return '<tr>' +
                     '<td class="fw-700">' + o.t + '</td>' +
                     '<td class="small text-muted">' + o.src + '</td>' +
@@ -497,11 +551,42 @@
             document.getElementById('obligTotal').textContent = omr(total);
             document.getElementById('obligSettled').textContent = omr(settled);
             document.getElementById('obligDeferred').textContent = omr(total - settled);
-            document.getElementById('netAfterOblig').textContent = omr(DISB_TOTAL - settled);
+            document.getElementById('netAfterOblig').textContent = omr(DISB_TOTAL + 75 - settled);
+        }
+
+        function applySettlementDecision() {
+            var decision = document.getElementById('settlementDecision').value;
+            document.getElementById('alternativeRef').disabled = decision !== 'alternative';
+            OBLIGATIONS.forEach(function(o) { o.state = decision === 'deduct' ? 'settle' : 'defer'; });
+            renderObligations();
+            if (decision === 'hold') {
+                document.getElementById('reqStatus').textContent = 'موقوف بانتظار التسوية';
+            }
         }
 
         /* ================= قرار الموظف ================= */
         function action(type) {
+            if (type === 'approve' && REQ.settlementMode === 'mandatory' && OBLIGATIONS.some(function(o) { return o.state !== 'settle'; })) {
+                spf.showError('لا يمكن اعتماد الصرف: يجب إكمال جميع التسويات الإلزامية لغير العماني أولاً.');
+                return;
+            }
+            if (type === 'approve' && REQ.settlementMode === 'discretionary') {
+                var reason = document.getElementById('settlementReason').value.trim();
+                var decision = document.getElementById('settlementDecision').value;
+                var ref = document.getElementById('alternativeRef').value.trim();
+                if (!reason) {
+                    spf.showError('يجب إدخال مبرر قرار تسوية المدخر العماني قبل الاعتماد.');
+                    return;
+                }
+                if (decision === 'alternative' && !ref) {
+                    spf.showError('يجب إدخال مرجع التسوية البديلة قبل الاعتماد.');
+                    return;
+                }
+                if (decision === 'hold') {
+                    spf.showError('الطلب موقوف بانتظار استكمال التسوية ولا يمكن اعتماده حالياً.');
+                    return;
+                }
+            }
             var msg = {
                 approve: 'تم اعتماد طلب الصرف. يُدفع إلى النظام المالي لتنفيذ التحويل على حساب كل مستحق.',
                 reject: 'تم رفض الطلب وحُفظت المبررات في سجل الطلب، وأُشعر مقدّمه بالنتيجة.',
@@ -541,6 +626,17 @@
             if (lD) lD.classList.toggle('d-none', REQ.intl);
             var tt = document.getElementById('trfType');
             if (tt) tt.textContent = REQ.intl ? 'دولي — بعد المغادرة' : 'محلي';
+
+            var policy = document.getElementById('settlementPolicy');
+            if (REQ.settlementMode === 'mandatory') {
+                policy.className = 'alert-spf alert-warning mb-3';
+                policy.innerHTML = '<i class="fas fa-lock"></i><div><strong>تسوية إلزامية لغير العماني.</strong> لا يمكن اعتماد الطلب أو دفعه إلى Oracle قبل تسوية جميع الاستحقاقات والالتزامات واحتساب صافي مبلغ الصرف.</div>';
+            } else if (REQ.settlementMode === 'discretionary') {
+                policy.innerHTML = '<i class="fas fa-scale-balanced"></i><div><strong>قرار تقديري للمدخر العماني.</strong> يحدد الموظف ما إذا كانت التسوية ستتم من المدخرات أو بطريقة أخرى، مع مبرر ومرجع موثق.</div>';
+                document.getElementById('omaniSettlementDecision').classList.toggle('d-none', !isStaff);
+            } else {
+                policy.innerHTML = '<i class="fas fa-people-roof"></i><div>تتم معالجة المبالغ والالتزامات ضمن مسار تركة المتوفى وتوزيع الأنصبة المعتمد.</div>';
+            }
 
             renderHeirs();
             renderObligations();
