@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>دراسة مقارنة | نظام الادخار الماليزي EPF والنظام العُماني SPF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --ink: #183149;
+            --muted: #64788a;
+            --primary: #126b83;
+            --accent: #c18a3f;
+            --bg: #f3f6f8;
+            --line: #dae4e9;
+            --white: #fff;
+            --navy: #0c3046;
+            --teal: #2b9494;
+            --gold: #e2a64a
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: 'IBM Plex Sans Arabic', Tahoma, 'Segoe UI', Arial, sans-serif;
+            line-height: 1.85;
+            font-size: 15px
+        }
+
+        a {
+            color: #126d8a;
+            text-decoration: none
+        }
+
+        a:hover {
+            text-decoration: underline
+        }
+
+        .cover {
+            background: linear-gradient(130deg, #08293d, #0a5165 75%, #187b83);
+            color: white;
+            padding: 68px max(5vw, calc((100vw - 1200px)/2)) 55px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .cover:after {
+            content: '';
+            position: absolute;
+            width: 430px;
+            height: 430px;
+            border: 90px solid #ffffff0b;
+            border-radius: 50%;
+            top: -220px;
+            left: -120px
+        }
+
+        .eyebrow {
+            letter-spacing: 1px;
+            color: #bde0e6;
+            font-weight: 600
+        }
+
+        .cover h1 {
+            font-size: clamp(29px, 4vw, 48px);
+            max-width: 1000px;
+            line-height: 1.45;
+            margin: 16px 0
+        }
+
+        .cover p {
+            max-width: 1000px;
+            color: #dcf0f2;
+            font-size: 18px
+        }
+
+        .meta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px
+        }
+
+        .pill {
+            border: 1px solid #ffffff55;
+            padding: 5px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            background: #ffffff12
+        }
+
+        .layout {
+            max-width: 1360px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 250px minmax(0, 1fr);
+            gap: 26px;
+            padding: 28px 30px 80px
+        }
+
+        .nav {
+            position: sticky;
+            top: 20px;
+            align-self: start;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 22px;
+            max-height: calc(100vh - 40px);
+            overflow: auto;
+            box-shadow: 0 5px 25px #123b5110
+        }
+
+        .nav h3 {
+            margin: 0 0 10px;
+            color: var(--navy)
+        }
+
+        .nav a {
+            display: block;
+            padding: 7px 11px;
+            margin: 2px 0;
+            color: #425d6e;
+            font-size: 13px;
+            border-radius: 7px
+        }
+
+        .nav a:hover {
+            background: #e9f4f6;
+            text-decoration: none;
+            color: #0d6078
+        }
+
+        .content {
+            min-width: 0
+        }
+
+        .section {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            margin-bottom: 24px;
+            padding: 30px 36px;
+            box-shadow: 0 6px 26px #123b5109;
+            scroll-margin-top: 16px
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'IBM Plex Sans Arabic', Tahoma, Arial, sans-serif;
+            font-weight: 700
+        }
+
+        h2 {
+            font-size: 25px;
+            color: var(--navy);
+            line-height: 1.5;
+            margin: 0 0 22px;
+            padding-bottom: 14px;
+            border-bottom: 2px solid #e6edef
+        }
+
+        h2 .num {
+            font-size: 13px;
+            color: #fff;
+            background: var(--primary);
+            border-radius: 7px;
+            padding: 4px 10px;
+            margin-left: 9px;
+            vertical-align: middle
+        }
+
+        h3 {
+            font-size: 19px;
+            color: #12617b;
+            margin: 26px 0 10px
+        }
+
+        h4 {
+            font-size: 16px;
+            color: var(--navy);
+            margin: 20px 0 8px
+        }
+
+        p {
+            margin: 10px 0 15px
+        }
+
+        ul,
+        ol {
+            padding-right: 24px;
+            margin: 10px 0 20px
+        }
+
+        li {
+            margin: 5px 0
+        }
+
+        strong {
+            color: #143b51
+        }
+
+        .lead {
+            font-size: 17px
+        }
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 20px 0
+        }
+
+        .kpi {
+            padding: 22px;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            background: #f8fbfc
+        }
+
+        .kpi small {
+            color: var(--muted);
+            display: block
+        }
+
+        .kpi strong {
+            font-size: 34px;
+            color: #0b6880;
+            display: block;
+            line-height: 1.3
+        }
+
+        .kpi span {
+            font-size: 13px
+        }
+
+        .tablewrap {
+            overflow-x: auto;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            margin: 18px 0
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 570px;
+            font-size: 14px
+        }
+
+        th {
+            background: #e6f0f4;
+            color: #163e50;
+            font-weight: 700;
+            text-align: right
+        }
+
+        td,
+        th {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e8ec;
+            vertical-align: top
+        }
+
+        tr:nth-child(even) td {
+            background: #f9fbfc
+        }
+
+        tr:last-child td {
+            border-bottom: 0
+        }
+
+        .note {
+            background: #f0f7f8;
+            border-right: 4px solid var(--primary);
+            padding: 15px 18px;
+            border-radius: 9px;
+            margin: 17px 0
+        }
+
+        .warn {
+            background: #fff7e9;
+            border-right: 4px solid var(--accent);
+            padding: 15px 18px;
+            border-radius: 9px;
+            margin: 17px 0
+        }
+
+        .ref {
+            font-size: 12px;
+            color: #627c8d;
+            margin: 6px 0 13px
+        }
+
+        .ref a {
+            margin-left: 10px
+        }
+
+        .statline {
+            height: 26px;
+            display: flex;
+            overflow: hidden;
+            border-radius: 7px;
+            margin: 20px 0 8px;
+            direction: ltr
+        }
+
+        .statline div:nth-child(1) {
+            background: #236c92;
+            width: 75%
+        }
+
+        .statline div:nth-child(2) {
+            background: #56a6aa;
+            width: 15%
+        }
+
+        .statline div:nth-child(3) {
+            background: #e9aa48;
+            width: 10%
+        }
+
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-bottom: 20px
+        }
+
+        .legend b {
+            font-size: 20px;
+            display: block
+        }
+
+        .dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            border-radius: 3px;
+            margin-left: 6px
+        }
+
+        .steps {
+            display: grid;
+            gap: 10px;
+            max-width: 650px;
+            margin: 20px auto
+        }
+
+        .step {
+            background: #edf5f7;
+            border: 1px solid #d9e7eb;
+            padding: 12px 18px;
+            border-radius: 11px;
+            text-align: center
+        }
+
+        .step b {
+            display: block
+        }
+
+        .step small {
+            color: var(--muted)
+        }
+
+        .arrow {
+            text-align: center;
+            color: #488c9c
+        }
+
+        .chart {
+            display: flex;
+            gap: 12px;
+            align-items: end;
+            height: 245px;
+            padding: 25px 12px 18px;
+            border-bottom: 1px solid #c4d4db;
+            direction: ltr
+        }
+
+        .year {
+            flex: 1;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: end;
+            height: 100%;
+            min-width: 45px
+        }
+
+        .bars {
+            display: flex;
+            align-items: end;
+            gap: 3px;
+            height: 190px
+        }
+
+        .bar {
+            width: 19px;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            background: #1d718c
+        }
+
+        .bar.sh {
+            background: #e3ad5a
+        }
+
+        .bar em {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            font-style: normal;
+            color: #315163;
+            white-space: nowrap
+        }
+
+        .year label {
+            font-size: 12px;
+            margin-top: 9px
+        }
+
+        .chartkey {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 16px
+        }
+
+        .chartkey span {
+            margin: 0 10px
+        }
+
+        .calc {
+            background: #f4fafb;
+            border: 1px solid #c8e0e7;
+            border-radius: 16px;
+            padding: 22px;
+            margin: 20px 0
+        }
+
+        .calc-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px
+        }
+
+        .calc label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px
+        }
+
+        .calc input[type=range] {
+            width: 100%;
+            accent-color: #12738a
+        }
+
+        .calc select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bed1d9;
+            border-radius: 8px;
+            background: #fff;
+            font: inherit
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 18px
+        }
+
+        .calc-card {
+            background: white;
+            padding: 18px;
+            border: 1px solid #d7e6e9;
+            border-radius: 10px
+        }
+
+        .calc-card strong {
+            font-size: 25px;
+            display: block
+        }
+
+        .calc-card small {
+            display: block;
+            color: var(--muted)
+        }
+
+        .callout-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px
+        }
+
+        .launch-infographic {
+            position: relative;
+            overflow: hidden;
+            margin: 26px 0 6px;
+            padding: 26px;
+            border: 1px solid #cddfe5;
+            border-radius: 20px;
+            background:
+                radial-gradient(circle at 8% 8%, #e9c67f2b 0, transparent 25%),
+                linear-gradient(145deg, #f5fafb 0%, #edf5f7 100%)
+        }
+
+        .launch-infographic:after {
+            content: '';
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border: 42px solid #0f6c8310;
+            border-radius: 50%;
+            left: -100px;
+            bottom: -125px;
+            pointer-events: none
+        }
+
+        .launch-heading {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 22px;
+            margin-bottom: 24px
+        }
+
+        .launch-heading h3 {
+            margin: 0 0 5px;
+            color: var(--navy);
+            font-size: 22px
+        }
+
+        .launch-heading p {
+            margin: 0;
+            max-width: 720px;
+            color: #506b7b
+        }
+
+        .launch-badge {
+            flex: 0 0 auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 7px 12px;
+            border: 1px solid #d5b06e;
+            border-radius: 999px;
+            background: #fff9ed;
+            color: #79531d;
+            font-size: 12px;
+            font-weight: 700;
+            white-space: nowrap
+        }
+
+        .launch-badge:before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--gold);
+            box-shadow: 0 0 0 4px #e2a64a22
+        }
+
+        .launch-track {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            align-items: stretch
+        }
+
+        .launch-track:before {
+            content: '';
+            position: absolute;
+            top: 34px;
+            right: 8%;
+            left: 8%;
+            height: 3px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #d5a34f, #2b9494 52%, #126b83);
+            opacity: .38
+        }
+
+        .launch-stage {
+            --stage: var(--primary);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            padding: 18px;
+            border: 1px solid #d5e3e8;
+            border-top: 5px solid var(--stage);
+            border-radius: 15px;
+            background: #ffffffed;
+            box-shadow: 0 9px 24px #123b5110
+        }
+
+        .launch-stage.stage-2 {
+            --stage: var(--teal)
+        }
+
+        .launch-stage.stage-3 {
+            --stage: var(--accent)
+        }
+
+        .stage-top {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-height: 54px;
+            margin-bottom: 13px
+        }
+
+        .stage-number {
+            flex: 0 0 auto;
+            display: grid;
+            place-items: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--stage);
+            color: #fff;
+            font-size: 21px;
+            font-weight: 700;
+            box-shadow: 0 0 0 6px #fff, 0 4px 13px #123b5122
+        }
+
+        .stage-kicker {
+            display: block;
+            color: var(--stage);
+            font-size: 11px;
+            font-weight: 700
+        }
+
+        .launch-stage h4 {
+            margin: 1px 0 0;
+            color: var(--navy);
+            font-size: 16px;
+            line-height: 1.5
+        }
+
+        .stage-copy {
+            margin: 0 0 12px;
+            color: #425e6e;
+            font-size: 13px;
+            line-height: 1.75
+        }
+
+        .stage-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px
+        }
+
+        .stage-list li {
+            position: relative;
+            margin: 7px 0;
+            padding-right: 18px;
+            color: #365264;
+            font-size: 12.5px;
+            line-height: 1.65
+        }
+
+        .stage-list li:before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: .68em;
+            width: 7px;
+            height: 7px;
+            border-radius: 2px;
+            background: var(--stage);
+            transform: rotate(45deg)
+        }
+
+        .stage-outcome {
+            margin-top: auto;
+            padding-top: 12px;
+            border-top: 1px dashed #cbdbe1;
+            color: #435f6f;
+            font-size: 11.5px
+        }
+
+        .stage-outcome b {
+            color: var(--stage)
+        }
+
+        .mini {
+            border: 1px solid var(--line);
+            padding: 17px;
+            border-radius: 12px;
+            background: #fafcfd
+        }
+
+        .mini b {
+            display: block;
+            margin-bottom: 6px
+        }
+
+        .formula {
+            background: #f0f5f8;
+            text-align: center;
+            border: 1px solid #dae5eb;
+            padding: 19px;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 19px;
+            direction: rtl
+        }
+
+        .source-list li {
+            overflow-wrap: anywhere
+        }
+
+        .footer {
+            text-align: center;
+            color: #758997;
+            font-size: 12px;
+            padding: 30px
+        }
+
+        button.print {
+            position: fixed;
+            bottom: 22px;
+            left: 22px;
+            background: #0d617a;
+            border: none;
+            color: #fff;
+            padding: 13px 20px;
+            border-radius: 50px;
+            box-shadow: 0 9px 25px #082e4544;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 700;
+            z-index: 10
+        }
+
+        @media(max-width:1000px) {
+            .layout {
+                grid-template-columns: 1fr;
+                padding: 16px
+            }
+
+            .nav {
+                position: relative;
+                top: auto;
+                max-height: none
+            }
+
+            .navlinks {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .section {
+                padding: 22px
+            }
+
+            .cover {
+                padding: 48px 23px
+            }
+
+            .launch-track {
+                grid-template-columns: 1fr
+            }
+
+            .launch-track:before {
+                top: 25px;
+                bottom: 25px;
+                right: 41px;
+                left: auto;
+                width: 3px;
+                height: auto;
+                background: linear-gradient(#126b83, #2b9494 52%, #d5a34f)
+            }
+        }
+
+        @media(max-width:640px) {
+
+            .kpis,
+            .calc-controls,
+            .calc-results,
+            .callout-grid {
+                grid-template-columns: 1fr
+            }
+
+            .navlinks {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .cover h1 {
+                font-size: 30px
+            }
+
+            .section {
+                padding: 20px 16px
+            }
+
+            .chart {
+                gap: 4px
+            }
+
+            .bar {
+                width: 12px
+            }
+
+            .bar em {
+                font-size: 9px
+            }
+
+            .layout {
+                padding: 10px
+            }
+
+            .launch-infographic {
+                padding: 18px 13px
+            }
+
+            .launch-heading {
+                display: block
+            }
+
+            .launch-badge {
+                margin-top: 12px
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff;
+                font-size: 12px
+            }
+
+            .cover {
+                padding: 30px 0;
+                background: #0b4055 !important;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact
+            }
+
+            .layout {
+                display: block;
+                padding: 0
+            }
+
+            .nav,
+            button.print {
+                display: none
+            }
+
+            .section {
+                box-shadow: none;
+                border: 0;
+                border-bottom: 1px solid #ddd;
+                border-radius: 0;
+                padding: 18px 0;
+                break-inside: auto
+            }
+
+            .tablewrap,
+            .note,
+            .warn,
+            .calc,
+            .kpi,
+            .mini,
+            .step,
+            .launch-stage,
+            .launch-infographic {
+                break-inside: avoid
+            }
+
+            h2,
+            h3 {
+                break-after: avoid
+            }
+
+            a {
+                color: #146a83
+            }
+
+            .cover h1 {
+                font-size: 30px
+            }
+
+            @page {
+                size: A4;
+                margin: 16mm
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="cover">
+        <div class="eyebrow">دراسة تشريعية وتشغيلية مقارنة</div>
+        <h1>نظام الادخار الماليزي <span dir="ltr">EPF / KWSP</span><br>مقارنةً بنظام الادخار بصندوق الحماية الاجتماعية</h1>
+        <p>دليل تفصيلي للفئات المشمولة، الاشتراكات، إدارة الحسابات، العوائد، السحوبات، الضوابط التشغيلية، وأبرز
+            التشابهات والاختلافات وفرص الاستفادة.</p>
+    </header>
+    <div class="layout">
+        <aside class="nav">
+            <h3>فهرس الدراسة</h3>
+            <div class="navlinks">
+                <a href="#s1">01 · الملخص التنفيذي</a><a href="#s2">02 · تعريف EPF</a><a href="#s3">03 · الفئات
+                    والاشتراكات</a><a href="#s4">04 · آلية العمل</a><a href="#s5">05 · الاستثمار والعوائد</a><a
+                    href="#s6">06 · حالات السحب</a><a href="#s7">07 · الضوابط الرقابية</a><a href="#s8">08 · النظام
+                    العُماني</a><a href="#s9">09 · المقارنة الرئيسية</a><a href="#s10">10 · أوجه التشابه</a><a
+                    href="#s11">11 · أوجه الاختلاف</a><a href="#s12">12 · مثال مالي تفاعلي</a><a href="#s13">13 ·
+                    ممارسات مقترحة لعُمان</a><a href="#s14">14 · الخلاصة</a><a href="#sources">المصادر والملاحظات</a>
+            </div>
+        </aside>
+        <main class="content">
+            <section class="section" id="s1">
+                <h2><span class="num">01</span>الملخص التنفيذي</h2>
+                <p class="lead">يُعد نظام <b>Employees Provident Fund (EPF / KWSP)</b> الماليزي من نماذج الادخار المبنية
+                    على الاشتراكات المحددة (Defined Contribution). تتجمع الاشتراكات في حسابات شخصية، وتستثمر الأموال
+                    بصورة جماعية، ثم تُوزع العوائد على الحسابات وفق القواعد المعتمدة.</p>
+                <p><strong>النظام لم يعد مقتصرًا على المواطنين الماليزيين:</strong> منذ 1 أكتوبر 2025 أصبحت الاشتراكات
+                    إلزامية لمعظم العمال غير الماليزيين العاملين بصورة قانونية في ماليزيا، مع معدلات مختلفة عن
+                    المواطنين.</p>
+                <div class="kpis">
+                    <div class="kpi"><small>ماليزيا – العامل الأجنبي المعتاد</small><strong>4%</strong><span>2% جهة
+                            العمل + 2% العامل</span></div>
+                    <div class="kpi"><small>عُمان – العامل غير العُماني</small><strong>9%</strong><span>تتحملها جهة
+                            العمل من الأجر الأساسي</span></div>
+                </div>
+                <div class="note">هذه النسب تخص فئات العمال غير المواطنين الأساسية، وليست كل الفئات. نسبة عُمان هي
+                    النسبة القانونية المقررة؛ ويجب التمييز بين إقرارها وموعد بدء تحصيلها الفعلي.</div>
+                <ol>
+                    <li><b>الاشتراك:</b> ماليزيا تشارك العامل وصاحب العمل في التمويل؛ وعُمان تحمل جهة العمل الاشتراك
+                        الإلزامي الأساسي.</li>
+                    <li><b>الهدف:</b> ماليزيا ادخار تقاعدي مع استخدامات أخرى؛ عُمان بديل مكافأة نهاية الخدمة لغير
+                        العُمانيين وادخار تكميلي محتمل للعُمانيين.</li>
+                    <li><b>الحسابات:</b> ثلاثة حسابات ماليزية بأغراض مختلفة؛ مقابل حساب شخصي في النظام العُماني.</li>
+                    <li><b>العوائد:</b> عوائد ماليزية سنوية معلنة مع مسار شرعي؛ وفي عُمان حد أدنى تنظيمي يبلغ 2% سنويًا.
+                    </li>
+                    <li><b>الأجنبي المغادر:</b> ماليزيا تتيح السحب الكامل بشروط وقنوات صرف دولية؛ وهي تجربة مفيدة لتصميم
+                        صرف مستحقات العمال المغادرين في عُمان.</li>
+                </ol>
+            </section>
+            <section class="section" id="s2">
+                <h2><span class="num">02</span>ما هو نظام EPF / KWSP؟</h2>
+                <p>اختصار <b>EPF</b> يعني Employees Provident Fund، وباللغة الماليزية <b>Kumpulan Wang Simpanan Pekerja
+                        (KWSP)</b>. وهو صندوق ادخار وطني لتكوين مدخرات طويلة الأجل أثناء الحياة العملية، للاستفادة منها
+                    عند التقاعد أو في حالات استحقاق أخرى.</p>
+                <ul>
+                    <li>مساهمات دورية من جهة العمل والعامل بحسب الفئة.</li>
+                    <li>حسابات ادخارية فردية للمشتركين.</li>
+                    <li>استثمار جماعي للأموال بواسطة الصندوق.</li>
+                    <li>توزيع عوائد الاستثمار على الحسابات.</li>
+                    <li>ضوابط سحب مرتبطة بالعمر والغرض والظروف الشخصية.</li>
+                    <li>خدمات إلكترونية لأصحاب العمل والمشتركين.</li>
+                </ul>
+                <p>الإطار التشريعي الرئيسي هو <b>قانون صندوق ادخار الموظفين لعام 1991 (EPF Act 1991)</b> وتعديلاته، مع
+                    جداول اشتراك وقرارات تنفيذية.</p>
+            </section>
+            <section class="section" id="s3">
+                <h2><span class="num">03</span>الفئات المشمولة ونسب الاشتراكات</h2>
+                <h3>1. المواطنون الماليزيون</h3>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الفئة</th>
+                                <th>حصة العامل</th>
+                                <th>حصة صاحب العمل</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>أقل من 60 عامًا، أجر حتى 5,000 رينغيت</td>
+                                <td>11%</td>
+                                <td>13%</td>
+                            </tr>
+                            <tr>
+                                <td>أقل من 60 عامًا، أجر أكثر من 5,000 رينغيت</td>
+                                <td>11%</td>
+                                <td>12%</td>
+                            </tr>
+                            <tr>
+                                <td>ماليزي عمره 60 عامًا فأكثر</td>
+                                <td>0%</td>
+                                <td>4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>توجد قواعد خاصة للمقيمين الدائمين وغير الماليزيين المسجلين قبل 1 أغسطس 1998، ومنها تخفيض النسب بعد
+                    الستين.</p>
+                <h3>2. العمال غير الماليزيين</h3>
+                <p>من أجور أكتوبر 2025 أصبحت الاشتراكات إلزامية للأجنبي المستوفي لشروط الخضوع، وفق المعدل الأساسي:</p>
+                <div class="kpis">
+                    <div class="kpi"><small>حصة العامل</small><strong>2%</strong></div>
+                    <div class="kpi"><small>حصة جهة العمل</small><strong>2%</strong></div>
+                </div>
+                <h4>الشروط الأساسية</h4>
+                <ul>
+                    <li>صاحب العمل مسجل أو منشأ في ماليزيا.</li>
+                    <li>جواز سفر وتصريح عمل صالحان.</li>
+                    <li>علاقة عمل أو تدريب مهني مشمول.</li>
+                    <li>أجر نقدي.</li>
+                    <li>العمر بين 14 وأقل من 75 عامًا.</li>
+                    <li>استثناء عمال الخدمة المنزلية من الإلزام مع إمكانية الاشتراك الاختياري وفق القواعد.</li>
+                </ul>
+                <p>قد تُشمل العقود القصيرة والعمل الجزئي. المقيم الدائم يخضع عمومًا لمعدلات المواطنين، وتوجد فئات
+                    تاريخية تخضع لمعدلات مختلفة.</p>
+                <h3>3. مثال الاشتراك الشهري</h3>
+                <p>أجر عامل أجنبي = 3,000 رينغيت شهريًا.</p>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>البيان</th>
+                                <th>القيمة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>اشتراك جهة العمل 2%</td>
+                                <td>60 رينغيت</td>
+                            </tr>
+                            <tr>
+                                <td>اشتراك العامل 2%</td>
+                                <td>60 رينغيت</td>
+                            </tr>
+                            <tr>
+                                <td>إجمالي الادخار الشهري</td>
+                                <td>120 رينغيت</td>
+                            </tr>
+                            <tr>
+                                <td>إجمالي 12 شهرًا دون عوائد</td>
+                                <td><b>1,440 رينغيت</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="note">المبالغ الفعلية تخضع لجداول وتقريبات الاشتراكات الملزمة، ولا تُستخلص دومًا من ضرب الأجر
+                    في النسبة دون مراجعة الجداول.</p>
+                <h3>4. الاشتراكات الاختيارية</h3>
+                <p>يمكن زيادة اشتراك العامل وفق الإجراءات المعتمدة، وتوجد برامج لبعض الفئات؛ ومنها i-Saraan المخصص
+                    للمواطنين الماليزيين دون الأجانب.</p>
+            </section>
+            <section class="section" id="s4">
+                <h2><span class="num">04</span>كيفية عمل النظام تشغيليًا</h2>
+                <div class="steps">
+                    <div class="step"><b>1 · التسجيل</b><small>التحقق من الهوية وتصريح العمل وربط العضوية بصاحب
+                            العمل</small></div>
+                    <div class="arrow">↓</div>
+                    <div class="step"><b>2 · التحصيل الشهري</b><small>خصم حصة العامل وإضافة حصة جهة العمل</small></div>
+                    <div class="arrow">↓</div>
+                    <div class="step"><b>3 · توزيع الاشتراكات</b><small>حساب التقاعد والرفاه والمرن</small></div>
+                    <div class="arrow">↓</div>
+                    <div class="step"><b>4 · الاستثمار والعوائد</b><small>استثمار جماعي وتوزيع عوائد سنوية</small></div>
+                    <div class="arrow">↓</div>
+                    <div class="step"><b>5 · معالجة السحب</b><small>التحقق من الأهلية والمستندات والرصيد</small></div>
+                    <div class="arrow">↓</div>
+                    <div class="step"><b>6 · صرف المستحقات</b><small>الدفع المحلي أو الدولي بحسب نوع الاستحقاق</small>
+                    </div>
+                </div>
+                <h3>1. التسجيل والتحقق</h3>
+                <p>يوجد تكامل بين EPF وسجلات الهجرة الماليزية. ومنذ أكتوبر 2025 أتيح التسجيل الآلي لفئات من العمال
+                    الأجانب، خاصة حاملي تصاريح العمل المؤقتة والتصاريح المهنية المشمولة. وتُربط الاشتراكات بعضوية العامل
+                    حتى عند تغيير صاحب العمل. كما تُحدّث بعض بيانات جواز السفر اعتمادًا على سجلات الهجرة، بينما تتطلب
+                    حالات أخرى تحديثًا مباشرًا.</p>
+                <h3>2. التحصيل الشهري</h3>
+                <p>صاحب العمل مسؤول عن احتساب الاشتراكات، واقتطاع حصة العامل، وإضافة حصته، والتحويل إلى EPF، والاحتفاظ
+                    بالسجلات والتصحيح ومعالجة التأخير. <strong>الموعد الأقصى هو اليوم الخامس عشر من الشهر التالي لشهر
+                        الأجر</strong>؛ فاشتراكات أكتوبر تُسدد بحلول 15 نوفمبر، عبر قنوات تشمل i-Akaun والخدمات البنكية
+                    الإلكترونية.</p>
+                <h3>3. هيكل الحسابات الثلاثة</h3>
+                <p>اعتبارًا من 11 مايو 2024، تُوزع الاشتراكات الجديدة للأعضاء دون 55 عامًا، بمن فيهم الأجانب المؤهلون،
+                    كما يلي:</p>
+                <div class="statline">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div class="legend"><span><i class="dot" style="background:#236c92"></i><b>75%</b>التقاعد ·
+                        Persaraan</span><span><i class="dot" style="background:#56a6aa"></i><b>15%</b>الرفاه ·
+                        Sejahtera</span><span><i class="dot" style="background:#e9aa48"></i><b>10%</b>المرن ·
+                        Fleksibel</span></div>
+                <h4>حساب التقاعد – Persaraan</h4>
+                <p>75% من الاشتراكات الجديدة للادخار طويل الأجل، مع سحب أكثر تقييدًا من الحسابات الأخرى.</p>
+                <h4>حساب الرفاه – Sejahtera</h4>
+                <p>15% من الاشتراكات الجديدة؛ يُستخدم وفق الضوابط لأغراض تشمل الإسكان والتعليم والعلاج وبعض صور التأمين
+                    أو التكافل، وكذلك السحب عند عمر 50 عامًا.</p>
+                <h4>الحساب المرن – Fleksibel</h4>
+                <p>10% من الاشتراكات الجديدة للحاجات قصيرة الأجل، مع إمكانية السحب وفق الشروط وبحد أدنى 50 رينغيت للطلب.
+                    منذ 27 يونيو 2026 أصبح بإمكان العمال الأجانب المؤهلين تقديم طلب السحب إلكترونيًا عبر i-Akaun.</p>
+                <h4>مثال التوزيع لادخار شهري = 120 رينغيت</h4>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحساب</th>
+                                <th>النسبة</th>
+                                <th>قيمة الاشتراك</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>التقاعد</td>
+                                <td>75%</td>
+                                <td>90</td>
+                            </tr>
+                            <tr>
+                                <td>الرفاه</td>
+                                <td>15%</td>
+                                <td>18</td>
+                            </tr>
+                            <tr>
+                                <td>المرن</td>
+                                <td>10%</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td><b>الإجمالي</b></td>
+                                <td>100%</td>
+                                <td><b>120</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note">الرصيد ليس محفظة واحدة مفتوحة للسحب؛ بل أرصدة تختلف قيود صرفها.</div>
+            </section>
+            <section class="section" id="s5">
+                <h2><span class="num">05</span>استثمار المدخرات واحتساب العوائد</h2>
+                <h3>1. إدارة الاستثمار</h3>
+                <p>يستثمر الصندوق الأموال بصورة جماعية في أدوات متنوعة تشمل الدخل الثابت والأسهم والعقارات والبنية
+                    الأساسية وأدوات سوق النقد، ثم يستفيد المشترك من العائد السنوي المعلن وفق القواعد.</p>
+                <h3>2. التقليدي والمتوافق مع الشريعة</h3>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>العنصر</th>
+                                <th>التقليدي</th>
+                                <th>المتوافق مع الشريعة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>الاسم</td>
+                                <td>Simpanan Konvensional</td>
+                                <td>Simpanan Shariah</td>
+                            </tr>
+                            <tr>
+                                <td>طبيعة الاستثمار</td>
+                                <td>محفظة تقليدية</td>
+                                <td>محفظة متوافقة مع الشريعة</td>
+                            </tr>
+                            <tr>
+                                <td>العائد</td>
+                                <td>بحسب الأداء</td>
+                                <td>بحسب الأداء المتوافق مع الشريعة</td>
+                            </tr>
+                            <tr>
+                                <td>الحد الأدنى القانوني للعائد</td>
+                                <td>2.5% سنويًا</td>
+                                <td>لا حد أدنى مماثل مضمون</td>
+                            </tr>
+                            <tr>
+                                <td>متاح للأجانب</td>
+                                <td>نعم</td>
+                                <td>نعم</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>بعد سريان اختيار المسار الشرعي لا تسمح القاعدة المنشورة بالعودة إلى المسار التقليدي.</p>
+                <h3>3. العوائد الفعلية المعلنة (2021–2025)</h3>
+                <div class="chart" aria-label="مخطط مقارنة عوائد EPF السنوية">
+                    <div class="year">
+                        <div class="bars">
+                            <div class="bar" style="height:174px"><em>6.10</em></div>
+                            <div class="bar sh" style="height:161px"><em>5.65</em></div>
+                        </div><label>2021</label>
+                    </div>
+                    <div class="year">
+                        <div class="bars">
+                            <div class="bar" style="height:152px"><em>5.35</em></div>
+                            <div class="bar sh" style="height:135px"><em>4.75</em></div>
+                        </div><label>2022</label>
+                    </div>
+                    <div class="year">
+                        <div class="bars">
+                            <div class="bar" style="height:157px"><em>5.50</em></div>
+                            <div class="bar sh" style="height:154px"><em>5.40</em></div>
+                        </div><label>2023</label>
+                    </div>
+                    <div class="year">
+                        <div class="bars">
+                            <div class="bar" style="height:180px"><em>6.30</em></div>
+                            <div class="bar sh" style="height:180px"><em>6.30</em></div>
+                        </div><label>2024</label>
+                    </div>
+                    <div class="year">
+                        <div class="bars">
+                            <div class="bar" style="height:176px"><em>6.15</em></div>
+                            <div class="bar sh" style="height:176px"><em>6.15</em></div>
+                        </div><label>2025</label>
+                    </div>
+                </div>
+                <div class="chartkey"><span><i class="dot" style="background:#1d718c"></i>تقليدي</span><span><i
+                            class="dot" style="background:#e3ad5a"></i>متوافق مع الشريعة</span></div>
+                <p class="ref">النسب بالمئة؛ أعلن الصندوق عائد 2025 في 28 فبراير 2026، بنسبة 6.15% لكلا المسارين. الأداء
+                    السابق ليس ضمانًا للعائد المستقبلي.</p>
+                <h3>4. آلية احتساب العوائد</h3>
+                <p>يستخدم EPF مبدأ <b>Modified Aggregate Daily Balance (MADB)</b> أي الرصيد اليومي المجمع المعدل، مع
+                    الأخذ في الاعتبار الأرصدة، وعمليات الإيداع والسحب، وتوقيت بدء أهلية المبالغ للعائد. ووفق شرح عوائد
+                    2025 تُعامل اشتراكات الشهر على أنها مؤهلة للعائد من اليوم الأخير لشهر الاشتراك إلى نهاية السنة.</p>
+                <div class="note">لا تُختزل آلية EPF إلى فائدة مركبة شهرية ثابتة على كل عملية؛ فهي مرتبطة برصيد مؤهل
+                    وعائد سنوي معلن وقواعد خاصة للاحتساب.</div>
+            </section>
+            <section class="section" id="s6">
+                <h2><span class="num">06</span>حالات سحب المدخرات</h2>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الحالة</th>
+                                <th>نوع السحب</th>
+                                <th>التوضيح</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>سن 55</td>
+                                <td>كامل أو جزئي</td>
+                                <td>وفق ترتيبات حسابات سن 55</td>
+                            </tr>
+                            <tr>
+                                <td>سن 60</td>
+                                <td>كامل أو جزئي</td>
+                                <td>وفق قواعد الاستحقاق</td>
+                            </tr>
+                            <tr>
+                                <td>مغادرة الأجنبي لماليزيا</td>
+                                <td>كامل</td>
+                                <td>من جميع الحسابات وفق الشروط</td>
+                            </tr>
+                            <tr>
+                                <td>الوفاة</td>
+                                <td>كامل</td>
+                                <td>للمستحقين</td>
+                            </tr>
+                            <tr>
+                                <td>العجز الكلي</td>
+                                <td>كامل</td>
+                                <td>وفق المستندات</td>
+                            </tr>
+                            <tr>
+                                <td>الإسكان</td>
+                                <td>جزئي</td>
+                                <td>من الرصيد المؤهل</td>
+                            </tr>
+                            <tr>
+                                <td>التعليم</td>
+                                <td>جزئي</td>
+                                <td>لنفقات معتمدة</td>
+                            </tr>
+                            <tr>
+                                <td>العلاج</td>
+                                <td>جزئي</td>
+                                <td>بحسب الحالات المؤهلة</td>
+                            </tr>
+                            <tr>
+                                <td>سن 50</td>
+                                <td>جزئي</td>
+                                <td>من الحساب المسموح</td>
+                            </tr>
+                            <tr>
+                                <td>حاجة نقدية</td>
+                                <td>جزئي</td>
+                                <td>الحساب المرن، 50 رينغيت كحد أدنى</td>
+                            </tr>
+                            <tr>
+                                <td>رصيد مرتفع</td>
+                                <td>جزئي</td>
+                                <td>وفق حدود وشروط السحب الخاصة</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="warn">ليست كل منافع السحب متاحة بالضرورة للعامل الأجنبي بالشروط نفسها المطبقة على المواطن
+                    الماليزي.</div>
+                <h3>مغادرة العامل الأجنبي</h3>
+                <p>يمكن لغير الماليزي الذي لم يعد يعمل في ماليزيا أو ينوي مغادرتها التقدم لطلب <b>Leaving Country
+                        Withdrawal</b> لصرف كامل رصيده وفق ضوابط الاستحقاق.</p>
+                <ol>
+                    <li>انتهاء أو إلغاء تصريح العمل أو تحقق متطلبات المغادرة.</li>
+                    <li>تقديم طلب السحب والهوية وجواز السفر وإثباتات المغادرة حسب الحالة.</li>
+                    <li>مطابقة بيانات العضوية والحساب البنكي والمستندات.</li>
+                    <li>تحديد الرصيد المستحق من الحسابات المختلفة.</li>
+                    <li>الصرف محليًا أو دوليًا عبر وسيلة معتمدة.</li>
+                </ol>
+                <p>في 6 يوليو 2026 وجّه EPF أصحاب العمل إلى التحقق من صحة بيانات جواز السفر ومطابقتها للبيانات البنكية،
+                    والمحافظة على الحساب البنكي فعالًا حتى إتمام الصرف.</p>
+                <h3>التحويل خارج ماليزيا</h3>
+                <p><b>متاح</b> عند سحب المغادرة وفق قواعد الصندوق، بما يشمل التحويل البرقي الدولي (FTT) والحوالات
+                    الأجنبية بالعملات المحددة. لكنه يخضع لمطابقة الهوية والمستندات وشروط وسيلة الدفع، وليس تحويلًا
+                    مفتوحًا لأي حساب دون تحقق.</p>
+            </section>
+            <section class="section" id="s7">
+                <h2><span class="num">07</span>الضوابط القانونية والرقابية</h2>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المجال</th>
+                                <th>الضابط</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>التسجيل</td>
+                                <td>التزام جهة العمل بتسجيل العمال المشمولين</td>
+                            </tr>
+                            <tr>
+                                <td>السداد</td>
+                                <td>حتى اليوم 15 من الشهر التالي</td>
+                            </tr>
+                            <tr>
+                                <td>المتأخرات</td>
+                                <td>مبالغ إضافية وإجراءات إنفاذ</td>
+                            </tr>
+                            <tr>
+                                <td>الأجانب</td>
+                                <td>الجواز وتصريح العمل والتكامل مع سجلات الهجرة</td>
+                            </tr>
+                            <tr>
+                                <td>تغيير جهة العمل</td>
+                                <td>استمرار الحساب والعضوية</td>
+                            </tr>
+                            <tr>
+                                <td>انتهاء التصريح</td>
+                                <td>قواعد محددة لتوقف الالتزام بالاشتراك</td>
+                            </tr>
+                            <tr>
+                                <td>السجلات</td>
+                                <td>مسؤولية جهة العمل عن الأجور والاشتراكات</td>
+                            </tr>
+                            <tr>
+                                <td>السحب</td>
+                                <td>تحقق من الأهلية والمستندات والرصيد والحساب</td>
+                            </tr>
+                            <tr>
+                                <td>الاستثمار</td>
+                                <td>إدارة جماعية وعوائد سنوية منشورة</td>
+                            </tr>
+                            <tr>
+                                <td>الاستثمار الشرعي</td>
+                                <td>مسار مخصص وفق الضوابط الشرعية</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>قد ينتهي الالتزام الإلزامي للاشتراك للأجنبي قبل انتهاء تصريح العمل بشهرين في حالات عدم الموافقة على
+                    تمديده بحسب القواعد المنشورة. <b>توقف الاشتراكات ونشوء استحقاق السحب حدثان مختلفان.</b></p>
+            </section>
+            <section class="section" id="s8">
+                <h2><span class="num">08</span>نظام الادخار في سلطنة عُمان</h2>
+                <h3>1. الإطار القانوني وتاريخ التطبيق</h3>
+                <ul>
+                    <li>قانون الحماية الاجتماعية: المرسوم السلطاني 52/2023، خصوصًا المواد 135–144.</li>
+                    <li>اللائحة التنفيذية: القرار ر/7/2023، خصوصًا المواد 99–114.</li>
+                    <li>المرسوم السلطاني 60/2025 المعدِّل لمهلة بدء تطبيق الاشتراكات الإلزامية لغير العُمانيين.</li>
+                    <li>التعديلات التنفيذية اللاحقة بحسب نطاق أثرها.</li>
+                </ul>
+                <div class="warn"><b>تنبيه زمني:</b> جعل المرسوم 60/2025 الحد الأقصى لبدء الاشتراك الإلزامي للعمال غير
+                    العُمانيين <b>19 يوليو 2027</b>، مع تحديد موعد البدء الفعلي من مجلس إدارة الصندوق. لا يصح اعتماد
+                    يوليو 2026 باعتباره التاريخ النهائي بعد هذا التعديل. لم يتأكد في هذه الدراسة وجود قرار أحدث يحدد
+                    بدءًا فعليًا أسبق.</div>
+                <h3>2. الفئات</h3>
+                <ul>
+                    <li><b>إلزاميًا:</b> العمال غير العُمانيين وفق أحكام الاشتراكات الأساسية.</li>
+                    <li><b>اختياريًا:</b> العُمانيون المؤمن عليهم وغير المؤمن عليهم، وغير العُمانيين بإيداعات تزيد على
+                        الحد الإلزامي، وجهات العمل التي ترغب في إضافة مدخرات للعاملين.</li>
+                </ul>
+                <p>يحل الادخار محل مكافأة نهاية الخدمة لغير العُمانيين عن مدد الخدمة الخاضعة بعد بدء النظام، مع معالجة
+                    حقوق الفترات السابقة وفق الأحكام.</p>
+                <h3>3. الاشتراكات</h3>
+                <div class="formula">الاشتراك الشهري = 9% × الأجر الأساسي للعامل غير العُماني</div>
+                <p>تتحمل جهة العمل النسبة الإلزامية. وتنص المادة 100 على فتح حساب شخصي لكل مدخر تودع فيه الاشتراكات
+                    والمبالغ الاختيارية، مع ضوابط وحدود للإيداعات الاختيارية. لا يصح الخلط بين الادخار الاختياري
+                    والاشتراك الإلزامي.</p>
+                <h3>4. العوائد</h3>
+                <ul>
+                    <li>حد أدنى للعائد يبلغ 2% سنويًا وفق أحكام اللائحة.</li>
+                    <li>إعلان العائد السنوي خلال الربع الأول من السنة التالية بحد أقصى.</li>
+                    <li>احتساب العائد السنوي على المدخرات بصفة شهرية.</li>
+                    <li>الاحتكام إلى الحد الأدنى عند الاستحقاق قبل إعلان العائد الفعلي.</li>
+                    <li>إمكان استخدام احتياطيات النظام لدعم الحد الأدنى للعوائد أو المدخرات وفق الشروط.</li>
+                </ul>
+                <p>الحد الأدنى 2% لا يعني أن العائد الفعلي يساويه أو لا يمكن تجاوزه.</p>
+                <h3>5. حالات الاستحقاق</h3>
+                <ol>
+                    <li>انتهاء علاقة عمل غير العُماني وفق ضوابط الارتباط بعمل جديد.</li>
+                    <li>انتهاء خدمة المدخر العُماني مع استحقاق معاش أو مكافأة فقد معاش، وفق الاستثناءات.</li>
+                    <li>سداد اشتراكات أو إيداعات شهرية مدة لا تقل عن 180 شهرًا.</li>
+                    <li>الوفاة.</li>
+                    <li>العجز الدائم.</li>
+                </ol>
+                <p>تنظم المادة 109 استحقاق غير العُماني عند انتهاء العمل ومغادرة السلطنة، أو بعد مضي ثلاثة أشهر من
+                    انتهاء العمل إذا بقي دون عقد عمل جديد وقت الطلب. كما يتيح القانون الصرف دفعة واحدة أو على أقساط
+                    شهرية أو سنوية حسب الأحكام.</p>
+            </section>
+            <section class="section" id="s9">
+                <h2><span class="num">09</span>المقارنة الرئيسية بين النظامين</h2>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>المحور</th>
+                                <th>ماليزيا EPF / KWSP</th>
+                                <th>عُمان SPF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>طبيعة النظام</td>
+                                <td>اشتراكات محددة</td>
+                                <td>اشتراكات محددة</td>
+                            </tr>
+                            <tr>
+                                <td>الهدف</td>
+                                <td>ادخار تقاعدي مع أغراض أخرى</td>
+                                <td>بديل مكافأة نهاية الخدمة وادخار تكميلي</td>
+                            </tr>
+                            <tr>
+                                <td>المواطنون</td>
+                                <td>إلزامي للفئات المشمولة</td>
+                                <td>اختياري في نظام الادخار ذاته</td>
+                            </tr>
+                            <tr>
+                                <td>الأجانب</td>
+                                <td>إلزامي منذ أكتوبر 2025 للفئات المشمولة</td>
+                                <td>بموعد يحدده المجلس وحد أقصى يوليو 2027</td>
+                            </tr>
+                            <tr>
+                                <td>حصة العامل الأجنبي</td>
+                                <td>2%</td>
+                                <td>0% إلزاميًا</td>
+                            </tr>
+                            <tr>
+                                <td>حصة جهة العمل</td>
+                                <td>2%</td>
+                                <td>9%</td>
+                            </tr>
+                            <tr>
+                                <td>وعاء الاشتراك</td>
+                                <td>الأجور وفق EPF</td>
+                                <td>الأجر الأساسي لغير العُماني</td>
+                            </tr>
+                            <tr>
+                                <td>الحسابات</td>
+                                <td>3 حسابات للأعضاء المؤهلين دون 55</td>
+                                <td>حساب شخصي للمدخر</td>
+                            </tr>
+                            <tr>
+                                <td>السحب أثناء الخدمة</td>
+                                <td>وفق أغراض وحسابات محددة</td>
+                                <td>حالات الاستحقاق القانونية</td>
+                            </tr>
+                            <tr>
+                                <td>الحد الأدنى للعائد</td>
+                                <td>2.5% للمسار التقليدي</td>
+                                <td>2% سنويًا</td>
+                            </tr>
+                            <tr>
+                                <td>المسار الشرعي</td>
+                                <td>خيار استثماري مستقل</td>
+                                <td>لا يظهر بالنص المقارن خيار مماثل بالهيكل نفسه</td>
+                            </tr>
+                            <tr>
+                                <td>مغادرة الأجنبي</td>
+                                <td>سحب كامل وفق الضوابط</td>
+                                <td>استحقاق عند انتهاء العمل والمغادرة</td>
+                            </tr>
+                            <tr>
+                                <td>تغيير العمل</td>
+                                <td>استمرار العضوية</td>
+                                <td>استمرار الادخار وعدم تحقق بعض حالات الصرف</td>
+                            </tr>
+                            <tr>
+                                <td>الصرف الدولي</td>
+                                <td>قنوات خارجية منشورة</td>
+                                <td>تفاصيل القنوات التشغيلية تحتاج تحديدًا</td>
+                            </tr>
+                            <tr>
+                                <td>الاختياري</td>
+                                <td>زيادات وبرامج لفئات</td>
+                                <td>إيداعات اختيارية لفئات مشمولة</td>
+                            </tr>
+                            <tr>
+                                <td>التسجيل</td>
+                                <td>تكامل مع الهجرة وتسجيل آلي</td>
+                                <td>تسجيل وتكاملات رسمية معتمدة</td>
+                            </tr>
+                            <tr>
+                                <td>طريقة العائد</td>
+                                <td>رصيد يومي معدل (MADB)</td>
+                                <td>عائد سنوي يحتسب شهريًا</td>
+                            </tr>
+                            <tr>
+                                <td>180 شهر اشتراكات</td>
+                                <td>ضوابط عمر وحسابات EPF</td>
+                                <td>حالة استحقاق قانونية</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note">عدم العثور على آلية منشورة مطابقة لا يثبت حظرها قانونًا؛ المقارنة بين الأحكام
+                    والعمليات المتاحة للتحقق.</div>
+            </section>
+            <section class="section" id="s10">
+                <h2><span class="num">10</span>أبرز أوجه التشابه</h2>
+                <ol>
+                    <li><b>الادخار الفردي:</b> اشتراكات تُنسب إلى حساب المدخر ضمن نموذج الاشتراكات المحددة، لا معاش محدد
+                        المنافع لهذه المدخرات.</li>
+                    <li><b>الإدارة والاستثمار الجماعي:</b> استثمار مؤسسي وإضافة عوائد وفق قواعد محددة.</li>
+                    <li><b>حماية مستحقات الأجانب:</b> تراكم مدخرات منظمة وإمكان الحصول عليها عند تحقق شروط الاستحقاق.
+                    </li>
+                    <li><b>استمرار الحساب:</b> تغيير صاحب العمل لا يعني بالضرورة تصفية المدخرات.</li>
+                    <li><b>الرقابة على التحصيل:</b> واجبات تسجيل وسداد صحيحة وفي المواعيد.</li>
+                </ol>
+            </section>
+            <section class="section" id="s11">
+                <h2><span class="num">11</span>أبرز أوجه الاختلاف</h2>
+                <div class="callout-grid">
+                    <div class="mini"><b>1 · عبء التمويل</b>الاشتراك الماليزي للأجنبي مشترك بين العامل وصاحب العمل،
+                        بينما عبء الاشتراك الأساسي العُماني يقع على جهة العمل.</div>
+                    <div class="mini"><b>2 · تصميم الأرصدة</b>ماليزيا تقسم الادخار إلى 75% تقاعد و15% رفاه و10% مرن؛ ولا
+                        يوجد تقسيم إلزامي مماثل بالصيغة نفسها في النص العُماني المقارن.</div>
+                    <div class="mini"><b>3 · السحب الجزئي</b>ماليزيا تتيح استخدام بعض المدخرات للإسكان والعلاج والتعليم
+                        والحاجات قصيرة الأجل، بينما يركز القانون العُماني على حالات الاستحقاق المحددة.</div>
+                    <div class="mini"><b>4 · احتساب العائد</b>ماليزيا تستخدم الرصيد اليومي المعدل، وعُمان تنص على عائد
+                        سنوي يُحتسب شهريًا مع ضوابط للحد الأدنى والاحتياطيات.</div>
+                    <div class="mini"><b>5 · الحد الأدنى للمدخرات</b>النظام العُماني يسمح باستخدام الاحتياطيات لتوفير حد
+                        أدنى لمدخرات غير العُماني عند عدم التحصيل أو انخفاض الرصيد عن المستهدف وفق شروطه، وهو غير مجرد
+                        ضمان العائد.</div>
+                </div>
+            </section>
+            <section class="section" id="s12">
+                <h2><span class="num">12</span>محاكاة مالية مقارنة</h2>
+                <p>يختلف وعاء الاشتراك والعملة بين البلدين. للمقارنة النسبية فقط نفترض أن الرقم نفسه يمثل الأجر المؤهل
+                    للاشتراك في كل بلد، بعملة كل دولة؛ ولا نقارن القيمة الشرائية أو سعر الصرف.</p>
+                <div class="calc">
+                    <div class="calc-controls">
+                        <div><label for="salary">الأجر الشهري الافتراضي: <span
+                                    id="salaryLabel">1,000</span></label><input id="salary" type="range" min="500"
+                                max="5000" value="1000" step="100"></div>
+                        <div><label for="duration">مدة الاشتراك</label><select id="duration">
+                                <option value="12">سنة واحدة</option>
+                                <option value="36">3 سنوات</option>
+                                <option value="60">5 سنوات</option>
+                            </select></div>
+                    </div>
+                    <div class="calc-results">
+                        <div class="calc-card"><small>ماليزيا – إجمالي الادخار (رينغيت)</small><strong
+                                id="myTotal">480</strong><small id="myBreak">جهة العمل: 240 | العامل: 240</small></div>
+                        <div class="calc-card"><small>عُمان – إجمالي الادخار (ريال عُماني)</small><strong
+                                id="omTotal">1,080</strong><small id="omBreak">جهة العمل: 1,080 | العامل: 0</small>
+                        </div>
+                    </div>
+                </div>
+                <p class="note">هذه محاكاة نظرية قبل العوائد والرسوم وتغيّر الأجر، وتستبعد جداول التقريب الماليزية.
+                    الأرقام بالعملتين المختلفتين غير قابلة للمقارنة المباشرة في القيمة النقدية.</p>
+                <p>تتحمل جهة العمل العُمانية نسبة أكبر من الأجر الأساسي مقارنة بنسبة جهة العمل الماليزية للأجنبي
+                    المعتاد؛ لكن لا يكفي ذلك للقول إن إحدى النتيجتين أفضل للعامل دون دراسة وعاء الأجر والعوائد والمدة
+                    وقواعد الصرف وحقوق الخدمة السابقة.</p>
+            </section>
+            <section class="section" id="s13">
+                <h2><span class="num">13</span>أهم الممارسات الماليزية الجديرة بالدراسة لعُمان</h2>
+                <div class="tablewrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الممارسة</th>
+                                <th>الفائدة المحتملة</th>
+                                <th>الاعتبار التنظيمي</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>فصل أرصدة الادخار</td>
+                                <td>مرونة الادخار الاختياري</td>
+                                <td>مراجعة صلاحيات السحب</td>
+                            </tr>
+                            <tr>
+                                <td>سجل تفصيلي للعوائد</td>
+                                <td>شفافية كل عملية</td>
+                                <td>آلية حساب قابلة للتدقيق</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="launch-infographic" aria-labelledby="launch-model-title">
+                    <div class="launch-heading">
+                        <div>
+                            <h3 id="launch-model-title">البديل الأنسب للإطلاق</h3>
+                            <p>مسار تدريجي يفعّل الأوعية الثلاثة دون تجاوز حالات الصرف القانونية، ثم يوسع المرونة
+                                استنادًا إلى نتائج التشغيل الفعلية.</p>
+                        </div>
+                        <span class="launch-badge">تدرج منضبط وقابل للقياس</span>
+                    </div>
+                    <div class="launch-track">
+                        <article class="launch-stage stage-1">
+                            <div class="stage-top">
+                                <span class="stage-number">١</span>
+                                <div>
+                                    <span class="stage-kicker">عند الإطلاق</span>
+                                    <h4>تأسيس الأوعية الثلاثة</h4>
+                                </div>
+                            </div>
+                            <p class="stage-copy">إنشاء الأوعية محاسبيًا وتقريريًا داخل الحساب الموحد، من دون منح
+                                حالات صرف جديدة تتجاوز القانون.</p>
+                            <ul class="stage-list">
+                                <li>إظهار غرض كل جزء من المدخرات.</li>
+                                <li>تحسين فهم المدخر لرصيده.</li>
+                                <li>قياس كفاية المدخرات المحمية.</li>
+                                <li>تجهيز البنية التقنية لمرونة مستقبلية.</li>
+                                <li>الحفاظ على الحساب الشخصي الموحد.</li>
+                            </ul>
+                            <div class="stage-outcome"><b>النتيجة:</b> جاهزية تقنية ومالية دون تغيير حقوق الصرف.
+                            </div>
+                        </article>
+                        <article class="launch-stage stage-2">
+                            <div class="stage-top">
+                                <span class="stage-number">٢</span>
+                                <div>
+                                    <span class="stage-kicker">بعد استقرار التشغيل</span>
+                                    <h4>مرونة الادخار الاختياري</h4>
+                                </div>
+                            </div>
+                            <p class="stage-copy">تفعيل الصرف المشروط والمرن على أرصدة الادخار الاختياري فقط، مع
+                                إبقاء الادخار الإلزامي ضمن الوعاء المحمي.</p>
+                            <ul class="stage-list">
+                                <li>اختبار الاستخدام الفعلي للأوعية.</li>
+                                <li>تطبيق حدود وضوابط للصرف المرن.</li>
+                                <li>قياس أثر المرونة على سلوك الادخار.</li>
+                            </ul>
+                            <div class="stage-outcome"><b>النتيجة:</b> مرونة محسوبة دون التأثير على الحماية
+                                الإلزامية.</div>
+                        </article>
+                        <article class="launch-stage stage-3">
+                            <div class="stage-top">
+                                <span class="stage-number">٣</span>
+                                <div>
+                                    <span class="stage-kicker">بعد توفر البيانات</span>
+                                    <h4>تقييم التوسع المنضبط</h4>
+                                </div>
+                            </div>
+                            <p class="stage-copy">دراسة توسيع النموذج ليشمل جزءًا من الادخار الإلزامي، بالاستناد
+                                إلى الأرصدة والسحب وسلوك المدخرين.</p>
+                            <ul class="stage-list">
+                                <li>تحليل نتائج التشغيل والطلب على السحب.</li>
+                                <li>تقييم أثر التوسع على كفاية المدخرات.</li>
+                                <li>استكمال المراجعة القانونية والاكتوارية.</li>
+                            </ul>
+                            <div class="stage-outcome"><b>النتيجة:</b> قرار توسع قائم على الأدلة والقدرة المالية.
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+            <section class="section" id="s14">
+                <h2><span class="num">14</span>الخلاصة النهائية</h2>
+                <p><b>التشابه الأساسي</b> هو الاعتماد على الاشتراكات المحددة والحسابات الشخصية والاستثمار وإضافة العوائد
+                    للمدخرين.</p>
+                <p><b>الاختلاف الأساسي</b> هو فلسفة النظام: ماليزيا تقدم نظام ادخار تقاعدي واسعًا مع إمكانية وصول منظم
+                    إلى جزء من الأموال خلال الحياة العملية؛ أما عُمان فتركز على استحقاقات ما بعد الخدمة لغير العُمانيين
+                    والادخار التكميلي للفئات الأخرى.</p>             
+            </section>
+            <section class="section" id="sources">
+                <h2>المصادر الرسمية وملاحظة منهجية</h2>
+                <ul class="source-list">
+                    <li><a target="_blank" rel="noopener"
+                            href="https://www.kwsp.gov.my/en/employer/responsibilities/non-malaysian-citizen-employees">EPF
+                            – الضوابط والاشتراكات الخاصة بالعمال غير الماليزيين</a></li>
+                    <li><a target="_blank" rel="noopener"
+                            href="https://www.kwsp.gov.my/en/member/account-centre/account-restructuring">EPF – إعادة
+                            هيكلة حسابات الادخار</a></li>
+                    <li><a target="_blank" rel="noopener"
+                            href="https://www.kwsp.gov.my/en/others/resource-centre/dividend">EPF – العوائد السنوية</a>
+                    </li>
+                    <li><a target="_blank" rel="noopener"
+                            href="https://www.kwsp.gov.my/en/member/account-centre/leaving-country">EPF – السحب عند
+                            مغادرة ماليزيا</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://qanoon.om/p/2023/rd2023052/">قانون الحماية
+                            الاجتماعية – المرسوم 52/2023</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://qanoon.om/p/2023/spf20239901/">اللائحة التنفيذية
+                            لقانون الحماية الاجتماعية</a></li>
+                    <li><a target="_blank" rel="noopener" href="https://qanoon.om/p/2025/rd2025060/">المرسوم السلطاني
+                            60/2025 – تعديلات مواعيد التطبيق</a></li>
+                </ul>               
+            </section>
+            <div class="footer">دراسة مقارنة لأغراض التحليل المؤسسي · EPF / KWSP × SPF · 14 أكتوبر 2026</div>
+        </main>
+    </div>
+    <script>const el = id => document.getElementById(id); const fmt = n => new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(n); function updateCalc() { const s = +el('salary').value, m = +el('duration').value; el('salaryLabel').textContent = fmt(s); el('myTotal').textContent = fmt(s * .04 * m); el('myBreak').textContent = 'جهة العمل: ' + fmt(s * .02 * m) + ' | العامل: ' + fmt(s * .02 * m); el('omTotal').textContent = fmt(s * .09 * m); el('omBreak').textContent = 'جهة العمل: ' + fmt(s * .09 * m) + ' | العامل: 0' } el('salary').addEventListener('input', updateCalc); el('duration').addEventListener('change', updateCalc); updateCalc();</script>
+</body>
+
+</html>
