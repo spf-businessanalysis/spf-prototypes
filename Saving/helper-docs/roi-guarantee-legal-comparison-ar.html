@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>مقارنة آلية عائد الاستثمار وضمان 2 بالمائة</title>
+  <style>
+    :root {
+      --ink: #17221f;
+      --muted: #5f6c68;
+      --green: #006b57;
+      --green-dark: #004c3e;
+      --green-pale: #edf7f4;
+      --gold: #b08a3c;
+      --gold-pale: #fbf6e9;
+      --line: #d8e1de;
+      --paper: #ffffff;
+      --canvas: #e9eeec;
+      --danger: #9b3f35;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      line-height: 1.58;
+    }
+
+    body { padding: 18px 0 36px; }
+
+    .page {
+      width: 240mm;
+      min-height: 297mm;
+      margin: 0 auto 18px;
+      padding: 15mm 16mm 13mm;
+      background: var(--paper);
+      box-shadow: 0 8px 30px rgba(24, 45, 39, .13);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 6px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green), var(--gold));
+    }
+
+    .doc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 145px;
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .brand img { width: 38px; height: 38px; object-fit: contain; }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: 24px; line-height: 1.35; margin-bottom: 7px; color: var(--green-dark); }
+    h2 { font-size: 17px; color: var(--green-dark); margin: 14px 0 7px; }
+    h3 { font-size: 14px; color: var(--ink); margin: 10px 0 5px; }
+    p { margin-bottom: 7px; font-size: 12.3px; }
+
+    .subtitle { color: var(--muted); font-size: 12.5px; margin-bottom: 0; }
+    .meta { color: var(--muted); font-size: 10.5px; white-space: nowrap; padding-top: 4px; }
+
+    .lead {
+      font-size: 13.2px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      background: var(--green-pale);
+      border-right: 4px solid var(--green);
+      border-radius: 7px;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 9px 11px;
+      background: #fff;
+    }
+
+    .panel h3 { color: var(--green-dark); }
+    .panel.gold { background: var(--gold-pale); border-color: #e7d8ad; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin: 8px 0 12px;
+    }
+
+    .flow div {
+      text-align: center;
+      padding: 8px 6px;
+      border-radius: 7px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      font-weight: 700;
+      font-size: 11.3px;
+      position: relative;
+    }
+
+    .flow div:not(:last-child)::after {
+      content: "←";
+      position: absolute;
+      left: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 15px;
+      z-index: 2;
+    }
+
+    table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; font-size: 11.2px; }
+    th, td { border: 1px solid var(--line); padding: 6px 7px; vertical-align: middle; }
+    th { background: var(--green-dark); color: white; font-weight: 700; }
+    tbody tr:nth-child(even) td { background: #f7faf9; }
+    .center { text-align: center; }
+
+    .formula {
+      direction: rtl;
+      text-align: center;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      background: #f5f8f7;
+      border: 1px dashed #aac0ba;
+      padding: 7px 10px;
+      margin: 7px 0;
+      border-radius: 6px;
+    }
+
+    .example {
+      background: var(--gold-pale);
+      border: 1px solid #e7d8ad;
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-top: 8px;
+    }
+
+    ul, ol { margin: 4px 0 8px; padding-right: 21px; font-size: 11.9px; }
+    li { margin-bottom: 3px; }
+
+    .verdict {
+      margin: 10px 0;
+      padding: 9px 11px;
+      border-radius: 8px;
+      border-right: 4px solid var(--gold);
+      background: var(--gold-pale);
+      font-size: 12.2px;
+    }
+
+    .risk { color: var(--danger); font-weight: 700; }
+
+    .legal-conflicts { font-size: 10.35px; line-height: 1.47; }
+    .legal-conflicts th, .legal-conflicts td { padding: 5px 6px; vertical-align: top; }
+    .legal-text { color: #283632; }
+    .legal-text strong, .change strong { color: var(--green-dark); }
+    .change { background: var(--gold-pale) !important; }
+    .scope-note {
+      margin: 7px 0 9px;
+      padding: 7px 9px;
+      border-right: 3px solid var(--green);
+      background: var(--green-pale);
+      border-radius: 6px;
+      font-size: 10.8px;
+    }
+
+    .sources {
+      margin-top: 11px;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 9.8px;
+      line-height: 1.5;
+    }
+
+    .sources a { color: var(--green-dark); text-decoration: none; }
+
+    .page-no {
+      position: absolute;
+      bottom: 7mm;
+      left: 16mm;
+      color: var(--muted);
+      font-size: 9px;
+    }
+
+    @media print {
+      @page { size: 240mm 297mm; margin: 0; }
+      body { padding: 0; background: white; }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+      }
+      .page:last-child { page-break-after: auto; break-after: auto; }
+      a { color: inherit; }
+    }
+
+    @media (max-width: 850px) {
+      body { padding: 0; }
+      .page { width: 100%; min-height: auto; margin: 0; padding: 26px 18px 34px; box-shadow: none; }
+      .grid-2, .flow { grid-template-columns: 1fr; }
+      .flow div:not(:last-child)::after { content: "↓"; left: 50%; top: auto; bottom: -15px; transform: translateX(-50%); }
+      .doc-header { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <section class="page">
+    <header class="doc-header">
+      <div>
+        <h1>مقارنة آلية عائد الاستثمار وضمان 2%</h1>
+        <p class="subtitle">شرح مبسط للتصور الحالي والتصور الاكتواري المقترح وعلاقة كل منهما بالنظام الإلكتروني</p>
+      </div>
+      <div>
+        <div class="brand"><img src="../SPF_logo_gold.svg" alt="شعار صندوق الحماية الاجتماعية"><span>نظام الادخار</span></div>
+        <div class="meta">مذكرة توضيحية<br>نوفمبر 2026</div>
+      </div>
+    </header>
+
+    <div class="lead"><strong>الخلاصة:</strong> طريقة احتساب الرصيد والعائد شهريًا لا تتغير جوهريًا. نقطة الاختلاف الحقيقية هي معنى ضمان 2%: هل هو حد أدنى يطبق كل سنة، أم ضمان تراكمي يقارن عند الاستحقاق أو بدء الصرف؟</div>
+
+    <h2>1. الفصل بين عمل الاستثمار وعمل النظام</h2>
+    <div class="flow">
+      <div>أداء الاستثمارات الفعلي</div>
+      <div>خصم المصروفات والاحتياطيات</div>
+      <div>اعتماد نسبة العائد المطبقة</div>
+      <div>تطبيقها إلكترونيًا على الحسابات</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h3>عمل إدارة الاستثمار</h3>
+        <p>تستثمر أموال الصندوق وينتج عن ذلك عائد حقيقي قد يكون مرتفعًا أو منخفضًا أو سالبًا. هذا العائد لا يضاف تلقائيًا إلى حساب المدخر.</p>
+      </div>
+      <div class="panel gold">
+        <h3>عمل النظام الإلكتروني</h3>
+        <p>يستقبل النسبة السنوية المعتمدة، يحولها إلى معامل شهري، ويطبقها على الرصيد الافتتاحي لكل شهر مع الاحتفاظ بسجل دقيق وقابل للمراجعة.</p>
+      </div>
+    </div>
+
+    <h2>2. آلية الاحتساب الشهرية المشتركة</h2>
+    <p>في التصورين، يُرحّل رصيد نهاية الشهر ليصبح رصيد بداية الشهر التالي، ويبدأ أثر الإيداع الجديد من الشهر التالي لإيداعه.</p>
+    <div class="formula">المعامل الشهري = (1 + النسبة السنوية)<sup>1 ÷ 12</sup> − 1</div>
+    <div class="formula">رصيد نهاية الشهر = رصيد البداية + عائد الشهر + الإيداعات − السحوبات</div>
+    <p><strong>الإيداعات الاختيارية:</strong> يمكن أن تكون شهرية أو متقطعة أو بمبالغ مختلفة. كل إيداع يدخل الحساب في شهر تنفيذه ويبدأ تحقيق العائد من الشهر التالي.</p>
+
+    <h2>3. نقطة الاختلاف الأساسية</h2>
+    <table>
+      <thead><tr><th>الموضوع</th><th>التصور الحالي</th><th>التصور الاكتواري المقترح</th></tr></thead>
+      <tbody>
+        <tr><td><strong>معنى 2%</strong></td><td>حد أدنى لكل سنة</td><td>معدل ضمان تراكمي طوال مدة الادخار</td></tr>
+        <tr><td><strong>سنة بعائد أقل من 2%</strong></td><td>ترفع إلى 2%</td><td>تسجل كما هي في الحساب الفعلي</td></tr>
+        <tr><td><strong>موعد استخدام الاحتياطي</strong></td><td>ضمن تسوية عائد السنة</td><td>عند حدث الضمان أو الصرف</td></tr>
+        <tr><td><strong>الحسابات المطلوبة</strong></td><td>الرصيد الفعلي بالنسبة المطبقة</td><td>رصيد فعلي ورصيد موازٍ ينمو بنسبة 2%</td></tr>
+        <tr><td><strong>تعويض السنوات</strong></td><td>كل سنة محمية منفردة</td><td>السنوات الجيدة قد تعوض السنوات الضعيفة</td></tr>
+      </tbody>
+    </table>
+
+    <div class="example">
+      <h3>مثال مبسط لمدة سنتين</h3>
+      <p><strong>السنة الأولى 0%، والسنة الثانية 4%.</strong></p>
+      <p><strong>الحالي:</strong> ترفع السنة الأولى إلى 2%، ثم يطبق 4% في السنة الثانية، فيكون النمو التراكمي 6.08%.</p>
+      <p><strong>المقترح:</strong> الحساب الفعلي ينمو 4%، وحساب الضمان ينمو 4.04%. يضاف فرق 0.04% فقط عند المقارنة النهائية.</p>
+    </div>
+
+    <div class="page-no">1 من 3</div>
+  </section>
+
+  <section class="page">
+    <header class="doc-header">
+      <div>
+        <h1>القراءة القانونية والنتيجة العملية</h1>
+        <p class="subtitle">مقارنة التصورين بمواد قانون الحماية الاجتماعية ولائحته التنفيذية</p>
+      </div>
+      <div class="brand"><img src="../SPF_logo_gold.svg" alt="شعار صندوق الحماية الاجتماعية"><span>نظام الادخار</span></div>
+    </header>
+
+    <h2>4. الإطار القانوني غير المتعارض</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>المادتان 141 و142 من القانون</h3>
+        <p>تقرران استحقاق المدخر للاشتراكات والإيداعات وعوائدها، وتجيزان تحديد حد أدنى في اللائحة، كما تجيزان الصرف دفعة واحدة أو بالتقسيط مع استمرار العائد على الرصيد. ولا تحددان طريقة احتساب الحد الأدنى، لذلك لا يظهر تعارض مباشر مع مبدأ حساب الضمان.</p>
+      </div>
+      <div class="panel">
+        <h3>المادتان 108 و112 من اللائحة</h3>
+        <p>تجيز الأولى فصل الإلزامي عن الاختياري في العائد والضمان والاحتياطيات. وتلزم الثانية بتطبيق الحد الأدنى لعام واحد فقط ثم إيقاف العائد عند التأخر في طلب السحب بعد الخروج. يجب أن يلتزم النموذج بهاتين القاعدتين دون الحاجة إلى تعديلهما.</p>
+      </div>
+    </div>
+
+    <h2>5. التقييم القانوني الأولي</h2>
+    <div class="grid-2">
+      <div class="panel">
+        <h3>التصور الحالي</h3>
+        <p>هو الأقرب إلى ظاهر المواد 104–107 لأنه يطبق حدًا أدنى سنويًا، ويوزع النسبة السنوية شهريًا، ويمول النقص من الاحتياطيات.</p>
+      </div>
+      <div class="panel gold">
+        <h3>التصور المقترح</h3>
+        <p>يمكن تفسيره اكتواريًا كضمان لقيمة نهائية تنمو بمعدل 2% سنويًا، لكنه يسمح بتسجيل سنوات أقل من 2% ويؤجل التعويض حتى الصرف، وهو أمر غير منصوص عليه صراحة.</p>
+      </div>
+    </div>
+
+    <div class="verdict"><strong>النتيجة:</strong> التصور التراكمي ليس مجرد تغيير تقني؛ إنه تغيير في توقيت وطبيعة الحق المالي. لذلك يحتاج إلى رأي قانوني رسمي أو قرار تنظيمي يبين أن 2% ضمان تراكمي يُسوّى عند الاستحقاق، وقد يتطلب تعديل اللائحة لتجنب اختلاف التفسير.</div>
+
+    <h2>6. المواد المتعارضة مع النموذج الجديد والتعديل المطلوب</h2>
+    <div class="scope-note"><strong>نطاق التعارض:</strong> ينشأ التعارض إذا كان المقصود بالنموذج الجديد السماح بأن تقل النسبة المقيدة على الحساب الفعلي عن 2% في سنة معينة، ثم مقارنة الحساب الفعلي بحساب ضمان تراكمي وتسوية الفرق فقط عند أول استحقاق أو صرف. النصوص أدناه تعرض الوضع القانوني الحالي والتغيير اللازم على مستوى المفهوم؛ ولا تمثل صياغة تشريعية نهائية.</div>
+    <table class="legal-conflicts">
+      <thead>
+        <tr><th style="width:14%">المادة</th><th style="width:49%">النص الحالي كاملًا</th><th>وجه الاختلاف والتعديل المطلوب</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>104<br>من اللائحة</strong></td>
+          <td class="legal-text">يكون الحد الأدنى لعوائد استثمار أموال نظام الادخار بنسبة (2%) اثنين في المائة سنويًا، ويتولى المجلس تحديد الحدين الأدنى والمستهدف للمدخرات وفقًا للآلية التي يعتمدها.</td>
+          <td class="change"><strong>الاختلاف:</strong> النص يقرر حدًا أدنى «سنويًا»، بينما النموذج يسمح بعائد سنوي يقل عن 2% ويضمن نتيجة تراكمية فقط عند التسوية.<br><strong>التعديل المطلوب:</strong> تعريف الحد الأدنى باعتباره رصيد ضمان تراكمي ينمو بمعدل 2%، وتحديد تاريخ المقارنة والتسوية صراحة، مع النص على أن النسبة الفعلية المقيدة سنويًا قد تقل عن 2%.</td>
+        </tr>
+        <tr>
+          <td><strong>105<br>من اللائحة</strong></td>
+          <td class="legal-text">يجوز للصندوق الصرف من احتياطيات نظام الادخار في الحالات الآتية:<br>1 – توفير الحد الأدنى لعوائد الاستثمار في الحالة التي تكون فيها العوائد الحقيقية أقل من الحد الأدنى المقرر لعوائد الاستثمار.<br>2 – صرف حد أدنى من المدخرات للمدخر غير العماني في نظام الادخار بصفة إلزامية في حالة عدم تحصيل كل أو جزء من الاشتراكات المقررة، أو كانت المدخرات أقل من الحد المستهدف.<br>3 – رفع قيمة عوائد الاستثمار السنوية في حال نقصانها عن عوائد الاستثمار السنوية التي يحددها المجلس.</td>
+          <td class="change"><strong>الاختلاف:</strong> الآلية الحالية تربط استخدام الاحتياطي بنقص العائد الحقيقي عن الحد الأدنى، بما يدعم استكمال النقص السنوي. النموذج يؤجل تحديد العجز وتمويله إلى تاريخ التسوية.<br><strong>التعديل المطلوب:</strong> إضافة حالة صريحة تجيز تمويل الفرق بين الحساب الفعلي وحساب الضمان التراكمي عند واقعة التسوية المحددة، وبيان ما إذا كان التمويل يتم مرة واحدة أو يتكرر أثناء الأقساط.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="page-no">2 من 3</div>
+  </section>
+
+  <section class="page">
+    <header class="doc-header">
+      <div>
+        <h1>المواد المتعارضة والتوصية</h1>
+        <p class="subtitle">استكمال مقارنة النموذج الجديد باللائحة التنفيذية</p>
+      </div>
+      <div class="brand"><img src="../SPF_logo_gold.svg" alt="شعار صندوق الحماية الاجتماعية"><span>نظام الادخار</span></div>
+    </header>
+
+    <h2>6. المواد المتعارضة مع النموذج الجديد — تابع</h2>
+    <table class="legal-conflicts">
+      <thead>
+        <tr><th style="width:14%">المادة</th><th style="width:49%">النص الحالي كاملًا</th><th>وجه الاختلاف والتعديل المطلوب</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>106<br>من اللائحة</strong></td>
+          <td class="legal-text">تحدد نسبة عائد الاستثمار السنوي على المدخرات بمراعاة عائد الاستثمار السنوي الفعلي أو المقدر والحد الأدنى المنصوص عليه في المادة (104) من هذه اللائحة والخصم الخاص بالمصاريف الإدارية والتشغيلية والاحتياطيات. ويتولى الصندوق الإعلان عن نسبة عائد الاستثمار لكل عام بما لا يجاوز الربع الأول من العام اللاحق.</td>
+          <td class="change"><strong>الاختلاف:</strong> النص يربط النسبة السنوية المعلنة بالحد الأدنى الوارد في المادة 104. أما النموذج فيفصل بين نسبة العائد الفعلي ونسبة الضمان، وقد يقيد الأولى بأقل من 2%.<br><strong>التعديل المطلوب:</strong> استحداث تعريفين مستقلين: «نسبة العائد الفعلي المقيدة» و«نسبة الضمان التراكمي»، وتحديد أثر المصروفات والاحتياطيات على كل منهما، مع إبقاء موعد إعلان النسبة الفعلية.</td>
+        </tr>
+        <tr>
+          <td><strong>107<br>من اللائحة</strong></td>
+          <td class="legal-text">يحتسب عائد الاستثمار السنوي على المدخرات بصفة شهرية، وإذا استحق المدخر مدخراته قبل الإعلان عن نسبة عائد الاستثمار السنوي، يعتد في حساب النسبة في هذه الحالة بالحد الأدنى لعوائد الاستثمار المنصوص عليها في المادة (104) من هذه اللائحة.</td>
+          <td class="change"><strong>الاختلاف:</strong> عند الاستحقاق قبل إعلان النسبة، يوجب النص استخدام الحد الأدنى، بينما قد يعتمد النموذج على حساب فعلي لم تكتمل نسبته ثم يسوي الفرق تراكميًا. كما أن النموذج يحتاج قاعدة شهرية مستقلة لحساب الضمان.<br><strong>التعديل المطلوب:</strong> تحديد طريقة احتساب الحسابين شهريًا، وتوقيت إدخال الإيداع وخصم الصرف، والنسبة المؤقتة للحساب الفعلي قبل الإعلان، ووجوب تنفيذ مقارنة الضمان والتسوية عند الاستحقاق.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="scope-note"><strong>مواد لا تستلزم تعديلًا مباشرًا:</strong> المادة 141 من القانون تجيز للائحة تحديد الحد الأدنى ولا تحدد آليته، ولذلك يمكن استيعاب الضمان التراكمي من خلال تعديل اللائحة إذا أقر قانونيًا. وتظل المواد 142 و108 و112 واجبة التطبيق كما هي: استمرار العائد على الرصيد أثناء الأقساط، وإمكان فصل الاختياري عن الإلزامي، ووقف العائد بعد المدة المحددة عند التأخر في السحب.</div>
+
+    <h2>7. التوصية الأكثر أمانًا</h2>
+    <p>إلى حين اعتماد تفسير قانوني مختلف، يستمر النظام في تطبيق حد أدنى سنوي قدره 2%. ويمكن استخدام الحساب الموازي المقترح لأغراض قياس الاحتياطيات والرقابة الاكتوارية وحماية الاشتراكات غير المحصلة، دون أن يؤدي ذلك إلى تخفيض الحق السنوي القائم.</p>
+
+    <div class="sources">
+      <strong>المراجع:</strong>
+      <a href="https://www.spf.gov.om/wp-content/uploads/2023/12/social_law.pdf">قانون الحماية الاجتماعية الصادر بالمرسوم السلطاني 52/2023</a>؛
+      <a href="https://www.spf.gov.om/wp-content/uploads/2024/10/SPF-Regulations.pdf">اللائحة التنفيذية الصادرة بالقرار ر/7/2023</a>؛
+      Saving Full BRD؛ Provident Fund Model V3.
+      <br>هذه الوثيقة قراءة تحليلية مبسطة وليست فتوى قانونية ملزمة.
+    </div>
+
+    <div class="page-no">3 من 3</div>
+  </section>
+</body>
+</html>

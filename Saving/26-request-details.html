@@ -613,7 +613,7 @@
             document.getElementById('staffActions').classList.toggle('d-none', !isStaff);
             document.getElementById('saverNote').classList.toggle('d-none', isStaff);
             document.getElementById('backLink').setAttribute('href',
-                isStaff ? '10-disbursement-processing.html' : '08-disbursement.html');
+                isStaff ? '10-disbursement-processing.html' : '08-disbursement_v2.html');
 
             document.querySelectorAll('.death-check').forEach(function (el) {
                 el.classList.toggle('d-none', !REQ.deceased);
