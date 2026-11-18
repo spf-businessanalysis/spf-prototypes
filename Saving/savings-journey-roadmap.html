@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="رحلة نظام الادخار في ثماني محطات، لكل محطة رسم يوضح ما يحدث فيها وكيف يتحرك المال والبيانات.">
+<title>نظام الادخار | محطات الرحلة</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800&display=swap');
+:root{
+  --bg:#f4f6f9; --paper:#fff; --ink:#1b2430; --ink2:#2c3a49; --muted:#5b6472; --line:#d8e0e8; --line2:#eaeff4;
+  --hero:#0f3d2a; --primary:#14532d; --primary-mid:#1f7a46; --gold:#a57c20; --gold-soft:#fbf4e3;
+  --m:#2f4f9e; --o:#1f7a46; --x:#a57c20; --red:#a3231f;
+  --shadow:0 8px 26px rgba(20,83,45,.08);
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Zain","Tahoma","Segoe UI",sans-serif; font-size:17px; line-height:1.7; overflow-x:hidden}
+button{font:inherit; cursor:pointer}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
+h1,h2,h3{margin:0; line-height:1.3; font-weight:800}
+p{margin:0}
+
+.topbar{position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:9px clamp(10px,1.6vw,22px); background:var(--hero); color:#fff}
+.brand{display:flex; align-items:center; gap:10px; font-weight:800}
+.brand img{height:28px}
+.brand span{font-weight:400; opacity:.75; font-size:14px; padding-inline-start:10px; border-inline-start:1px solid rgba(255,255,255,.3)}
+.top-links{margin-inline-start:auto; display:flex; gap:6px; flex-wrap:wrap}
+.top-links a{color:#fff; text-decoration:none; font-size:13.5px; padding:4px 11px; border:1px solid rgba(255,255,255,.25); border-radius:999px}
+.top-links a:hover{background:rgba(255,255,255,.12)}
+
+.wrap{max-width:1480px; margin:0 auto; padding:0 clamp(10px,1.6vw,22px)}
+
+/* القسم التعريفي */
+.hero{margin-top:18px; background:var(--paper); border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); padding:20px clamp(14px,2vw,26px) 22px}
+.hero h1{font-size:clamp(25px,3vw,33px); color:var(--hero)}
+.hero-top{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px 34px; align-items:center}
+@media (max-width:1100px){.hero-top{grid-template-columns:1fr}}
+.lead{font-size:clamp(17px,1.6vw,19.5px); color:var(--ink2); margin-top:6px; line-height:1.8; max-width:58ch}
+.lead b{color:var(--hero)}
+.kpis{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px}
+@media (max-width:700px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpis li{background:var(--gold-soft); border:1px solid #ecdcb2; border-radius:14px; padding:10px 12px; min-width:118px; max-width:150px}
+@media (max-width:700px){.kpis li{max-width:none}}
+.kpis b{display:block; font-size:22px; font-weight:800; color:var(--hero); line-height:1.2}
+.kpis span{display:block; font-size:13.5px; color:var(--ink2); line-height:1.45; margin-top:3px}
+
+.intro-cols{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:20px; align-items:stretch}
+@media (max-width:980px){.intro-cols{grid-template-columns:1fr}}
+.ic{border:1px solid var(--line); border-top:5px solid var(--c); border-radius:16px; background:#fff; overflow:hidden}
+.ic header{display:flex; align-items:center; gap:10px; padding:12px 16px; background:var(--cs)}
+.ic .tag{width:30px; height:30px; border-radius:50%; background:var(--c); color:#fff; display:grid; place-items:center; font-weight:800; font-size:15px; flex:0 0 auto}
+.ic h3{font-size:19px; color:var(--c)}
+.ic dl{margin:0; padding:6px 16px 12px; display:grid; grid-template-columns:auto 1fr; gap:0 14px}
+.ic dt{font-weight:800; color:var(--c); font-size:15px; padding:9px 0; border-bottom:1px dashed var(--line2); white-space:nowrap}
+.ic dd{margin:0; font-size:16px; color:var(--ink2); line-height:1.7; padding:8px 0; border-bottom:1px dashed var(--line2)}
+.ic dt:last-of-type,.ic dd:last-of-type{border-bottom:0}
+.ic .misc{margin:0 16px 14px; padding:10px 14px; background:var(--gold-soft); border-radius:12px; border-inline-start:4px solid var(--x)}
+.ic .misc b{color:#7a5a12; font-size:15px}
+.ic .misc ul{margin:4px 0 0; padding-inline-start:18px; font-size:15px; color:var(--ink2); line-height:1.7}
+.ic-m{--c:var(--m); --cs:#eef2fc} .ic-o{--c:var(--o); --cs:#e4f3ea} .ic-g{--c:var(--hero); --cs:#eef4f0}
+.ic .x{color:var(--x); font-weight:800}
+
+/* الطريق العمودي */
+.road-head{margin-top:28px}
+.road-head h2{font-size:clamp(22px,2.6vw,28px); color:var(--hero)}
+.road{position:relative; margin-top:14px; padding:30px 0 40px; padding-inline-start:104px}
+.road::before{content:""; position:absolute; top:0; bottom:0; inset-inline-start:22px; width:58px; border-radius:29px;
+  background:linear-gradient(90deg,#2e3840,#46525c 50%,#2e3840); box-shadow:inset 0 0 0 4px #252d34}
+.road::after{content:""; position:absolute; top:26px; bottom:26px; inset-inline-start:49px; width:4px; border-radius:2px;
+  background:repeating-linear-gradient(180deg,#f0cf75 0 20px,transparent 20px 38px)}
+.flag{position:relative; z-index:2; margin-inline-start:-97px; width:86px; text-align:center; font-size:13px; font-weight:800; color:#fff;
+  background:var(--gold); border-radius:999px; padding:3px 0; margin-bottom:26px}
+.flag.end{margin:6px 0 0; margin-inline-start:-97px; background:var(--hero)}
+.st-row{position:relative; margin-bottom:38px; scroll-margin-top:64px}
+.pin{position:absolute; z-index:2; top:18px; inset-inline-start:-88px; width:66px; height:66px; border-radius:50%; background:#fff; color:var(--hero);
+  display:grid; place-items:center; font-size:27px; font-weight:800; border:5px solid var(--gold); box-shadow:0 6px 16px rgba(0,0,0,.25); transition:.25s}
+.pin::after{content:""; position:absolute; inset-inline-start:100%; top:50%; width:22px; border-top:3px dashed var(--gold); margin-inline-start:2px}
+.st-row.on .pin{background:var(--hero); color:#fff; transform:scale(1.12); box-shadow:0 0 0 6px rgba(240,207,117,.45), 0 6px 16px rgba(0,0,0,.25)}
+@media (max-width:640px){
+  .road{padding-inline-start:64px}.road::before{inset-inline-start:8px; width:38px}.road::after{inset-inline-start:25px; width:3px}
+  .pin{width:44px; height:44px; font-size:19px; border-width:4px; inset-inline-start:-59px}.pin::after{width:8px}
+  .flag,.flag.end{margin-inline-start:-62px; width:56px; font-size:11.5px}
+}
+.to-top{position:fixed; z-index:60; bottom:22px; inset-inline-end:22px; border:0; border-radius:999px; background:var(--hero); color:#fff;
+  padding:10px 18px; font-weight:800; box-shadow:0 8px 22px rgba(15,61,42,.35); opacity:0; transform:translateY(12px); pointer-events:none; transition:.25s}
+.to-top.show{opacity:1; transform:none; pointer-events:auto}
+
+/* المحطة */
+.station{background:var(--paper); border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); overflow:hidden}
+.st-head{display:flex; align-items:center; gap:16px; padding:14px 18px; border-bottom:1px solid var(--line2)}
+.st-head h2{font-size:clamp(21px,2.4vw,26px); color:var(--hero)}
+.st-head p{color:var(--ink2); font-size:16.5px; margin-top:2px}
+.st-when{margin-inline-start:auto; font-size:13.5px; font-weight:700; color:var(--gold); background:var(--gold-soft); border-radius:999px; padding:4px 12px; white-space:nowrap; align-self:flex-start}
+@media (max-width:700px){.st-when{display:none}}
+.canvas{padding:6px 8px 2px; overflow-x:auto}
+.canvas svg{display:block; width:100%; min-width:780px; height:auto}
+.st-foot{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:8px 26px; padding:12px 18px 16px; border-top:1px solid var(--line2); background:#fbfcfd}
+.st-foot span{font-size:15.5px; color:var(--ink2); display:flex; gap:8px; align-items:baseline; line-height:1.65}
+.st-foot span::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--gold); flex:0 0 auto; transform:translateY(-2px)}
+
+/* SVG */
+svg text{font-family:"Zain","Tahoma",sans-serif}
+.tt{font-size:15.5px; font-weight:800}
+.ts{font-size:13px; fill:#4f5a66}
+.tl{font-size:13px; font-weight:700; fill:#4f5a66; paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round}
+.tl.money{fill:#8a6616}
+.tl.red{fill:#a3231f}
+.tw{fill:#fff; font-weight:800}
+.th{font-size:16.5px; font-weight:800; fill:#0f3d2a}
+.clk{cursor:pointer}
+.clk:hover .shape, .clk:focus .shape{filter:drop-shadow(0 4px 8px rgba(15,61,42,.25)); stroke-width:2.6}
+.clk:focus{outline:none}
+.fl-money{stroke:#c09633; stroke-width:3.2; fill:none}
+.fl-data{stroke:#7d8a97; stroke-width:1.8; fill:none; stroke-dasharray:6 5}
+.fl-red{stroke:#a3231f; stroke-width:2; fill:none; stroke-dasharray:6 5}
+
+/* اللوحة الجانبية */
+.scrim{position:fixed; inset:0; background:rgba(15,30,25,.3); opacity:0; pointer-events:none; transition:opacity .2s; z-index:80}
+.scrim.on{opacity:1; pointer-events:auto}
+.drawer{position:fixed; top:0; bottom:0; inset-inline-end:0; width:min(460px,100vw); background:#fff; z-index:90; box-shadow:0 0 50px rgba(0,0,0,.2);
+  transform:translateX(-105%); transition:transform .25s; display:flex; flex-direction:column}
+.drawer.on{transform:none}
+.drawer[hidden]{display:none}
+.dr-head{padding:18px 20px 14px; border-bottom:4px solid var(--c,var(--gold)); position:relative}
+.dr-head small{color:var(--c,var(--gold)); font-weight:700}
+.dr-head h3{font-size:22px; color:var(--hero); padding-inline-end:40px}
+.dr-x{position:absolute; inset-inline-end:14px; top:14px; width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:#fff}
+.dr-body{padding:16px 20px 30px; overflow-y:auto}
+.dr-body p{font-size:17px; color:var(--ink2); line-height:1.8}
+.dr-body ul{margin:14px 0 0; padding-inline-start:20px; display:grid; gap:8px; font-size:16px; line-height:1.7}
+.dr-body .ref{margin-top:18px; font-size:13px; color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="brand"><img src="SPF_logo_gold.svg" alt="صندوق الحماية الاجتماعية">نظام الادخار<span>محطات الرحلة</span></span>
+  <nav class="top-links" aria-label="روابط">
+    <a href="Full-BRD/Saving-Full-BRD.html">وثيقة المتطلبات</a>
+  </nav>
+</header>
+
+<div class="wrap">
+  <section class="hero" aria-labelledby="h1">
+    <div class="hero-top">
+      <div>
+        <h1 id="h1">نظام الادخار ببساطة</h1>
+        <p class="lead">لكل مدخر <b>حسابان</b> تتجمع فيهما مدخراته وتنمو بعائد يُضاف كل شهر، ولا تُصرف إلا عند تحقق <b>شرط الصرف</b> الذي حدده القانون.</p>
+      </div>
+      <ul class="kpis" aria-label="أرقام أساسية">
+        <li><b>٩٪</b><span>من الأجر الأساسي اشتراك إلزامي شهري</span></li>
+        <li><b>١٠٠ ر.ع</b><span>الحد الأدنى لكل إيداع اختياري</span></li>
+        <li><b>٣٦٬٠٠٠ ر.ع</b><span>الحد الأعلى للإيداع الاختياري في السنة</span></li>
+        <li><b>٢٪</b><span>متوسط عائد مضمون على مدة الادخار</span></li>
+        <li><b>٣١ مارس</b><span>آخر موعد لإعلان نسبة العائد</span></li>
+      </ul>
+    </div>
+
+    <div class="intro-cols">
+      <article class="ic ic-m">
+        <header><span class="tag">١</span><h3>الحساب الإلزامي</h3></header>
+        <dl>
+          <dt>لمن؟</dt><dd>للعامل غير العماني، ويحل محل مكافأة نهاية الخدمة.</dd>
+          <dt>يُموَّل من</dt><dd>اشتراك شهري ٩٪ من الأجر الأساسي يدفعه صاحب العمل كاملاً، ومكافأة نهاية الخدمة السابقة إذا رحّلها صاحب العمل إلى النظام.</dd>
+          <dt>احتياطيه</dt><dd>يعوّض العامل عما لم يدفعه صاحب العمل، ويضمن متوسط عائد ٢٪.</dd>
+        </dl>
+      </article>
+      <article class="ic ic-o">
+        <header><span class="tag">٢</span><h3>الحساب الاختياري</h3></header>
+        <dl>
+          <dt>لمن؟</dt><dd>لأربع فئات حددها القانون، والاشتراك فيه بالرغبة.</dd>
+          <dt>يُموَّل من</dt><dd>إيداعات المدخر لنفسه، وإيداعات جهة العمل لصالح عمالها، و<span class="x">الإيداعات المتنوعة</span> التي يضيفها الصندوق مباشرة.</dd>
+          <dt>احتياطيه</dt><dd>يضمن متوسط عائد ٢٪.</dd>
+        </dl>
+        <div class="misc">
+          <b>الإيداعات المتنوعة هي:</b>
+          <ul>
+            <li>فائض اشتراكات العماني الذي يتجاوز أجره سقف أجر الاشتراك.</li>
+            <li>صافي الاشتراكات عند فقد الجنسية أو سحبها أو إسقاطها.</li>
+            <li>نصيب العامل عند إلغاء أحد البرامج التكميلية.</li>
+          </ul>
+        </div>
+      </article>
+      <article class="ic ic-g">
+        <header><span class="tag">٣</span><h3>العائد والالتزامات والصرف</h3></header>
+        <dl>
+          <dt>العائد</dt><dd>نسبة سنوية تُضاف إلى الرصيد شهراً بشهر. قد تقل في سنة ما، لكن متوسطها على كامل المدة لا يقل عن ٢٪.</dd>
+          <dt>الالتزامات</dt><dd>ما على المدخر للصندوق يُسدَّد من الحساب الاختياري أولاً، ثم من الإلزامي إن لم يكفِ.</dd>
+          <dt>الصرف</dt><dd>لكامل الرصيد عند تحقق شرط الصرف، دفعة واحدة أو على أقساط متساوية.</dd>
+        </dl>
+      </article>
+    </div>
+  </section>
+
+  <div class="road-head"><h2>رحلة النظام في عشر محطات</h2></div>
+  <div class="road" id="road"><div class="flag">البداية</div></div>
+</div>
+<button class="to-top" id="toTop" type="button" aria-label="العودة إلى الأعلى">↑ للأعلى</button>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c09633"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7d8a97"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a3231f"/></marker>
+  </defs>
+</svg>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drT" hidden>
+  <header class="dr-head"><small id="drK"></small><h3 id="drT"></h3><button class="dr-x" id="drX" aria-label="إغلاق">✕</button></header>
+  <div class="dr-body" id="drB"></div>
+</aside>
+
+<script>
+/* ================= أدوات الرسم ================= */
+const COL = {m:['#2f4f9e','#eef2fc'], o:['#1f7a46','#e4f3ea'], x:['#a57c20','#fbf4e3'], s:['#4f5a66','#f2f5f8'],
+             g:['#0f3d2a','#e4f3ea'], r:['#a3231f','#fdf0ef'], w:['#6b7783','#ffffff']};
+const ar = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+const arr = v => v == null ? [] : [].concat(v);
+const att = id => id ? ` class="clk" data-id="${id}" tabindex="0" role="button"` : '';
+/* تقسيم النص على أسطر بحسب العرض المتاح */
+function wrap(v, maxW, cw){
+  if (Array.isArray(v)) return v;
+  if (v == null) return [];
+  const out = []; let line = '';
+  String(v).split(' ').forEach(w => { const c = line ? line + ' ' + w : w; if (c.length * cw > maxW && line) { out.push(line); line = w; } else line = c; });
+  if (line) out.push(line); return out;
+}
+function lines(cx, cy, t, s, k, white){
+  const h = t.length*19 + s.length*17;
+  let y = cy - h/2 + 14, out = '';
+  t.forEach(l => { out += `<text x="${cx}" y="${y}" text-anchor="middle" class="tt${white?' tw':''}" ${white?'':`fill="${COL[k][0]}"`}>${l}</text>`; y += 19; });
+  s.forEach(l => { out += `<text x="${cx}" y="${y}" text-anchor="middle" class="ts" ${white?'style="fill:rgba(255,255,255,.9)"':''}>${l}</text>`; y += 17; });
+  return out;
+}
+function box(o){ const k=o.k||'s', [c,cs]=COL[k];
+  const t = wrap(o.t, o.w-18, 8.6), s = wrap(o.s, o.w-18, 6.8);
+  const need = t.length*19 + s.length*17 + 18; let {x,y,w,h} = o;
+  if (need > h){ y -= (need-h)/2; h = need; }
+  return `<g${att(o.id)}><rect class="shape" x="${x}" y="${y}" width="${w}" height="${h}" rx="${o.r??14}" fill="${o.fill||cs}" stroke="${c}" stroke-width="1.7" ${o.dash?'stroke-dasharray="6 5"':''}/>${lines(x+w/2, y+h/2, t, s, k, o.white)}</g>`; }
+function dia(o){ const k=o.k||'s', [c]=COL[k], {cx,cy,w,h}=o;
+  return `<g${att(o.id)}><polygon class="shape" points="${cx},${cy-h/2} ${cx+w/2},${cy} ${cx},${cy+h/2} ${cx-w/2},${cy}" fill="#fff" stroke="${c}" stroke-width="1.8"/>${lines(cx,cy,wrap(o.t,w*.55,7.9),wrap(o.s,w*.6,6.5),k)}</g>`; }
+function circ(o){ const k=o.k||'g', [c,cs]=COL[k];
+  return `<g${att(o.id)}><circle class="shape" cx="${o.cx}" cy="${o.cy}" r="${o.r}" fill="${o.solid?c:cs}" stroke="${c}" stroke-width="2"/>${lines(o.cx,o.cy,wrap(o.t,o.r*1.5,7.9),wrap(o.s,o.r*1.6,6.5),k,o.solid)}</g>`; }
+let CP = 0;
+function pot(o){ const k=o.k, [c]=COL[k], {x,y,w,h}=o, r=26, lvl=o.lvl??.55;
+  const body=`M${x} ${y} L${x} ${y+h-r} Q${x} ${y+h} ${x+r} ${y+h} L${x+w-r} ${y+h} Q${x+w} ${y+h} ${x+w} ${y+h-r} L${x+w} ${y} Z`;
+  const cid='cp'+(++CP), ly=y+h*(1-lvl);
+  let misc='';
+  if(o.misc){ const bh=Math.max(22,h*.17); misc=`<rect x="${x}" y="${ly}" width="${w}" height="${bh}" fill="${COL.x[0]}" opacity=".32" clip-path="url(#${cid})"/>
+     <text x="${x+w/2}" y="${ly+bh/2+5}" text-anchor="middle" class="ts" style="fill:#6e4f0e;font-weight:800">إيداعات متنوعة</text>`; }
+  return `<g${att(o.id)}><clipPath id="${cid}"><path d="${body}"/></clipPath>
+    <rect x="${x}" y="${ly}" width="${w}" height="${h}" fill="${c}" opacity=".15" clip-path="url(#${cid})"/>${misc}
+    <path class="shape" d="${body}" fill="none" stroke="${c}" stroke-width="2.4"/>
+    <rect x="${x-7}" y="${y-9}" width="${w+14}" height="11" rx="5" fill="#fff" stroke="${c}" stroke-width="2.4"/>
+    ${lines(x+w/2, y+(o.misc?h*.24:h*.28), wrap(o.t,w-12,7.9), wrap(o.s,w-12,6.5), k)}</g>`; }
+function shield(o){ const k=o.k, [c]=COL[k], {cx,y,w,h}=o;
+  const d=`M${cx-w/2} ${y} L${cx+w/2} ${y} L${cx+w/2} ${y+h*.45} Q${cx+w/2} ${y+h*.82} ${cx} ${y+h} Q${cx-w/2} ${y+h*.82} ${cx-w/2} ${y+h*.45} Z`;
+  return `<g${att(o.id)}><path class="shape" d="${d}" fill="${c}" stroke="${c}" stroke-width="1.5"/>${lines(cx, y+h*.4, arr(o.t), arr(o.s), k, true)}</g>`; }
+function line(pts, kind='money', lab, lp){
+  const d = typeof pts==='string' ? pts : 'M'+pts.map(p=>p.join(' ')).join(' L');
+  const cls = kind==='money' ? 'fl-money' : kind==='red' ? 'fl-red' : 'fl-data';
+  const mk = kind==='money' ? 'am' : kind==='red' ? 'ar' : 'ad';
+  let out = `<path d="${d}" class="${cls}" marker-end="url(#${mk})"/>`;
+  if(lab){ arr(lab).forEach((l,i)=> out += `<text x="${lp[0]}" y="${lp[1]+i*16}" text-anchor="middle" class="tl ${kind}">${l}</text>`); }
+  return out;
+}
+const T = (x,y,t,cls='th',anchor='middle',extra='') => `<text x="${x}" y="${y}" text-anchor="${anchor}" class="${cls}" ${extra}>${t}</text>`;
+
+/* ================= المحطات ================= */
+const ST = [];
+
+/* ١ — قمع تصفية البيانات */
+ST.push({ title:'الاستعداد والإطلاق', when:'مرة واحدة قبل التشغيل',
+  sum:'قبل تشغيل النظام تُراجع بيانات العمال والعقود وتُصحَّح، حتى لا يُفتح حساب أو تصدر فاتورة على بيانات غير صحيحة.',
+  foot:['لا يبدأ التشغيل قبل التأكد من صحة البيانات وجاهزية الربط مع الجهات الأخرى.',
+        'العامل الذي بلغ الستين يُسجَّل في الادخار، رغم أنه لا يُسجَّل في فروع التأمين الأخرى.',
+        'النسب والحدود تُعدَّل من إعدادات النظام عند صدور قرار جديد، دون الحاجة إلى برمجة.'],
+  svg(){ let s='';
+    s+=T(980,22,'تصفية البيانات خطوة بخطوة قبل التسجيل','ts','start','style="font-weight:800"');
+    const segs=[['سجلات وزارة العمل','نحو ١٫٤ مليون سجل','l1'],['مطابقة سجلات الصندوق','نحو ١٫٠٦ مليون سجل','l2'],['معالجة العقود العالقة','نحو ٢٥٨ ألف عقد','l3'],['استثناء الشركاء والملاك','تحقق آلي','l4'],['تسجيل المستحقين','دفعة واحدة','l5']];
+    const fills=['#5b6472','#4f6475','#3f5f73','#2f4f9e','#24418a'];
+    segs.forEach(([t,sub,id],i)=>{
+      const xR=980-i*192, xL=xR-188, hR=200-i*25, hL=200-(i+1)*25, cy=140;
+      s+=`<g class="clk" data-id="${id}" tabindex="0" role="button"><polygon class="shape" points="${xR},${cy-hR/2} ${xR},${cy+hR/2} ${xL},${cy+hL/2} ${xL},${cy-hL/2}" fill="${fills[i]}" stroke="#fff" stroke-width="3"/>
+        ${T((xR+xL)/2,cy-4,t,'tt tw')}${T((xR+xL)/2,cy+20,sub,'ts','middle','style="fill:#fff;font-weight:700;font-size:14.5px"')}</g>`;
+    });
+    s+=line([[106,178],[106,250],[400,250],[400,274]],'data',['قائمة المستحقين للتسجيل'],[250,242]);
+    s+=box({x:690,y:284,w:290,h:100,k:'s',t:'تهيئة القواعد والنسب',s:['اشتراك ٩٪ · حد أدنى للإيداع ١٠٠ ر.ع','حد سنوي ٣٦٬٠٠٠ ر.ع · غرامة تأخير ٨٪'],id:'l-rules'});
+    s+=line([[690,334],[548,334]],'data',['القواعد معتمدة'],[619,324]);
+    s+=dia({cx:400,cy:334,w:292,h:140,k:'g',t:'قرار الإطلاق',s:['هل البيانات صحيحة؟','هل الربط مع الجهات جاهز؟'],id:'l-gate'});
+    s+=line([[254,334],[206,334]],'data',['نعم'],[230,324]);
+    s+=box({x:20,y:304,w:184,h:60,k:'g',t:'بدء تشغيل النظام',r:30,fill:'#0f3d2a',white:1,id:'l-gate'});
+    return {vb:'0 0 1000 404', html:s};
+  }});
+
+/* ٢ — موجّه الأدوار */
+ST.push({ title:'الدخول وتحديد المسار', when:'عند كل دخول',
+  sum:'يدخل جميع المستخدمين من باب واحد، ثم يتعرف النظام على نوع المستخدم ويعرض له الخدمات الخاصة به فقط.',
+  foot:['الدخول الأساسي لجميع المستخدمين عبر الهوية الرقمية (منصة ثقة).',
+        'العامل بعد مغادرة السلطنة يدخل برمز مؤقت يصل إلى بريده الإلكتروني وصالح لمدة ٥ دقائق.',
+        'جهة العمل لا ترى عوائد العامل ولا المبالغ التي أودعها بنفسه.'],
+  svg(){ let s='';
+    s+=box({x:770,y:62,w:210,h:76,k:'g',t:'منصة ثقة',s:'الدخول بالهوية الرقمية الوطنية',id:'e-theqa'});
+    s+=box({x:770,y:246,w:210,h:100,k:'m',t:'الدخول من خارج السلطنة',s:'للعامل بعد مغادرته: رقم مدني وهاتف وبريد، ثم رمز دخول مؤقت',id:'e-abroad'});
+    s+=line([[770,100],[648,166]],'data',['تم التحقق من الهوية'],[668,130]);
+    s+=line([[770,296],[648,238]],'data',['خدمات محدودة'],[694,296]);
+    s+=circ({cx:560,cy:202,r:94,k:'g',solid:1,t:'يتعرف النظام على نوع المستخدم',s:'حسب الجنسية وعلاقة العمل',id:'e-hub'});
+    const roles=[['عامل غير عماني','يرى رصيده وأجره المسجل، ويطلب الصرف','m',22,'e-r1'],['مدخر عماني أو اختياري','يرى رصيده، ويودع، ويطلب الصرف','o',112,'e-r2'],['جهة العمل','ترى عمالها وفواتيرها فقط، دون أرصدتهم الخاصة','s',202,'e-r3'],['موظف الصندوق','يراجع الطلبات ويعتمدها، ويتابع التقارير','g',292,'e-r4']];
+    roles.forEach(([t,sub,k,y,id])=>{ s+=line([[466,202],[322,y+34]],'data'); s+=box({x:30,y,w:290,h:68,k,t,s:sub,id}); });
+    return {vb:'0 0 1000 380', html:s};
+  }});
+
+/* ٣ — مساران إلى الحسابين */
+ST.push({ title:'التسجيل وفتح الحساب', when:'عند كل مدخر جديد',
+  sum:'يدخل المدخر النظام بأحد طريقين: تسجيل إلزامي تلقائي للعامل غير العماني، أو تسجيل اختياري بطلب منه. ولكل مدخر حساب شخصي واحد يضم حسابين.',
+  foot:['التسجيل الإلزامي يتم تلقائياً من بيانات عقد العمل، ويجوز بأثر رجعي إذا تأخر.',
+        'التسجيل الاختياري متاح لأربع فئات حددها القانون، ويكتمل بسداد أول إيداع.',
+        'لكل رقم مدني حساب شخصي واحد فقط لا يتكرر.'],
+  svg(){ let s='';
+    s+=`<rect x="20" y="20" width="300" height="400" rx="22" fill="#fbfcfd" stroke="#0f3d2a" stroke-width="1.6" stroke-dasharray="7 6"/>`;
+    s+=T(170,48,'الحساب الشخصي للمدخر');
+    s+=pot({x:85,y:80,w:170,h:130,k:'m',t:'الحساب الإلزامي',id:'r-pm',lvl:.3});
+    s+=pot({x:85,y:262,w:170,h:136,k:'o',t:'الحساب الاختياري',id:'r-po',lvl:.34,misc:1});
+    s+=T(980,30,'المسار الإلزامي','tl','start','style="fill:#2f4f9e;font-size:14.5px"');
+    s+=box({x:820,y:46,w:160,h:76,k:'m',t:'عقد عمل جديد',s:'يصل من وزارة العمل',id:'r-contract'});
+    s+=line([[820,84],[740,84]],'data',['بيانات العقد'],[780,74]);
+    s+=dia({cx:664,cy:84,w:150,h:100,k:'m',t:['شريك أو مالك','في المنشأة؟'],id:'r-partner'});
+    s+=line([[664,134],[664,166]],'data',['نعم'],[684,154]);
+    s+=box({x:594,y:168,w:140,h:46,k:'w',t:'لا يُسجَّل (مستثنى)',id:'r-partner'});
+    s+=line([[589,84],[548,84]],'data',['لا'],[568,74]);
+    s+=box({x:356,y:46,w:190,h:76,k:'m',t:'تسجيل إلزامي تلقائي',s:'بما فيهم من بلغ الستين',id:'r-mand'});
+    s+=line([[356,84],[262,130]],'money');
+    s+=T(980,250,'المسار الاختياري','tl','start','style="fill:#1f7a46;font-size:14.5px"');
+    s+=box({x:820,y:268,w:160,h:76,k:'o',t:'طلب تسجيل اختياري',s:'يقدمه المدخر بنفسه',id:'r-req'});
+    s+=line([[820,306],[740,306]],'data',['بيانات المتقدم'],[780,296]);
+    s+=dia({cx:664,cy:306,w:150,h:100,k:'o',t:['من الفئات','المشمولة؟'],id:'r-cat'});
+    s+=line([[589,306],[548,306]],'data',['نعم'],[568,296]);
+    s+=box({x:356,y:268,w:190,h:76,k:'o',t:'سداد إيداع أولي',s:'لا يقل عن ١٠٠ ر.ع',id:'r-first'});
+    s+=line([[356,306],[262,320]],'money');
+    s+=box({x:580,y:384,w:220,h:44,k:'w',t:'حالات خاصة يسجلها الموظف',dash:1,id:'r-staff'});
+    s+=line([[690,384],[690,360]],'data');
+    return {vb:'0 0 1000 440', html:s};
+  }});
+
+/* ٤ — تمويل الحساب الإلزامي */
+ST.push({ title:'تمويل الحساب الإلزامي', when:'كل شهر',
+  sum:'يدفع صاحب العمل كل شهر اشتراكاً بنسبة ٩٪ من الأجر الأساسي لكل عامل غير عماني، ويُضاف إلى حساب العامل الإلزامي بعد السداد. ويجوز لصاحب العمل أيضاً ترحيل مكافأة نهاية الخدمة السابقة إلى الحساب.',
+  foot:['في شهر بدء العمل أو تركه يُحسب الاشتراك بعدد الأيام الفعلية، ويستمر خلال الإجازة بدون راتب.',
+        'الفاتورة الشهرية لا تُعدَّل بعد صدورها، وأي فرق يظهر في فاتورة الشهر التالي.',
+        'يُبلَّغ العامل بقرار صاحب العمل بشأن مكافأته السابقة، ويستطيع تأكيد علمه أو الاعتراض للتوثيق.'],
+  svg(){ let s='';
+    s+=pot({x:24,y:110,w:176,h:210,k:'m',t:'الحساب الإلزامي',s:'للعامل غير العماني',id:'h-pm',lvl:.5});
+    s+=T(980,26,'الاشتراك الشهري','tl','start','style="fill:#2f4f9e;font-size:14.5px"');
+    s+=box({x:816,y:46,w:164,h:84,k:'m',t:'إغلاق الشهر',s:'احتساب ٩٪ من الأجر الأساسي لكل عامل',id:'f-cycle'});
+    s+=line([[816,88],[790,88]],'data');
+    s+=box({x:612,y:46,w:176,h:84,k:'s',t:'الفاتورة الشهرية',s:'فاتورة واحدة لصاحب العمل فيها بند الادخار',id:'f-inv'});
+    s+=line([[612,88],[586,88]],'money');
+    s+=box({x:426,y:46,w:158,h:84,k:'s',t:'السداد',s:'كاملاً أو على دفعات',id:'f-col'});
+    s+=line([[426,88],[360,88],[204,150]],'money',['بعد تأكيد الدفع'],[372,108]);
+    s+=line([[700,130],[700,162]],'red');
+    s+=box({x:596,y:164,w:208,h:72,k:'r',t:'التأخر في السداد',s:'غرامة ٨٪ سنوياً على المبلغ المتأخر بعدد أيام التأخير',id:'f-pen'});
+    s+=T(980,272,'مكافأة نهاية الخدمة السابقة','tl','start','style="fill:#2f4f9e;font-size:14.5px"');
+    s+=box({x:816,y:290,w:164,h:84,k:'m',t:'عامل له خدمة قبل النظام',s:'يستعلم صاحب العمل عن مبلغ مكافأته',id:'f-eos'});
+    s+=line([[816,332],[778,332]],'data');
+    s+=dia({cx:690,cy:332,w:172,h:112,k:'m',t:['ماذا يختار','صاحب العمل؟'],id:'f-eos-d'});
+    s+=line([[604,332],[562,332]],'data',['ترحيل'],[583,322]);
+    s+=box({x:390,y:290,w:170,h:84,k:'m',t:'فاتورة التسوية',s:'يسددها صاحب العمل',id:'f-eos-inv'});
+    s+=line([[390,332],[300,332],[204,280]],'money',['بعد تأكيد الدفع'],[340,322]);
+    s+=line([[690,388],[690,414]],'data',['تسوية ودية'],[740,404]);
+    s+=box({x:596,y:416,w:188,h:56,k:'w',t:'تُسوّى مع العامل مباشرة',s:'خارج نظام الادخار',id:'f-eos-d'});
+    return {vb:'0 0 1000 486', html:s};
+  }});
+
+/* ٥ — تمويل الحساب الاختياري والإيداعات المتنوعة */
+ST.push({ title:'تمويل الحساب الاختياري والإيداعات المتنوعة', when:'عند كل إيداع',
+  sum:'يودع المدخر لنفسه، أو تودع جهة العمل لصالح عمالها، بفاتورة أو بدفع إلكتروني مباشر. أما الإيداعات المتنوعة فيضيفها الصندوق مباشرة دون فاتورة.',
+  foot:['الحد السنوي ٣٦٬٠٠٠ ر.ع يُحسب لكل مصدر على حدة: للمدخر حد، ولجهة العمل حد مستقل لكل عامل.',
+        'المبلغ الذي تودعه جهة العمل يصبح ملكاً للعامل بعد إضافته إلى حسابه.',
+        'الإيداعات المتنوعة لا تُحسب ضمن الحد السنوي، وتظهر منفصلة في كشف الحساب.'],
+  svg(){ let s='';
+    s+=pot({x:24,y:70,w:186,h:300,k:'o',t:'الحساب الاختياري',id:'h-po',lvl:.64,misc:1});
+    s+=T(980,22,'الإيداع الاختياري','tl','start','style="fill:#1f7a46;font-size:14.5px"');
+    s+=box({x:820,y:38,w:160,h:66,k:'o',t:'المدخر',s:'يودع لنفسه',id:'f-self'});
+    s+=box({x:820,y:122,w:160,h:66,k:'o',t:'جهة العمل',s:'تودع لعامل أو أكثر',id:'f-emp'});
+    s+=line('M820 71 C 784 71, 784 113, 744 113','money');
+    s+=line('M820 155 C 784 155, 784 113, 744 113','money');
+    s+=dia({cx:660,cy:113,w:166,h:108,k:'o',t:['هل المبلغ','ضمن الحدود؟'],id:'o-lim'});
+    s+=T(660,188,'لا يقل عن ١٠٠ ر.ع لكل إيداع','tl')+T(660,205,'ولا يتجاوز ٣٦٬٠٠٠ ر.ع في السنة','tl');
+    s+=line([[577,113],[540,113]],'data',['نعم'],[558,103]);
+    s+=box({x:330,y:62,w:208,h:102,k:'o',t:'فاتورة إيداع أو دفع مباشر',s:'الفردية يجوز دفعها على دفعات، والجماعية تُسدد كاملة',id:'o-inv'});
+    s+=line([[330,113],[214,140]],'money',['بعد تأكيد الدفع'],[268,108]);
+    s+=T(980,262,'الإيداعات المتنوعة','tl','start','style="fill:#a57c20;font-size:14.5px"');
+    s+=box({x:820,y:280,w:160,h:72,k:'x',t:'أنظمة الصندوق',s:'إيداعات متنوعة',id:'f-misc'});
+    s+=line([[820,316],[742,316]],'money');
+    s+=box({x:520,y:276,w:220,h:80,k:'x',t:'التحقق من الإيداع',s:'رقم مرجعي يمنع التكرار، ويُفتح الحساب إن لم يوجد',id:'o-chk'});
+    s+=line([[520,316],[260,316],[260,206],[214,206]],'money',['مباشرة دون فاتورة'],[390,306]);
+    return {vb:'0 0 1000 392', html:s};
+  }});
+
+/* ٦ — العائد وضمان ٢٪ */
+function growth(){
+  const rates=[3,2.5,-4,1,1.5,2,0.5,1,2,1.5];
+  let a=100,g=100; const A=[a],G=[g];
+  rates.forEach(r=>{ a*=1+r/100; g*=1.02; A.push(a); G.push(g); });
+  return {A,G};
+}
+ST.push({ title:'العائد وضمان ٢٪', when:'كل سنة',
+  sum:'يحدد الصندوق كل سنة نسبة العائد من صافي أرباح الاستثمار، ويضيفها إلى الرصيد شهراً بشهر، ويضمن ألا يقل متوسط العائد على كامل مدة الادخار عن ٢٪.',
+  foot:['تُعلن نسبة العائد قبل ٣١ مارس من السنة التالية، ويجوز أن تختلف بين الحسابين.',
+        'الإيداع يبدأ في تحقيق العائد من الشهر التالي، فإيداع ديسمبر لا يحقق عائداً في سنته.',
+        'قد تقل النسبة في سنة ما عن ٢٪، لكن المقارنة تتم مرة واحدة عند الصرف على كامل المدة.'],
+  svg(){ let s='';
+    s+=T(980,22,'كيف تُحدَّد نسبة العائد السنوية؟','th','start');
+    const base=230, bars=[[910,['إجمالي عائد','الاستثمار'],60,230,'#0f3d2a'],[810,['المصروفات','الإدارية'],60,95,'#a3231f'],[710,['مخصص','الاحتياطيين'],95,140,'#a57c20'],[610,['صافي العائد','للتوزيع'],140,230,'#1f7a46']];
+    s+=`<g class="clk" data-id="b-rate" tabindex="0" role="button">`;
+    bars.forEach(([x,l,y1,y2,c],i)=>{
+      s+=`<rect class="shape" x="${x}" y="${y1}" width="64" height="${y2-y1}" rx="6" fill="${c}"/>`;
+      l.forEach((t,j)=> s+=T(x+32,base+20+j*16,t,'ts','middle','style="font-weight:700"'));
+      if(i<3){ const ny=bars[i+1][2]; s+=`<line x1="${x}" y1="${ny}" x2="${x-36}" y2="${ny}" stroke="#9aa6b2" stroke-dasharray="3 3"/>`; }
+    });
+    s+=T(980,46,'إجمالي العائد − المصروفات − مخصص الاحتياطيين = صافي العائد','ts','start');
+    s+='</g>';
+    s+=line([[610,185],[572,185]],'data');
+    s+=box({x:420,y:146,w:150,h:84,k:'g',t:'نسبة العائد السنوية',s:'تُعلن قبل ٣١ مارس من السنة التالية',id:'b-rate'});
+    s+=line([[495,230],[495,276]],'data');
+    s+=box({x:440,y:278,w:540,h:46,k:'g',t:'تُحوَّل إلى نسبة شهرية = (١ + النسبة السنوية)^(١/١٢) − ١',id:'b-month'});
+    const {A,G}=growth(), X0=396, X1=150, Y0=262, Y1=116, lo=96, hi=124;
+    const px=i=>X0-(X0-X1)*i/10, py=v=>Y0-(Y0-Y1)*(v-lo)/(hi-lo);
+    s+=T(396,22,'ضمان ألا يقل متوسط العائد عن ٢٪','th','start');
+    s+=`<g class="clk" data-id="b-guar" tabindex="0" role="button"><rect class="shape" x="16" y="34" width="394" height="290" rx="12" fill="#fff" stroke="#e3e9ef"/>`;
+    s+=T(396,58,'مثال: ١٠٠ ر.ع مستثمرة ١٠ سنوات بنسب معلنة متفاوتة','ts','start');
+    s+=`<line x1="396" y1="78" x2="370" y2="78" stroke="#1f7a46" stroke-width="3"/>`+T(362,83,'الرصيد الفعلي حسب النسب المعلنة','ts','start');
+    s+=`<line x1="396" y1="98" x2="370" y2="98" stroke="#7d8a97" stroke-width="2" stroke-dasharray="6 5"/>`+T(362,103,'الرصيد لو كان العائد ٢٪ كل سنة','ts','start');
+    s+=`<line x1="${X1}" y1="${Y0}" x2="${X0}" y2="${Y0}" stroke="#c9d3dc"/>`;
+    [1,4,7,10].forEach(i=> s+=T(px(i),Y0+18,'سنة '+ar(i),'ts'));
+    s+=`<polyline points="${G.map((v,i)=>px(i)+','+py(v)).join(' ')}" fill="none" stroke="#7d8a97" stroke-width="2" stroke-dasharray="6 5"/>`;
+    s+=`<polyline points="${A.map((v,i)=>px(i)+','+py(v)).join(' ')}" fill="none" stroke="#1f7a46" stroke-width="3"/>`;
+    s+=`<line x1="${px(10)}" y1="${py(G[10])}" x2="${px(10)}" y2="${py(A[10])}" stroke="#a57c20" stroke-width="5"/>`;
+    s+=T(px(10),py(G[10])-10,ar(Math.round(G[10]))+' ر.ع','tl');
+    s+=T(px(10),py(A[10])+22,ar(Math.round(A[10]))+' ر.ع','tl','middle','style="fill:#1f7a46"');
+    const gm=(py(G[10])+py(A[10]))/2;
+    s+=T(78,gm-10,'الفرق '+ar(Math.round(G[10]-A[10]))+' ر.ع','tl money');
+    s+=T(78,gm+6,'يُضاف من','tl money');
+    s+=T(78,gm+22,'الاحتياطي عند الصرف','tl money');
+    s+=T(px(3),py(A[3])+22,'سنة بعائد سالب','tl red');
+    s+=T(213,308,'تتم المقارنة مرة واحدة عند الصرف، لا كل سنة','ts')+'</g>';
+    return {vb:'0 0 1000 340', html:s};
+  }});
+
+/* ٧ — حماية الرصيد والتزامات المدخر */
+ST.push({ title:'حماية الرصيد والتزامات المدخر', when:'أثناء الخدمة',
+  sum:'لكل حساب احتياطي يحميه، وتُسدَّد التزامات المدخر للصندوق من رصيده بترتيب محدد. وهناك أحداث قد تقع أثناء الخدمة وتؤثر على الرصيد أو العائد.',
+  foot:['احتياطي الحساب الإلزامي يعوّض العامل عما لم يدفعه صاحب العمل، وما يُحصَّل لاحقاً من صاحب العمل يعود إلى الاحتياطي.',
+        'إذا طلب المدخر سداد التزام بنفسه يُسدَّد كاملاً أو لا يُسدَّد، أما الخصم بطلب نظام التحصيل فيأخذ المتاح.',
+        'كل خصم يظهر للمدخر في سجل معاملاته مع رصيده قبل الخصم وبعده.'],
+  svg(){ let s='';
+    s+=T(980,24,'الحسابان واحتياطياهما وترتيب سداد الالتزامات','th','start');
+    s+=pot({x:640,y:62,w:150,h:130,k:'m',t:'الحساب الإلزامي',id:'h-pm',lvl:.55});
+    s+=shield({cx:922,y:66,w:110,h:118,k:'m',t:'احتياطي',s:'الإلزامي',id:'b-rm'});
+    s+=line([[867,124],[798,124]],'money',['تعويض','التعثر'],[832,152]);
+    s+=pot({x:322,y:62,w:150,h:130,k:'o',t:'الحساب الاختياري',id:'h-po',lvl:.62,misc:1});
+    s+=shield({cx:560,y:66,w:110,h:118,k:'o',t:'احتياطي',s:'الاختياري',id:'b-ro'});
+    s+=line([[505,124],[480,124]],'money');
+    s+=box({x:20,y:84,w:220,h:84,k:'r',t:'سداد التزامات المدخر للصندوق',s:'مثل اشتراكات التأمين المتأخرة',id:'b-obl'});
+    s+=line([[322,124],[242,124]],'money',['أولاً'],[282,114]);
+    s+=line([[715,194],[715,222],[130,222],[130,170]],'money',['ثم من الإلزامي إن لم يكفِ الاختياري'],[420,214]);
+    s+=T(980,272,'أحداث قد تقع أثناء الخدمة','th','start');
+    s+=box({x:666,y:290,w:314,h:92,k:'m',t:'الاعتراض على الأجر المسجل',s:'للعامل ٩٠ يوماً للاعتراض، ولجهة العمل ٣٠ يوماً للرد',id:'v-obj'});
+    s+=box({x:343,y:290,w:314,h:92,k:'o',t:'الخروج من الادخار الاختياري',s:'يتوقف الإيداع، ويبقى الرصيد في الحساب وينمو حتى الصرف',id:'v-exit'});
+    s+=box({x:20,y:290,w:314,h:92,k:'s',t:'إبلاغ الصندوق بالخروج',s:'خلال شهر، وإلا يُحسب ٢٪ للسنة الأولى فقط ثم يتوقف العائد',id:'v-notify'});
+    return {vb:'0 0 1000 396', html:s};
+  }});
+
+/* ٦ — شجرة شروط الصرف */
+ST.push({ title:'الاستحقاق وطلب الصرف', when:'عند تحقق شرط الصرف',
+  sum:'لا تُصرف المدخرات إلا إذا تحقق أحد شروط الصرف، ويكون الصرف لكامل الرصيد بعد تسوية ما على المدخر من التزامات.',
+  foot:['مبلغ الصرف يحسبه النظام تلقائياً، ولا يمكن للمدخر إدخاله أو تعديله.',
+        'لا يجوز صرف جزء من الرصيد، باستثناء فائض العام للعماني.',
+        'يُحوَّل المبلغ إلى حساب بنكي مسجل باسم المستحق، يُجلب إلكترونياً ولا يُدخل يدوياً.'],
+  svg(){ let s='';
+    s+=box({x:846,y:206,w:146,h:96,k:'g',t:'تقديم طلب صرف',s:'من المدخر أو من أحد الورثة',id:'d-req'});
+    s+=`<line x1="832" y1="64" x2="832" y2="466" stroke="#7d8a97" stroke-width="1.8" stroke-dasharray="6 5"/>`;
+    s+=line([[846,254],[834,254]],'data');
+    s+=`<line x1="448" y1="64" x2="448" y2="466" stroke="#7d8a97" stroke-width="1.8" stroke-dasharray="6 5"/>`;
+    s+=T(641,26,'يكفي تحقق شرط واحد من هذه الشروط','tl');
+    const c=[['غير عماني انتهى عمله وغادر السلطنة','يقدّم الطلب قبل سفره، ويُنفَّذ بعد إلغاء عقده','m','d-leave'],
+             ['غير عماني انتهى عمله وبقي في السلطنة','بعد ٣ أشهر، بتأشيرة غير العمل ودون عقد جديد','m','d-stay'],
+             ['عماني استحق معاشاً','أو استحق مكافأة فقد المعاش','s','d-pens'],
+             ['اشتراك ١٨٠ شهراً أو أكثر','يشمل الجميع','s','d-180'],
+             ['العجز الدائم','يشمل الجميع','s','d-dis'],
+             ['وفاة المدخر','يُصرف للورثة الشرعيين','s','d-death'],
+             ['صرف فائض العام للعماني','مرة كل سنة، دون عائد','x','d-surp']];
+    c.forEach(([t,sub,k,id],i)=>{ const y=40+i*62, cy=y+28; s+=line([[832,cy],[814,cy]],'data'); s+=box({x:470,y,w:342,h:56,k,t,s:sub,id,dash:k==='x'}); s+=`<line x1="470" y1="${cy}" x2="448" y2="${cy}" stroke="#7d8a97" stroke-width="1.8" stroke-dasharray="6 5"/>`; });
+    s+=line([[448,254],[428,254]],'data');
+    s+=box({x:262,y:200,w:164,h:108,k:'g',t:'مراجعة الطلب',s:'تحقق آلي من الشروط والحساب البنكي، ثم اعتماد الموظف',id:'d-review'});
+    s+=line([[262,254],[246,254]],'data');
+    s+=dia({cx:142,cy:254,w:206,h:124,k:'r',t:['تسوية','الالتزامات'],id:'d-settle'});
+    s+=T(142,334,'إلزامية قبل صرف مدخرات غير العماني','tl red')+T(142,352,'وبقرار مسبب من الموظف للعماني','tl');
+    s+=line([[142,362],[142,388]],'money');
+    s+=box({x:22,y:390,w:240,h:76,k:'g',t:'مبلغ الصرف الصافي',s:'كامل الرصيد بعد التسوية، يحسبه النظام',fill:'#0f3d2a',white:1,id:'d-net'});
+    return {vb:'0 0 1000 486', html:s};
+  }});
+
+/* ٧ — أنبوب الصرف */
+ST.push({ title:'تنفيذ الصرف والإغلاق', when:'بعد اعتماد الطلب',
+  sum:'قبل الدفع يتأكد النظام من ضمان العائد، ثم يرسل المبلغ إلى النظام المالي والبنك، ويتابعه حتى يصل فعلاً إلى حساب المدخر.',
+  foot:['إذا رُدّت الحوالة لا يُعد الصرف مكتملاً، وتُعاد بعد تصحيح البيانات دون حد أقصى لعدد المحاولات.',
+        'رسوم التحويل الدولي وفروق سعر الصرف يتحملها المدخر.',
+        'يسقط حق المطالبة بالمدخرات بعد ٥ سنوات من تاريخ استحقاقها.'],
+  svg(){ let s='', cy=214;
+    s+=box({x:890,y:cy-40,w:96,h:80,k:'g',t:['مبلغ الصرف','المعتمد'],id:'d-net'});
+    s+=line([[890,cy],[866,cy]],'money');
+    s+=box({x:700,y:cy-48,w:166,h:96,k:'g',t:'التحقق من ضمان ٢٪',s:'مقارنة الرصيد بما كان سيبلغه بعائد ٢٪',id:'p-guar'});
+    s+=shield({cx:783,y:16,w:104,h:100,k:'g',t:'احتياطي',s:'الحساب',id:'p-guar'});
+    s+=line([[783,118],[783,162]],'money',['يُضاف الفرق','إن وُجد'],[846,134]);
+    s+=line([[700,cy],[680,cy]],'money');
+    s+=dia({cx:620,cy,w:118,h:98,k:'s',t:['طريقة','الصرف'],id:'p-mode'});
+    s+=line([[620,cy-49],[620,112],[584,112]],'money');
+    s+=line([[620,cy+49],[620,318],[584,318]],'money');
+    s+=box({x:440,y:84,w:142,h:56,k:'s',t:'دفعة واحدة',id:'p-mode'});
+    s+=box({x:440,y:282,w:142,h:72,k:'s',t:'أقساط متساوية',s:'والمتبقي يستمر في تحقيق العائد',id:'p-inst'});
+    s+=line([[440,112],[416,112],[416,cy-12],[402,cy-12]],'money');
+    s+=line([[440,318],[416,318],[416,cy+12],[402,cy+12]],'money');
+    s+=box({x:280,y:cy-40,w:120,h:80,k:'s',t:'النظام المالي',s:'(Oracle)',id:'p-oracle'});
+    s+=line([[280,cy],[256,cy]],'money');
+    s+=box({x:146,y:cy-40,w:108,h:80,k:'s',t:'البنك',s:'يحوّل المبلغ',id:'p-bank'});
+    s+=line([[146,cy],[118,cy]],'money');
+    s+=circ({cx:64,cy,r:52,k:'o',solid:1,t:'المدخر',s:'استلم المبلغ',id:'p-done'});
+    s+=line([[200,cy-40],[200,108]],'red');
+    s+=box({x:130,y:28,w:150,h:78,k:'r',t:'رُدّت الحوالة',s:'يصحح المدخر بيانات حسابه',id:'p-ret'});
+    s+=line([[280,66],[340,66],[340,cy-42]],'red',['تُعاد المحاولة','دون حد أقصى'],[396,46]);
+    s+=line([[64,cy+52],[64,388]],'data');
+    s+=box({x:12,y:390,w:230,h:66,k:'g',t:'إغلاق الطلب',s:'بعد التأكد من وصول المبلغ ومطابقته',id:'p-close'});
+    s+=box({x:276,y:390,w:250,h:66,k:'w',t:'مستحقات لم يُطالَب بها',s:'يسقط الحق بعد ٥ سنوات من الاستحقاق',dash:1,id:'p-presc'});
+    return {vb:'0 0 1000 470', html:s};
+  }});
+
+/* ٨ — محور الرقابة والمطابقة */
+ST.push({ title:'الرقابة والتحسين', when:'بشكل مستمر',
+  sum:'كل عملية على الحساب تُسجَّل ويُبلَّغ بها صاحبها وتُقيَّد محاسبياً، وفي نهاية كل سنة يتأكد الصندوق من أن أصوله تساوي أرصدة المدخرين واحتياطياتها.',
+  foot:['يصل للمدخر إشعار بكل عملية على حسابه، وبكل تغيير في طريقة احتساب رصيده.',
+        'لكل شكوى رقم متابعة ومدة رد محددة، وتُرفع تلقائياً إلى مستوى أعلى عند التأخر.',
+        'كل جهة في الصندوق ترى المؤشرات الخاصة بعملها فقط.'],
+  svg(){ let s='';
+    s+=circ({cx:770,cy:212,r:78,k:'g',solid:1,t:'كل عملية على الحساب',id:'c-hub'});
+    const sp=[[560,22,196,'إشعار صاحب العلاقة','عبر النظام والرسائل والبريد','c-notif'],[800,22,190,'سجل تدقيق دائم','لا يُحذف ولا يُعدَّل','c-audit'],
+              [560,336,196,'قيد محاسبي مستقل','في النظام المالي لكل حساب واحتياطي','c-gl'],[800,336,190,'لوحات متابعة','لكل جهة ما يخص عملها','c-dash'],
+              [470,182,176,'الشكاوى','برقم متابعة ومدة رد محددة','c-crm']];
+    sp.forEach(([x,y,w,t,sub,id])=>{ const cx=x+w/2, cyy=y+32; s+=line([[770+(cx-770)*.4,212+(cyy-212)*.4],[cx+(770-cx)*.16,cyy+(212-cyy)*.16]],'data'); s+=box({x,y,w,h:64,k:'s',t,s:sub,id}); });
+    s+=T(220,24,'المطابقة في نهاية كل سنة');
+    s+=`<g class="clk" data-id="c-recon" tabindex="0" role="button">`;
+    s+=`<rect class="shape" x="40" y="56" width="96" height="300" rx="8" fill="#0f3d2a"/>`+T(88,200,'أصول','tt tw')+T(88,222,'الصندوق','tt tw');
+    s+=T(170,214,'=','th','middle','style="font-size:34px"');
+    const parts=[['الحساب الإلزامي',130,'#2f4f9e'],['الحساب الاختياري',110,'#1f7a46'],['احتياطي الإلزامي',30,'#5f7bc0'],['احتياطي الاختياري',30,'#5aa57a']];
+    let y=56; parts.forEach(([l,h,c])=>{ s+=`<rect x="204" y="${y}" width="96" height="${h}" fill="${c}" stroke="#fff" stroke-width="2"/>`+T(308,y+h/2+5,l,'tl','end'); y+=h; });
+    s+=T(220,380,'الأحجام في الرسم توضيحية','ts')+'</g>';
+    return {vb:'0 0 1000 424', html:s};
+  }});
+
+/* ================= التفاصيل عند الضغط ================= */
+const D = {
+ 'f-cycle':['إغلاق الشهر','m','في نهاية كل شهر تُثبَّت بيانات العمال وأجورهم، ويحسب النظام اشتراك كل عامل غير عماني بنسبة ٩٪ من أجره الأساسي.',['في شهر بدء العمل أو تركه يُحسب الاشتراك بعدد الأيام الفعلية.','يستمر الاشتراك خلال الإجازة بدون راتب ويدفعه صاحب العمل.','يتوقف الاشتراك تلقائياً لمن ترك العمل.','العائد يُحسب على الاشتراك المستحق، ويعوّض الاحتياطي ما لم يُدفع.'],'BR-DEP-04..08'],
+ 'f-eos-d':['قرار صاحب العمل بشأن المكافأة السابقة','m','لكل عامل عمل قبل بدء النظام يختار صاحب العمل أحد خيارين: أن يسوّي المكافأة مع العامل مباشرة خارج النظام، أو أن يرحّلها إلى نظام الادخار.',['يُبلَّغ العامل بالقرار، ويستطيع تأكيد علمه أو تسجيل اعتراضه للتوثيق، دون أن يوقف ذلك الإجراء.'],'م.١٣٨ · US-08'],
+ 'f-eos-inv':['فاتورة التسوية','m','عند اختيار الترحيل تصدر فاتورة على صاحب العمل بمبلغ كل عامل، لعامل واحد أو عبر ملف لعدة عمال. وبعد سدادها يُضاف المبلغ إلى الحساب الإلزامي للعامل مصدراً مستقلاً.',[],'م.١٣٨'],
+ 'o-lim':['هل المبلغ ضمن الحدود؟','o','يتحقق النظام قبل إصدار الفاتورة من الحدود المسموح بها.',['لا يقل أي إيداع عن ١٠٠ ر.ع، وفي الإيداع الجماعي لا يقل مبلغ كل عامل عن ١٠٠ ر.ع.','لا تتجاوز إيداعات المدخر لنفسه ٣٦٬٠٠٠ ر.ع في السنة.','ولا تتجاوز إيداعات جهة العمل لكل عامل ٣٦٬٠٠٠ ر.ع في السنة، مستقلة عن حده الذاتي.','يعرض النظام ما استُخدم من الحد وما تبقى منه.'],'BR-DEP-01/02B/05'],
+ 'o-inv':['فاتورة إيداع أو دفع مباشر','o','تصدر فاتورة فردية للمدخر أو جماعية لجهة العمل، أو يدفع المدخر إلكترونياً مباشرة إذا كانت الخدمة متاحة.',['الفاتورة الفردية يجوز دفعها على دفعات بشرط ألا تقل كل دفعة عن ١٠٠ ر.ع.','الفاتورة الجماعية تُسدد كاملة، ولا تُوزع المبالغ على العمال قبل سدادها.','يمكن إلغاء الفاتورة فقط إذا لم يُدفع منها شيء.'],'BR-DEP-05A..C'],
+ 'o-chk':['التحقق من الإيداع المتنوع','x','تصل الحركة جاهزة من النظام المصدر، فيتحقق نظام الادخار من أنها لم تُضف من قبل، ومن وجود حساب للمدخر، ثم يضيفها مباشرة.',['إذا لم يكن للمدخر حساب يُفتح له تلقائياً.','يظهر كل إيداع في كشف الحساب بنوعه.'],'BR-SUR-01..04'],
+ 'v-obj':['الاعتراض على الأجر المسجل','m','إذا كان الأجر المسجل غير صحيح، يعترض العامل خلال ٩٠ يوماً ويحدد الأجر الصحيح وتاريخه، فتُبلَّغ جهة العمل ولها ٣٠ يوماً للرد.',['إذا قبلت جهة العمل أو لم ترد يُعتمد الأجر الذي حدده العامل.','إذا رفضت يُوجَّه العامل لتقديم شكوى عمالية في وزارة العمل، ثم يُحدّث طلبه بنتيجتها.','أي فرق في الاشتراك يظهر في فاتورة الشهر التالي، وقد تترتب غرامة على جهة العمل.'],'م.٩٨ · BR-PEN-03..08'],
+ 'v-exit':['الخروج من الادخار الاختياري','o','يستطيع المدخر الاختياري إيقاف اشتراكه، بعد إقراره بأن الخروج لا يعني صرف الرصيد.',['يبقى الرصيد في حسابه ويستمر في تحقيق العائد حتى يتحقق شرط الصرف.','يجوز له العودة والتسجيل مرة أخرى.','لا يُنهي الخروج الادخار الإلزامي للعامل غير العماني ما دام عمله قائماً.'],'US-13 · BR-DIS-08'],
+ 'v-notify':['إبلاغ الصندوق بالخروج','s','على المدخر إبلاغ الصندوق خلال شهر من خروجه من التغطية أو فقده شرط الاستمرار في النظام.',['إذا لم يُبلغ في الموعد يحصل على عائد ٢٪ فقط في السنة الأولى، ثم يتوقف العائد.','يُرسل له النظام إشعاراً بالواقعة والمهلة، ويحفظ تاريخ الإرسال.'],'م.١٤٤ · م.١١٢ · BR-PEN-04'],
+ 'h-pm':['الحساب الإلزامي','m','حساب خاص بالعامل غير العماني، تُضاف إليه اشتراكات صاحب العمل الشهرية بنسبة ٩٪ من الأجر الأساسي، ومكافأة نهاية الخدمة السابقة إذا رُحّلت إلى النظام. وتُمسك أمواله منفصلة محاسبياً، ويجوز أن تكون له نسبة عائد خاصة.',['لا يُستخدم لسداد الالتزامات إلا إذا لم يكفِ الحساب الاختياري.','يحميه احتياطي يعوّض العامل عما لم يدفعه صاحب العمل.'],'م.١٣٩ · BR-INV-05'],
+ 'h-po':['الحساب الاختياري','o','حساب تُضاف إليه إيداعات المدخر لنفسه وإيداعات جهة العمل لصالحه، وكذلك الإيداعات المتنوعة التي يضيفها الصندوق مباشرة، وتظهر هذه الأخيرة منفصلة في كشف الحساب.',['تُسدد منه الالتزامات أولاً.','الخروج من الادخار الاختياري يوقف الإيداع، ولا يعني صرف الرصيد.'],'BR-SUR-04'],
+ l1:['سجلات وزارة العمل','s','لدى وزارة العمل نحو ١٫٤ مليون سجل لعقود العمل. تُؤخذ منها نسخة ثابتة في وقت محدد، وتُبنى عليها كل خطوات التسجيل الأولى.',['يتوقف تحديث البيانات لفترة قصيرة فقط أثناء أخذ النسخة.'],'بيان المشكلة'],
+ l2:['مطابقة سجلات الصندوق','s','لدى الصندوق نحو ١٫٠٦ مليون سجل. يُقارن كل سجل في النسخة بما لدى الصندوق، ويُصنَّف إلى: مطابق، أو يحتاج مراجعة، أو مستبعد لسبب واضح.',[],'p02'],
+ l3:['معالجة العقود العالقة','s','نحو ٢٥٨ ألف عقد حالتها غير واضحة، فلا يمكن احتساب اشتراك شهري عليها. تُعالج مع وزارة العمل قبل الإطلاق.',[],'p01'],
+ l4:['استثناء الشركاء والملاك','m','عقد العمل المسجل باسم شريك أو مالك في المنشأة نفسها لا يدخل الادخار الإلزامي. يتحقق النظام من ذلك آلياً عبر وزارة التجارة والصناعة، ويعيد التحقق عند كل تحديث.',['العامل الذي بلغ الستين لا يُستبعد من الادخار.'],'BR-REG-09/10/11'],
+ l5:['تسجيل المستحقين','m','يُنشئ النظام حسابات جميع المستحقين في عملية واحدة يمكن تتبعها، ثم يتأكد أن عدد الحسابات المنشأة يساوي عدد المستحقين.',['من كان على رأس عمله عند الإطلاق يُسجَّل من تاريخ بدء عمله.'],'p03'],
+ 'l-rules':['تهيئة القواعد والنسب','s','كل نسبة أو حد أو مدة في النظام تُحفظ في الإعدادات مع تاريخ بدء سريانها، فإذا صدر قرار جديد يُطبَّق دون الحاجة إلى برمجة.',['سقف أجر الاشتراك ٣٠٠٠ ر.ع شهرياً، ومنه يُحسب الحد السنوي ٣٦٬٠٠٠ ر.ع.','يمكن إضافة أسباب صرف جديدة بقرار من مجلس الإدارة.'],'BR-DEP-02A · BR-DIS-11'],
+ 'l-gate':['قرار الإطلاق','g','لا يبدأ تشغيل النظام إلا بعد التأكد من صحة البيانات، واختبار الربط مع الجهات الأخرى وقنوات الدفع.',['نقطة لم تُحسم بعد: كيف تُعالج فجوة السيولة إذا تعثرت جهات العمل في الدفع.'],''],
+ 'e-theqa':['منصة ثقة','g','الطريقة الأساسية للدخول لجميع المستخدمين، ومن خلالها يتعرف النظام على هوية المستخدم وصلاحياته.',[],'FR-01'],
+ 'e-abroad':['الدخول من خارج السلطنة','m','بعد أن يغادر العامل السلطنة قد لا تعمل هويته الرقمية، فيدخل بإدخال رقمه المدني ورقم هاتفه وبريده الإلكتروني المسجلة لدى الصندوق، ثم يصله رمز دخول مؤقت على بريده صالح لمدة ٥ دقائق.',['يستطيع من خلاله: الاطلاع على رصيده، وتحديث بيانات حسابه البنكي في الخارج، وتقديم طلب الصرف ومتابعته، ورفع المستندات.','لا يستطيع تغيير بريده أو هاتفه من هذا المسار.','عليه التأكد من صحة بريده وهاتفه قبل السفر.'],'BR-INT-12..15'],
+ 'e-hub':['يتعرف النظام على نوع المستخدم','g','بعد الدخول يقرأ النظام جنسية المستخدم وعلاقة عمله وحساباته، فيعرض له الخدمات والشروط التي تنطبق عليه فقط.',[],'FR-02'],
+ 'e-r1':['عامل غير عماني','m','يرى رصيده ومصادره، وأجره المسجل وأي تعديل عليه، ويستطيع الاعتراض على الأجر، وتحديث بيانات التحويل الدولي، وطلب الصرف عند انتهاء عمله.',[],''],
+ 'e-r2':['مدخر عماني أو اختياري','o','يرى رصيده ومصادره، ويودع في حسابه الاختياري، ويسدد التزاماته من رصيده، ويطلب الصرف عند تحقق شرطه.',[],''],
+ 'e-r3':['جهة العمل','s','ترى عمالها المسجلين وفواتيرها، وما أودعته هي لصالحهم.',['لا ترى عوائد العامل ولا المبالغ التي أودعها بنفسه.'],'US-10'],
+ 'e-r4':['موظف الصندوق','g','يراجع طلبات الصرف والاعتراضات ويعتمدها، ويعالج الحالات الاستثنائية، ويتابع التقارير.',[],''],
+ 'r-contract':['عقد عمل جديد','m','عند تسجيل عقد عمل لعامل غير عماني في وزارة العمل تصل بياناته إلى الصندوق، ويُعتمد تاريخ بدء العمل الوارد فيه تاريخاً لبداية الادخار.',['يجب التسجيل خلال ٣٠ يوماً من بدء العمل، ويجوز التسجيل بأثر رجعي.'],'BR-REG-01/07'],
+ 'r-partner':['شريك أو مالك في المنشأة؟','m','يتحقق النظام آلياً من السجل التجاري. إذا كان العامل شريكاً أو مالكاً في المنشأة نفسها لا يُسجَّل في الادخار الإلزامي.',['إذا زالت صفة الشريك أو المالك لاحقاً يبدأ تسجيله من تاريخ زوالها.'],'BR-REG-10/11'],
+ 'r-mand':['تسجيل إلزامي تلقائي','m','يُسجَّل كل عامل غير عماني في الادخار الإلزامي، حتى لو لم تنطبق عليه شروط فروع التأمين الأخرى.',['من بلغ الستين يُسجَّل في الادخار وحده.','من انتقل من القطاع العسكري أو الأمني تُسوّى خدمته السابقة أولاً ثم يُسجَّل.'],'BR-REG-06/08/09'],
+ 'r-req':['طلب تسجيل اختياري','o','يدخل المتقدم بهويته الرقمية ويقدم طلبه، ويستكمل النظام بياناته من الأحوال المدنية إذا لم تكن لدى الصندوق.',[],'US-01'],
+ 'r-cat':['من الفئات المشمولة؟','o','يتحقق النظام من أن المتقدم من الفئات الأربع التي حددتها المادة ١٣٦ من القانون. ويجوز لمجلس الإدارة إضافة فئات أخرى.',['إذا لم يكن مؤهلاً يوضح له النظام السبب.'],'م.١٣٦'],
+ 'r-first':['سداد إيداع أولي','o','تصدر للمدخر فاتورة بإيداع أولي لا يقل عن ١٠٠ ر.ع، ولا يكتمل تسجيله إلا بعد سدادها.',[],'FR-13C'],
+ 'r-staff':['حالات خاصة يسجلها الموظف','s','بعض الحالات لا تصل بياناتها من وزارة العمل أو الجهات الأخرى، فيسجلها موظف الصندوق يدوياً بعد التحقق من مستنداتها.',[],'US-11'],
+ 'r-pm':['الحساب الإلزامي','m','يُفتح تلقائياً عند التسجيل الإلزامي، داخل الحساب الشخصي للمدخر.',[],''],
+ 'r-po':['الحساب الاختياري','o','يُفتح عند التسجيل الاختياري، أو تلقائياً عند وصول أول إيداع متنوع إذا لم يكن موجوداً.',[],''],
+ 'f-er':['اشتراك ٩٪ كل شهر','m','في نهاية كل شهر يحسب النظام ٩٪ من الأجر الأساسي لكل عامل غير عماني، ويضيفها بنداً مستقلاً في فاتورة صاحب العمل الشهرية.',['في شهر بدء العمل أو تركه يُحسب الاشتراك بعدد الأيام الفعلية.','يستمر الاشتراك خلال الإجازة بدون راتب ويدفعه صاحب العمل.','يتوقف الاشتراك تلقائياً لمن ترك العمل.'],'BR-DEP-04..08'],
+ 'f-eos':['مكافأة نهاية الخدمة السابقة','m','لكل عامل عمل قبل بدء النظام، يختار صاحب العمل: إما أن يسوي المكافأة مع العامل مباشرة، أو يرحلها إلى نظام الادخار. عند الترحيل تصدر فاتورة، وبعد سدادها يُضاف المبلغ إلى الحساب الإلزامي.',['يُبلَّغ العامل بقرار صاحب العمل، ويستطيع تأكيد علمه أو تسجيل اعتراضه للتوثيق.'],'م.١٣٨ · US-08'],
+ 'f-self':['إيداع المدخر لنفسه','o','يصدر المدخر فاتورة إيداع ويسددها، أو يدفع إلكترونياً مباشرة إذا كانت الخدمة متاحة.',['لا يقل الإيداع عن ١٠٠ ر.ع.','يجوز سداد الفاتورة على دفعات، بشرط ألا تقل كل دفعة عن ١٠٠ ر.ع.','يمكن إلغاء الفاتورة فقط إذا لم يُدفع منها شيء.'],'BR-DEP-01..05C'],
+ 'f-emp':['إيداع جهة العمل لعمالها','o','تصدر جهة العمل فاتورة واحدة لعدة عمال، تحدد فيها مبلغ كل عامل.',['لا يقل مبلغ كل عامل عن ١٠٠ ر.ع.','تُسدد الفاتورة كاملة، ولا تُوزع المبالغ قبل سدادها.','يصبح المبلغ ملكاً للعامل بعد إضافته إلى حسابه.'],'BR-DEP-02B/05'],
+ 'f-misc':['الإيداعات المتنوعة','x','مبالغ يضيفها الصندوق مباشرة إلى الحساب الاختياري دون فاتورة، وأنواعها مذكورة في أعلى الصفحة.',['إذا لم يكن للمدخر حساب يُفتح له تلقائياً.','لكل إيداع رقم مرجعي يمنع إضافته مرتين.','لا تُحسب ضمن الحد السنوي للإيداع.'],'BR-SUR-01..04'],
+ 'f-inv':['إصدار الفاتورة','s','هناك ثلاثة أنواع من الفواتير: فاتورة شهرية واحدة لصاحب العمل تشمل الاشتراك الإلزامي، وفاتورة إيداع فردية للمدخر، وفاتورة إيداع جماعية لجهة العمل.',['الفاتورة الشهرية لا تُعدَّل بعد صدورها، وأي فرق يظهر في فاتورة الشهر التالي.'],'BR-DEP-04A/06'],
+ 'f-col':['السداد','s','يسدد صاحب الفاتورة عبر قنوات الدفع المعتمدة في الصندوق، ولا يُعد المبلغ مدفوعاً إلا بعد وصول تأكيد الدفع.',['يتحقق النظام من صلاحية الفاتورة قبل قبول الدفع.'],'FR-13E'],
+ 'f-alloc':['الإضافة إلى الحساب','g','بعد تأكيد الدفع يضيف النظام المبلغ إلى الحساب المناسب حسب نوعه: الاشتراك إلى الإلزامي، والإيداعات إلى الاختياري، ويُقيَّد محاسبياً.',['يبدأ المبلغ في تحقيق العائد من الشهر التالي.'],'BR-GL-01..03'],
+ 'f-pen':['غرامة التأخر في السداد','r','إذا تأخر صاحب العمل في دفع الاشتراك تُحسب عليه غرامة بنسبة ٨٪ سنوياً على المبلغ المتأخر، بحسب عدد أيام التأخير (السنة = ٣٦٠ يوماً).',['لا تُحسب غرامة على غرامة سابقة.','يجوز إيقافها في الظروف القاهرة الموثقة.'],'م.١٠٢ · BR-PEN-01'],
+ 'b-rate':['كيف تُحدَّد نسبة العائد؟','g','يبدأ الصندوق بإجمالي عائد الاستثمار في السنة، ويخصم منه المصروفات الإدارية والتشغيلية، ثم يخصم مخصص الاحتياطيين. والباقي هو صافي العائد الذي يُوزَّع على المدخرين، ومنه تُحسب النسبة.',['تُعلن النسبة قبل ٣١ مارس من السنة التالية.','يجوز أن تكون نسبة واحدة للحسابين، أو نسبة لكل حساب.','تُطبَّق النسبة كما أُعلنت، حتى لو كانت أقل من ٢٪.','ينشر الصندوق ملخصاً مالياً سنوياً لهذه الأرقام.'],'م.١٠٦ · BR-INV-12/13'],
+ 'b-month':['النسبة الشهرية','g','تُحوَّل النسبة السنوية إلى نسبة شهرية ثابتة، بحيث إذا تراكمت ١٢ شهراً أعطت النسبة السنوية تماماً. مثال: ٣٪ سنوياً تساوي نحو ٠٫٢٥٪ شهرياً.',['عائد الشهر = رصيد بداية الشهر × النسبة الشهرية.','الإيداع يبدأ في تحقيق العائد من الشهر التالي، فإيداع ديسمبر لا يحقق عائداً في سنته.','السحب يُخصم من الرصيد قبل حساب عائد شهره.'],'BR-INV-03 · Provident Fund Model V3'],
+ 'b-guar':['ضمان ألا يقل متوسط العائد عن ٢٪','g','يحتفظ النظام لكل حساب برصيد ثانٍ للمقارنة، يُحسب بنفس الإيداعات والسحوبات ولكن بعائد ٢٪ كل سنة. عند بدء الصرف يُقارن الرصيد الفعلي بهذا الرصيد، وإذا كان الفعلي أقل يُضاف الفرق من احتياطي الحساب.',['الرسم مثال توضيحي لمبلغ ١٠٠ ر.ع خلال ١٠ سنوات، بينها سنة بعائد سالب.','لا يُعوَّض المدخر عن كل سنة على حدة، بل تتم المقارنة مرة واحدة عند الصرف.','نقطة لم تُحسم بعد: النسبة المطبقة إذا تم الصرف قبل إعلان نسبة السنة.'],'م.١٠٤ · Provident Fund Model V3'],
+ 'b-rm':['احتياطي الحساب الإلزامي','m','إذا لم يدفع صاحب العمل الاشتراك كاملاً، يعوّض الاحتياطي العامل في نهاية كل سنة، بحيث يصبح رصيده كما لو دفع صاحب العمل كل الاشتراك.',['ما يُحصَّل لاحقاً من صاحب العمل يعود إلى الاحتياطي، لا إلى حساب العامل.','يغطي الاحتياطي أيضاً ضمان متوسط العائد ٢٪ عند الصرف.'],'Provident Fund Model V3'],
+ 'b-ro':['احتياطي الحساب الاختياري','o','يغطي ضمان ألا يقل متوسط العائد على الحساب الاختياري عن ٢٪، ويُستخدم عند بدء الصرف إذا لزم.',[],'Provident Fund Model V3'],
+ 'b-obl':['سداد التزامات المدخر للصندوق','r','يجوز سداد المبالغ المستحقة على المدخر للصندوق من رصيده، مثل اشتراكات فرع كبار السن والعجز والوفاة، واشتراكات إصابات العمل.',['يُخصم من الحساب الاختياري أولاً، ثم من الإلزامي إذا لم يكفِ.','إذا طلب المدخر السداد بنفسه يُسدد الالتزام كاملاً أو لا يُسدد.','إذا طلبه نظام التحصيل في الصندوق يُخصم المتاح ولو لم يكفِ.','يرى المدخر كل خصم مع رصيده قبل الخصم وبعده.'],'م.١١١ · BR-OBL'],
+ 'd-req':['تقديم طلب صرف','g','يقدمه المدخر عن نفسه، أو يقدمه أي شخص عن مدخر متوفى مع إرفاق إعلام الوراثة.',['لا يعرض النظام إلا الشروط التي تنطبق على حالة المدخر.'],'م.١٤٣'],
+ 'd-leave':['غير عماني انتهى عمله وغادر السلطنة','m','يقدم العامل طلب الصرف قبل سفره ويؤكد بيانات حسابه البنكي في بلده، فيُحفظ الطلب، ويبدأ تنفيذه تلقائياً عندما يُلغى عقده في وزارة العمل.',['يجب أن يكون الحساب البنكي باسم العامل نفسه.','يقر العامل بأن سعر الصرف والرسوم تُحدد وقت التحويل الفعلي.'],'BR-DIS-03 · BR-INT'],
+ 'd-stay':['غير عماني انتهى عمله وبقي في السلطنة','m','يُقبل الطلب بأربعة شروط مجتمعة: أن يكون عقده ملغياً، وأن يمضي على الإلغاء أكثر من ٣ أشهر، وأن تكون له تأشيرة غير تأشيرة العمل، وألا يكون له عقد عمل جديد.',['يعرض النظام للعامل الشروط المكتملة والناقصة.'],'BR-DIS-03'],
+ 'd-pens':['عماني استحق معاشاً','s','إذا انتهت خدمة المدخر العماني واستحق معاشاً (عدا معاش العجز المهني الجزئي الدائم)، أو استحق مكافأة فقد المعاش.',[],'BR-DIS-02'],
+ 'd-180':['اشتراك ١٨٠ شهراً أو أكثر','s','إذا سدد المدخر اشتراكات أو إيداعات شهرية لمدة ١٨٠ شهراً على الأقل.',[],'BR-DIS-07'],
+ 'd-dis':['العجز الدائم','s','إذا ثبت عجز المدخر الدائم.',[],'BR-DIS-07'],
+ 'd-death':['وفاة المدخر','s','المدخرات تُعد تركة للورثة الشرعيين، وتُصرف بموجب إعلام الوراثة، ويحصل النظام على أنصبة الورثة إلكترونياً من المجلس الأعلى للقضاء.',['يُصرف نصيب كل وريث على حسابه البنكي الخاص.','يتوقف العائد من تاريخ الوفاة.','إذا لم يوجد ورثة تؤول المدخرات إلى النظام.','نقطة لم تُحسم بعد: آلية الصرف عن غير العماني المتوفى.'],'BR-DTH'],
+ 'd-surp':['صرف فائض العام للعماني','x','يجوز للعماني أن يطلب في نهاية كل سنة صرف فائض اشتراكات تلك السنة فقط، دون عائد ودون بقية الرصيد.',['الفائض الذي لا يُطلب في وقته يبقى، ويُصرف مع كامل الرصيد عند الاستحقاق مع عائده.'],'م.١١٠ · BR-DIS-09'],
+ 'd-review':['مراجعة الطلب','g','يتحقق النظام آلياً من الشروط: حالة العامل في وزارة العمل، والمغادرة، والعجز، ومدة الاشتراك، ووجود حساب بنكي. ثم يعتمد الموظف الطلب أو يرفضه أو يطلب مستندات، مع توضيح السبب للمدخر.',[],'US-14'],
+ 'd-settle':['تسوية الالتزامات','r','قبل الصرف تُجلب أي مبالغ مستحقة على المدخر للصندوق.',['لغير العماني: التسوية إلزامية قبل صرف مدخراته الإلزامية.','للعماني: يقرر الموظف بقرار مسبب، لأن الالتزام قد يُسوّى بطريقة أخرى.','إذا تعذر جلب الالتزامات يتوقف الطلب حتى تكتمل التسوية.'],'BR-OBL-07..09'],
+ 'd-net':['مبلغ الصرف الصافي','g','كامل الرصيد المستحق بعد التسوية، ويحسبه النظام تلقائياً.',['لا يجوز صرف جزء من الرصيد.','يُصرف دفعة واحدة أو على أقساط متساوية.'],'BR-DIS-06'],
+ 'p-guar':['التحقق من ضمان ٢٪','g','قبل الدفع يقارن النظام رصيد كل حساب بما كان سيبلغه لو كان العائد ٢٪ كل سنة. إذا كان الرصيد أقل، يُضاف الفرق من احتياطي ذلك الحساب.',[],'Provident Fund Model V3'],
+ 'p-mode':['طريقة الصرف','s','يُصرف المبلغ دفعة واحدة، أو على أقساط شهرية أو سنوية بعدد يُحدد مسبقاً.',[],'م.١٤٢'],
+ 'p-inst':['أقساط متساوية','s','يُقسم المبلغ بالتساوي على عدد الأقساط، ويبدأ صرف أول قسط في الشهر التالي للاعتماد، ويبقى المتبقي مستثمراً ويستمر في تحقيق العائد.',['لا تقل قيمة القسط عن حد أدنى محدد في إعدادات النظام.'],'BR-DIS-01A · BR-INV-09'],
+ 'p-oracle':['النظام المالي (Oracle)','s','يرسل نظام الادخار المبلغ المعتمد بالريال العماني إلى النظام المالي، ومنه يُنشئ قسم المصروفات أمر التحويل. نظام الادخار لا يتعامل مع البنوك مباشرة.',[],'BR-INT-07'],
+ 'p-bank':['البنك','s','ينفذ التحويل إلى حساب المدخر، ويُحدد سعر الصرف والرسوم وقت التنفيذ في التحويلات الدولية.',[],''],
+ 'p-done':['استلم المدخر المبلغ','o','لا يُعد الصرف مكتملاً إلا بعد تأكيد البنك وصول المبلغ إلى حساب المدخر.',[],'BR-INT-16'],
+ 'p-ret':['رُدّت الحوالة','r','إذا أعاد البنك الحوالة يُسجل النظام السبب والرسوم وفرق سعر الصرف، ويطلب من المدخر تصحيح بيانات حسابه.',['لكل محاولة جديدة رقم مرجعي مستقل.','يتحمل المدخر رسوم إعادة التحويل وفروق سعر الصرف.','يُرسل للمدخر تذكير كل ٣ أشهر حتى يصحح بياناته.'],'BR-INT-16..21'],
+ 'p-close':['إغلاق الطلب','g','بعد وصول المبلغ تُطابق المبالغ في الفاتورة والحساب والنظام المالي ونتيجة البنك، ثم يُغلق الطلب. ويُغلق الحساب إذا لم يبقَ فيه رصيد.',[],'p21'],
+ 'p-presc':['مستحقات لم يُطالَب بها','s','إذا مضت ٥ سنوات من تاريخ الاستحقاق دون مطالبة، يسقط حق المطالبة بالمدخرات.',['نقطة لم تُحسم بعد: كيف يُعالج الرصيد بعد سقوط الحق، وما الإشعارات التي تسبقه.'],'م.١٠ · BR-DIS-10'],
+ 'c-hub':['كل عملية على الحساب','g','كل إيداع أو خصم أو عائد أو صرف ينتج عنه في الوقت نفسه: إشعار، وتسجيل في سجل التدقيق، وقيد محاسبي، وتحديث في لوحات المتابعة.',[],''],
+ 'c-notif':['إشعار صاحب العلاقة','s','يصل للمدخر إشعار بكل حركة على رصيده، وبكل تغيير يؤثر على طريقة احتسابه مثل تعديل الأجر أو إعلان نسبة العائد.',['إذا لم يصل الإشعار يُعاد إرساله بوسيلة أخرى.','تبقى الإشعارات محفوظة ولا تُحذف بعد قراءتها.'],'BR-NOT-01..06'],
+ 'c-audit':['سجل تدقيق دائم','s','يُحفظ كل قرار وكل حركة مع تاريخها ومن نفذها، ولا يمكن حذفها أو تعديلها.',[],''],
+ 'c-gl':['قيد محاسبي مستقل','s','تُقيَّد حركات الادخار في النظام المالي في حسابات مستقلة لكل من: الحساب الإلزامي، والحساب الاختياري، والإيداعات المتنوعة، والغرامات، والعوائد، واحتياطي كل حساب، والمصروفات، والصرف.',[],'BR-GL-01..04'],
+ 'c-dash':['لوحات متابعة','s','لكل جهة في الصندوق لوحة بمؤشرات عملها فقط، ولكل مؤشر مصدر معتمد وتاريخ آخر تحديث.',['من أمثلتها: موقف كل احتياطي، والحوالات المرتجعة، والطلبات المتوقفة.'],''],
+ 'c-crm':['الشكاوى','s','يقدم المدخر أو جهة العمل الشكوى من داخل النظام، فتحصل على رقم متابعة، وتُحال إلى الجهة المختصة بمدة رد محددة، وتُرفع تلقائياً عند التأخر، ولا تُغلق إلا برد واضح.',['بعد الإغلاق يُسأل مقدم الشكوى عن رضاه.'],'BR-CRM-01..06'],
+ 'c-recon':['المطابقة في نهاية كل سنة','g','يتأكد الصندوق في نهاية كل سنة أن إجمالي أصوله يساوي مجموع أرصدة الحسابين الإلزامي والاختياري لجميع المدخرين، مضافاً إليها احتياطي كل حساب.',[],'']
+};
+
+/* ================= العرض ================= */
+const road = document.getElementById('road');
+ST.forEach((st, i) => {
+  const r = st.svg();
+  road.insertAdjacentHTML('beforeend', `
+    <section class="st-row" id="s${i+1}" aria-labelledby="sh${i+1}">
+      <div class="pin" aria-hidden="true">${ar(i+1)}</div>
+      <article class="station">
+        <header class="st-head"><div><h2 id="sh${i+1}">${st.title}</h2><p>${st.sum}</p></div><span class="st-when">${st.when}</span></header>
+        <div class="canvas"><svg viewBox="${r.vb}" role="img" aria-label="رسم المحطة: ${st.title}">${r.html}</svg></div>
+        <div class="st-foot">${st.foot.map(f => `<span>${f}</span>`).join('')}</div>
+      </article>
+    </section>`);
+});
+road.insertAdjacentHTML('beforeend', '<div class="flag end">النهاية</div>');
+
+const rows = [...document.querySelectorAll('.st-row')];
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) rows.forEach(r => r.classList.toggle('on', r === e.target)); }), {rootMargin:'-45% 0px -50% 0px'});
+rows.forEach(r => io.observe(r));
+
+const toTop = document.getElementById('toTop');
+addEventListener('scroll', () => toTop.classList.toggle('show', scrollY > 600), {passive:true});
+toTop.onclick = () => scrollTo({top:0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+if (location.hash) { const t = document.querySelector(location.hash); if (t) t.scrollIntoView(); }
+
+/* اللوحة الجانبية */
+const drawer = document.getElementById('drawer'), scrim = document.getElementById('scrim'),
+      KN = {m:'الحساب الإلزامي',o:'الحساب الاختياري',x:'الإيداعات المتنوعة',s:'عام',g:'عام',r:'التزامات وتسويات'};
+let lastFocus;
+function openD(id, from){
+  const d = D[id]; if (!d) return; lastFocus = from;
+  const [t,k,p,list,ref] = d;
+  drawer.style.setProperty('--c', COL[k][0]);
+  document.getElementById('drK').textContent = KN[k];
+  document.getElementById('drT').textContent = t;
+  document.getElementById('drB').innerHTML = `<p>${p}</p>${list.length ? '<ul>' + list.map(x => `<li>${x}</li>`).join('') + '</ul>' : ''}${ref ? `<div class="ref">المرجع: ${ref}</div>` : ''}`;
+  drawer.hidden = false; requestAnimationFrame(() => { drawer.classList.add('on'); scrim.classList.add('on'); });
+  document.getElementById('drX').focus();
+}
+function closeD(){ drawer.classList.remove('on'); scrim.classList.remove('on'); setTimeout(() => drawer.hidden = true, 250); if (lastFocus) lastFocus.focus(); }
+document.addEventListener('click', e => { const g = e.target.closest('.clk'); if (g) openD(g.dataset.id, g); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !drawer.hidden) return closeD();
+  const g = e.target.closest && e.target.closest('.clk');
+  if (g && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openD(g.dataset.id, g); }
+});
+document.getElementById('drX').onclick = closeD; scrim.onclick = closeD;
+</script>
+</body>
+</html>
