@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="الإطار المالي والتدفقات النقدية لنظام الادخار.">
+  <title>الإطار المالي والتدفقات النقدية لنظام الادخار</title>
+  <link rel="stylesheet" href="financial-framework.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-in">
+      <a class="brand" href="#top" aria-label="العودة إلى بداية الوثيقة">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 18V9m7 9V5m7 13v-6M3 20h18"/></svg>
+        </span>
+        <span>الإطار المالي لنظام الادخار</span>
+      </a>
+      <span class="document-owner">صندوق الحماية الاجتماعية</span>
+      <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <div class="page-shell" id="top">
+    <aside class="side-nav" aria-label="محتويات الوثيقة">
+      <p class="side-title">محتويات الإطار</p>
+      <ol id="toc"></ol>
+    </aside>
+
+    <main>
+      <details class="mobile-toc">
+        <summary>محتويات الإطار</summary>
+        <ol id="mobileToc"></ol>
+      </details>
+
+      <header class="hero">
+        <div class="hero-kicker">صندوق الحماية الاجتماعية · نظام الادخار</div>
+        <h1>الإطار المالي والتدفقات النقدية لنظام الادخار</h1>
+        <p class="hero-lead">يعمل النظام كمنظومة مالية مترابطة تفصل بين استحقاق العضو، والتحصيل النقدي، والقيد في الحساب، والاستثمار، والضمان، والصرف. ويحمي هذا الفصل حقوق الأعضاء ويجعل كل حركة قابلة للمطابقة والتدقيق.</p>
+        <div class="hero-meta"><span>نوفمبر 2026</span><span>الإطار المالي العام</span><span>القواعد المعتمدة حاليًا</span></div>
+        <div class="hero-metrics">
+          <article><strong>9%</strong><span>الاشتراك الإلزامي من الأجر الأساسي</span></article>
+          <article><strong>2%</strong><span>حساب ضمان موازٍ للاختبار عند الصرف</span></article>
+          <article><strong>شهريًا</strong><span>احتساب العائد وفق النموذج المالي V3</span></article>
+          <article><strong>قابل للتتبع</strong><span>لكل مصدر وقيد وتسوية ومرجع دفع</span></article>
+        </div>
+      </header>
+
+      <section id="system-map" data-title="الخريطة المالية">
+        <div class="section-heading"><span class="section-number">1</span><div><span class="section-eyebrow">النموذج المالي المتكامل</span><h2>الخريطة المالية للمنظومة</h2></div></div>
+        <p class="section-intro">يتحرك المال عبر خمس طبقات مترابطة. تحتفظ كل طبقة بسجلها ومراجعها، بينما تعرض المنظومة رصيدًا موحدًا للعضو.</p>
+        <div class="flow">
+          <article class="flow-card"><b>المدخلات</b><strong>مصادر الأموال</strong><p>اشتراكات وإيداعات وتسويات سابقة ومبالغ محولة من أنظمة أخرى.</p></article>
+          <article class="flow-card blue"><b>التسجيل</b><strong>الفوترة ودفتر الأعضاء</strong><p>تخصيص كل مبلغ لمصدره ووعائه وتاريخ قيمته.</p></article>
+          <article class="flow-card amber"><b>النمو</b><strong>العوائد والضمانات</strong><p>حساب فعلي وضمان 2% ومتابعة نقص سداد جهة العمل.</p></article>
+          <article class="flow-card"><b>الاستحقاق</b><strong>محرك الصرف</strong><p>اختبار الأهلية وتحديد صافي الرصيد وطريقة الدفع.</p></article>
+          <article class="flow-card blue"><b>الضبط</b><strong>Oracle والمطابقة</strong><p>قيد مالي وأمر دفع ونتيجة تنفيذ وتسوية بنكية.</p></article>
+        </div>
+        <div class="callout"><strong>المبدأ الحاكم:</strong> يحتفظ النظام داخليًا بتفصيل المصدر والوعاء والأهلية والعائد والضمان والحساب المحاسبي لكل حركة، حتى عند عرض رصيد إجمالي واحد للعضو.</div>
+      </section>
+
+      <section id="money-cycle" data-title="الدورة المالية الشهرية">
+        <div class="section-heading"><span class="section-number">2</span><div><span class="section-eyebrow">من الاستحقاق إلى الاستثمار</span><h2>الدورة المالية الشهرية</h2></div></div>
+        <div class="flow four">
+          <article class="flow-card"><b>1 · الاستحقاق</b><strong>أجر معتمد × 9%</strong><p>يحفظ الشهر والعامل والعقد والأجر المستخدم.</p></article>
+          <article class="flow-card blue"><b>2 · التحصيل</b><strong>فاتورة وسداد</strong><p>قد يكون السداد كاملًا أو جزئيًا، ولا يعني وحده القيد للعضو.</p></article>
+          <article class="flow-card amber"><b>3 · المطابقة</b><strong>توزيع وتخصيص</strong><p>يربط الدفع بالفاتورة والبنود والعمال وفق التسلسل المعتمد.</p></article>
+          <article class="flow-card"><b>4 · الاستثمار</b><strong>قيد ثم عائد</strong><p>يقيد المبلغ المطابق ويبدأ أثره الاستثماري من الشهر التالي.</p></article>
+        </div>
+        <div class="metric-grid">
+          <article class="metric-card"><span>الاستحقاق لا يساوي التحصيل</span><strong>يبقى المستحق التزامًا حتى لو لم يصل النقد.</strong></article>
+          <article class="metric-card"><span>التحصيل لا يساوي التخصيص</span><strong>النقد غير المطابق يبقى معلقًا.</strong></article>
+          <article class="metric-card"><span>التخصيص يثبت حق العضو</span><strong>لا يقيد أكثر من المبلغ المطابق.</strong></article>
+          <article class="metric-card"><span>تاريخ القيمة أساسي</span><strong>يحدد بداية الأثر على الرصيد والعائد.</strong></article>
+        </div>
+      </section>
+
+      <section id="cash-flows" data-title="التدفقات المالية">
+        <div class="section-heading"><span class="section-number">3</span><div><span class="section-eyebrow">مسار الأموال داخل النظام</span><h2>التدفقات المالية</h2></div></div>
+        <p class="section-intro">يجمع المخطط جميع حركات المال من مصادرها المختلفة، ويميز بين التحصيل النقدي والقيد في حساب العضو، ثم يتابع الأرصدة عبر الاستثمار والضمان والتصحيح الرجعي حتى حالات الصرف والتنفيذ البنكي.</p>
+        <div class="master-flow" role="img" aria-label="مخطط شامل لجميع التدفقات المالية في نظام الادخار من مصادر الأموال حتى حالات الصرف والتنفيذ البنكي">
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">1</span><strong>مصادر الأموال والالتزامات</strong><span>بداية التدفق المالي</span></div>
+            <div class="mf-grid sources">
+              <div class="mf-card inflow"><strong>الاشتراك الإلزامي 9%</strong>استحقاق شهري على جهة العمل وفق الأجر الأساسي.</div>
+              <div class="mf-card inflow"><strong>إيداع المدخر الاختياري</strong>إيداع مباشر ضمن الحد الأدنى والسقف السنوي.</div>
+              <div class="mf-card inflow"><strong>إيداع جهة العمل الاختياري</strong>مبلغ إضافي مستقل لكل عامل بعد تأكيد السداد.</div>
+              <div class="mf-card inflow"><strong>تسوية ما قبل النظام</strong>مبالغ نهاية الخدمة السابقة بفواتير وتخصيصات مستقلة.</div>
+              <div class="mf-card inflow"><strong>فائض الاشتراكات</strong>وعاء مستقل لا يدخل في السقف الاختياري.</div>
+              <div class="mf-card inflow"><strong>البرامج التكميلية</strong>صافي مبالغ التصفية الواردة من النظام المصدر.</div>
+              <div class="mf-card inflow"><strong>حالات الجنسية</strong>المبلغ المحول من نظام الاشتراكات بمرجع فريد.</div>
+              <div class="mf-card reserve"><strong>استردادات التعثر والغرامات</strong>استرداد متأخرات جهة العمل والغرامات المحصلة بمسارات مستقلة.</div>
+            </div>
+          </div>
+
+          <div class="mf-arrow" aria-hidden="true">↓</div>
+
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">2</span><strong>الاستحقاق والتحصيل والتسوية</strong><span>تحويل الالتزام إلى نقد مطابق</span></div>
+            <div class="mf-grid processing">
+              <div class="mf-card process linked"><strong>تثبيت الاستحقاق</strong>العامل والعقد والأجر والشهر ونوع المصدر.</div>
+              <div class="mf-card process linked"><strong>الفاتورة أو أمر الإيداع</strong>إلزامي أو اختياري أو تسوية مستقلة.</div>
+              <div class="mf-card process linked"><strong>استلام النقد</strong>سداد كامل أو جزئي مع مرجع الدفع وتاريخ القيمة.</div>
+              <div class="mf-card process linked"><strong>تسلسل التسوية</strong>السابق أولًا، ثم العمال وبنود كل عامل بالتتابع.</div>
+              <div class="mf-card process"><strong>المطابقة والتخصيص</strong>ربط النقد بالفاتورة والمصدر والعامل والوعاء.</div>
+            </div>
+            <div class="mf-note">المبلغ غير المسدد يرحل مع عمر الالتزام؛ والغرامة = أصل المتأخر × 8% × أيام التأخير ÷ 360، دون غرامة على غرامة.</div>
+          </div>
+
+          <div class="mf-arrow" aria-hidden="true">↓</div>
+
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">3</span><strong>قرار التخصيص والقيد</strong><span>لا يثبت حق العضو قبل المطابقة</span></div>
+            <div class="mf-routing">
+              <div class="mf-card suspense"><strong>غير مطابق</strong>يبقى في حساب معلق حتى تحديد الفاتورة أو العامل أو المصدر، ثم يعاد إلى المطابقة.</div>
+              <div class="mf-card mf-core"><strong>دفتر حسابات الأعضاء</strong><span>يقيد المبلغ المطابق في وعائه الصحيح مع مرجع الدفع وOracle وتاريخ القيمة.</span></div>
+              <div class="mf-card reserve"><strong>مسارات لا تقيد للعضو</strong>الغرامات، واسترداد المتأخرات التي سبق تغطيتها من احتياطي التعثر.</div>
+            </div>
+          </div>
+
+          <div class="mf-arrow" aria-hidden="true">↓</div>
+
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">4</span><strong>الأوعية والحسابات الموازية</strong><span>تفصيل المصدر مع رصيد عضو موحد</span></div>
+            <div class="mf-grid accounts">
+              <div class="mf-card inflow"><strong>الوعاء الإلزامي</strong>اشتراكات جهة العمل المسددة والمخصصة.</div>
+              <div class="mf-card inflow"><strong>الأوعية الاختيارية</strong>إيداع المدخر وإيداع جهة العمل.</div>
+              <div class="mf-card inflow"><strong>الأوعية المباشرة</strong>ما قبل النظام والبرامج التكميلية والجنسية.</div>
+              <div class="mf-card inflow"><strong>وعاء الفائض</strong>قواعد مستقلة للعائد والصرف.</div>
+              <div class="mf-card reserve"><strong>احتياطيات النظام</strong>ضمان العائد وتعثر جهة العمل.</div>
+            </div>
+            <div class="mf-account-line" style="margin-top:10px">
+              <div class="mf-card invest"><strong>حساب ضمان 2%</strong>مسار موازٍ لنفس الحركات حتى اختبار الضمان.</div>
+              <div class="mf-card mf-account-main"><strong>الحساب الفعلي للعضو</strong>المساهمات والإيداعات والسحوبات والعائد الفعلي.</div>
+              <div class="mf-card reserve"><strong>حساب GECA</strong>قيمة الحساب لو سددت جهة العمل كامل 9%.</div>
+            </div>
+          </div>
+
+          <div class="mf-arrow" aria-hidden="true">↓</div>
+
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">5</span><strong>الاستثمار والعوائد والتصحيح</strong><span>إعادة التقييم شهرًا بشهر</span></div>
+            <div class="mf-investment">
+              <div class="mf-card invest"><strong>المحفظة الاستثمارية</strong>تجميع الأرصدة المؤهلة وإدارة النقد والسيولة.</div>
+              <div class="mf-return-loop"><strong>احتساب العائد الشهري</strong><span>على الرصيد الافتتاحي؛ وتبدأ مساهمة الشهر أثرها من الشهر التالي.</span></div>
+              <div class="mf-card invest"><strong>توزيع صافي العائد</strong>قيد العائد على الأوعية المؤهلة وتحديث الحساب الفعلي.</div>
+            </div>
+            <div class="mf-note">عند تصحيح الأجر بأثر رجعي: يعاد احتساب 9% والأرصدة والعوائد والضمانات من أول شهر متأثر، ثم يقيد فرق موجب أو سالب دون حذف النسخة السابقة.</div>
+          </div>
+
+          <div class="mf-arrow" aria-hidden="true">↓</div>
+
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">6</span><strong>بدء الاستحقاق وحالات الصرف</strong><span>تحديد صافي المبلغ ومعاملة العائد</span></div>
+            <div class="mf-gate"><strong>التسوية النهائية واختبار الضمان</strong><span>تسوية الالتزامات، مقارنة الحساب الفعلي بحساب 2%، وتغطية فرق التعثر أو الضمان وفق القواعد المعتمدة.</span></div>
+            <div class="mf-grid payouts">
+              <div class="mf-card outflow"><strong>الاستحقاق العام</strong>كامل الرصيد بعد التسوية واختبار الضمان.</div>
+              <div class="mf-card outflow"><strong>الصرف بالأقساط</strong>طريقة دفع لكامل الاستحقاق مع عائد على المتبقي.</div>
+              <div class="mf-card outflow"><strong>غير العماني</strong>انتهاء العمل والمغادرة أو ثلاثة أشهر دون عقد جديد.</div>
+              <div class="mf-card outflow"><strong>فائض الاشتراكات</strong>فائض العام المنصرم فقط؛ دون عائد عند صرفه كفائض.</div>
+              <div class="mf-card outflow"><strong>الخروج المتأخر</strong>2% لسنة واحدة ثم يتوقف العائد وفق القاعدة الحالية.</div>
+              <div class="mf-card outflow"><strong>الوفاة</strong>صافي الرصيد للورثة؛ ويتوقف العائد بتاريخ الوفاة.</div>
+              <div class="mf-card outflow"><strong>التحويل الدولي</strong>صافي الاستحقاق بعد الرسوم وفروق العملة.</div>
+              <div class="mf-card outflow"><strong>فروق بعد صرف مغلق</strong>مستحق إضافي أو مبلغ واجب الاسترداد نتيجة تصحيح رجعي.</div>
+            </div>
+          </div>
+
+          <div class="mf-arrow" aria-hidden="true">↓</div>
+
+          <div class="mf-stage">
+            <div class="mf-stage-head"><span class="mf-stage-no">7</span><strong>التنفيذ المالي والإقفال</strong><span>نهاية التدفق أو إعادة المحاولة</span></div>
+            <div class="mf-execution">
+              <div class="mf-card process linked"><strong>مستحقات الصرف</strong>نقل الرصيد بعد الاعتماد المالي.</div>
+              <div class="mf-card process linked"><strong>قيد Oracle</strong>إثبات الالتزام وإنشاء مرجع التنفيذ.</div>
+              <div class="mf-card process linked"><strong>أمر الدفع</strong>محلي أو دولي وفق بيانات المستفيد.</div>
+              <div class="mf-card mf-success"><strong>دفع ناجح</strong>وصول المبلغ وإغلاق الطلب والمطابقة البنكية.</div>
+              <div class="mf-card mf-retry"><strong>ارتداد أو فشل</strong>توثيق السبب، إعادة المبلغ للمستحقات، ثم التصحيح وإعادة المحاولة.</div>
+            </div>
+            <div class="mf-cross-controls"><div>مطابقة دفتر الأعضاء مع Oracle</div><div>مطابقة الفواتير والتحصيل والتخصيص</div><div>مطابقة أوامر الدفع مع البنك والارتدادات</div></div>
+          </div>
+
+          <div class="mf-legend" aria-hidden="true"><span class="inflow">تدفقات داخلة وأرصدة أعضاء</span><span class="process">معالجة ومطابقة</span><span class="invest">استثمار وعائد وضمان</span><span class="outflow">تدفقات خارجة</span><span class="reserve">احتياطيات ومسارات غير مخصصة</span></div>
+        </div>
+        <div class="callout"><strong>قاعدة القراءة:</strong> الخط الرأسي يمثل رحلة المال الأساسية. أما البطاقات الجانبية فتمثل الفروع المحاسبية أو الاستثنائية التي قد تعيد الحركة إلى مرحلة سابقة، مثل المبلغ غير المطابق، والتصحيح الرجعي، وارتداد الدفع.</div>
+      </section>
+
+      <section id="accounts" data-title="الحسابات والاحتياطيات">
+        <div class="section-heading"><span class="section-number">4</span><div><span class="section-eyebrow">بنية الأرصدة</span><h2>الحسابات والاحتياطيات الحاكمة</h2></div></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>الحساب</th><th>وظيفته</th><th>قاعدته المالية</th></tr></thead>
+          <tbody>
+            <tr><th>الحساب الفعلي</th><td>يعرض مساهمات وإيداعات وسحوبات العضو والعائد المعلن.</td><td>يستخدم العائد الفعلي أو المعلن دون فرض 2% داخله.</td></tr>
+            <tr><th>حساب ضمان 2%</th><td>مسار موازٍ لنفس الحركات.</td><td>ينمو بنسبة 2% ويقارن بالحساب الفعلي عند بدء الصرف.</td></tr>
+            <tr><th>حساب GECA</th><td>يقيس نتيجة الحساب لو سددت جهة العمل كامل اشتراك 9%.</td><td>يتابع نقص السداد باستخدام الاشتراك المقرر والعائد الفعلي.</td></tr>
+            <tr><th>احتياطي ضمان العائد</th><td>يمول الفرق عند تفوق حساب الضمان على الحساب الفعلي.</td><td>يستخدم عند اختبار الضمان في بداية الصرف.</td></tr>
+            <tr><th>احتياطي تعثر جهة العمل</th><td>يغطي أثر الاشتراكات غير المسددة وفق الآلية المعتمدة.</td><td>تغذيه الاستردادات اللاحقة ويظل منفصلًا عن احتياطي العائد.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout warning"><strong>حدود الاحتياطيات:</strong> يعتمد الإطار احتياطي ضمان العائد واحتياطي تعثر جهة العمل المحددين في V3. تدار السيولة ضمن التخطيط النقدي، ولا تعامل كاحتياطي مستقل دون قرار معتمد.</div>
+      </section>
+
+      <section id="settlement" data-title="التسوية والغرامات">
+        <div class="section-heading"><span class="section-number">5</span><div><span class="section-eyebrow">التوزيع الشهري</span><h2>التسوية الشهرية والغرامات</h2></div></div>
+        <div class="split">
+          <article class="subpanel"><h3>تسلسل توزيع السداد المعتمد</h3><ol class="clean-list"><li>تسوية الأصول والغرامات المرحلة من الفترات السابقة.</li><li>الانتقال إلى العمال حسب تاريخ الالتحاق.</li><li>تسوية بنود كل عامل بالتتابع.</li><li>التوقف عند نفاد مبلغ السداد.</li><li>ترحيل غير المسدد مع عمر الالتزام ومصدره.</li></ol></article>
+          <article class="subpanel"><h3>قاعدة الغرامة</h3><span class="formula">أصل المبلغ المتأخر × 8% × أيام التأخير ÷ 360</span><p class="section-intro">يقتصر وعاء الغرامة على أصل الاشتراك غير المسدد. لا تحتسب غرامة على غرامة، ويفصل القيد المحاسبي بين الأصل والغرامة والمبالغ الإضافية.</p></article>
+        </div>
+        <div class="callout"><strong>السداد الجزئي:</strong> مسموح للفاتورة الشهرية الإلزامية، وتبقى الفاتورة مسددة جزئيًا إلى أن تكتمل التسوية.</div>
+      </section>
+
+      <section id="retro" data-title="التصحيح بأثر رجعي">
+        <div class="section-heading"><span class="section-number">6</span><div><span class="section-eyebrow">إعادة بناء التاريخ المالي</span><h2>إعادة احتساب الأجر والعائد بأثر رجعي</h2></div></div>
+        <div class="recalc"><article><strong>تثبيت الأجر المصحح وتاريخ سريانه</strong></article><article><strong>تحديد أول شهر مالي متأثر</strong></article><article><strong>إعادة احتساب اشتراك 9%</strong></article><article><strong>إعادة بناء الأرصدة شهرًا بشهر</strong></article><article><strong>إعادة احتساب العوائد والضمانات</strong></article><article><strong>قيد فرق موجب أو سالب</strong></article></div>
+        <div class="split">
+          <div class="callout"><strong>عند الزيادة:</strong> ينشأ فرق اشتراك موجب، ثم يعاد تكوين العائد الإضافي المتراكم من كل شهر متأثر.</div>
+          <div class="callout danger"><strong>عند النقص:</strong> ينشأ فرق اشتراك سالب ويعكس العائد الزائد الناتج عن القيم السابقة.</div>
+        </div>
+        <div class="callout warning"><strong>أثر التدقيق:</strong> لا تحذف النسخة السابقة. يحفظ الحساب قبل التصحيح وبعده وسبب التعديل ومرجعه. وإذا سبق الصرف، يسجل الفرق كمستحق أو مبلغ واجب الاسترداد بدل تعديل عملية صرف مغلقة.</div>
+      </section>
+
+      <section id="sources" data-title="مصادر الأموال">
+        <div class="section-heading"><span class="section-number">7</span><div><span class="section-eyebrow">الأوعية المالية</span><h2>تصنيف مصادر الأموال</h2></div></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>المصدر</th><th>الوعاء</th><th>المعالجة الرئيسية</th></tr></thead>
+          <tbody>
+            <tr><th>اشتراك إلزامي 9%</th><td>إلزامي</td><td>فاتورة شهرية، تسوية، حساب فعلي، GECA، وضمان 2%.</td></tr>
+            <tr><th>إيداع المدخر</th><td>اختياري ـ مدخر</td><td>حد أدنى وسقف سنوي مستقل؛ يبدأ العائد من الشهر التالي.</td></tr>
+            <tr><th>إيداع جهة العمل الاختياري</th><td>اختياري ـ جهة عمل</td><td>سقف مستقل لكل عامل؛ لا يخصص قبل تأكيد السداد.</td></tr>
+            <tr><th>تسوية نهاية الخدمة السابقة</th><td>ما قبل النظام</td><td>فاتورة مستقلة ثم تخصيص مرجعي لكل عامل بعد السداد والمطابقة.</td></tr>
+            <tr><th>فائض الاشتراكات</th><td>فائض مستقل</td><td>لا يدخل في السقف الاختياري؛ وله قواعد صرف وعائد خاصة.</td></tr>
+            <tr><th>البرامج التكميلية</th><td>إيداع مباشر مستقل</td><td>يقيد بالمبلغ المحسوب من النظام المصدر ومرجع فريد وتاريخ قيمة.</td></tr>
+            <tr><th>حالات الجنسية</th><td>إيداع مباشر مستقل</td><td>يقيد صافي المبلغ الوارد من نظام الاشتراكات كمصدر مستقل.</td></tr>
+            <tr><th>استرداد متأخرات جهة العمل</th><td>احتياطي التعثر</td><td>لا يعاد للعضو إذا سبق تغطية النقص من الاحتياطي.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><strong>ضابط البيانات:</strong> يحتفظ كل مصدر بمؤشرات مستقلة لأهلية العائد والضمان والصرف والسقف والحساب المحاسبي، حتى عند عرضه ضمن الرصيد الإجمالي.</div>
+      </section>
+
+      <section id="returns" data-title="العوائد والضمانات">
+        <div class="section-heading"><span class="section-number">8</span><div><span class="section-eyebrow">نطاق V3</span><h2>العائد الفعلي وضمان 2%</h2></div></div>
+        <div class="flow four">
+          <article class="flow-card"><b>الحساب الفعلي</b><strong>رصيد افتتاحي</strong><p>بعد خصم سحب الشهر إن وجد.</p></article>
+          <article class="flow-card blue"><b>العائد</b><strong>معامل شهري</strong><p>مشتق من العائد السنوي المعلن.</p></article>
+          <article class="flow-card amber"><b>المقارنة</b><strong>فعلي مقابل 2%</strong><p>تجرى عند بدء الصرف.</p></article>
+          <article class="flow-card"><b>التسوية</b><strong>تمويل الفرق</strong><p>من احتياطي الضمان إذا كان الحساب المضمون أعلى.</p></article>
+        </div>
+        <span class="formula">المعامل الشهري = (1 + العائد السنوي)<sup>1/12</sup> − 1</span>
+        <p class="section-intro">يحتسب العائد على الرصيد الافتتاحي بعد خصم سحب الشهر. تضاف مساهمات الشهر إلى الرصيد الختامي وتبدأ عوائدها في الشهر التالي. بعد تسوية الضمان عند بدء الصرف يستمر الحساب الفعلي وحده خلال فترة الدفع وفق عائد مرحلة الصرف المعتمد، ودون ضمان جديد.</p>
+      </section>
+
+      <section id="payout" data-title="الصرف">
+        <div class="section-heading"><span class="section-number">9</span><div><span class="section-eyebrow">الاستحقاقات والمدفوعات</span><h2>حالات الصرف ومعاملة العائد</h2></div></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>الحالة</th><th>نطاق الصرف</th><th>معاملة العائد</th></tr></thead>
+          <tbody>
+            <tr><th>الاستحقاق العام</th><td>كامل الرصيد المستحق بعد تسوية الالتزامات.</td><td>تنفذ مقارنة الضمان قبل بدء الصرف.</td></tr>
+            <tr><th>الأقساط</th><td>طريقة دفع لكامل استحقاق معتمد، وليست سحبًا جزئيًا اختياريًا.</td><td>يستمر العائد على الرصيد المتبقي بعد تسوية الضمان.</td></tr>
+            <tr><th>غير العماني</th><td>بعد انتهاء العمل والمغادرة، أو بعد ثلاثة أشهر دون عقد جديد.</td><td>تكتمل التسوية الإلزامية قبل الدفع.</td></tr>
+            <tr><th>فائض الاشتراكات</th><td>فائض العام المنصرم فقط دون باقي الرصيد.</td><td>يصرف بسبب الفائض دون عائد؛ ويخضع للعائد عند الاستحقاق العام.</td></tr>
+            <tr><th>الخروج المتأخر</th><td>الرصيد المستحق وفق شروط الخروج.</td><td>2% لسنة واحدة ثم يتوقف العائد وفق القاعدة الحالية.</td></tr>
+            <tr><th>الوفاة</th><td>صافي الرصيد للورثة الشرعيين.</td><td>يتوقف العائد في تاريخ الوفاة.</td></tr>
+            <tr><th>التحويل الدولي</th><td>صافي الاستحقاق بعد الرسوم وفروق العملة.</td><td>يبقى الطلب مفتوحًا حتى نجاح التحويل وتوثق كل محاولة.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout"><strong>اكتمال الصرف:</strong> ينتقل المبلغ إلى حساب مستحقات الصرف بعد الاعتماد المالي ويرسل إلى Oracle. لا يغلق الطلب حتى تصل الأموال إلى المستفيد أو تسجل نتيجة ارتداد قابلة للمعالجة.</div>
+      </section>
+
+      <section id="controls" data-title="المخرجات والرقابة">
+        <div class="section-heading"><span class="section-number">10</span><div><span class="section-eyebrow">الإدارة المالية</span><h2>المخرجات المالية والضوابط الرقابية</h2></div></div>
+        <div class="metric-grid">
+          <article class="metric-card"><span>التدفق النقدي</span><strong>المقبوضات والمدفوعات ورصيد النقد شهريًا</strong></article>
+          <article class="metric-card"><span>أصول النظام</span><strong>القيمة المستثمرة والنقد والأرصدة قيد التسوية</strong></article>
+          <article class="metric-card"><span>التزامات الأعضاء</span><strong>الحسابات الفعلية والمبالغ المستحقة للصرف</strong></article>
+          <article class="metric-card"><span>الاحتياطيات</span><strong>ضمان العائد وتعثر جهة العمل</strong></article>
+          <article class="metric-card"><span>التحصيل</span><strong>المستحق والمحصّل والمتأخر والغرامات</strong></article>
+          <article class="metric-card"><span>العائد</span><strong>الإجمالي والمصروفات والصافي وفروق الضمان</strong></article>
+          <article class="metric-card"><span>التسويات</span><strong>المعلق والمخصص والفروق غير المفسرة</strong></article>
+          <article class="metric-card"><span>الصرف</span><strong>المعتمد والمنفذ والمرتد وقيد المعالجة</strong></article>
+        </div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>المطابقة الرقابية</th><th>التحقق المطلوب</th></tr></thead>
+          <tbody>
+            <tr><th>دفتر الأعضاء مقابل Oracle</th><td>مجموع الحركات المقيدة يساوي القيود المالية المرحلة.</td></tr>
+            <tr><th>الفواتير مقابل التحصيل</th><td>كل مبلغ مستلم مرتبط بفاتورة ومرجع دفع وحالة مطابقة.</td></tr>
+            <tr><th>التحصيل مقابل التخصيص</th><td>المبالغ المخصصة للأعضاء لا تتجاوز المبالغ المطابقة.</td></tr>
+            <tr><th>الأصول مقابل الالتزامات</th><td>أصول النظام تغطي حسابات الأعضاء والاحتياطيات ومستحقات الصرف.</td></tr>
+            <tr><th>الصرف مقابل البنك</th><td>كل أمر دفع مرتبط بنتيجة تنفيذ أو ارتداد ومحاولة لاحقة.</td></tr>
+            <tr><th>التصحيحات الرجعية</th><td>الفرق بين النسخة السابقة والمصححة ظاهر وقابل لإعادة الأداء.</td></tr>
+          </tbody>
+        </table></div>
+        <div class="callout danger"><strong>قاعدة الإقفال:</strong> لا تقفل الفترة المالية مع وجود فرق غير مفسر بين دفتر الأعضاء والفواتير والتحصيل والتخصيص وقيود Oracle والحسابات البنكية.</div>
+      </section>
+    </main>
+  </div>
+
+  <footer>صندوق الحماية الاجتماعية · الإطار المالي والتدفقات النقدية لنظام الادخار</footer>
+  <script src="financial-framework.js"></script>
+</body>
+</html>
