@@ -1,114 +1,400 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="خارطة الرحلة المالية لنظام الادخار من التسجيل والاستحقاق والتحصيل إلى الاستثمار والاحتياطيات والصرف.">
-<title>نظام الادخار | خارطة الرحلة المالية</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="التدفق المالي لنظام الادخار: الحسابات، وحركة المال، والقيود المدينة والدائنة، وتوقيت الرصد والمطابقة، من تسوية مكافأة نهاية الخدمة حتى الخروج من النظام.">
+<title>نظام الادخار | التدفق المالي</title>
 <style>
-@font-face{font-family:"Readex Pro";font-style:normal;font-weight:400 700;font-display:swap;src:url("../Collection-Methods/fonts/readex-pro-arabic.woff2") format("woff2")}
-@font-face{font-family:"Readex Pro";font-style:normal;font-weight:400 700;font-display:swap;src:url("../Collection-Methods/fonts/readex-pro-latin.woff2") format("woff2")}
-:root{--bg:#f3f6f4;--paper:#fff;--ink:#17231e;--ink2:#506057;--muted:#738078;--line:#d8e1dc;--line2:#e9efec;--hero:#123f32;--green:#176a50;--soft:#e8f3ee;--gold:#a57c20;--gold2:#f1cf73;--goldsoft:#fff5d9;--blue:#245b86;--bluesoft:#eaf2f8;--red:#a33a36;--redsoft:#faeae8;--purple:#65509a;--purplesoft:#f0ecf8;--shadow:0 18px 40px -32px rgba(18,63,50,.55)}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}body{margin:0;overflow-x:hidden;background:var(--bg);color:var(--ink);font-family:"Readex Pro","Segoe UI",Tahoma,sans-serif;font-size:15px;line-height:1.8}a{color:inherit}h1,h2,h3,p{margin:0}:focus-visible{outline:3px solid #62aeee;outline-offset:3px}
-.topbar{position:sticky;top:0;z-index:50;color:#fff;background:rgba(18,63,50,.97);border-bottom:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px)}.topbar-in{display:flex;align-items:center;gap:12px;max-width:1460px;min-height:62px;margin:auto;padding:8px 22px}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand img{height:29px}.brand span{padding-inline-start:10px;border-inline-start:1px solid rgba(255,255,255,.28);font-size:12px;font-weight:400;opacity:.8}.top-links{display:flex;flex-wrap:wrap;gap:6px;margin-inline-start:auto}.top-links a{padding:5px 10px;border:1px solid rgba(255,255,255,.24);border-radius:999px;font-size:11px;text-decoration:none}.top-links a:hover{background:rgba(255,255,255,.12)}
-.wrap{max-width:1460px;margin:auto;padding:20px 22px 80px}.hero{overflow:hidden;position:relative;padding:clamp(30px,5vw,60px);border-radius:24px;color:#fff;background:linear-gradient(135deg,#123f32,#176a50 68%,#2d8068);box-shadow:0 30px 60px -42px #123f32}.hero::after{position:absolute;inset-block-start:-180px;inset-inline-start:-80px;width:420px;height:420px;border:1px solid rgba(255,255,255,.14);border-radius:50%;box-shadow:0 0 0 60px rgba(255,255,255,.035),0 0 0 120px rgba(255,255,255,.02);content:""}.hero>*{position:relative;z-index:1}.hero h1{font-size:clamp(32px,4.8vw,56px);line-height:1.3;letter-spacing:-.035em}.lead{width:100%;margin-top:17px;color:#e8f4ee;font-size:clamp(15px,1.55vw,19px);line-height:2}.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;margin-top:28px;overflow:hidden;border:1px solid rgba(255,255,255,.17);border-radius:14px;background:rgba(255,255,255,.17)}.kpi{padding:15px;background:rgba(13,50,39,.48)}.kpi b,.kpi span{display:block}.kpi b{font-size:21px}.kpi span{margin-top:2px;color:#cfe8de;font-size:10.5px;line-height:1.6}.kpi.date b{color:var(--gold2)}
-.layers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.layer{padding:18px;border:1px solid var(--line);border-block-start:5px solid var(--tone);border-radius:14px;background:#fff}.layer b{display:block;color:var(--tone);font-size:15px}.layer p{margin-top:5px;color:var(--ink2);font-size:11.5px}.layer small{display:block;margin-top:9px;color:var(--muted);font-size:9.5px}.layer.operational{--tone:var(--blue)}.layer.internal{--tone:var(--green)}.layer.gl{--tone:var(--gold)}
-.matrix{margin-top:18px;padding:20px;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:var(--shadow)}.matrix-head{display:flex;align-items:flex-start;gap:16px}.matrix h2{color:var(--hero);font-size:22px}.matrix-head p{max-width:800px;margin-inline-start:auto;color:var(--ink2);font-size:11px}.table-wrap{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:12px}table{width:100%;min-width:820px;border-collapse:collapse}th,td{padding:10px 12px;border-bottom:1px solid var(--line2);text-align:start;vertical-align:top;font-size:10.5px}thead th{color:var(--hero);background:var(--soft);font-size:10px}tbody th{color:var(--ink)}tbody td{color:var(--ink2)}tbody tr:last-child>*{border-bottom:0}.code{font-family:Consolas,monospace;direction:ltr;unicode-bidi:embed;color:var(--purple);font-weight:700;white-space:nowrap}
-.flow-head{margin-top:34px;text-align:center}.flow-head h2{color:var(--hero);font-size:clamp(25px,3vw,34px)}.flow-head p{max-width:850px;margin:7px auto 0;color:var(--muted);font-size:12px}.legend{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:14px}.legend span,.motion{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:999px;font-size:9px;font-weight:700}.legend i{width:8px;height:8px;border-radius:50%}.legend .in{color:var(--green);background:var(--soft)}.legend .in i{background:var(--green)}.legend .noncash{color:var(--blue);background:var(--bluesoft)}.legend .noncash i{background:var(--blue)}.legend .out{color:var(--red);background:var(--redsoft)}.legend .out i{background:var(--red)}.legend .control{color:var(--purple);background:var(--purplesoft)}.legend .control i{background:var(--purple)}
-.balance-route{display:grid;grid-template-columns:repeat(7,1fr);gap:22px;margin:20px 0 26px;padding:18px;border:1px solid var(--line);border-radius:16px;background:#fff}.balance-route span{position:relative;display:grid;min-height:62px;padding:9px;place-items:center;border:1px solid var(--line);border-radius:11px;color:var(--hero);background:#fbfcfc;font-size:10px;font-weight:700;text-align:center}.balance-route span:not(:last-child)::after{position:absolute;inset-block-start:50%;inset-inline-end:-18px;color:var(--gold);content:"←";font-size:17px;transform:translateY(-50%)}
-.journey{position:relative;max-width:1180px;margin:0 auto;padding:12px 0 36px}.journey::before{position:absolute;inset-block:0;inset-inline-start:50%;width:4px;border-radius:4px;background:linear-gradient(var(--gold),var(--green),var(--blue),var(--red));content:"";transform:translateX(50%)}.station{position:relative;display:grid;grid-template-columns:1fr 76px 1fr;align-items:center;margin-bottom:24px}.station:last-child{margin-bottom:0}.station:nth-child(odd) .station-card{grid-column:1}.station:nth-child(even) .station-card{grid-column:3}.station:nth-child(odd) .checkpoint{grid-column:2}.station:nth-child(even) .checkpoint{grid-column:2;grid-row:1}.checkpoint{position:relative;z-index:3;display:grid;width:58px;height:58px;margin:auto;place-items:center;border:5px solid var(--gold);border-radius:50%;color:var(--hero);background:#fff;box-shadow:0 0 0 7px var(--bg);font-size:18px;font-weight:700}.station-card{overflow:hidden;border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:var(--shadow)}.stage-head{display:flex;align-items:flex-start;gap:12px;padding:15px 17px;border-bottom:1px solid var(--line2);background:linear-gradient(90deg,#fff,#f8fbf9)}.stage-head h3{color:var(--hero);font-size:18px;line-height:1.5}.stage-head p{margin-top:3px;color:var(--ink2);font-size:10.5px}.motion{margin-inline-start:auto;white-space:nowrap}.motion.in{color:var(--green);background:var(--soft)}.motion.out{color:var(--red);background:var(--redsoft)}.motion.noncash{color:var(--blue);background:var(--bluesoft)}.motion.control{color:var(--purple);background:var(--purplesoft)}
-.journal{display:grid;grid-template-columns:1fr 1fr}.side{padding:13px 15px}.side+.side{border-inline-start:1px solid var(--line2)}.side small{display:block;margin-bottom:4px;color:var(--muted);font-size:9px}.side b{display:block;font-size:11.5px;line-height:1.65}.side.debit b{color:var(--blue)}.side.credit b{color:var(--green)}.balances{display:flex;flex-wrap:wrap;gap:6px;padding:0 15px 13px}.balances span{padding:3px 7px;border:1px solid var(--line);border-radius:7px;color:var(--ink2);background:#fafcfa;font-size:8.5px}.balances strong{color:var(--hero)}.stage-foot{display:flex;align-items:center;gap:8px;padding:9px 15px;color:var(--ink2);background:var(--soft);font-size:9px}.stage-foot::before{width:7px;height:7px;border-radius:50%;background:var(--gold);content:"";flex:none}.station-card details{border-top:1px solid var(--line2)}.station-card summary{padding:8px 15px;color:var(--purple);font-size:9px;font-weight:700;cursor:pointer}.station-card details p{padding:0 15px 12px;color:var(--ink2);font-size:9.5px}.station-card .multi{display:grid;gap:8px;padding:12px 15px}.mini-entry{padding:9px 10px;border:1px solid var(--line2);border-radius:10px;background:#fbfcfc}.mini-entry b{display:block;color:var(--hero);font-size:9.5px}.mini-entry span{display:block;margin-top:3px;color:var(--ink2);font-size:8.8px}
-.principle{max-width:1180px;margin:18px auto 0;padding:18px 20px;border:1px solid #e5d18f;border-radius:15px;color:#664c11;background:var(--goldsoft);font-size:11px}.principle b{color:#4c3707}.to-top{position:fixed;z-index:60;inset-inline-end:20px;inset-block-end:20px;padding:9px 15px;border:0;border-radius:999px;color:#fff;background:var(--hero);box-shadow:0 8px 22px rgba(15,61,42,.3);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s}.to-top.show{opacity:1;transform:none;pointer-events:auto}
-.value-flow{max-width:1180px;margin:24px auto 0}.phase{position:relative;margin-bottom:22px;padding:22px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.72)}.phase::after{position:absolute;inset-block-end:-23px;inset-inline-start:50%;width:2px;height:22px;background:var(--gold);content:""}.phase:last-child::after{display:none}.phase-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line2)}.phase-no{display:grid;width:38px;height:38px;place-items:center;border-radius:50%;color:#fff;background:var(--hero);font-size:14px;font-weight:700;flex:none}.phase-head h3{color:var(--hero);font-size:20px}.phase-head p{margin-top:3px;color:var(--ink2);font-size:11px}.frequency{margin-inline-start:auto;padding:4px 9px;border-radius:999px;color:var(--purple);background:var(--purplesoft);font-size:9px;font-weight:700;white-space:nowrap}.flow-chain{display:flex;flex-direction:column;align-items:center}.branch-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}.branch{padding:15px;border:1px solid var(--line2);border-radius:14px;background:#fff}.branch-title{margin-bottom:14px;color:var(--hero);font-size:12px;text-align:center}.account-pot{position:relative;width:min(100%,430px);min-height:84px;padding:18px 16px 13px;border:2px solid var(--pot,var(--green));border-radius:18px 18px 13px 13px;color:var(--ink2);background:#fff;text-align:center;box-shadow:inset 0 9px 0 color-mix(in srgb,var(--pot,var(--green)) 10%,transparent)}.account-pot::before{position:absolute;inset-block-start:-2px;inset-inline:12px;height:13px;border:2px solid var(--pot,var(--green));border-radius:50%;background:#fff;content:""}.account-pot b,.account-pot small{position:relative;z-index:1;display:block}.account-pot b{color:var(--hero);font-size:12px}.account-pot small{margin-top:4px;font-size:9px;line-height:1.6}.account-pot.asset{--pot:var(--blue)}.account-pot.liability{--pot:var(--green)}.account-pot.ar{--pot:var(--gold)}.account-pot.ap{--pot:var(--purple)}.account-pot.reserve{--pot:#a65b29}.account-pot.cash{--pot:#18735b}.account-pot.control{--pot:#84928a;border-style:dashed}.account-pot.out{--pot:var(--red)}.flow-arrow{position:relative;width:3px;height:55px;margin:2px 0;background:var(--arrow,var(--green))}.flow-arrow::after{position:absolute;inset-block-end:-1px;inset-inline-start:50%;border:7px solid transparent;border-block-start:9px solid var(--arrow,var(--green));content:"";transform:translateX(-50%)}.flow-arrow span{position:absolute;inset-block-start:50%;inset-inline-start:14px;width:max-content;max-width:230px;padding:2px 7px;border:1px solid var(--line);border-radius:7px;color:var(--ink2);background:#fff;font-size:8.5px;transform:translateY(-50%)}.flow-arrow.noncash{--arrow:var(--blue)}.flow-arrow.out{--arrow:var(--red)}.flow-arrow.control{--arrow:#84928a;background:repeating-linear-gradient(to bottom,#84928a 0 5px,transparent 5px 9px)}.merge{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;width:100%;max-width:900px;margin:14px auto}.merge::before,.merge::after{height:2px;background:var(--green);content:""}.merge span{padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--green);background:#fff;font-size:9px;font-weight:700}.entry-note{width:min(100%,720px);margin:13px auto 0;padding:10px 12px;border-inline-start:4px solid var(--gold);border-radius:8px;color:var(--ink2);background:var(--goldsoft);font-size:9.5px}.entry-note b{color:#5b430d}.phase-rule{margin-top:16px;padding-top:12px;border-top:1px solid var(--line2);color:var(--muted);font-size:9.5px}.no-money{border-style:dashed}.return-arrow{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:10px;color:var(--red);font-size:9px}.return-arrow::before{content:"↺";font-size:18px}.matrix td{line-height:1.75}.matrix tbody td:nth-child(2),.matrix tbody td:nth-child(4){min-width:290px}
-@media(max-width:1000px){.kpis{grid-template-columns:repeat(2,1fr)}.layers{grid-template-columns:1fr}.matrix-head{display:block}.matrix-head p{margin:8px 0 0}.balance-route{grid-template-columns:repeat(4,1fr)}.balance-route span:not(:last-child)::after{display:none}}
-@media(max-width:760px){.topbar-in{padding-inline:12px}.brand span{display:none}.wrap{padding:12px 10px 55px}.hero{padding:28px 18px;border-radius:17px}.kpis{grid-template-columns:1fr}.balance-route{grid-template-columns:repeat(2,1fr)}.journey{padding-inline-start:55px}.journey::before{inset-inline-start:25px;transform:none}.station{display:block;margin-bottom:18px}.checkpoint{position:absolute;inset-inline-start:-56px;inset-block-start:14px;width:46px;height:46px;border-width:4px;box-shadow:0 0 0 5px var(--bg);font-size:15px}.stage-head{display:block}.motion{margin:8px 0 0}.journal{grid-template-columns:1fr}.side+.side{border-inline-start:0;border-top:1px solid var(--line2)}.phase{padding:15px 10px}.phase-head{display:grid;grid-template-columns:auto 1fr}.frequency{grid-column:2;margin:0;width:max-content}.branch-grid{grid-template-columns:1fr}.flow-arrow span{position:relative;display:block;inset:auto;margin-inline-start:14px;transform:none}.account-pot{width:100%}}
-@media print{@page{size:A4 portrait;margin:10mm}.topbar,.to-top{display:none!important}.wrap{max-width:none;padding:0}.hero{box-shadow:none}.station-card{box-shadow:none;break-inside:avoid}.journey::before{display:none}.station{display:block;margin-bottom:10px}.checkpoint{display:none}.balance-route{break-inside:avoid}}
+@import url('https://fonts.googleapis.com/css2?family=Zain:wght@300;400;700;800&display=swap');
+:root{
+  --bg:#f4f6f9; --paper:#fff; --ink:#1b2430; --ink2:#2c3a49; --muted:#5b6472; --line:#d8e0e8; --line2:#eaeff4;
+  --hero:#0f3d2a; --gold:#a57c20; --gold-soft:#fbf4e3;
+  --shadow:0 8px 26px rgba(20,83,45,.07);
+  --bank:#0e6f68; --ar:#b4541a; --sus:#6b7783; --lm:#2f4f9e; --lo:#1f7a46; --res:#a57c20; --inc:#a3231f; --ap:#5a4a8a; --inv:#0f3d2a;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:"Zain","Tahoma","Segoe UI",sans-serif; font-size:16px; line-height:1.7; overflow-x:hidden}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px}
+h1,h2,h3{margin:0; line-height:1.35; font-weight:700}
+p{margin:0}
+
+.topbar{position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:9px clamp(10px,1.6vw,22px); background:var(--hero); color:#fff}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700}
+.brand img{height:28px}
+.brand span{font-weight:400; opacity:.75; font-size:14px; padding-inline-start:10px; border-inline-start:1px solid rgba(255,255,255,.3)}
+.top-links{margin-inline-start:auto; display:flex; gap:6px; flex-wrap:wrap}
+.top-links a{color:#fff; text-decoration:none; font-size:13.5px; padding:4px 11px; border:1px solid rgba(255,255,255,.25); border-radius:999px}
+.top-links a:hover{background:rgba(255,255,255,.12)}
+.wrap{max-width:1480px; margin:0 auto; padding:0 clamp(10px,1.6vw,22px) 40px}
+
+/* المقدمة */
+.hero{margin-top:18px; background:var(--paper); border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); padding:20px clamp(14px,2vw,26px)}
+.hero h1{font-size:clamp(22px,2.6vw,29px); color:var(--hero)}
+.lead{font-size:clamp(15.5px,1.3vw,17px); color:var(--ink2); margin-top:8px; line-height:1.85}
+.kpis{list-style:none; margin:16px 0 0; padding:0; display:grid; grid-template-columns:repeat(5,1fr); gap:10px}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpis li{background:var(--gold-soft); border:1px solid #ecdcb2; border-radius:14px; padding:10px 14px}
+.kpis b{display:block; font-size:19px; color:var(--hero); line-height:1.25}
+.kpis span{display:block; font-size:13.5px; color:var(--ink2); line-height:1.5}
+
+.sec{margin-top:26px}
+.sec > h2{font-size:clamp(19px,2vw,23px); color:var(--hero)}
+.sec > p.sub{color:var(--ink2); font-size:16px; margin-top:2px}
+
+/* جدول الحسابات */
+.coa-groups{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:12px; align-items:start}
+@media (max-width:980px){.coa-groups{grid-template-columns:1fr}}
+.coa-card{background:#fff; border:1px solid var(--line); border-radius:14px; overflow:hidden}
+table.coa2{width:100%; border-collapse:collapse}
+table.coa2 th{background:#f6f8fa; color:var(--muted); font-size:13px; font-weight:700; text-align:start; padding:8px 12px; border-bottom:1px solid var(--line)}
+table.coa2 td{padding:7px 12px; border-bottom:1px solid var(--line2); font-size:14.5px; vertical-align:middle}
+table.coa2 tr:last-child td{border-bottom:0}
+table.coa2 td.cat{width:1%; white-space:nowrap; border-inline-start:4px solid var(--c); background:#fbfcfd}
+table.coa2 td.code{font-family:Consolas,monospace; font-size:12.5px; color:var(--muted); direction:ltr; text-align:end; white-space:nowrap}
+table.coa2 tr.gstart td{border-top:2px solid var(--line)}
+table.coa2 tr:first-child td{border-top:0}
+.cat-chip{display:inline-block; font-size:12.5px; font-weight:700; color:#fff; background:var(--c); border-radius:6px; padding:1px 8px}
+.chip{display:inline-block; font-size:13px; font-weight:700; color:#fff; background:var(--c); border-radius:6px; padding:1px 9px; white-space:nowrap}
+.c-bank{--c:var(--bank)} .c-ar{--c:var(--ar)} .c-sus{--c:var(--sus)} .c-lm{--c:var(--lm)} .c-lo{--c:var(--lo)} .c-res{--c:var(--res)} .c-inc{--c:var(--inc)} .c-ap{--c:var(--ap)} .c-inv{--c:var(--inv)}
+
+/* التدفق */
+.how{display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:8px; font-size:15px; color:var(--ink2)}
+.how i{display:inline-block; width:30px; vertical-align:middle; margin-inline-end:6px}
+.how .lm{border-top:3px solid #c09633}
+.how .ld{border-top:2px dashed #7d8a97}
+.how .lr{border-top:2px dashed #a3231f}
+.flow{margin-top:16px}
+/* خط زمني جانبي خفيف */
+.tl-row{display:grid; grid-template-columns:130px minmax(0,1fr); gap:16px; position:relative; padding-bottom:22px}
+.tl-rail{position:relative; display:flex; flex-direction:column; align-items:center; padding-top:10px}
+.tl-rail::before{content:""; position:absolute; top:0; bottom:-22px; width:3px; background:#e3d3a6; inset-inline-start:calc(50% - 1.5px)}
+.tl-row:first-child .tl-rail::before{top:30px}
+.tl-row:last-child .tl-rail::before{bottom:auto; height:30px}
+.tl-row.rep .tl-rail::before{background:var(--gold)}
+.tl-dot{position:relative; z-index:1; width:42px; height:42px; border-radius:50%; background:#fff; border:3px solid var(--gold); color:var(--hero); font-weight:700; font-size:18px; display:grid; place-items:center}
+.tl-row.rep .tl-dot{background:var(--hero); color:#fff}
+.tl-when{position:relative; z-index:1; margin-top:8px; max-width:126px; text-align:center; background:var(--bg); padding:2px 8px; font-size:13px; line-height:1.45; color:#8a6616; font-weight:700}
+.tl-row .stage{position:relative}
+@media (max-width:700px){.tl-row{grid-template-columns:52px minmax(0,1fr); gap:8px}.tl-when{display:none}}
+.stage{background:#fff; border:1.5px solid var(--line); border-radius:18px; overflow:hidden}
+.st-head{display:flex; align-items:center; gap:14px; padding:12px 18px; border-bottom:1px solid var(--line2)}
+.st-no{flex:0 0 auto; width:40px; height:40px; border-radius:50%; background:var(--hero); color:#fff; display:grid; place-items:center; font-weight:700; font-size:19px}
+.st-head h3{font-size:clamp(17px,1.7vw,19.5px); color:var(--hero)}
+.st-head p{font-size:15px; color:var(--ink2)}
+.freq{margin-inline-start:auto; align-self:flex-start; font-size:13.5px; font-weight:700; color:var(--gold); background:var(--gold-soft); border-radius:999px; padding:3px 12px; white-space:nowrap}
+.freq.rep{color:#fff; background:var(--hero)}
+.diagram{padding:12px 14px 4px; overflow-x:auto}
+.diagram svg{display:block; width:100%; min-width:720px; height:auto; margin:0 auto}
+.rule{margin:4px 18px 0; font-size:14.5px; color:var(--ink2); line-height:1.7}
+.rule b{color:var(--inc)}
+.cal{display:grid; grid-template-columns:repeat(4,1fr); margin:8px 18px 0; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+@media (max-width:800px){.cal{grid-template-columns:1fr 1fr}}
+.cal div{padding:10px 14px; border-inline-end:1px solid var(--line2)}
+.cal div:last-child{border-inline-end:0}
+.cal b{display:block; font-size:15.5px; color:var(--hero)}
+.cal span{font-size:13.5px; color:var(--ink2); line-height:1.5; display:block}
+.cal .hot{background:#fdf0ef} .cal .hot b{color:var(--inc)}
+.cal .key{background:#e8f3ee}
+
+details.je-box{margin:12px 18px 16px; border:1px solid var(--line); border-radius:12px; background:#fbfcfd}
+details.je-box summary{cursor:pointer; padding:9px 14px; font-weight:700; color:var(--hero); font-size:15.5px; list-style:none; display:flex; align-items:center; gap:8px}
+details.je-box summary::-webkit-details-marker{display:none}
+details.je-box summary::before{content:"+"; width:22px; height:22px; border-radius:50%; background:var(--hero); color:#fff; display:inline-grid; place-items:center; font-size:15px; line-height:1}
+details.je-box[open] summary::before{content:"−"}
+.je-in{padding:0 14px 14px}
+table.je{width:100%; border-collapse:collapse; font-size:14px; background:#fff; border:1px solid var(--line2); border-radius:10px; overflow:hidden}
+table.je th{font-size:13.5px; color:var(--muted); font-weight:700; text-align:start; padding:7px 10px; background:#f6f8fa; border-bottom:1px solid var(--line)}
+table.je td{padding:8px 10px; border-bottom:1px solid var(--line2); vertical-align:top; line-height:1.55}
+table.je .dr{color:#0e5e58}
+table.je .cr{color:#8a3d12}
+table.je .when{color:var(--ink2); font-size:14.5px; white-space:nowrap}
+table.je .none{color:var(--muted); font-style:italic}
+.ex{margin-top:10px; background:var(--gold-soft); border-inline-start:4px solid var(--gold); border-radius:10px; padding:9px 12px; font-size:15px; color:var(--ink2); line-height:1.7}
+.ex b{color:#6e4f0e}
+
+.link{display:flex; justify-content:center; padding:4px 0}
+.link span{display:flex; flex-direction:column; align-items:center; font-size:14px; font-weight:700; color:var(--gold)}
+.link span::before{content:""; width:3px; height:20px; background:var(--gold)}
+.link span::after{content:"▼"; font-size:13px; line-height:1}
+
+.role{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:12px; margin-top:14px}
+.role div{background:#fff; border:1px solid var(--line); border-top:4px solid var(--hero); border-radius:14px; padding:12px 16px}
+.role b{display:block; font-size:16.5px; color:var(--hero); margin-bottom:2px}
+.role p{font-size:15.5px; color:var(--ink2); line-height:1.7}
+.role .no{display:inline-grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--gold); color:#fff; font-size:13px; margin-inline-end:6px}
+
+/* SVG */
+svg text{font-family:"Zain","Tahoma",sans-serif}
+.tt{font-size:15px; font-weight:700}
+.ts{font-size:13px; fill:#4f5a66}
+.tc{font-size:12.5px; fill:#6b7783; font-family:Consolas,monospace}
+.tk{font-size:12.5px; font-weight:700; fill:#fff}
+.tl{font-size:13.5px; font-weight:700; fill:#2c3a49; paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round}
+.tl2{font-size:12.5px; font-weight:400; fill:#5b6472; paint-order:stroke; stroke:#fff; stroke-width:5px; stroke-linejoin:round}
+.tl.red{fill:#a3231f} .tl.money{fill:#8a6616} .tl.green{fill:#1f7a46}
+.fl-m{stroke:#c09633; stroke-width:3.4; fill:none}
+.fl-d{stroke:#7d8a97; stroke-width:1.8; fill:none; stroke-dasharray:6 5}
+.fl-r{stroke:#a3231f; stroke-width:2.2; fill:none; stroke-dasharray:6 5}
 </style>
 </head>
 <body>
-<header class="topbar"><div class="topbar-in"><div class="brand"><img src="SPF_logo_gold.svg" alt="صندوق الحماية الاجتماعية">نظام الادخار<span>خارطة الرحلة المالية</span></div><nav class="top-links" aria-label="روابط"><a href="savings-journey-roadmap.html">رحلة النظام</a><a href="Full-BRD/Saving-Full-BRD.html">وثيقة المتطلبات</a><a href="savings-architecture-explorer.html">معمارية النظام</a></nav></div></header>
-<main class="wrap">
-  <section class="hero">
-    <h1>خارطة الرحلة المالية لنظام الادخار</h1>
+
+<header class="topbar">
+  <span class="brand"><img src="SPF_logo_gold.svg" alt="صندوق الحماية الاجتماعية">نظام الادخار<span>التدفق المالي</span></span>
+  <nav class="top-links" aria-label="روابط">
+    <a href="savings-journey-roadmap.html">دورة حياة النظام</a>
+    <a href="Full-BRD/Saving-Full-BRD.html">وثيقة المتطلبات</a>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <section class="hero" aria-labelledby="h1">
+    <h1 id="h1">التدفق المالي لنظام الادخار</h1>
     <p class="lead">توضح الخارطة ما يحتاجه المحاسب لرصد كل حركة: مصدرها، الحساب الداخلي، الوعاء المالي، القطاع المحاسبي، توقيت القيد، وآلية المطابقة. وتفصل بين الاشتراك الإلزامي والإيداع الاختياري والغرامات والعوائد والاحتياطيات والصرف.</p>
-    <div class="kpis"><div class="kpi"><b>٩٪</b><span>استحقاق الادخار الإلزامي من الأجر الأساسي</span></div><div class="kpi"><b>٨٪</b><span>غرامة سنوية على أصل المتأخر فقط</span></div><div class="kpi"><b>AR</b><span>ذمم جهة العمل حتى التحصيل والتسوية</span></div><div class="kpi"><b>AP</b><span>مستحق صرف بعد اعتماد الخروج</span></div><div class="kpi date"><b>15 ← 16 ← 5</b><span>مهلة السداد، الرصد، ثم المطابقة الشهرية</span></div></div>
+    <ul class="kpis">
+      <li><b>٩٪</b><span>اشتراك إلزامي شهري من الأجر الأساسي — مستحق على صاحب العمل</span></li>
+      <li><b>٨٪</b><span>غرامة سنوية على أصل المبلغ المتأخر فقط، في حساب مستقل</span></li>
+      <li><b>١٥ ← ١٦ ← ٥</b><span>آخر يوم للسداد، ثم قيد الاستحقاق، ثم مطابقة المحصل</span></li>
+      <li><b>AR</b><span>مبالغ مستحقة القبض على أصحاب العمل حتى السداد — للإلزامي فقط</span></li>
+      <li><b>AP</b><span>مبالغ مستحقة الدفع للمدخرين بعد اعتماد طلب الصرف</span></li>
+    </ul>
   </section>
-  <section class="layers" aria-label="طبقات التسجيل المالي"><article class="layer operational"><b>1 · الحدث التشغيلي</b><p>تسجيل، فاتورة، تحصيل، تخصيص، عائد، احتياطي أو صرف؛ مع مرجع وتاريخ مستقل لكل حركة.</p><small>ماذا حدث؟ ولمن؟ وبأي تاريخ قيمة؟</small></article><article class="layer internal"><b>2 · دفتر المدخر والحسابات الداخلية</b><p>يفصل المبالغ المعلقة والمطابقة والمخصصة، ويربط كل مبلغ بمصدره ومحفظة المدخر.</p><small>لمن تعود القيمة؟ وفي أي وعاء توجد؟</small></article><article class="layer gl"><b>3 · دفتر الأستاذ العام</b><p>الحساب المدين والدائن وقطاع الادخار ورقم القيد والعكس، مع المطابقة في الاتجاهين.</p><small>ما الأثر المالي الرسمي في Oracle GL؟</small></article></section>
-  <section class="matrix" aria-labelledby="matrixTitle"><div class="matrix-head"><h2 id="matrixTitle">الفصل المحاسبي المطلوب</h2><p>الرموز أدناه مفاتيح وظيفية تساعد في تصميم الحسابات والـSegments؛ ويستبدل بها الترميز النهائي المتوافق مع دليل حسابات Oracle.</p></div><div class="table-wrap"><table><thead><tr><th>الحركة أو الوعاء</th><th>الفصل الأدنى المطلوب</th><th>رمز وظيفي</th><th>المعالجة المحاسبية</th></tr></thead><tbody>
-    <tr><th>الاشتراك الإلزامي</th><td>يفصل أصل الاشتراك الشهري البالغ 9% عن الادخار الاختياري وعن الغرامة. ويتيح الفصل تتبع استحقاق كل جهة عمل، والمبلغ المحصل، والمتبقي غير المسدد، والمبلغ المخصص لكل عامل.</td><td class="code">SAV-MAND-CONTRIB</td><td>عند إثبات الاستحقاق تسجل ذمة على جهة العمل في AR مقابل حساب التزام أو تسوية الاشتراكات الإلزامية. وعند السداد يزداد البنك وتنخفض الذمة، ثم يربط المبلغ المحصل بمحفظة العامل دون خلطه بالغرامات.</td></tr>
-    <tr><th>الادخار الاختياري</th><td>يفصل إيداع المدخر عن إيداع جهة العمل الاختياري، مع حفظ مصدر الإيداع ورقم الفاتورة وتاريخ القيمة والمدخر المستفيد. ولا يدمج هذا الوعاء مع الاشتراك الإلزامي حتى لو تم التحصيل من القناة نفسها.</td><td class="code">SAV-OPT-DEPOSIT</td><td>لا ينشأ AR دوري ولا غرامة تأخير. تبدأ المعالجة عند تأكيد وصول النقد: مدين البنك ودائن مقبوضات غير مخصصة، ثم يعاد تصنيف المبلغ إلى التزام محفظة المدخر بعد اكتمال المطابقة والتخصيص.</td></tr>
-    <tr><th>الغرامات والمبالغ الإضافية</th><td>تنشأ في حساب وSegment مستقلين عن أصل الاشتراك، مع حفظ أصل المبلغ المتأخر والنسبة وأيام التأخير وفترة الاحتساب. ويمنع هذا الفصل رسملة الغرامة أو احتساب غرامة جديدة عليها.</td><td class="code">SAV-MAND-PENALTY</td><td>تحسب الغرامة بنسبة 8% سنويًا على أصل المتأخر فقط وبأساس 360 يومًا. تسجل الذمة والتحصيل والتسوية بصورة مستقلة، ويحدد كتالوج القيود الحساب الدائن النهائي وفق السياسة المحاسبية المعتمدة.</td></tr>
-    <tr><th>المصادر والتسويات الأخرى</th><td>ينشأ وعاء مستقل لكل مصدر، مثل تسوية مكافأة نهاية الخدمة السابقة، فائض الاشتراكات، صافي البرامج التكميلية، أو المبالغ المحولة بسبب تغير حالة الجنسية. ويحفظ لكل وعاء تاريخ القيمة وأهلية العائد والصرف.</td><td class="code">SAV-DIRECT-SOURCE</td><td>تسوية المادة 138 لا تخصص للعامل إلا بعد سداد فاتورتها. وعند ورود النقد أو التحويل الداخلي يقيد الأصل أو البنك مقابل التزام مستقل في محفظة المدخر، مع بقاء مرجع المصدر ظاهرًا طوال مدة الاستثمار وحتى الصرف.</td></tr>
-    <tr><th>العوائد الاستثمارية</th><td>تفصل نتيجة الاستثمار الإجمالية عن المصروفات والمخصصات والتحويلات للاحتياطيات وعن صافي العائد القابل للتوزيع. كما تحفظ نسخة العائد السنوي المعتمد ومعامل التحويل الشهري المرتبط بها.</td><td class="code">SAV-ROI</td><td>تثبت نتيجة الاستثمار أولًا على الأصول أو العائد المستحق، ثم تخصم المصروفات والمخصصات وفق السياسة. وبعد الاعتماد ينقل صافي العائد إلى التزامات محافظ المدخرين وفق V3، وتبدأ مساهمة الشهر أثرها من الشهر التالي.</td></tr>
-    <tr><th>احتياطي ضمان العائد</th><td>حساب مستقل عن رصيد المدخر وعن احتياطي تعثر جهة العمل. يتتبع مصادر تمويل الاحتياطي، ورصيده، والمبالغ المستخدمة لتغطية فرق ضمان 2%، وأي استردادات أو تعديلات لاحقة.</td><td class="code">SAV-RES-GUARANTEE</td><td>عند بدء الصرف يقارن الحساب الفعلي بحساب الضمان. إذا كان المضمون أعلى، يحول الفرق فقط من احتياطي ضمان العائد إلى التزام محفظة المدخر قبل إنشاء مستحق الصرف؛ ولا يضاف حد 2% سنويًا إلى الحساب الفعلي أثناء مدة الادخار.</td></tr>
-    <tr><th>احتياطي تعثر جهة العمل</th><td>يفصل التمويل المستخدم لتغطية الفرق بين الاشتراك المفترض والمحصل فعليًا عن باقي الاحتياطيات. كما يفصل الاستردادات اللاحقة من جهات العمل المتعثرة حتى لا تسجل مرة ثانية لصالح المدخر.</td><td class="code">SAV-RES-DEFAULT</td><td>بعد المقارنة السنوية مع GECA يحول مقدار النقص المعتمد من الاحتياطي إلى التزام محفظة المدخر. وإذا سددت جهة العمل لاحقًا مبالغ سبق أن غطاها الاحتياطي، يعاد التحصيل إلى الاحتياطي وليس إلى رصيد المدخر.</td></tr>
-    <tr><th>الصرف والخروج</th><td>يفصل رصيد المدخر المستثمر عن مستحق الصرف AP، وعن التحويل المنفذ، والحوالة المرتجعة، والرسوم، وفروق العملة، ومحاولات إعادة الدفع. ويحمل كل تحويل مرجعًا مستقلًا مرتبطًا بطلب الصرف الأصلي.</td><td class="code">SAV-PAYOUT</td><td>بعد اعتماد الاستحقاق والتسويات يعاد تصنيف صافي الرصيد من التزام محفظة المدخر إلى AP. وعند نجاح التحويل يخفض AP والبنك، أما الارتداد فيعيد المبلغ إلى AP، ولا يغلق الطلب إلا بعد تأكيد وصول النقد ومطابقة Oracle والبنك.</td></tr>
-  </tbody></table></div></section>
-  <section class="flow-head"><h2>التدفق المالي من المبالغ الواردة حتى الصرف</h2><p>كل إطار يمثل مرحلة مالية، وكل وعاء يمثل حسابًا أو رصيدًا. توضح الأسهم أين تنتقل القيمة، بينما يبين النص المصاحب أثر الحركة على المدين والدائن وAR وAP والنقد.</p><div class="legend"><span class="in"><i></i>تدفق نقدي داخل</span><span class="noncash"><i></i>قيد أو تحويل غير نقدي</span><span class="out"><i></i>تدفق نقدي خارج</span><span class="control"><i></i>قرار أو مطابقة دون نقد</span></div></section>
 
-  <section class="value-flow" aria-label="مخطط التدفقات المالية والحسابات">
-    <article class="phase">
-      <header class="phase-head"><span class="phase-no">١</span><div><h3>قبل إطلاق النظام — تسوية مكافأة نهاية الخدمة السابقة</h3><p>مسار مرة واحدة لكل عامل عن مدة الخدمة السابقة، ولا يخلط مع اشتراك 9% الشهري.</p></div><span class="frequency">مرة واحدة لكل عامل</span></header>
-      <div class="flow-chain">
-        <div class="account-pot control no-money"><b>قرار جهة العمل لكل عامل</b><small>تسوية ودية مباشرة، أو ترحيل المبلغ إلى نظام الادخار</small></div>
-        <div class="flow-arrow control"><span>عند اختيار «تم ترحيلها»</span></div>
-        <div class="account-pot ar"><b>فاتورة تسوية المادة 138 / ذمة جهة العمل</b><small>مرتبطة بأسماء العمال والمبلغ المعتمد لكل عامل؛ لا تخصص قبل السداد</small></div>
-        <div class="flow-arrow"><span>تأكيد السداد من قناة الدفع</span></div>
-        <div class="account-pot cash"><b>حساب البنك — تحصيل التسوية</b><small>النقد المستلم مع مرجع الدفع وتاريخ القيمة</small></div>
-        <div class="flow-arrow noncash"><span>مطابقة الفاتورة ثم التخصيص</span></div>
-        <div class="account-pot liability"><b>وعاء مكافأة نهاية الخدمة السابقة داخل محفظة المدخر</b><small>مصدر مستقل ظاهر طوال مدة الاستثمار وحتى الصرف</small></div>
-      </div>
-      <div class="entry-note"><b>الأثر الوظيفي:</b> عند التحصيل: مدين البنك / دائن ذمة التسوية أو المقبوضات غير المخصصة. وعند التخصيص: مدين المقبوضات غير المخصصة / دائن التزام محفظة المدخر — وعاء المادة 138. إذا اختيرت التسوية الودية فلا فاتورة ولا تدفق داخل النظام.</div>
-      <div class="phase-rule">ضابط BRD: إقرار العامل أو اعتراضه يوثق بالتوازي، لكنه لا يوقف إنشاء الفاتورة أو السداد أو التخصيص.</div>
-    </article>
-
-    <article class="phase">
-      <header class="phase-head"><span class="phase-no">٢</span><div><h3>الدورة المالية الشهرية المتكررة</h3><p>مساران مختلفان يلتقيان بعد التحصيل والتخصيص: الإلزامي ينشئ AR، والاختياري يبدأ من النقد دون AR أو غرامة.</p></div><span class="frequency">تتكرر كل شهر</span></header>
-      <div class="branch-grid">
-        <section class="branch"><h4 class="branch-title">الادخار الإلزامي — 9%</h4><div class="flow-chain">
-          <div class="account-pot ar"><b>AR الاشتراك الإلزامي على جهة العمل</b><small>الاستحقاق الشهري لكل عامل؛ أصل الاشتراك منفصل عن الغرامة</small></div>
-          <div class="flow-arrow"><span>السداد حتى يوم 15 أو بعده</span></div>
-          <div class="account-pot cash"><b>البنك — تحصيل الاشتراك</b><small>مدين البنك / دائن AR بالمبلغ المحصل فعليًا</small></div>
-          <div class="flow-arrow noncash"><span>مطابقة وتوزيع حسب تسلسل التسوية</span></div>
-          <div class="account-pot liability"><b>التزام محفظة المدخر — إلزامي</b><small>الرصيد المخصص فعليًا لكل عامل ومصدره الشهري</small></div>
-        </div><div class="entry-note"><b>عند التأخير:</b> يبقى الأصل في AR، وتنشأ غرامة 8% سنويًا على أصل المتأخر فقط في حساب وSegment منفصلين. لا تحتسب غرامة على غرامة.</div></section>
-        <section class="branch"><h4 class="branch-title">الادخار الاختياري — دون AR</h4><div class="flow-chain">
-          <div class="account-pot control no-money"><b>طلب أو فاتورة إيداع اختياري</b><small>من المدخر أو جهة العمل؛ لا يمثل رصيدًا قبل السداد</small></div>
-          <div class="flow-arrow"><span>وصول النقد</span></div>
-          <div class="account-pot cash"><b>البنك — تحصيل الإيداع</b><small>مدين البنك / دائن مقبوضات اختيارية غير مخصصة</small></div>
-          <div class="flow-arrow noncash"><span>مطابقة المدخر والمصدر وتاريخ القيمة</span></div>
-          <div class="account-pot liability"><b>التزام محفظة المدخر — اختياري</b><small>مدين غير مخصص / دائن التزام المدخر بعد التخصيص</small></div>
-        </div><div class="entry-note"><b>القاعدة:</b> لا استحقاق دوري ولا AR ولا غرامة. الفاتورة الجماعية لا تخصص لأفرادها قبل تأكيد سدادها وفق القاعدة المعتمدة.</div></section>
-      </div>
-      <div class="merge"><span>تجميع رقابي لا دمج محاسبي</span></div>
-      <div class="flow-chain"><div class="account-pot liability"><b>إجمالي التزامات محافظ المدخرين</b><small>يتطابق الدفتر الفرعي مع GL مع بقاء كل وعاء ومصدر منفصلًا</small></div></div>
-      <div class="phase-rule">الإقفال الشهري يطابق الفاتورة والبنك والحساب الداخلي ومحفظة المدخر وOracle. التصحيح بأثر رجعي ينشئ فرقًا موجبًا أو سالبًا مستقلًا، ثم يعاد احتساب أثر العائد على الفرق وفق تاريخ القيمة المعتمد.</div>
-    </article>
-
-    <article class="phase">
-      <header class="phase-head"><span class="phase-no">٣</span><div><h3>توظيف الأموال والعوائد والاحتياطيات</h3><p>يفصل جانب الأصول — البنك والاستثمارات — عن جانب الالتزامات للمدخرين والاحتياطيات، مع بقائهما متساويين رقابيًا.</p></div><span class="frequency">شهري / سنوي</span></header>
-      <div class="branch-grid">
-        <section class="branch"><h4 class="branch-title">حركة الأصول</h4><div class="flow-chain"><div class="account-pot cash"><b>النقد المتاح في البنك</b><small>المبالغ المحصلة والمطابقة والقابلة للتوظيف</small></div><div class="flow-arrow"><span>شراء أو تمويل الاستثمار</span></div><div class="account-pot asset"><b>محفظة الأصول الاستثمارية</b><small>مدين استثمارات / دائن البنك عند التوظيف</small></div><div class="flow-arrow noncash"><span>عائد نقدي أو مستحق أو تغير قيمة</span></div><div class="account-pot asset"><b>إجمالي نتيجة الاستثمار</b><small>قبل المصروفات والمخصصات والتحويلات للاحتياطيات</small></div></div></section>
-        <section class="branch"><h4 class="branch-title">توزيع النتيجة والاحتياطيات</h4><div class="flow-chain"><div class="account-pot liability"><b>صافي العائد القابل للتوزيع</b><small>بعد اعتماد المصروفات والمخصصات وفق V3</small></div><div class="flow-arrow noncash"><span>معامل شهري؛ أثر الإيداع من الشهر التالي</span></div><div class="account-pot liability"><b>التزام محافظ المدخرين + العائد</b><small>الحساب الفعلي بالمبالغ المدفوعة والعائد المعلن</small></div><div class="flow-arrow noncash"><span>تغطية فروق معتمدة فقط</span></div><div class="account-pot reserve"><b>احتياطيا التعثر وضمان العائد</b><small>حسابان مستقلان؛ الاسترداد اللاحق يعود لاحتياطي التعثر</small></div></div></section>
-      </div>
-      <div class="entry-note"><b>قيد توزيع العائد:</b> مدين صافي العائد القابل للتوزيع / دائن التزامات محافظ المدخرين. أما حسابا GECA والضمان فهما دفترا احتساب موازية وليسا تلقائيًا حسابين بنكيين.</div>
-    </article>
-
-    <article class="phase">
-      <header class="phase-head"><span class="phase-no">٤</span><div><h3>السحب أثناء استمرار العضوية</h3><p>ينقل المبلغ المعتمد فقط إلى AP، بينما يبقى الرصيد غير المسحوب داخل المحفظة ويستمر استثماره وفق القواعد.</p></div><span class="frequency">عند طلب سحب مؤهل</span></header>
-      <div class="flow-chain"><div class="account-pot liability"><b>التزام محفظة المدخر</b><small>الرصيد المتاح موزعًا حسب الأوعية ومصادر الأموال</small></div><div class="flow-arrow noncash"><span>اعتماد مبلغ السحب والتسويات</span></div><div class="account-pot ap"><b>AP — مستحقات صرف جزئي</b><small>مدين التزام المحفظة / دائن مستحقات الصرف</small></div><div class="flow-arrow out"><span>تنفيذ Oracle والبنك</span></div><div class="account-pot out"><b>نقد خارج إلى المستفيد</b><small>مدين AP / دائن البنك عند نجاح التحويل</small></div></div>
-      <div class="return-arrow">عند ارتداد الحوالة: مدين البنك / دائن AP، ثم إعادة المحاولة بمرجع مستقل</div>
-    </article>
-
-    <article class="phase">
-      <header class="phase-head"><span class="phase-no">٥</span><div><h3>الخروج من النظام والتسوية النهائية</h3><p>تحدد القيمة النهائية المستحقة، يضاف فرق الضمان إن وجد، ثم يصرف كامل الصافي وتغلق المحفظة بعد المطابقة.</p></div><span class="frequency">مرة واحدة عند الخروج</span></header>
-      <div class="flow-chain"><div class="account-pot control no-money"><b>الحساب الفعلي ↔ حساب الضمان 2% ↔ GECA</b><small>مقارنات التسوية النهائية وفق سبب الخروج وقواعد V3</small></div><div class="flow-arrow noncash"><span>إضافة فرق الضمان من الاحتياطي إن لزم</span></div><div class="account-pot liability"><b>صافي التزام المدخر بعد التسويات</b><small>الرصيد الفعلي + التغطيات المعتمدة − الالتزامات القابلة للتسوية</small></div><div class="flow-arrow noncash"><span>إعادة تصنيف كامل الصافي</span></div><div class="account-pot ap"><b>AP — مستحق الخروج النهائي</b><small>مدين التزام محفظة المدخر / دائن مستحقات الصرف</small></div><div class="flow-arrow out"><span>تأكيد التحويل ووصول المبلغ</span></div><div class="account-pot out"><b>البنك → المستفيد</b><small>إقفال AP بعد نجاح الدفع والمطابقة</small></div><div class="flow-arrow control"><span>مطابقة المحفظة وGL والبنك</span></div><div class="account-pot control"><b>رصيد المحفظة = صفر · الطلب مغلق</b><small>يحفظ سجل المصادر والعوائد والاحتياطيات والقيود ومحاولات الدفع</small></div></div>
-      <div class="phase-rule">الإرسال إلى البنك لا يعني اكتمال الصرف. لا يغلق الخروج إلا بعد تأكيد الوصول، وتسوية أي حوالة مرتجعة أو رسوم أو فرق عملة، وتساوي AP مع نتيجة البنك وOracle.</div>
-    </article>
+  <section class="sec" aria-labelledby="h-coa">
+    <h2 id="h-coa">الحسابات المقترحة تحت قطاع الادخار</h2>
+    <div class="coa-groups" id="coa"></div>
   </section>
-  <aside class="principle"><b>قاعدة قراءة المخطط:</b> الأوعية تمثل طبيعة الحساب أو الرصيد وليست أرقام حسابات Oracle. القيود المعروضة نماذج وظيفية لتحديد المدين والدائن وAR وAP والنقد؛ وتستبدل أسماؤها وأكوادها بالترميز النهائي في دليل الحسابات وكتالوج القيود المعتمد.</aside>
-</main>
-<button class="to-top" id="toTop" type="button">↑ للأعلى</button>
-<script>const toTop=document.getElementById('toTop');addEventListener('scroll',()=>toTop.classList.toggle('show',scrollY>650),{passive:true});toTop.onclick=()=>scrollTo({top:0,behavior:'smooth'});</script>
+
+  <section class="sec" aria-labelledby="h-flow">
+    <h2 id="h-flow">حركة المال من قبل الإطلاق حتى الخروج من النظام</h2>
+    <div class="flow" id="flow"></div>
+  </section>
+
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c09633"/></marker>
+    <marker id="ad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#7d8a97"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a3231f"/></marker>
+  </defs>
+</svg>
+
+<script>
+/* ============ الحسابات ============ */
+const K = {
+  bank:['#0e6f68','أصل · نقدية'], ar:['#b4541a','حسابات مدينة AR'], sus:['#6b7783','حساب وسيط'],
+  lm:['#2f4f9e','التزام للمدخر'], lo:['#1f7a46','التزام للمدخر'], res:['#a57c20','احتياطي'],
+  inc:['#a3231f','حساب مستقل'], ap:['#5a4a8a','حسابات دائنة AP'], inv:['#0f3d2a','نتيجة الاستثمار']
+};
+const COA = [
+  ['bank','البنك — تحصيلات الادخار','يستقبل كل مبالغ الادخار المحصلة، ومنه تُدفع مستحقات الصرف.','SAV-BANK'],
+  ['ar','حسابات مدينة — اشتراكات الادخار الإلزامي','اشتراك ٩٪ المستحق على أصحاب العمل حتى سداده.','SAV-MAND-AR'],
+  ['ar','حسابات مدينة — تسوية مكافأة نهاية الخدمة السابقة','فواتير ترحيل المكافآت السابقة حتى سدادها.','SAV-EOS-AR'],
+  ['inc','حساب غرامات الادخار','وعاء مستقل لغرامة ٨٪ على المتأخر، لا يدخل رصيد العامل ولا يختلط بأصل الاشتراك.','SAV-PEN'],
+  ['sus','اشتراكات إلزامية بانتظار التخصيص','الاشتراك المستحق إلى أن يُحصَّل ويُخصص لكل عامل.','SAV-MAND-PEND'],
+  ['sus','تسويات مكافآت بانتظار السداد','قيمة فواتير المكافآت السابقة إلى أن تُسدد وتُخصص.','SAV-EOS-PEND'],
+  ['sus','مقبوضات اختيارية غير مخصصة','الإيداعات الاختيارية الواردة قبل مطابقتها وتخصيصها.','SAV-OPT-SUSP'],
+  ['lm','التزام محافظ المدخرين — الإلزامي','أرصدة العمال في الحساب الإلزامي، بما فيها المكافآت المرحّلة.','SAV-MAND-LIAB'],
+  ['lo','التزام محافظ المدخرين — الاختياري','أرصدة المدخرين من إيداعاتهم وإيداعات جهات العمل.','SAV-OPT-LIAB'],
+  ['lo','التزام محافظ المدخرين — الإيداعات المتنوعة','الإيداعات المتنوعة داخل الحساب الاختياري، ظاهرة بشكل منفصل.','SAV-OPT-MISC'],
+  ['inv','نتيجة استثمار أموال الادخار','العائد المحقق على أموال الادخار قبل توزيعه.','SAV-INV'],
+  ['inc','المصروفات الإدارية والتشغيلية','ما يُخصم من نتيجة الاستثمار قبل التوزيع.','SAV-EXP'],
+  ['res','احتياطي الحساب الإلزامي','يعوّض تعثر أصحاب العمل، ويضمن متوسط عائد ٢٪.','SAV-RES-MAND'],
+  ['res','احتياطي الحساب الاختياري','يضمن متوسط عائد ٢٪ للحساب الاختياري.','SAV-RES-OPT'],
+  ['ap','حسابات دائنة — مستحقات صرف المدخرين','المبالغ المعتمدة للصرف حتى تحويلها فعلاً.','SAV-AP'],
+  ['sus','مبالغ غير مطالب بها','مستحقات لم يُطالب بها بعد مضي ٥ سنوات.','SAV-UNCLAIMED']
+];
+const GROUPS = [['bank','النقدية'],['ar','حسابات مدينة (AR)'],['lm','التزامات للمدخرين'],['res','الاحتياطيات'],['sus','حسابات وسيطة'],['inc','حسابات مستقلة'],['inv','نتيجة الاستثمار'],['ap','حسابات دائنة (AP)']];
+const shortName = n => n.replace(/^حسابات (مدينة|دائنة) — /, '').replace(/^التزام محافظ المدخرين — /, 'محافظ المدخرين — ');
+const groupRows = ([k, h]) => {
+  const items = COA.filter(r => r[0] === k || (k === 'lm' && r[0] === 'lo'));
+  return items.map(([kk, n, p, c], j) =>
+    '<tr class="c-' + k + (j === 0 ? ' gstart' : '') + '" title="' + p + '">' +
+    (j === 0 ? '<td class="cat" rowspan="' + items.length + '"><span class="cat-chip">' + h + '</span></td>' : '') +
+    '<td>' + shortName(n) + '</td><td class="code">' + c + '</td></tr>').join('');
+};
+const coaCard = gs => '<div class="coa-card"><table class="coa2"><thead><tr><th>الصنف</th><th>اسم الحساب</th><th style="text-align:end">الرمز المقترح</th></tr></thead><tbody>' + gs.map(groupRows).join('') + '</tbody></table></div>';
+document.getElementById('coa').innerHTML = coaCard(GROUPS.slice(0, 4)) + coaCard(GROUPS.slice(4));
+
+/* ============ أدوات الرسم ============ */
+const arD = n => String(n).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+function wrap(v, maxW, cw){ if(Array.isArray(v)) return v; if(v==null) return []; const o=[]; let l='';
+  String(v).split(' ').forEach(w=>{ const c=l?l+' '+w:w; if(c.length*cw>maxW && l){o.push(l); l=w;} else l=c; }); if(l) o.push(l); return o; }
+const T = (x,y,t,cls='ts',a='middle',ex='') => `<text x="${x}" y="${y}" text-anchor="${a}" class="${cls}" ${ex}>${t}</text>`;
+let CP=0;
+function pot(o){
+  const [c,lab]=K[o.k], x=o.x, y=o.y, w=160, h=150, r=24, lvl=o.lvl??.45;
+  const body=`M${x} ${y} L${x} ${y+h-r} Q${x} ${y+h} ${x+r} ${y+h} L${x+w-r} ${y+h} Q${x+w} ${y+h} ${x+w} ${y+h-r} L${x+w} ${y} Z`;
+  const id='cp'+(++CP), ly=y+h*(1-lvl);
+  let s=`<clipPath id="${id}"><path d="${body}"/></clipPath><rect x="${x}" y="${ly}" width="${w}" height="${y+h-ly}" fill="${c}" opacity=".13" clip-path="url(#${id})"/>`;
+  if(o.misc){ const by=y+h*.66; s+=`<rect x="${x}" y="${by}" width="${w}" height="30" fill="#a57c20" opacity=".3" clip-path="url(#${id})"/>`+T(x+w/2,by+21,'إيداعات متنوعة','ts','middle','style="fill:#6e4f0e;font-weight:700"'); }
+  s+=`<path d="${body}" fill="none" stroke="${c}" stroke-width="2.6"/><rect x="${x-6}" y="${y-9}" width="${w+12}" height="22" rx="6" fill="${c}"/>`+T(x+w/2,y+7,o.lab||lab,'tk');
+  let ty=y+34; wrap(o.t, w-16, 9).forEach(l=>{ s+=T(x+w/2,ty,l,'tt','middle',`fill="${c}"`); ty+=20; });
+  if(o.code) s+=T(x+w/2,ty+2,o.code,'tc');
+  return s;
+}
+function node(o){ const dash=o.dash?'stroke-dasharray="6 5"':''; const t=wrap(o.t,o.w-16,9), s=wrap(o.s,o.w-16,7.2);
+  const hh=t.length*20+s.length*17; let y=o.y+o.h/2-hh/2+14, out=`<rect x="${o.x}" y="${o.y}" width="${o.w}" height="${o.h}" rx="12" fill="#fff" stroke="${o.c||'#8a96a3'}" stroke-width="1.7" ${dash}/>`;
+  t.forEach(l=>{ out+=T(o.x+o.w/2,y,l,'tt','middle',`fill="${o.c||'#2c3a49'}"`); y+=20; }); s.forEach(l=>{ out+=T(o.x+o.w/2,y,l,'ts'); y+=17; }); return out; }
+function line(pts, kind='m'){ const d=typeof pts==='string'?pts:'M'+pts.map(p=>p.join(' ')).join(' L');
+  return `<path d="${d}" class="fl-${kind}" marker-end="url(#${kind==='m'?'am':kind==='r'?'ar':'ad'})"/>`; }
+/* عنوان السهم: سطر رئيسي وسطر فرعي */
+const lab = (x,y,a,b,cls='') => T(x,y,a,'tl '+cls)+(b?T(x,y+17,b,'tl2'):'');
+
+/* ============ المراحل ============ */
+const STAGES = [
+{ title:'قبل الإطلاق: تسوية مكافأة نهاية الخدمة السابقة', freq:'مرة واحدة لكل عامل',
+  sum:'إذا اختار صاحب العمل ترحيل مكافأة العامل عن خدمته السابقة إلى النظام، تصدر له فاتورة، وبعد سدادها يُضاف المبلغ إلى الحساب الإلزامي للعامل.',
+  svg(){ let s='';
+    s+=node({x:1060,y:76,w:135,h:78,t:'صاحب العمل',s:'يختار الترحيل لكل عامل'});
+    s+=pot({x:830,y:40,k:'ar',t:'مستحقات تسوية المكافأة',code:'SAV-EOS-AR'});
+    s+=pot({x:580,y:40,k:'bank',t:'البنك',code:'SAV-BANK'});
+    s+=pot({x:330,y:40,k:'lm',t:'محفظة العامل — الإلزامي',code:'SAV-MAND-LIAB'});
+    s+=line([[1060,115],[996,115]])+lab(1028,90,'فاتورة','التسوية');
+    s+=line([[830,115],[746,115]])+lab(788,90,'السداد');
+    s+=line([[580,115],[496,115]])+lab(538,90,'التخصيص','بعد المطابقة');
+    s+=line([[1127,154],[1127,196]],'d');
+    s+=node({x:1030,y:198,w:170,h:62,t:'تسوية ودية مع العامل',s:'خارج النظام — لا قيد',dash:1});
+    return {vb:'0 0 1210 272', html:s}; },
+  rule:'لا يُضاف المبلغ إلى حساب العامل قبل سداد الفاتورة. وإقرار العامل أو اعتراضه يُوثَّق فقط ولا يوقف الإجراء.',
+  je:[['عند إصدار الفاتورة','حسابات مدينة — تسوية المكافأة','تسويات مكافآت بانتظار السداد'],
+      ['عند تأكيد السداد','البنك','حسابات مدينة — تسوية المكافأة'],
+      ['بعد مطابقة الفاتورة','تسويات مكافآت بانتظار السداد','التزام محفظة المدخر — الإلزامي (مصدر: مكافأة سابقة)']],
+  ex:'<b>مثال:</b> مكافأة معتمدة لعامل ٢٬٤٠٠ ر.ع ← مستحق ٢٬٤٠٠ ← تحصيل ٢٬٤٠٠ ← تُضاف ٢٬٤٠٠ إلى حسابه الإلزامي مصدراً مستقلاً.'
+},
+{ title:'دورة الفوترة والتحصيل الشهرية: الادخار الإلزامي', freq:'تتكرر كل شهر', rep:1,
+  sum:'يُثبت اشتراك ٩٪ مستحقاً على صاحب العمل، وتُحسب غرامة ٨٪ على ما يتأخر بعد يوم ١٥، ثم يُضاف أصل الاشتراك المحصل إلى حسابات العمال.',
+  svg(){ let s='';
+    s+=node({x:1060,y:76,w:135,h:78,t:'صاحب العمل',s:'الفاتورة الشهرية'});
+    s+=pot({x:830,y:40,k:'ar',t:'مستحقات الاشتراكات على أصحاب العمل',code:'SAV-MAND-AR'});
+    s+=pot({x:580,y:40,k:'bank',t:'البنك',code:'SAV-BANK'});
+    s+=pot({x:330,y:40,k:'lm',t:'محافظ العمال — الإلزامي',code:'SAV-MAND-LIAB'});
+    s+=pot({x:830,y:262,k:'inc',t:'حساب غرامات الادخار',code:'SAV-PEN'});
+    s+=line([[1060,115],[996,115]])+lab(1028,90,'يوم ١٦','قيد الاستحقاق');
+    s+=line([[830,115],[746,115]])+lab(788,90,'السداد','كاملاً أو دفعات');
+    s+=line([[580,115],[496,115]])+lab(538,90,'التخصيص','أصل الاشتراك فقط');
+    s+=line([[910,190],[910,258]],'r')+lab(980,220,'بعد يوم ١٥','٨٪ على المتأخر','red');
+    s+=line([[830,337],[660,337],[660,196]])+lab(745,326,'سداد الغرامة');
+    s+=`<rect x="1010" y="292" width="190" height="84" rx="12" fill="#fdf0ef" stroke="#a3231f" stroke-dasharray="5 4"/>`+lab(1105,326,'حساب مستقل','لا يدخل رصيد العامل','red');
+    return {vb:'0 0 1210 424', html:s}; },
+  cal:[['نهاية الشهر','تثبيت الأجور واحتساب ٩٪، وإصدار الفاتورة الشهرية',''],['١ – ١٥ من الشهر التالي','مهلة السداد دون غرامة',''],['يوم ١٦','قيد الاستحقاق في GL، وبدء احتساب الغرامة على المتأخر','hot'],['يوم ٥ من الشهر الذي يليه','مطابقة المحصل مع الحسابات المدينة والمخصص للعمال','key']],
+  rule:'ما لم يدفعه صاحب العمل يعوّضه احتياطي الحساب الإلزامي في نهاية السنة (المرحلة ٤).',
+  je:[['يوم ١٦','حسابات مدينة — اشتراكات الإلزامي','اشتراكات إلزامية بانتظار التخصيص'],
+      ['من يوم ١٦ على المتأخر','حسابات مدينة — غرامات التأخير','حساب غرامات الادخار (مستقل عن محفظة العامل)'],
+      ['عند كل تحصيل','البنك','حسابات مدينة — الاشتراك أولاً، ثم حسابات مدينة — الغرامة، كلٌّ بسطر مستقل'],
+      ['بعد تأكيد التحصيل','اشتراكات إلزامية بانتظار التخصيص','التزام محفظة المدخر — الإلزامي (لكل عامل)'],
+      ['يوم ٥ من الشهر التالي',null,'مطابقة: المحصل في البنك = التخفيض في الحسابات المدينة = المخصص للعمال']],
+  ex:'<b>مثال:</b> أجر ١٬٠٠٠ ر.ع ← اشتراك ٩٠ ر.ع. لو تأخر السداد ٣٠ يوماً بعد يوم ١٥: الغرامة = ٩٠ × ٨٪ × ٣٠ ÷ ٣٦٠ = ٠٫٦٠٠ ر.ع، تذهب لحساب الغرامات، ويُضاف للعامل ٩٠ ر.ع فقط.'
+},
+{ title:'دورة الفوترة والتحصيل الشهرية: الادخار الاختياري والإيداعات المتنوعة', freq:'عند كل إيداع', rep:1,
+  sum:'',
+  svg(){ let s='';
+    s+=node({x:1060,y:14,w:135,h:62,t:'المدخر',s:'يودع لنفسه',c:'#1f7a46'});
+    s+=node({x:1060,y:92,w:135,h:62,t:'جهة العمل',s:'تودع لعمالها',c:'#1f7a46'});
+    s+=node({x:1060,y:236,w:135,h:68,t:'أنظمة الصندوق',s:'إيداعات متنوعة',c:'#a57c20'});
+    s+=pot({x:830,y:40,k:'bank',t:'البنك',code:'SAV-BANK'});
+    s+=pot({x:580,y:40,k:'sus',t:'مقبوضات غير مخصصة',code:'SAV-OPT-SUSP'});
+    s+=pot({x:330,y:40,k:'lo',t:'محافظ المدخرين — الاختياري',code:'SAV-OPT-LIAB',misc:1});
+    s+=line([[1060,45],[996,100]])+line([[1060,123],[996,123]]);
+    s+=line([[830,115],[746,115]])+lab(788,90,'حتى','المطابقة');
+    s+=line([[580,115],[496,115]])+lab(538,90,'التخصيص','حسب المصدر');
+    s+=lab(1128,182,'الإيداع','فاتورة أو دفع مباشر');
+    s+=line([[1060,270],[410,270],[410,196]])+lab(735,240,'تحويل داخلي مباشر','دون فاتورة','money');
+    s+=T(910,226,'لا حسابات مدينة ولا غرامات','tl green');
+    return {vb:'0 0 1210 316', html:s}; },
+  je:[['عند تأكيد السداد','البنك','مقبوضات اختيارية غير مخصصة'],
+      ['بعد المطابقة والتخصيص','مقبوضات اختيارية غير مخصصة','التزام محفظة المدخر — الاختياري (المصدر: ذاتي أو جهة العمل)'],
+      ['عند ورود الحركة من النظام المصدر','حساب النظام المصدر (تحويل داخلي)','التزام محفظة المدخر — الإيداعات المتنوعة']],
+  ex:'<b>مثال:</b> جهة عمل تودع ٥٠٠ ر.ع لكل من ٤ عمال بفاتورة جماعية ٢٬٠٠٠ ر.ع ← لا تُوزع قبل سداد الفاتورة كاملة ← تُضاف ٥٠٠ ر.ع لكل عامل كمصدر «جهة العمل».'
+},
+{ title:'نهاية السنة: العائد والاحتياطيات', freq:'كل سنة — قبل ٣١ مارس',
+  sum:'تُخصم المصروفات ومخصص الاحتياطيين من نتيجة الاستثمار، ويُوزع الصافي على حسابات المدخرين، ويعوّض احتياطي الإلزامي ما لم يدفعه أصحاب العمل.',
+  svg(){ let s='';
+    s+=pot({x:830,y:120,k:'inv',t:'نتيجة استثمار الادخار',code:'SAV-INV'});
+    s+=pot({x:580,y:10,k:'inc',t:'المصروفات الإدارية',lab:'مصروف',code:'SAV-EXP'});
+    s+=pot({x:580,y:230,k:'lm',t:'محافظ المدخرين',lab:'التزام للمدخر'});
+    s+=pot({x:330,y:230,k:'res',t:'الاحتياطيان: الإلزامي والاختياري'});
+    s+=line([[830,165],[746,100]])+lab(800,82,'المصروفات');
+    s+=line([[830,245],[746,300]])+lab(805,296,'صافي العائد','بعد إعلان النسبة');
+    s+=line([[910,270],[910,410],[410,410],[410,386]])+lab(660,400,'مخصص الاحتياطي');
+    s+=line([[496,300],[576,300]])+lab(536,276,'تعويض','التعثر سنوياً','money');
+    s+=node({x:60,y:268,w:180,h:72,t:'جهة عمل متعثرة',s:'سددت متأخراتها لاحقاً'});
+    s+=line([[240,304],[326,304]])+lab(283,262,'يعود','للاحتياطي');
+    return {vb:'0 0 1210 432', html:s}; },
+  je:[['نهاية السنة','نتيجة استثمار الادخار','المصروفات الإدارية والتشغيلية المحمّلة'],
+      ['عند اعتماد المخصص','نتيجة استثمار الادخار','احتياطي الحساب الإلزامي / احتياطي الحساب الاختياري'],
+      ['بعد إعلان النسبة (قبل ٣١ مارس)','نتيجة استثمار الادخار (الصافي)','التزام محافظ المدخرين — الإلزامي والاختياري، شهراً بشهر بالمعامل الشهري'],
+      ['نهاية كل سنة','احتياطي الحساب الإلزامي','التزام محفظة المدخر — الإلزامي (تعويض ما لم يدفعه صاحب العمل)'],
+      ['عند تحصيل متأخرات المتعثر','البنك','احتياطي الحساب الإلزامي — وليس محفظة العامل']],
+  ex:'<b>المعامل الشهري:</b> (١ + النسبة السنوية)^(١/١٢) − ١. مثال: ٣٪ سنوياً ≈ ٠٫٢٤٦٦٪ شهرياً، ويبدأ عائد أي إيداع من الشهر التالي له.'
+},
+{ title:'الصرف عند الاستحقاق', freq:'عند تحقق شرط الصرف',
+  sum:'تُسدد التزامات المدخر من رصيده أولاً، ثم يُكمَّل ضمان ٢٪ من الاحتياطي إن لزم، ثم يتحول الصافي إلى مستحق صرف AP يُدفع عبر البنك.',
+  svg(){ let s='';
+    s+=pot({x:1030,y:110,k:'lm',t:'محفظة المدخر',lab:'التزام للمدخر',lvl:.6});
+    s+=pot({x:1030,y:330,k:'res',t:'احتياطي الحساب'});
+    s+=line([[1110,330],[1110,266]])+lab(985,300,'تكميل ضمان ٢٪','إن لزم','money');
+    s+=pot({x:760,y:10,k:'ar',t:'التزامات المدخر للصندوق',lab:'حسابات مدينة — فروع التأمين'});
+    s+=line([[1030,150],[926,100]])+lab(978,82,'سداد الالتزامات','الاختياري أولاً');
+    s+=pot({x:760,y:200,k:'ap',t:'مستحقات صرف المدخرين',code:'SAV-AP'});
+    s+=line([[1030,230],[926,262]])+lab(978,226,'اعتماد','الصرف');
+    s+=pot({x:510,y:200,k:'bank',t:'البنك',code:'SAV-BANK'});
+    s+=line([[760,275],[676,275]])+lab(718,250,'التحويل');
+    s+=node({x:270,y:240,w:180,h:72,t:'المدخر أو الورثة',s:'حساب بنكي باسم المستحق'});
+    s+=line([[510,275],[456,275]]);
+    s+=line([[360,312],[360,450],[840,450],[840,356]],'r')+lab(600,472,'حوالة مرتجعة','يعود المبلغ إلى AP وتُخصم الرسوم','red');
+    return {vb:'0 0 1210 500', html:s}; },
+  rule:'في الصرف على أقساط يتكرر الاعتماد والتحويل لكل قسط، ويبقى المتبقي في المحفظة ويستمر عائده. وصرف فائض العام للعماني يتم بالطريقة نفسها من الإيداعات المتنوعة دون عائد.',
+  je:[['قبل الصرف','التزام محفظة المدخر — الاختياري أولاً، ثم الإلزامي','حسابات مدينة — التزامات المدخر للصندوق (فروع التأمين)'],
+      ['عند بدء الصرف إن لزم','احتياطي الحساب المعني','التزام محفظة المدخر (فرق ضمان ٢٪)'],
+      ['عند اعتماد طلب الصرف','التزام محفظة المدخر','حسابات دائنة — مستحقات صرف المدخرين'],
+      ['عند تنفيذ التحويل','حسابات دائنة — مستحقات صرف المدخرين','البنك'],
+      ['عند ارتداد الحوالة','البنك','حسابات دائنة — مستحقات صرف المدخرين — تُخصم الرسوم وفروق العملة من المستحق']],
+  ex:'<b>مثال الضمان:</b> رصيد فعلي ١٠٬٨٠٠ ر.ع، ورصيده لو كان العائد ٢٪ كل سنة = ١١٬٢٠٠ ر.ع ← يُحوَّل ٤٠٠ ر.ع من الاحتياطي قبل إنشاء AP.'
+},
+{ title:'الخروج من النظام وإقفال الحساب', freq:'مرة واحدة',
+  sum:'يُغلق الحساب عندما يصبح رصيده صفراً بعد آخر دفعة ومطابقتها. وهناك حالات خاصة: الوفاة دون ورثة، والمبالغ غير المطالب بها بعد ٥ سنوات.',
+  svg(){ let s='';
+    s+=pot({x:1030,y:80,k:'lm',t:'محفظة المدخر',lab:'التزام للمدخر',lvl:.04});
+    s+=node({x:740,y:8,w:240,h:68,t:'إقفال المحفظة',s:'رصيد صفر بعد آخر دفعة — لا قيد',c:'#1f7a46'});
+    s+=line([[1030,110],[986,60]],'d');
+    s+=pot({x:790,y:150,k:'res',t:'احتياطي الحساب'});
+    s+=line([[1030,225],[956,225]])+lab(993,190,'وفاة','دون ورثة');
+    s+=pot({x:450,y:150,k:'ap',t:'مستحق صرف لم يُطالب به'});
+    s+=pot({x:190,y:150,k:'sus',t:'مبالغ غير مطالب بها',code:'SAV-UNCLAIMED'});
+    s+=line([[450,225],[356,225]])+lab(403,196,'بعد ٥ سنوات','دون مطالبة');
+    return {vb:'0 0 1210 312', html:s}; },
+  rule:'يتوقف العائد على مدخرات المتوفى من تاريخ الوفاة. ومعالجة المبالغ غير المطالب بها بعد سقوط الحق ما زالت بحاجة إلى اعتماد.',
+  je:[['بعد آخر دفعة ومطابقتها',null,'إقفال المحفظة عند رصيد صفر — لا قيد'],
+      ['عند الوفاة دون ورثة','التزام محفظة المدخر','احتياطي الحساب (تؤول المدخرات إلى النظام)'],
+      ['بعد مضي ٥ سنوات دون مطالبة','حسابات دائنة — مستحقات صرف المدخرين','مبالغ غير مطالب بها — حسب السياسة المعتمدة']]
+}];
+
+/* ============ العرض ============ */
+const flow = document.getElementById('flow');
+STAGES.forEach((st,i)=>{
+  const r = st.svg();
+  const rows = st.je.map(e=>`<tr><td class="when">${e[0]}</td>${e[1]?`<td class="dr">${e[1]}</td><td class="cr">${e[2]}</td>`:`<td class="none" colspan="2">${e[2]}</td>`}</tr>`).join('');
+  const cal = st.cal ? `<div class="cal">${st.cal.map(([b,s,c])=>`<div class="${c}"><b>${b}</b><span>${s}</span></div>`).join('')}</div>` : '';
+  flow.insertAdjacentHTML('beforeend', `
+  <div class="tl-row${st.rep?' rep':''}">
+  <div class="tl-rail" aria-hidden="true"><span class="tl-dot">${arD(i+1)}</span><span class="tl-when">${st.rep?'↻ ':''}${st.freq}</span></div>
+  <article class="stage" id="f${i+1}" aria-labelledby="fh${i+1}">
+    <header class="st-head"><div><h3 id="fh${i+1}">${st.title}</h3>${st.sum?`<p>${st.sum}</p>`:""}</div></header>
+    <div class="diagram"><svg viewBox="${r.vb}" role="img" aria-label="${st.title}">${r.html}</svg></div>
+    ${cal}
+    ${st.rule?`<p class="rule">${st.rule}</p>`:''}
+    <details class="je-box"><summary>عرض القيود المحاسبية (مدين / دائن)</summary>
+      <div class="je-in"><table class="je"><thead><tr><th>التوقيت</th><th>مدين</th><th>دائن</th></tr></thead><tbody>${rows}</tbody></table>
+      ${st.ex?`<div class="ex">${st.ex}</div>`:''}</div>
+    </details>
+  </article>
+  </div>`);
+});
+document.querySelectorAll(".diagram svg").forEach(svg=>{ const b=svg.getBBox(), p=18; svg.setAttribute("viewBox", (b.x-p)+" "+(b.y-p)+" "+(b.width+2*p)+" "+(b.height+2*p)); svg.style.maxWidth = Math.round((b.width+2*p)*1.1)+"px"; });
+</script>
 </body>
 </html>
