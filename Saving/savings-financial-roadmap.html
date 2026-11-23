@@ -110,6 +110,18 @@ table.je .dr{color:#0e5e58}
 table.je .cr{color:#8a3d12}
 table.je .when{color:var(--ink2); font-size:14.5px; white-space:nowrap}
 table.je .none{color:var(--muted); font-style:italic}
+.acct-name{display:inline; font-weight:700}
+.acct-type{display:inline-block; margin-inline-start:7px; padding:1px 7px; border:1px solid var(--line); border-radius:6px; color:var(--ink2); background:#f6f8fa; font-size:12px; font-weight:700; line-height:1.5; white-space:nowrap; vertical-align:middle}
+.acct-type.asset{color:#0e5e58; border-color:#b9ddd8; background:#edf8f6}
+.acct-type.receivable{color:#8a3d12; border-color:#ead0bf; background:#fff6ef}
+.acct-type.liability{color:#29478f; border-color:#cbd5ee; background:#f2f5fc}
+.acct-type.payable{color:#504181; border-color:#d8d0ed; background:#f6f3fc}
+.acct-type.clearing{color:#52606d; border-color:#d7dde3; background:#f4f6f8}
+.acct-type.expense{color:#8a3d12; border-color:#ead0bf; background:#fff6ef}
+.acct-type.income{color:#17613f; border-color:#c4dfd1; background:#f0f8f4}
+.acct-type.reserve{color:#77570f; border-color:#e6d49d; background:#fbf4e3}
+.acct-type.pending{color:#8b2f2b; border-color:#e8c2bf; background:#fdf1f0}
+.je-note{margin:0 0 8px; color:var(--muted); font-size:13px}
 .ex{margin-top:10px; background:var(--gold-soft); border-inline-start:4px solid var(--gold); border-radius:10px; padding:9px 12px; font-size:15px; color:var(--ink2); line-height:1.7}
 .ex b{color:#6e4f0e}
 
@@ -374,10 +386,29 @@ const STAGES = [
 }];
 
 /* ============ العرض ============ */
+function accountType(name){
+  const n=String(name||'');
+  if(n.startsWith('البنك')) return ['نقدية','asset'];
+  if(n.startsWith('حسابات مدينة')) return ['AR','receivable'];
+  if(n.startsWith('حسابات دائنة')) return ['AP','payable'];
+  if(n.includes('التزام محفظة المدخر') || n.includes('التزام محافظ المدخرين')) return ['التزام','liability'];
+  if(n.includes('مقبوضات اختيارية غير مخصصة') || n.includes('اشتراكات إلزامية بانتظار التخصيص') || n.includes('تسويات مكافآت بانتظار السداد')) return ['وسيط','clearing'];
+  if(n.includes('حساب النظام المصدر')) return ['وسيط','clearing'];
+  if(n.includes('المصروفات الإدارية') || n.includes('المصروفات التشغيلية')) return ['مصروف','expense'];
+  if(n.includes('نتيجة استثمار الادخار')) return ['إيراد استثماري','income'];
+  if(n.includes('احتياطي')) return ['احتياطي','reserve'];
+  if(n.includes('غرامات الادخار')) return ['قيد الاعتماد','pending'];
+  if(n.includes('مبالغ غير مطالب بها')) return ['التزام معلق','pending'];
+  return ['قيد المراجعة','pending'];
+}
+function accountCell(name, cls){
+  const [type,key]=accountType(name);
+  return `<td class="${cls}"><span class="acct-name">${name}</span><small class="acct-type ${key}">${type}</small></td>`;
+}
 const flow = document.getElementById('flow');
 STAGES.forEach((st,i)=>{
   const r = st.svg();
-  const rows = st.je.map(e=>`<tr><td class="when">${e[0]}</td>${e[1]?`<td class="dr">${e[1]}</td><td class="cr">${e[2]}</td>`:`<td class="none" colspan="2">${e[2]}</td>`}</tr>`).join('');
+  const rows = st.je.map(e=>`<tr><td class="when">${e[0]}</td>${e[1]?`${accountCell(e[1],'dr')}${accountCell(e[2],'cr')}`:`<td class="none" colspan="2"><span class="acct-name">${e[2]}</span><small class="acct-type clearing">لا قيد</small></td>`}</tr>`).join('');
   const cal = st.cal ? `<div class="cal">${st.cal.map(([b,s,c])=>`<div class="${c}"><b>${b}</b><span>${s}</span></div>`).join('')}</div>` : '';
   flow.insertAdjacentHTML('beforeend', `
   <div class="tl-row${st.rep?' rep':''}">
@@ -388,7 +419,7 @@ STAGES.forEach((st,i)=>{
     ${cal}
     ${st.rule?`<p class="rule">${st.rule}</p>`:''}
     <details class="je-box"><summary>عرض القيود المحاسبية (مدين / دائن)</summary>
-      <div class="je-in"><table class="je"><thead><tr><th>التوقيت</th><th>مدين</th><th>دائن</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="je-in"><p class="je-note">نوع الحساب توصيف وظيفي مؤقت لتسهيل القراءة والمراجعة، ويخضع للاعتماد ضمن دليل الحسابات والسياسة المحاسبية.</p><table class="je"><thead><tr><th>التوقيت</th><th>مدين</th><th>دائن</th></tr></thead><tbody>${rows}</tbody></table>
       ${st.ex?`<div class="ex">${st.ex}</div>`:''}</div>
     </details>
   </article>
